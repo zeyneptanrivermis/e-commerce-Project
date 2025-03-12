@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'footer', pathMatch: 'full' }, // Ana sayfa yönlendirmesi
-  { path: 'footer', loadChildren: () => import('./components/footer/footer.module').then(m => m.FooterModule) }
+  { path: 'products', loadChildren: () => import('./products/products.module').then(m => m.ProductsModule) },
 ];
 
 @NgModule({
