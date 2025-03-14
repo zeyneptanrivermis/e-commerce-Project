@@ -1,5 +1,28 @@
+/* filepath: c:\Users\dfndm\OneDrive\Masaüstü\project\e-commerce-Project\src\app\components\product-list\product-list.component.css */
 .product-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+.categories {
+  margin-top: 10px;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #fff;
+}
+
+.main-category {
+  background-color: #007bff; /* Blue for main category */
+}
+
+.side-category {
+  background-color: #6c757d; /* Gray for side categories */
 }

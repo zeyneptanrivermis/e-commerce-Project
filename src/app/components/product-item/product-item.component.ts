@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Product } from '../../services/cart.service';
-
+import { MainCategory, Product } from '../../models/product.model';
 @Component({
   selector: 'app-product-item',
   standalone: false,
@@ -8,9 +7,13 @@ import { Product } from '../../services/cart.service';
   styleUrl: './product-item.component.css'
 })
 export class ProductItemComponent {
-  @Input() product: any;
+
+  @Input() product!: Product;
   @Output() add = new EventEmitter<Product>();
 
+  constructor(){
+
+  }
   onAdd() {
     this.add.emit(this.product);
   }
