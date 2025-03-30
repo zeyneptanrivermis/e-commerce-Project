@@ -1,13 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { AuthGuard } from './core/guards/auth-guard.service';
+import { RegisterComponent } from './features/auth/pages/register/register.component';
+import { HomeComponent } from './features/home/pages/home/home.component';
+import { ProductsComponent } from './features/products/pages/products/products.component';
+
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'products', loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsModule) },
-  { path: 'cart', loadChildren: () => import('./pages/cart/cart.module').then(m => m.CartModule) },
-  { path: '**', redirectTo: '' }
+  { path: '', redirectTo: 'login', pathMatch: 'full' },   // Ana yol login'e yönlenir
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'products', component: ProductsComponent },
+
+  // Boş path için otomatik yönlendirme
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+
+  // Tanımsız path’ler için fallback
+  { path: '**', redirectTo: '/home' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

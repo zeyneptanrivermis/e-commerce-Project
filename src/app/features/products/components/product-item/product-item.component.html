@@ -1,0 +1,14 @@
+<div class="product-item">
+  <h3>{{ product.name }}</h3>
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Price:</strong> {{ product.price | currency }}</p>
+
+  <p><strong>Main Category:</strong>
+    <a [routerLink]="['/products']" [queryParams]="{ category: product.mainCategory }" class="category-button">
+      {{ product.mainCategory }}
+    </a></p>
+
+  <p><strong>Side Categories:</strong> {{ product.sideCategories?.join(', ') }}</p>
+
+  <button (click)="onAdd()">Sepete Ekle</button>
+</div>

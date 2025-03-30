@@ -1,35 +1,43 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HomeComponent } from './pages/home/home.component';
-import { MatIconModule } from '@angular/material/icon';
+import { AppRoutingModule } from './app-routing.module';
 
+// Global modüller
+import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
+
+// Angular Material örneği (isteğe bağlı)
+import { MatIconModule } from '@angular/material/icon';
+import { AuthModule } from './features/auth/auth.module';
+import { ProductsComponent } from './features/products/pages/products/products.component';
+import { ProductsModule } from './features/products/products.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    FooterComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    ReactiveFormsModule,
     MatIconModule,
-    RouterModule.forRoot([])
-  ],
-  exports: [
-    FooterComponent
+
+    // Uygulama modülleri
+    AuthModule,
+    ProductsModule,
+    LayoutModule,                // Navbar, footer gibi layout bileşenleri
+    SharedModule,                // Ortak bileşenler, pipe, directive
+    AppRoutingModule             // Route’lar burada tanımlı
   ],
   providers: [
     provideClientHydration(withEventReplay())
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+
+ }
