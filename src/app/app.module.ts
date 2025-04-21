@@ -12,8 +12,8 @@ import { SharedModule } from './shared/shared.module';
 // Angular Material örneği (isteğe bağlı)
 import { MatIconModule } from '@angular/material/icon';
 import { AuthModule } from './features/auth/auth.module';
-import { ProductsComponent } from './features/products/pages/products/products.component';
-import { ProductsModule } from './features/products/products.module';
+//import { ProductsComponent } from './features/products/pages/products/products.component';
+import { provideHttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -27,17 +27,16 @@ import { ProductsModule } from './features/products/products.module';
 
     // Uygulama modülleri
     AuthModule,
-    ProductsModule,
+    //ProductsModule,
     LayoutModule,                // Navbar, footer gibi layout bileşenleri
     SharedModule,                // Ortak bileşenler, pipe, directive
-    AppRoutingModule             // Route’lar burada tanımlı
+    AppRoutingModule          // Route’lar burada tanımlı
   ],
   providers: [
-    provideClientHydration(withEventReplay())
+    provideClientHydration(withEventReplay()),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
-
  }

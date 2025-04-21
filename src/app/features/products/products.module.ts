@@ -4,6 +4,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 import { ProductItemComponent } from './components/product-item/product-item.component';
 import { RouterModule } from '@angular/router';
 import { ProductsComponent } from './pages/products/products.component';
+import { ProductsRoutingModule } from './products-routing.module';
 
 
 
@@ -12,16 +13,18 @@ import { ProductsComponent } from './pages/products/products.component';
   declarations: [
     ProductsComponent,
     ProductListComponent,
-    ProductItemComponent
+    ProductItemComponent,
+
   ],
   imports: [
     CommonModule,
-    RouterModule
+    ProductsRoutingModule,
+    RouterModule,
+  
   ],
   exports: [
-    ProductListComponent,
-    ProductItemComponent
-  ]
+  ],
+  providers: []
 })
 
 export class ProductsModule { }

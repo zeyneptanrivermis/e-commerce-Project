@@ -28,6 +28,6 @@ export enum MainCategory {
     price: number;
     mainCategory?: MainCategory;
     sideCategories?: string[]; // ✅ Supports multiple sub-categories
-    
+    isFavourite?:boolean;
   }
   

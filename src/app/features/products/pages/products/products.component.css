@@ -1,0 +1,8 @@
+.listing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    padding: 24px 40px; /* üst-alt 24px, sağ-sol 40px boşluk */
+    box-sizing: border-box; /* padding’in genişlik hesabına dahil olması için */
+}

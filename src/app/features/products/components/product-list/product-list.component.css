@@ -1,27 +1,45 @@
 .product-list {
-  display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 eşit sütun */
   gap: 20px;
 }
 
 .categories {
-  margin-top: 10px;
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .category-tag {
   display: inline-block;
-  padding: 5px 10px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  border-radius: 3px;
-  font-size: 12px;
+  padding: 6px 12px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
   color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.category-tag:hover {
+  transform: scale(1.05);
 }
 
 .main-category {
-  background-color: #007bff; /* Blue for main category */
+  background-color: #4a90e2; /* daha yumuşak bir mavi */
 }
 
 .side-category {
-  background-color: #6c757d; /* Gray for side categories */
+  background-color: #868e96; /* modern, gri tonu */
+}
+.observer-trigger {
+  height: 5px;
+  margin-bottom: 40px; /* Footer yüksekliği kadar boşluk */
+  background-color: brown;
+
 }

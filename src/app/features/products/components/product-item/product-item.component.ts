@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../../../models/product.model';
+import { PopularityService } from '../../services/popular-products/product-popularity.service';
 
 @Component({
   selector: 'app-product-item',
@@ -11,11 +12,13 @@ export class ProductItemComponent {
 
   @Input() product!: Product;
   @Output() add = new EventEmitter<Product>();
+  private productPopularity: number= 0;
 
-  constructor(){
-
-  }
+  constructor(private popularity: PopularityService){}
+  
   onAdd() {
     this.add.emit(this.product);
+    this.popularity.increment(this.productPopularity);
   }
+
 }
