@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+
+html {
+    font-size: 14px; /* default 16px’ten küçük */
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.5;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }

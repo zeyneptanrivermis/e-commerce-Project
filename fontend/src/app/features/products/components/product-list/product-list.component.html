@@ -1,0 +1,14 @@
+
+<div class="product-list">
+  <app-product-item
+    *ngFor="let product of filteredProducts"
+    [product]="product"
+    (add)="addToCart($event)">
+  </app-product-item>
+</div>
+
+<div #observer class="observer-trigger" style="height: 1px;"></div>
+
+<p *ngIf="allLoaded" class="end-message">
+  You have seen all of our products.
+</p>

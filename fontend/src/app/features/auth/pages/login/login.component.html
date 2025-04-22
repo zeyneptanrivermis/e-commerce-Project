@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>Merhaba,</h2>
+  <p>Trendyol’a giriş yap veya hesap oluştur, indirimleri kaçırma!</p>
+
+  <div class="login-box">
+    <div class="tabs">
+      <button class="active" (click)="goToLogin()">Log In</button>
+      <button (click)="goToRegister()">Sign Up</button>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+      <label for="email">E-Mail</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="E-posta adresinizi girin"
+      />
+      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
+        Geçerli bir e-posta girin.
+      </div>
+
+      <label for="password">Şifre</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="Şifrenizi girin"
+      />
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
+        Şifre boş bırakılamaz.
+      </div>
+
+      <a href="#" class="forgot-password">Şifremi Unuttum</a>
+
+      <button type="submit" class="login-button">GİRİŞ YAP</button>
+
+      <div *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

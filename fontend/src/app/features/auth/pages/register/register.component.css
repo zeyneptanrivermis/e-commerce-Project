@@ -1,0 +1,159 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
+  background: #66a182;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  min-height: 100vh;
+}
+h2 {
+  margin: 0;
+  color: #FFFF;
+}
+
+p {
+  font-size: 14px;
+  color: #FFFF;
+}
+.login-box {
+  margin-top: 20px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 2px solid #ddd;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.tabs .active {
+  color: #FFFF;
+  border-bottom: 2px solid #A25F4B;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+label {
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.password-info {
+  font-size: 12px;
+  color: #3E3E3E;
+  text-align: left;
+}
+
+.gender-options {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0;
+}
+
+.gender-options button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.gender-options .selected {
+  background: #A25F4B;
+  color: white;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: 14px;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+  color: #3E3E3E;
+}
+
+.checkbox-group a {
+  color: #3E3E3E;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.checkbox-group a:hover {
+  color: #3E3E3E;
+}
+.register-button {
+  background-color: #A25F4B;
+  color: 3E3E3E;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.register-button:hover {
+  background-color: #e28d73;
+}
+.terms-info {
+  font-size: 12px;
+  color: #3E3E3E;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.social-login button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100px;
+}
+
+.facebook {
+  background: #3b5998;
+  color: white;
+}
+
+.google {
+  background: #db4437;
+  color: white;
+}

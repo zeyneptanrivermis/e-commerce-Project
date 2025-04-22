@@ -1,0 +1,86 @@
+<div class="container">
+  <h2>Merhaba,</h2>
+  <p>Trendyol’a giriş yap veya hesap oluştur, indirimleri kaçırma!</p>
+
+  <div class="login-box">
+    <div class="tabs">
+      <button (click)="goToLogin()">Giriş Yap</button>
+      <button class="active" (click)="goToRegister()">Üye Ol</button>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="doRegister()">
+      <!-- E-Posta -->
+      <label for="email">E-Posta</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="E-posta adresinizi girin" />
+      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error">
+        Geçerli bir e-posta girin.
+      </div>
+
+      <!-- Şifre -->
+      <label for="password">Şifre</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+        placeholder="Şifrenizi girin" />
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error">
+        Şifre en az 10 karakter olmalı.
+      </div>
+
+      <!-- Şifre Tekrar -->
+      <label for="confirmPassword">Şifre Tekrar</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        formControlName="confirmPassword"
+        placeholder="Şifrenizi tekrar girin" />
+      <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="error">
+        Şifre tekrar alanı boş olamaz.
+      </div>
+
+      <p class="password-info">Şifreniz en az 10 karakter olmalı. 1 büyük harf, 1 küçük harf ve rakam içermelidir.</p>
+
+      <!-- Cinsiyet -->
+      <label for="gender">Cinsiyet (Opsiyonel)</label>
+      <div class="gender-options">
+        <button type="button" (click)="selectGender('Kadın')" [class.selected]="registerForm.value.gender === 'Kadın'">Kadın</button>
+        <button type="button" (click)="selectGender('Erkek')" [class.selected]="registerForm.value.gender === 'Erkek'">Erkek</button>
+      </div>
+
+      <!-- Onay Kutuları -->
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" formControlName="acceptOffers" />
+          ...kişisel verilerimin işlenmesine ve paylaşılmasına <a href="#">açık rıza</a> veriyorum.
+        </label>
+
+        <label>
+          <input type="checkbox" formControlName="acceptEmails" />
+          ...elektronik ileti gönderilmesini kabul ediyorum.
+        </label>
+
+        <label>
+          <input type="checkbox" formControlName="acceptTerms" />
+          ...aydınlatma metnini okudum ve anladım.
+        </label>
+        <div *ngIf="registerForm.get('acceptTerms')?.touched && registerForm.get('acceptTerms')?.invalid" class="error">
+          Üyelik koşullarını kabul etmelisiniz.
+        </div>
+      </div>
+
+      <button type="submit" class="register-button" [disabled]="registerForm.invalid">
+        ÜYE OL
+      </button>
+
+      <p class="terms-info">Üye Ol’a basarak <a href="#">Üyelik Koşulları</a>'nı kabul ediyorum.</p>
+
+      <div *ngIf="errorMessage" class="error">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

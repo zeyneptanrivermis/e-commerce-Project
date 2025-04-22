@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1; /* Navbar ve footer arasında kalan alan */
+  display: flex;
+  justify-content: center;  /* Yatayda ortala */
+  align-items: center;      /* Dikeyde ortala */
+  padding: 2rem;
+}

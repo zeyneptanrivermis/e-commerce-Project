@@ -1,0 +1,51 @@
+<!-- ÜST NAVBAR -->
+<div class="top-navbar">
+  <div class="logo">
+    <a routerLink="/">
+      <img src="assets/images/logo.jpg" alt="Trendyol Logo">
+    </a>
+  </div>
+  <input class="search-bar" type="text" placeholder="Aradığınız ürün, kategori veya marka yazınız">
+  <div class="right-links">
+    <a href="#">Trendyol'da Satış Yap</a>
+    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master">About Us</a>
+    <a href="#">Yardım & Destek</a>
+    <a href="#">❤️ Favourites</a>
+    <a href="#">🛒 Cart </a>
+    <a href="/login"> Log in</a>
+  </div>
+</div>
+
+<!-- ALT NAVBAR: Kategoriler -->
+<div class="bottom-navbar">
+  <div class="category-menu">
+    <div class="menu-toggle" (click)="toggleMegaMenu()">
+      ☰ TÜM KATEGORİLER <span class="label">Yeni</span>
+    </div>
+    <div id="mega-menu" #megaMenu class="mega-menu">
+      <div class="left-pane" #leftPane>
+        <ul>
+          <li (mouseover)="showSubmenu('kadın')">Kadın</li>
+          <li (mouseover)="showSubmenu('erkek')">Erkek</li>
+          <li (mouseover)="showSubmenu('anne')">Anne & Çocuk</li>
+        </ul>
+      </div>
+      <div id="submenu" #submenu class="right-pane">
+        <!-- Alt kategori içeriği Angular ile değişecek -->
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-links">
+    <a href="/products"> Tüm Ürünler <span class="label">Yeni</span></a>
+    <a href="#">Kadın</a>
+    <a href="#">Erkek</a>
+    <a href="#">Anne & Çocuk</a>
+    <a href="#">Ev & Yaşam</a>
+    <a href="#">Süpermarket</a>
+    <a href="#">Kozmetik</a>
+    <a href="#">Ayakkabı & Çanta</a>
+    <a href="#">Elektronik</a>
+    <a href="#">Çok Satanlar <span class="label">Yeni</span></a>
+  </div>
+</div>

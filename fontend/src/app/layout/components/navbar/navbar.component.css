@@ -1,0 +1,116 @@
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: #f7f7f7;
+}
+
+.logo img {
+  height: 10px;
+  font-weight: bold;
+}
+
+.search-bar {
+  flex: 1;
+  margin: 0 30px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.right-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+}
+
+.bottom-navbar {
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.label {
+  background: #c00;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+.quick-links a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+  display: flex;
+}
+
+.left-pane {
+  width: 200px;
+  background: #f8f8f8;
+  padding: 10px;
+  display: none;
+}
+
+.left-pane ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.left-pane li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.left-pane li:hover {
+  background: #eee;
+}
+
+.right-pane {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.right-pane h4 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.right-pane ul {
+  list-style: none;
+  padding: 0;
+}
+
+.right-pane ul li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
