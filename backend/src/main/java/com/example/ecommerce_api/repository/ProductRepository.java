@@ -1,9 +1,9 @@
-package com.example.repository;
+package com.example.ecommerce_api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 //baslanmadi
 @Repository

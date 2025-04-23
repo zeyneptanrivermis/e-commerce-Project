@@ -1,8 +1,9 @@
-package com.example.entity.ProductEntity;
-import com.example.entity.UserEntity.Customer;
-
+package com.example.ecommerce_api.entity.ProductEntity;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.ecommerce_api.entity.UserEntity.Customer;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 

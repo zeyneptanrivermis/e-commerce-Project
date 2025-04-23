@@ -1,10 +1,10 @@
-package com.example.entity.ProductEntity;
+package com.example.ecommerce_api.entity.ProductEntity;
 
 import java.io.Console;
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 
-import com.example.entity.UserEntity.Seller;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,9 +1,9 @@
-package com.example.entity.UserEntity;
+package com.example.ecommerce_api.entity.UserEntity;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

@@ -1,11 +1,11 @@
-package com.example.entity.UserEntity;
+package com.example.ecommerce_api.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale.Category;
 
-import com.example.entity.ProductEntity.Product;
-import com.example.entity.ProductEntity.Stock;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.ProductEntity.Stock;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;

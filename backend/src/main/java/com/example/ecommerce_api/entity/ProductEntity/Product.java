@@ -1,4 +1,4 @@
-package com.example.entity.ProductEntity;
+package com.example.ecommerce_api.entity.ProductEntity;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.entity.UserEntity.Seller;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.*;

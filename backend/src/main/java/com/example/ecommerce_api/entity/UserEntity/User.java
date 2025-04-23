@@ -1,4 +1,4 @@
-package com.example.entity.UserEntity;
+package com.example.ecommerce_api.entity.UserEntity;
 
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;

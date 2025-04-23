@@ -1,4 +1,4 @@
-package com.example.entity.ProductEntity;
+package com.example.ecommerce_api.entity.ProductEntity;
 
 import java.util.List;
 import java.util.Map;

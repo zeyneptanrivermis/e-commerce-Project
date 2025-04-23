@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.example.ecommerce_api.controller;
 
-import com.example.entity.ProductEntity.Product;
-import com.example.services.ProductService;
+import com.example.ecommerce_api.ProductService;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 import jakarta.validation.Valid;
 
