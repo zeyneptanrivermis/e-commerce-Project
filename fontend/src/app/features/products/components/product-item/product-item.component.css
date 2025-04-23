@@ -13,6 +13,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .product-item:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);

@@ -1,9 +1,9 @@
-<div class="product-item">
-  <h3>{{ product.name }}</h3>
-  <!--<p><strong>Description:</strong> {{ product.description }}</p> -->
-  <p><strong>Price:</strong> {{ product.price | currency }}</p>
-
-  <p><strong>Main Category:</strong>
+<a [routerLink]="['/products', product.id]" class="product-link">
+  <div class="product-item">
+    <h3>{{ product.name }}</h3>
+    <p><strong>Price:</strong> {{ product.price | currency }}</p>
+    <!-- ...diğer alanlar... -->
+     <p><strong>Main Category:</strong>
     <a [routerLink]="['/products']" [queryParams]="{ category: product.mainCategory }" class="category-button">
       {{ product.mainCategory }}
     </a></p>
@@ -21,4 +21,5 @@
   </p>
 
   <button (click)="onAdd()">Sepete Ekle</button>
-</div>
+  </div>
+</a>

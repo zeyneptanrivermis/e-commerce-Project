@@ -5,6 +5,7 @@ import { ProductItemComponent } from './components/product-item/product-item.com
 import { RouterModule } from '@angular/router';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductsRoutingModule } from './products-routing.module';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 
 
@@ -14,6 +15,7 @@ import { ProductsRoutingModule } from './products-routing.module';
     ProductsComponent,
     ProductListComponent,
     ProductItemComponent,
+    ProductDetailsComponent,
 
   ],
   imports: [
