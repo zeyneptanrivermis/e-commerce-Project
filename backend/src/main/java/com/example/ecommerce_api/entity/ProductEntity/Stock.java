@@ -4,6 +4,8 @@ import java.io.Console;
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 
+import org.springframework.context.annotation.Lazy;
+
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 
 //temizle
 @Entity
@@ -19,7 +22,7 @@ public class Stock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long stock_id;
+    private Long stockId;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -33,13 +36,6 @@ public class Stock {
     private LocalDate restockedDate;
 
     public Stock() {}
-
-    public Stock(Product product, int quantity, Seller seller) {
-        this.product = product;
-        this.restockedDate = LocalDate.now();
-        this.quantity = quantity;
-        this.store = seller;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -58,7 +54,7 @@ public class Stock {
     }
 
     public Long getStockId() {
-        return stock_id;
+        return stockId;
     }
     public void setProduct(Product product) {
         this.product = product;
@@ -70,10 +66,27 @@ public class Stock {
         this.restockedDate = restockedDate;
     }
     public void setStock_id(Long stock_id) {
-        this.stock_id = stock_id;
+        this.stockId = stock_id;
     }
     public void setStore(Seller store) {
         this.store = store;
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.restockedDate = LocalDate.now();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Stock stock = (Stock) o;
+        return stockId != null && stockId.equals(stock.stockId);
+    }
+
+    @Override
+    public int hashCode() {
+        return stockId != null ? stockId.hashCode() : 0;
     }
 }
 

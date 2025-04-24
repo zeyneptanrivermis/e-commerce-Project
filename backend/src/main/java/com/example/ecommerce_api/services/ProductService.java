@@ -1,6 +1,7 @@
-package com.example.ecommerce_api;
+package com.example.ecommerce_api.services;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.repository.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,7 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+
 }
 

@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.entity.ProductEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -60,6 +62,10 @@ public class Product {
     private List<Review> reviews;
     private double avgRating;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Discount> discounts = new ArrayList<>();
+
+
     /*Product(String productName, double price, String description, Category mCategory){
         this.productName=productName;
         this.price=price;
@@ -95,7 +101,19 @@ public class Product {
     public List<String> getSideCategories() {
         return sideCategories;
     }
-
+    public List<Review> getReviews() {
+        return reviews;
+    }
+    public double getAvgRating() {
+        return avgRating;
+    }
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
+    public Seller getSeller() {
+        return seller;
+    }
+    
     public void setDescription(String description) {
         this.description = description;
     }
@@ -117,5 +135,52 @@ public class Product {
     public void setSideCategories(List<String> sideCategories) {
         this.sideCategories = sideCategories;
     }
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
+    }
+    public void setDiscounts(List<Discount> discounts) {
+        this.discounts = discounts;
+    }
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public double updateAvgRating(){
+        if (reviews == null || reviews.isEmpty()) {
+            return 0.0;
+        }
+        int sum = 0;
+        for (Review review : reviews) {
+            sum += review.getRating();
+        }
+        double avg = (double) sum / reviews.size(); 
+        this.avgRating = avg;
+        return avg;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Product p = (Product) obj;
+        return productId != null && productId.equals(p.productId);
+    }
+
+    @Override
+    public int hashCode() {
+        if (productId != null) {
+            return productId.hashCode();
+        } else {
+            return 0;
+        }
+    }
 
 }
+

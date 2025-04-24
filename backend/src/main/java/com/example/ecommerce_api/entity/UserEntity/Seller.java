@@ -37,11 +37,6 @@ public class Seller extends User {
         return sellingStocks;
     }
 
-    public void addProduct(Product product, int quantity) {
-        Stock stock = new Stock(product, quantity, this);
-        sellingStocks.add(stock);
-    }
-
     public void restock(Product product, int number) {
         for (Stock s : sellingStocks) {
             if (s.getProduct().equals(product)) {
@@ -50,8 +45,7 @@ public class Seller extends User {
                 return;
             }
         }
-        
-        addProduct(product, number);
+
     }
 
     public void removeProduct(Product product){

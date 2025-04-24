@@ -1,6 +1,7 @@
 package com.example.ecommerce_api.entity.UserEntity;
 
-//bitmedi simdilik ne yapacgimi bilmiyorum
+//bitmedi simdilik ne yapacagimi bilmiyorum
+
 public class Admin extends User{
     private String permission;
 
