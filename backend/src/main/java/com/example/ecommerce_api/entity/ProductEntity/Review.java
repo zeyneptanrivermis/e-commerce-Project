@@ -19,7 +19,6 @@ import jakarta.validation.constraints.Size;
 
 //Bitmedi
 @Entity
-@Lazy
 public class Review {
 
     @Id
@@ -59,6 +58,9 @@ public class Review {
     public Long getReviewId() {
         return reviewId;
     }
+    public boolean isEdited() {
+        return isEdited;
+    }
 
     public void setComment(String comment) {
         this.comment = comment;
@@ -75,7 +77,13 @@ public class Review {
     public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
+    public void setEdited(boolean isEdited) {
+        this.isEdited = isEdited;
+    }
 
+
+
+    //muhtemelen silinecek
     public void editComment(String newComment){
         if (newComment.length() >= 3 && newComment.length() <= 150) {
             this.comment = newComment;
