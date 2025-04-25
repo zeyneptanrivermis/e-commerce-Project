@@ -2,6 +2,8 @@ package com.example.ecommerce_api.entity.ProductEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +16,8 @@ import jakarta.persistence.CascadeType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.ElementCollection;
 
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.fasterxml.jackson.annotation.JsonProperty;
