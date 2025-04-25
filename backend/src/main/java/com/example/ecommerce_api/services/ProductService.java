@@ -2,11 +2,7 @@ package com.example.ecommerce_api.services;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
-<<<<<<< Updated upstream
-import com.example.ecommerce_api.repository.ProductRepository;
-=======
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
->>>>>>> Stashed changes
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
