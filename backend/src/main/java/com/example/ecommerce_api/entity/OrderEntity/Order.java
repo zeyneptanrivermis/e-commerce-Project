@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
@@ -18,6 +19,8 @@ import com.example.ecommerce_api.entity.ProductEntity.Discount;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 
 // incele, gözden geçir
+@Entity
+@Table(name = "order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

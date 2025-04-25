@@ -12,6 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
+<<<<<<< Updated upstream
+=======
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+>>>>>>> Stashed changes
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
@@ -20,6 +25,7 @@ import jakarta.persistence.CascadeType;
 
 //bitti, değiştirildi
 @Entity
+@Table(name = "seller")
 public class Seller extends User {
 
     @OneToOne(cascade = CascadeType.ALL)

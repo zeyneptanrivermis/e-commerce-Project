@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Product } from '../../../models/product.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 
 export interface CartItem {
@@ -11,59 +12,46 @@ export interface CartItem {
 @Injectable({
   providedIn: 'root'
 })
-
 export class CartService {
-  private cartItems: CartItem[] = [];
-  private cartSubject = new BehaviorSubject<CartItem[]>([]);
 
-  cart$ = this.cartSubject.asObservable();
+  private apiUrl = 'http://localhost:8080/api/cart';
 
-  private updateCart() {
-    this.cartSubject.next(this.cartItems);
+  constructor(private http: HttpClient) { }
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token'); // JWT token localStorage'da saklanıyor varsayıyorum
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   }
 
-  addToCart(product: Product) {
-    const item = this.cartItems.find(item => item.product.id === product.id);
-    if (item) {
-      item.quantity++;
-    } else {
-      this.cartItems.push({ product, quantity: 1 });
-    }
-    this.updateCart();
+  addToCart(productId: number, quantity: number): Observable<string> {
+    const headers = this.getAuthHeaders();
+    const body = new URLSearchParams();
+    body.set('productId', productId.toString());
+    body.set('quantity', quantity.toString());
+
+    return this.http.post<string>(`${this.apiUrl}/add`, body.toString(), {
+      headers: headers.append('Content-Type', 'application/x-www-form-urlencoded')
+    });
   }
 
-  increaseQuantity(productId: number) {
-    const item = this.cartItems.find(item => item.product.id === productId);
-    if (item) {
-      item.quantity++;
-      this.updateCart();
-    }
+  removeFromCart(productId: number): Observable<string> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<string>(`${this.apiUrl}/remove`, {
+      headers: headers,
+      params: { productId: productId.toString() }
+    });
   }
 
-  decreaseQuantity(productId: number) {
-    const item = this.cartItems.find(item => item.product.id === productId);
-    if (item) {
-      if (item.quantity > 1) {
-        item.quantity--;
-      } else {
-        this.removeFromCart(productId);
-        return;
-      }
-      this.updateCart();
-    }
+  listCartItems(): Observable<CartItem[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<CartItem[]>(`${this.apiUrl}/items`, { headers });
   }
 
-  removeFromCart(productId: number) {
-    this.cartItems = this.cartItems.filter(item => item.product.id !== productId);
-    this.updateCart();
-  }
-
-  getTotalPrice(): number {
-    return this.cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-  }
-
-  clearCart() {
-    this.cartItems = [];
-    this.updateCart();
+  getCartTotal(): Observable<number> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<number>(`${this.apiUrl}/total`, { headers });
   }
 }
+

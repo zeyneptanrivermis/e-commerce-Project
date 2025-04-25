@@ -13,6 +13,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
+<<<<<<< Updated upstream
+=======
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+>>>>>>> Stashed changes
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
@@ -20,7 +27,11 @@ import jakarta.persistence.CascadeType;
 
 //Bitmedi
 @Entity
+<<<<<<< Updated upstream
 @Lazy
+=======
+@Table(name = "review")
+>>>>>>> Stashed changes
 public class Review {
 
     @Id

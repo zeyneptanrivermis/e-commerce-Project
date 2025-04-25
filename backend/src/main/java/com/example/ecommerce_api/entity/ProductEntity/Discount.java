@@ -16,6 +16,7 @@ import jakarta.persistence.CascadeType;
 
 
 @Entity
+@Table(name = "discount")
 public class Discount {
 
     @Id
