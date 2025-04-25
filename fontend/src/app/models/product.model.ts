@@ -26,8 +26,11 @@ export enum MainCategory {
     name: string;
     description: string;
     price: number;
+    seller: string;
     mainCategory?: MainCategory;
     sideCategories?: string[]; // ✅ Supports multiple sub-categories
-    isFavourite?:boolean;
+    shippingCost?: number;
+    stockCount?: number;
+    avgRating?: number;
   }
   

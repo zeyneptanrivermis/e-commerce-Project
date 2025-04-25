@@ -1,0 +1,101 @@
+<div class="container">
+
+    <!-- Ürün Ekleme / Güncelleme Formu -->
+    <div class="form-section">
+      <h2>{{ isEditMode ? 'Ürünü Güncelle' : 'Yeni Ürün Ekle' }}</h2>
+  
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+  
+        <!-- Ürün Adı -->
+        <div>
+          <label>Ürün Adı</label>
+          <input type="text" formControlName="productName" placeholder="Ürün adını girin">
+          <div *ngIf="productForm.get('productName')?.invalid && productForm.get('productName')?.touched">
+            Ürün adı zorunludur.
+          </div>
+        </div>
+  
+        <!-- Fiyat -->
+        <div>
+          <label>Fiyat (₺)</label>
+          <input type="number" formControlName="price" placeholder="Fiyat girin">
+          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+            Geçerli bir fiyat girin.
+          </div>
+        </div>
+  
+        <!-- Açıklama -->
+        <div>
+          <label>Açıklama</label>
+          <textarea formControlName="description" placeholder="Ürün açıklaması"></textarea>
+        </div>
+  
+    <!-- Ana Kategori -->
+    <div>
+        <label>Ana Kategori</label>
+        <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
+          <option *ngFor="let cat of mainCategories" [ngValue]="cat">{{ cat }}</option>
+        </select>
+      </div>
+      
+      <!-- Yan Kategoriler -->
+      <div *ngIf="sideCategories.length > 0">
+        <label>Yan Kategoriler</label>
+        <div *ngFor="let sub of sideCategories">
+          <input type="checkbox" [value]="sub" (change)="toggleSideCategory(sub, $event)" [checked]="productForm.value.sideCategories.includes(sub)" />
+          {{ sub }}
+        </div>
+      </div>
+        <!-- Kargo Ücreti -->
+        <div>
+          <label>Kargo Ücreti (₺)</label>
+          <input type="number" formControlName="shippingCost" placeholder="Kargo ücreti girin">
+        </div>
+  
+        <!-- Stok -->
+        <div>
+          <label>Stok Adedi</label>
+          <input type="number" formControlName="stockCount" placeholder="Stok adedi">
+          <div *ngIf="productForm.get('stockCount')?.invalid && productForm.get('stockCount')?.touched">
+            Stok 1 ile 500 arasında olmalıdır.
+          </div>
+        </div>
+  
+        <!-- Gönder Butonları -->
+        <div class="button-group">
+          <button type="submit" [disabled]="productForm.invalid">{{ isEditMode ? 'Güncelle' : 'Ekle' }}</button>
+        </div>
+  
+      </form>
+    </div>
+  
+    <!-- Satıcı Ürünleri Tablosu -->
+    <div class="table-section">
+      <h2>Ürünlerim</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ürün Adı</th>
+            <th>Fiyat</th>
+            <th>Kategori</th>
+            <th>Stok</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td>{{ product.id }}</td>
+            <td>{{ product.price | currency:'TRY' }}</td>
+            <td>{{ product.mainCategory }}</td>
+            <td>{{ product.sideCategories }}</td>
+            <td>
+              <button (click)="onEdit(product)">Düzenle</button>
+              <button (click)="onDelete(product.id)">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+  </div>
+  

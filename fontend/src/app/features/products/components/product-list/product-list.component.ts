@@ -12,6 +12,7 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
+
 export class ProductListComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
@@ -31,9 +32,15 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.loadProducts();
-
-    //kategorilere gore filtrelenmis sayfa icin 
+    const isPopularRoute = this.route.routeConfig?.path === 'popular';
+  
+    if (isPopularRoute) {
+      this.loadPopularProducts(); // özel servis
+    } else {
+      this.loadProducts(); // scroll tabanlı yükleme
+    }
+  
+    // Query param ile kategori filtreleme
     this.route.queryParams.subscribe(params => {
       const category = params['category'];
       if (category) {
@@ -118,4 +125,20 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       .map(i => allCategories[i])
       .filter(Boolean);
   }
+  
+  loadPopularProducts(): void {
+    this.loading = true;
+    this.productService.getPopularProducts().subscribe(data => {
+      this.products = data;
+      this.filteredProducts = data;
+      this.allLoaded = true; // scroll'a gerek yok
+      this.loading = false;
+      this.observer?.disconnect();
+    }, error => {
+      console.error('🔴 Popüler ürünler alınamadı:', error);
+      this.loading = false;
+      this.allLoaded = true;
+    });
+  }
+
 }
