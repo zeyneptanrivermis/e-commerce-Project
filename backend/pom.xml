@@ -68,7 +68,29 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+<<<<<<< Updated upstream
 		</dependency>
+=======
+		</dependency><!-- JWT (JJWT) MODÜLER YAPI -->
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.11.5</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId> <!-- JSON serializer -->
+    <version>0.11.5</version>
+    <scope>runtime</scope>
+</dependency>
+
+>>>>>>> Stashed changes
 	</dependencies>
 
 	<build>
@@ -80,4 +102,8 @@
 		</plugins>
 	</build>
 
+<<<<<<< Updated upstream
 </project>
+=======
+</project>
+>>>>>>> Stashed changes

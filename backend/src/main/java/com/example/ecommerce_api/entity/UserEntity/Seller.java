@@ -23,7 +23,11 @@ public class Seller extends User {
     private Address stockAddress;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+<<<<<<< Updated upstream
     private List<Stock> sellingStocks = new ArrayList<>();
+=======
+    private List<Stock> sellingStocks;
+>>>>>>> Stashed changes
 
     public Address getStockAddress() {
         return stockAddress;

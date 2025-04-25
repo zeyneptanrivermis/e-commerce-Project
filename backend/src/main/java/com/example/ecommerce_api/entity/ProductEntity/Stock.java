@@ -30,7 +30,11 @@ public class Stock {
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
+<<<<<<< Updated upstream
     private Seller store;
+=======
+    private Seller seller;
+>>>>>>> Stashed changes
 
     private int quantity;
     private LocalDate restockedDate;
@@ -45,8 +49,13 @@ public class Stock {
         return product;
     }
 
+<<<<<<< Updated upstream
     public Seller getStore() {
         return store;
+=======
+    public Seller getSeller() {
+        return seller;
+>>>>>>> Stashed changes
     }
 
     public LocalDate getRestockedDate() {
@@ -68,8 +77,13 @@ public class Stock {
     public void setStock_id(Long stock_id) {
         this.stockId = stock_id;
     }
+<<<<<<< Updated upstream
     public void setStore(Seller store) {
         this.store = store;
+=======
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+>>>>>>> Stashed changes
     }
     @PrePersist
     protected void onCreate() {

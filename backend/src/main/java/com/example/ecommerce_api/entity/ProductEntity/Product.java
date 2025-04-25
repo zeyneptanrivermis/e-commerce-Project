@@ -59,6 +59,10 @@ public class Product {
     @Max(value = 500, message = "Stock can be between 1-500.")
     private int stockCount;
 
+<<<<<<< Updated upstream
+=======
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+>>>>>>> Stashed changes
     private List<Review> reviews;
     private double avgRating;
 
