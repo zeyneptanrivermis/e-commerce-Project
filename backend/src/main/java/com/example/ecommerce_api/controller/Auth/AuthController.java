@@ -32,7 +32,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // DTO'lar iç sınıf olarak tanımlı (ilk etapta sade kalmak için)
+    //ic sinif
     public static class LoginRequest {
         public String email;
         public String password;
@@ -66,7 +66,7 @@ public class AuthController {
             return ResponseEntity.status(401).body("Email veya şifre hatalı");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
@@ -89,7 +89,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
