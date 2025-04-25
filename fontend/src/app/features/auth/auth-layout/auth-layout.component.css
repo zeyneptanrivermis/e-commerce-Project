@@ -1,0 +1,135 @@
+.auth-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #F3FDE8, #A8DF8E);
+    padding: 20px;
+  }
+  
+  .auth-box {
+    width: 100%;
+    max-width: 1000px;
+    background-color: white;
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    min-height: 620px; /* sabit bir yükseklik ver */
+  }
+  
+  .auth-box:hover {
+    transform: translateY(-3px);
+  }
+  
+  h2 {
+    color: #2F4F4F; /* Koyu gri */
+    font-weight: 700;
+  }
+  
+  p {
+    color: #3E3E3E; /* Orta koyulukta gri */
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  input {
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #fefefe;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus {
+    border-color: #A8DF8E;
+    outline: none;
+  }
+  
+  button {
+    background-color: #FFBFBF;
+    color: #3e3e3e;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #FFE5E5;
+    transform: scale(1.02);
+  }
+  
+  a {
+    color: #3e3e3e;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  
+  a:hover {
+    color: #A25F4B;
+  }
+  
+  /* Ekstra: input label'larını zenginleştir */
+  label {
+    font-size: 14px;
+    color: #2F4F4F;
+    font-weight: 500;
+    margin-bottom: -6px;
+    margin-top: 8px;
+  }
+  
+  /* Error mesajı stili */
+  .error {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: -10px;
+  }
+  
+  /* Cinsiyet butonları */
+  .gender-options button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    transition: background 0.2s, transform 0.2s;
+  }
+  
+  .gender-options .selected {
+    background-color: #A8DF8E;
+    border-color: #88c46c;
+    font-weight: bold;
+    color: #2F4F4F;
+  }
+  
+  .gender-options button:hover {
+    transform: scale(1.03);
+  }
+  
+  /* Checkbox alanı */
+  .checkbox-group label {
+    font-size: 13px;
+    color: #333;
+  }
+  
+  /* Micro UI detay: underline input animasyonu (isteğe bağlı) */
+  input {
+    position: relative;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  input:focus {
+    border-color: #A8DF8E;
+    box-shadow: 0 0 0 2px rgba(168, 223, 142, 0.2);
+  }
+  

@@ -66,6 +66,34 @@ input {
   font-size: 14px;
 }
 
+input[type="date"] {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+.name-surname-group {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.input-half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-half input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .password-info {
   font-size: 12px;
   color: #3E3E3E;
