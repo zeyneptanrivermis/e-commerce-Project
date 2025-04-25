@@ -1,5 +1,42 @@
 package com.example.ecommerce_api.entity.OrderEntity;
 
+import java.time.LocalDate;
+
+import com.example.ecommerce_api.entity.UserEntity.Customer;
+
+// incele, gözden geçir
 public class Payment {
-    //baslanmadi
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long paymentId;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    private double amount;
+    private String status;
+    private LocalDate paymentDate;
+
+    public Long getPaymentId() { return paymentId; }
+    public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
+
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
+
+    public Order getOrder() { return order; }
+    public void setOrder(Order order) { this.order = order; }
+
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public LocalDate getPaymentDate() { return paymentDate; }
+    public void setPaymentDate(LocalDate paymentDate) { this.paymentDate = paymentDate; }
 }

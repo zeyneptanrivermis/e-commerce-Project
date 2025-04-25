@@ -13,6 +13,11 @@ import jakarta.persistence.Enumerated;
 @Entity
 public class Address {
 
+    // userda onetomany kurduk burada şart
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
@@ -51,6 +56,17 @@ public class Address {
 
     public District getDistrict() {
         return district;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null && !user.getAddressList().contains(this)) {
+            user.getAddressList().add(this);
+        }
     }
 
     public void setCountry(String country) {

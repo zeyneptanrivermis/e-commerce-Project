@@ -2,7 +2,6 @@ package com.example.ecommerce_api.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Stock;
@@ -14,7 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 
-//bitti
+//bitti, değiştirildi
 @Entity
 public class Seller extends User {
 
@@ -23,11 +22,7 @@ public class Seller extends User {
     private Address stockAddress;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-<<<<<<< Updated upstream
     private List<Stock> sellingStocks = new ArrayList<>();
-=======
-    private List<Stock> sellingStocks;
->>>>>>> Stashed changes
 
     public Address getStockAddress() {
         return stockAddress;
@@ -39,6 +34,10 @@ public class Seller extends User {
 
     public List<Stock> getSellingStocks() {
         return sellingStocks;
+    }
+
+    public void setSellingStocks(List<Stock> sellingStocks) {
+        this.sellingStocks = sellingStocks;
     }
 
     public void restock(Product product, int number) {
@@ -53,8 +52,7 @@ public class Seller extends User {
     }
 
     public void removeProduct(Product product){
-        if(this.sellingStocks.contains(product))
-            this.sellingStocks.remove(product);
-    }
+        sellingStocks.removeIf(stock -> stock.getProduct().equals(product));
+    }    
 
 }

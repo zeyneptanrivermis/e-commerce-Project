@@ -2,6 +2,7 @@ package com.example.ecommerce_api.entity.UserEntity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 
@@ -13,6 +14,8 @@ import jakarta.persistence.ManyToMany;
 //bitti
 @Entity
 public class Customer extends User {
+
+    private String wishListId = UUID.randomUUID().toString();
 
     @ManyToMany
     @JoinTable(
@@ -31,7 +34,9 @@ public class Customer extends User {
     }
 
     public void addToWishlist(Product product) {
-        this.wishlist.add(product);
+        if (!wishlist.contains(product)) {
+            wishlist.add(product);
+        }
     }
 
     public void removeFromWishlist(Product product) {

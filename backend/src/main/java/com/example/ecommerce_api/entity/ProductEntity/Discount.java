@@ -24,7 +24,6 @@ public class Discount {
     private Product product;
 
     // Getters & Setters
-
     public Long getDiscountId() {
         return discountId;
     }
