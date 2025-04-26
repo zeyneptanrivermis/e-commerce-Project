@@ -7,6 +7,8 @@ import java.util.List;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 
 // incele, gözden geçir
+@Entity
+@Table(name = "cart")
 public class Cart {
 
     @Id

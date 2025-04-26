@@ -1,0 +1,17 @@
+<div class="cart-container">
+  <h2>Sepetim</h2>
+
+  <div *ngIf="cartItems.length === 0">
+    Sepetiniz boş.
+  </div>
+
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <p>{{ item.product.name }} - {{ item.quantity }} adet</p>
+    <p>Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
+    <button (click)="removeItem(item.product.id)">Sil</button>
+  </div>
+
+  <div class="cart-total" *ngIf="cartItems.length > 0">
+    <h3>Toplam Tutar: {{ totalPrice | currency:'TRY' }}</h3>
+  </div>
+</div>

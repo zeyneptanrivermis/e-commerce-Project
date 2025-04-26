@@ -67,7 +67,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
           threshold: 0
         }
       );
-  
+
       // DOM stabilize olduktan sonra bağla
       setTimeout(() => {
         if (this.observerElement?.nativeElement) {
@@ -79,14 +79,14 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   loadProducts(): void {
     if (this.loading || this.allLoaded) return;
-  
+
     this.loading = true;
     this.productService.getProducts(this.limit, this.skip).subscribe(data => {
       if (data && data.length > 0) {
         this.products = [...this.products, ...data];
         this.filteredProducts = [...this.products];
         this.skip += this.limit;
-  
+
         if (data.length < this.limit) {
           this.allLoaded = true;
           this.observer?.disconnect();
@@ -95,7 +95,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         this.allLoaded = true;
         this.observer?.disconnect();
       }
-  
+
       this.loading = false;
     }, error => {
       this.loading = false;
@@ -106,7 +106,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   addToCart(product: Product) {
-    this.cartService.addToCart(product);
+    this.cartService.addToCart(product.id, 1).subscribe(() => {
+    });
   }
 
   filterByCategory(category: MainCategory | keyof typeof SideCategories | 'All') {

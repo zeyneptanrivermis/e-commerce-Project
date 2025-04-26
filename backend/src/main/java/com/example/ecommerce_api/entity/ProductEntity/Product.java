@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
@@ -26,6 +27,7 @@ import jakarta.validation.constraints.*;
 
 //BITMEDI
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id//@Id: Bu alanın birincil anahtar olduğunu belirtir.
@@ -184,6 +186,10 @@ public class Product {
         } else {
             return 0;
         }
+    }
+    public Object getId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getId'");
     }
 
 }

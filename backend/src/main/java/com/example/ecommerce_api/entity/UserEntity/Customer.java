@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 
 //bitti
 @Entity
+@Table(name = "customer")
 public class Customer extends User {
 
     private String wishListId = UUID.randomUUID().toString();
