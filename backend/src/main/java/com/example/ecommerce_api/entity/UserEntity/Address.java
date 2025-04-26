@@ -2,6 +2,8 @@ package com.example.ecommerce_api.entity.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,9 +32,11 @@ public class Address {
     private String country = "Turkey"; // su an sadece turkiye icinde kargo
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private City city;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private District district;
 
     public Address() {}
