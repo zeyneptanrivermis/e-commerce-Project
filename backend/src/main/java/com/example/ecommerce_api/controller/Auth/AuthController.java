@@ -2,17 +2,19 @@ package com.example.ecommerce_api.controller.Auth;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.ecommerce_api.entity.UserEntity.User;
-import com.example.ecommerce_api.entity.UserEntity.Customer;
-import com.example.ecommerce_api.entity.UserEntity.Role;
+import com.example.ecommerce_api.entity.UserEntity.*;
 import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
 import com.example.ecommerce_api.repository.UserRepository.UserRepository;
 import com.example.ecommerce_api.security.JwtUtil;
 
+import jakarta.annotation.PostConstruct;
+
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -47,12 +49,21 @@ public class AuthController {
 
     public static class AuthResponse {
         public String token;
+        private String refreshToken;
 
-        public AuthResponse(String token) {
+        public AuthResponse(String token, String refreshToken) {
             this.token = token;
+            this.refreshToken=refreshToken;
+        }
+        public AuthResponse(String token){
+            this.token=token;
         }
     }
 
+    public static class RefreshTokenRequest {
+        public String refreshToken;
+    }
+    
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(request.email);
@@ -67,7 +78,8 @@ public class AuthController {
         }
 
         String token = jwtUtil.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+        String refreshToken = jwtUtil.generateRefreshToken(user);
+        return ResponseEntity.ok(new AuthResponse(token, refreshToken));
     }
 
     @PostMapping("/register")
@@ -90,6 +102,30 @@ public class AuthController {
         userRepository.save(user);
 
         String token = jwtUtil.generateToken(user);
-        return ResponseEntity.ok(new AuthResponse(token));
+        String refreshToken= jwtUtil.generateRefreshToken(user);
+        return ResponseEntity.ok(new AuthResponse(token,refreshToken));
     }
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
+        String refreshToken = request.refreshToken;
+
+        // Refresh token'ı çözümle ve kullanıcıyı bul
+        String email = jwtUtil.extractUsername(refreshToken);
+
+        if (email == null || !jwtUtil.isRefreshTokenValid(refreshToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Geçersiz veya süresi dolmuş refresh token");
+        }
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Kullanıcı bulunamadı"));
+
+        // Yeni access token üret
+        String newAccessToken = jwtUtil.generateToken(user);
+
+        return ResponseEntity.ok(new AuthResponse(newAccessToken));
+    }
+
+
+
 }
+

@@ -49,7 +49,7 @@ public class ProductService {
         existingProduct.setSeller(updatedProduct.getSeller());
         existingProduct.setDiscounts(updatedProduct.getDiscounts());
         existingProduct.setReviews(updatedProduct.getReviews());
-        existingProduct.updateAvgRating(); // Ortalama ratingi güncelle
+        //existingProduct.updateAvgRating(); // Ortalama ratingi güncelle
 
         return productRepository.save(existingProduct);
     }
@@ -64,7 +64,20 @@ public class ProductService {
 
     // Ekstra: Belirli bir satıcının ürünlerini getir
     public List<Product> getProductsBySellerId(Long sellerId) {
-        return productRepository.findBySellerId(sellerId);
+        return productRepository.findBySellerUserId(sellerId);
+    }
+
+    public boolean updateAvgRating(Product product){
+        if (product.getReviews() == null || product.getReviews().isEmpty()) {
+            return false;
+        }
+        int sum = 0;
+        for (Review review : product.getReviews()) {
+            sum += review.getRating();
+        }
+        double avg = (double) sum / product.getReviews().size();
+        product.setAvgRating(avg);
+        return true;
     }
 }
 

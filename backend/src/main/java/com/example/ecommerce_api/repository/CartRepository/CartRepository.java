@@ -14,4 +14,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     // İstersen customerId üzerinden de bulabilirsin
     Optional<Cart> findByCustomer_UserId(Long userId);
+
 }

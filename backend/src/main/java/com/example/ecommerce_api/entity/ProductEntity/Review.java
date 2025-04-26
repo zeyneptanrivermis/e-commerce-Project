@@ -84,7 +84,7 @@ public class Review {
     }
 
 
-
+/* 
     //muhtemelen silinecek
     public void editComment(String newComment){
         if (newComment.length() >= 3 && newComment.length() <= 150) {
@@ -98,5 +98,5 @@ public class Review {
     public void deleteComment(){
         this.product.getReviews().remove(this);
         this.product.updateAvgRating();
-    }
+    }*/
 }

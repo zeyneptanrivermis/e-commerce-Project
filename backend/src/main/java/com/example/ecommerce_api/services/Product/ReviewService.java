@@ -16,11 +16,13 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
-
+    private final ProductService productService;
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, ProductRepository productRepository) {
+    public ReviewService(ReviewRepository reviewRepository, ProductRepository productRepository, 
+    ProductService productService) {
         this.reviewRepository = reviewRepository;
         this.productRepository = productRepository;
+        this.productService=productService;
     }
 
     public List<Review> getAllReviews() {
@@ -37,7 +39,8 @@ public class ReviewService {
 
         // Ürünün ortalama puanını güncelle
         Product product = savedReview.getProduct();
-        product.updateAvgRating();
+        
+        //product.updateAvgRating();
         productRepository.save(product);
 
         return savedReview;
@@ -54,7 +57,7 @@ public class ReviewService {
 
         // Ürün puanını tekrar güncelle
         Product product = review.getProduct();
-        product.updateAvgRating();
+        productService.updateAvgRating(product);
         productRepository.save(product);
 
         return saved;
@@ -67,7 +70,7 @@ public class ReviewService {
         reviewRepository.deleteById(id);
 
         // Silindikten sonra ürün ortalama ratingi güncellenmeli
-        product.updateAvgRating();
+        productService.updateAvgRating(product);
         productRepository.save(product);
     }
 

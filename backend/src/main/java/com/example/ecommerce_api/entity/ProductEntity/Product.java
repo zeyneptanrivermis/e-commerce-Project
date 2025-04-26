@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
 
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -56,7 +55,7 @@ public class Product {
     private List<String> sideCategories = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "seller_id")
+    @JoinColumn(name = "user_id")
     private Seller seller;
 
     private double shippingCost;
@@ -154,19 +153,9 @@ public class Product {
     public void setSeller(Seller seller) {
         this.seller = seller;
     }
-
-    public double updateAvgRating(){
-        if (reviews == null || reviews.isEmpty()) {
-            return 0.0;
-        }
-        int sum = 0;
-        for (Review review : reviews) {
-            sum += review.getRating();
-        }
-        double avg = (double) sum / reviews.size(); 
-        this.avgRating = avg;
-        return avg;
-    }
+    
+/* 
+    */
 
     @Override
     public boolean equals(Object obj) {

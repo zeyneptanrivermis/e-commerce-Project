@@ -1,5 +1,7 @@
 package com.example.ecommerce_api.security;
 
+import com.example.ecommerce_api.services.User.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,15 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.ecommerce_api.services.Auth.CustomUserDetailsService;
-
-import jakarta.servlet.http.HttpServletResponse;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     private final JwtFilter jwtFilter;
-    private CustomUserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     public SecurityConfig(JwtFilter jwtFilter, CustomUserDetailsService userDetailsService) {
         this.jwtFilter = jwtFilter;
@@ -34,14 +33,14 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()  // login/register erişime açık
-                        .anyRequest().authenticated()            // Diğerleri token ister
+                        .requestMatchers("/auth/**","/error").permitAll()  // login, register, manual-register açık
+                        .anyRequest().authenticated()            // diğer her şey için token gerekli
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT için STATELESS
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(
-                                (request, response, excep) ->
-                                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Yetkisiz erişim")))
+                        .authenticationEntryPoint((request, response, authException) -> 
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Yetkisiz erişim")))
+                .authenticationProvider(authenticationProvider()) // ← BU SATIR ÇOK ÖNEMLİ
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

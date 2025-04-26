@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategory(Category category);
 
     // İstediğin ürünü satıcıya göre getirmek istersen
-    List<Product> findBySellerId(Long sellerId);
+    List<Product> findBySellerUserId(Long sellerId);
 
     // İstersen stock kontrolü yapabilirsin
     List<Product> findByStockCountGreaterThan(int stockCount);

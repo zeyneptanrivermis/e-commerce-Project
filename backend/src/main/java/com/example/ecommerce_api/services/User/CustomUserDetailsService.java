@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.services.Auth;
+package com.example.ecommerce_api.services.User;
 
 import java.util.stream.Collectors;
 
