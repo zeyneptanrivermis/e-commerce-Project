@@ -1,13 +1,7 @@
 package com.example.ecommerce_api.entity.ProductEntity;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.context.annotation.Lazy;
 
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -20,10 +14,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
-
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
 
 
 //Bitmedi

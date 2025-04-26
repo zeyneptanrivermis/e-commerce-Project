@@ -1,13 +1,14 @@
 package com.example.ecommerce_api.entity.UserEntity;
 
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
@@ -36,7 +37,7 @@ import com.example.ecommerce_api.entity.UserEntity.Role;
 //bitti, değiştirdim bazı kısımları email unique olmalı
 @Entity
 @Table(name = "user")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
 public abstract class User {
 

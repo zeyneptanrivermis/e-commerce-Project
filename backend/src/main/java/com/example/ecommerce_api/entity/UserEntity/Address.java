@@ -31,9 +31,11 @@ public class Address {
     private String country = "Turkey"; // su an sadece turkiye icinde kargo
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private City city;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private District district;
 
     public Address() {}

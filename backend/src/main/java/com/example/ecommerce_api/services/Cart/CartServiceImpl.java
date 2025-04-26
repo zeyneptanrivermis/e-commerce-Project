@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
 
         List<CartItem> existingItems = cartItemRepository.findByCart(cart);
         for (CartItem item : existingItems) {
-            if (item.getProduct().getId().equals(productId)) {
+            if (item.getProduct().getProductId().equals(productId)) {
                 item.setQuantity(item.getQuantity() + quantity);
                 cartItemRepository.save(item);
                 return;
