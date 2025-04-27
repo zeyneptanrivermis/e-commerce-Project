@@ -7,7 +7,6 @@
 
   <div *ngFor="let item of cartItems" class="cart-item">
     <p>{{ item.product.name }} - {{ item.quantity }} adet</p>
-    <p>Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
     <button (click)="removeItem(item.product.id)">Sil</button>
   </div>
 

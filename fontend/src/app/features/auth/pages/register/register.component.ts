@@ -21,16 +21,26 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
+<<<<<<< Updated upstream
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(10)]],
       confirmPassword: ['', Validators.required],
+=======
+      name: ['', [Validators.required, Validators.maxLength(30)]],
+      surname: ['', [Validators.required, Validators.maxLength(30)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(10)]],
+      confirmPassword: ['', [Validators.required]],
+      birthday: ['', [Validators.required]],
+>>>>>>> Stashed changes
       gender: [''],
       acceptOffers: [false],
       acceptEmails: [false],
-      acceptTerms: [false, Validators.requiredTrue]
+      acceptTerms: [false, [Validators.requiredTrue]]
     });
   }
+
 
   selectGender(gender: string): void {
     this.registerForm.patchValue({ gender });
@@ -45,6 +55,8 @@ export class RegisterComponent implements OnInit {
   }
 
   doRegister(): void {
+    console.log('✅ Register butonuna basıldı. Fonksiyon çalıştı.');
+
     const { password, confirmPassword } = this.registerForm.value;
 
     if (password !== confirmPassword) {
@@ -57,13 +69,16 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const success = this.authService.register(this.registerForm.value);
-
-    if (success) {
-      alert('Kayıt başarılı!');
-      this.router.navigate(['/dashboard']);
-    } else {
-      this.errorMessage = 'Bu e-posta zaten kullanılıyor!';
-    }
+    this.authService.register(this.registerForm.value).subscribe({
+      next: (response) => {
+        alert('Kayıt başarılı!');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Kayıt hatası', error);
+        this.errorMessage = 'Bu e-posta zaten kullanılıyor veya kayıt sırasında hata oluştu!';
+      }
+    });
   }
+
 }
