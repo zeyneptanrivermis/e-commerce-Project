@@ -14,11 +14,13 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './features/auth/auth.module';
 //import { ProductsComponent } from './features/products/pages/products/products.component';
 import { provideHttpClient } from '@angular/common/http';
+import { UserComponent } from './features/user/user/user.component';
+import { UserModule } from './features/user/user.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,8 @@ import { provideHttpClient } from '@angular/common/http';
     //ProductsModule,
     LayoutModule,                // Navbar, footer gibi layout bileşenleri
     SharedModule,                // Ortak bileşenler, pipe, directive
-    AppRoutingModule          // Route’lar burada tanımlı
+    AppRoutingModule,          // Route’lar burada tanımlı
+    UserModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),

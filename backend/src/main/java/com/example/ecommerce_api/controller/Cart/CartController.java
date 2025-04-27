@@ -19,8 +19,8 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@RequestParam Long productId, 
-                                            @RequestParam int quantity, 
+    public ResponseEntity<String> addToCart(@RequestParam Long productId,
+                                            @RequestParam int quantity,
                                             Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
         cartService.addToCart(customerId, productId, quantity);

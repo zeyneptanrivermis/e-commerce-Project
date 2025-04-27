@@ -32,6 +32,11 @@ export class AuthService {
     return this.getToken() !== null;
   }
 
+  getCurrentUser(): any {
+    const user = localStorage.getItem(this.TOKEN_KEY);
+    return user ? JSON.parse(user) : null;
+  }
+
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }

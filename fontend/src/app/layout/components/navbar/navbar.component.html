@@ -11,8 +11,9 @@
     <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master">About Us</a>
     <a href="#">Customer Service</a>
     <a href="#">❤️ Favourites</a>
-    <a href="#">🛒 Cart </a>
-    <a href="/login"> Log in</a>
+    <a href="/shopping-cart">🛒 Cart </a>
+    <a *ngIf="!authService.isLoggedIn()" href="/login">Log in</a>
+    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user-profile']">See User Profile</a>
   </div>
 </div>
 
