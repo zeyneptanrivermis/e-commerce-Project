@@ -1,10 +1,11 @@
-import { Product } from './../../../models/product.model';
+
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/services/auth.service';
-import { UserService } from '../services/user.service';
-import { WishlistService } from '../services/wishlist.service';
-import { User } from '../../../models/user.model';
 import { Router } from '@angular/router';
+import { User } from '../../../../models/user.model';
+import { Product } from '../../../../models/product.model';
+import { AuthService } from '../../../auth/services/auth.service';
+import { UserService } from '../../services/user.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-user-profile',
