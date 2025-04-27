@@ -16,37 +16,28 @@ export class AuthService {
     return this.http.post(`${this.API_URL}/login`, loginData);
   }
 
-  register(userData: any): boolean {
-    const users = this.getUsers();
-
-    const userExists = users.some(u => u.email === userData.email);
-    if (userExists) {
-      return false;
-    }
-
-    users.push(userData);
-    localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
-    localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
-
-    return true;
+  register(userData: any): Observable<any> {
+    return this.http.post(`${this.API_URL}/register`, userData);
   }
 
-  logout(): void {
-    localStorage.removeItem(this.CURRENT_USER_KEY);
+  saveToken(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  getCurrentUser(): any {
-    const data = localStorage.getItem(this.CURRENT_USER_KEY);
-    return data ? JSON.parse(data) : null;
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {
     return this.getToken() !== null;
   }
 
-  private getUsers(): any[] {
-    const data = localStorage.getItem(this.USERS_KEY);
-    return data ? JSON.parse(data) : [];
+  getCurrentUser(): any {
+    const user = localStorage.getItem(this.TOKEN_KEY);
+    return user ? JSON.parse(user) : null;
   }
->>>>>>> Stashed changes
+
+  logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
 }

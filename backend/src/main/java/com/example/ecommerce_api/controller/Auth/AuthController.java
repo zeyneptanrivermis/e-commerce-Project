@@ -107,10 +107,7 @@ public class AuthController {
     
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
     }
-
-
-
 }
