@@ -1,26 +1,19 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly USERS_KEY = 'users';
-  private readonly CURRENT_USER_KEY = 'currentUser';
+  private readonly API_URL = 'http://localhost:8080/api/auth'; // Backend Auth Endpoint
+  private readonly TOKEN_KEY = 'token'; // JWT token key
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): boolean {
-    const users = this.getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if (user) {
-      if (this.isBrowser()) {
-        localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
-      }
-      return true;
-    }
-
-    return false;
+  login(email: string, password: string): Observable<any> {
+    const loginData = { email, password };
+    return this.http.post(`${this.API_URL}/login`, loginData);
   }
 
   register(userData: any): boolean {
@@ -32,49 +25,28 @@ export class AuthService {
     }
 
     users.push(userData);
-    if (this.isBrowser()) {
-      localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
-      localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
-    }
+    localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
+    localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
 
     return true;
   }
 
   logout(): void {
-    if (this.isBrowser()) {
-      localStorage.removeItem(this.CURRENT_USER_KEY);
-    }
+    localStorage.removeItem(this.CURRENT_USER_KEY);
   }
 
   getCurrentUser(): any {
-    if (this.isBrowser()) {
-      const data = localStorage.getItem(this.CURRENT_USER_KEY);
-      return data ? JSON.parse(data) : null;
-    }
-    return null;
+    const data = localStorage.getItem(this.CURRENT_USER_KEY);
+    return data ? JSON.parse(data) : null;
   }
 
   isLoggedIn(): boolean {
-    return this.getCurrentUser() !== null;
+    return this.getToken() !== null;
   }
 
   private getUsers(): any[] {
-    if (this.isBrowser()) {
-      const data = localStorage.getItem(this.USERS_KEY);
-      return data ? JSON.parse(data) : [];
-    }
-    return [];
+    const data = localStorage.getItem(this.USERS_KEY);
+    return data ? JSON.parse(data) : [];
   }
-
-  getToken(): string | null {
-    if (this.isBrowser()) {
-      return localStorage.getItem('token');
-    }
-    return null;
-  }
-
-  // Helper function to check if the code is running in the browser
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
-  }
+>>>>>>> Stashed changes
 }

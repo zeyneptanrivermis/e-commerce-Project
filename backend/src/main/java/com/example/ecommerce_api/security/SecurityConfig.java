@@ -33,8 +33,13 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/error").permitAll()  // login, register, manual-register açık
-                        .anyRequest().authenticated()            // diğer her şey için token gerekli
+<<<<<<< Updated upstream
+                        .requestMatchers("/auth/**").permitAll()  // login/register erişime açık
+                        .anyRequest().authenticated()            // Diğerleri token ister
+=======
+                .requestMatchers("/api/auth/**", "/error").permitAll()
+                .anyRequest().authenticated()            // diğer her şey için token gerekli
+>>>>>>> Stashed changes
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex

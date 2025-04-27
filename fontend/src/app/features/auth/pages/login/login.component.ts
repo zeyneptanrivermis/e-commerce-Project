@@ -29,12 +29,18 @@ export class LoginComponent implements OnInit {
   doLogin(): void {
     const { email, password } = this.loginForm.value;
 
-    if (this.authService.login(email, password)) {
-      alert('Giriş başarılı!');
-      this.router.navigate(['/home']);
-    } else {
-      this.errorMessage = 'Hatalı e-posta veya şifre!';
-    }
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        // Burada backend'den gelen JWT token'ı kaydediyoruz
+        this.authService.saveToken(response.token);
+        alert('Giriş başarılı!');
+        this.router.navigate(['/home']); // Başarılı giriş sonrası yönlendirme
+      },
+      error: (error) => {
+        console.error('Login failed', error);
+        this.errorMessage = 'Hatalı e-posta veya şifre!';
+      }
+    });
   }
 
   goToLogin(): void {
