@@ -34,13 +34,8 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-<<<<<<< Updated upstream
-                        .requestMatchers("/auth/**").permitAll()  // login/register erişime açık
-                        .anyRequest().authenticated()            // Diğerleri token ister
-=======
                 .requestMatchers("/api/auth/**", "/error").permitAll()
                 .anyRequest().authenticated()            // diğer her şey için token gerekli
->>>>>>> Stashed changes
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT için STATELESS
                 .exceptionHandling(ex -> ex
