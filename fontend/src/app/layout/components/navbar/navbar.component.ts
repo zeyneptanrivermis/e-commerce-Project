@@ -1,3 +1,4 @@
+import { AuthService } from './../../../features/auth/services/auth.service';
 import { Component, ElementRef, ViewChild } from "@angular/core";
 
 @Component({
@@ -14,6 +15,8 @@ export class NavbarComponent {
 
   isMenuOpen = false;
 
+  constructor(public authService:AuthService){}
+
   toggleMegaMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
 
@@ -26,6 +29,17 @@ export class NavbarComponent {
     submenu.innerHTML = ''; // Menü her açıldığında alt içerik sıfırlansın
   }
 
+  // Giriş yapma
+  onLogin(): void {
+    // Burada API ile kullanıcı girişi yapılabilir ve token alınabilir
+    const fakeToken = 'sample-jwt-token';  // Bu sadece örnek
+    this.authService.login('user@example.com', 'password123');  // Kendi veritabanına göre login fonksiyonu
+  }
+
+  // Çıkış yapma
+  seeUserProfile(): void {
+    this.authService.logout();
+  }
   showSubmenu(category: string): void {
     const submenu = this.submenuRef.nativeElement as HTMLElement;
 

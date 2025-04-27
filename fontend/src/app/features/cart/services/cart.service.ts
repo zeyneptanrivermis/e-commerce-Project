@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../../models/product.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { catchError } from 'rxjs/operators';
 
 export interface CartItem {
   product: Product;
@@ -18,40 +18,61 @@ export class CartService {
 
   constructor(private http: HttpClient) { }
 
+  // JWT token'ı header'a ekleyen yardımcı metod
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // JWT token localStorage'da saklanıyor varsayıyorum
+    const token = localStorage.getItem('token');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
 
+  // Sepete ürün ekleme
   addToCart(productId: number, quantity: number): Observable<string> {
     const headers = this.getAuthHeaders();
-    const body = new URLSearchParams();
-    body.set('productId', productId.toString());
-    body.set('quantity', quantity.toString());
+    const params = new HttpParams()
+      .set('productId', productId.toString())
+      .set('quantity', quantity.toString());
 
-    return this.http.post<string>(`${this.apiUrl}/add`, body.toString(), {
-      headers: headers.append('Content-Type', 'application/x-www-form-urlencoded')
-    });
+    return this.http.post<string>(`${this.apiUrl}/add`, null, {
+      headers: headers,
+      params: params
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  // Sepetten ürün silme
   removeFromCart(productId: number): Observable<string> {
     const headers = this.getAuthHeaders();
+    const params = new HttpParams().set('productId', productId.toString());
+
     return this.http.delete<string>(`${this.apiUrl}/remove`, {
       headers: headers,
-      params: { productId: productId.toString() }
-    });
+      params: params
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  // Sepet öğelerini listeleme
   listCartItems(): Observable<CartItem[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<CartItem[]>(`${this.apiUrl}/items`, { headers });
+    return this.http.get<CartItem[]>(`${this.apiUrl}/items`, { headers }).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  // Sepet toplamını alma
   getCartTotal(): Observable<number> {
     const headers = this.getAuthHeaders();
-    return this.http.get<number>(`${this.apiUrl}/total`, { headers });
+    return this.http.get<number>(`${this.apiUrl}/total`, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Hata işlemi için yardımcı metod
+  private handleError(error: any): Observable<never> {
+    console.error('Error occurred:', error);
+    throw error;
   }
 }
-

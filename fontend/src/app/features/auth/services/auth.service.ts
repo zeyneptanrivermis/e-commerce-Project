@@ -14,7 +14,9 @@ export class AuthService {
     const user = users.find(u => u.email === email && u.password === password);
 
     if (user) {
-      localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
+      if (this.isBrowser()) {
+        localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(user));
+      }
       return true;
     }
 
@@ -30,19 +32,26 @@ export class AuthService {
     }
 
     users.push(userData);
-    localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
-    localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
+    if (this.isBrowser()) {
+      localStorage.setItem(this.USERS_KEY, JSON.stringify(users));
+      localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(userData));
+    }
 
     return true;
   }
 
   logout(): void {
-    localStorage.removeItem(this.CURRENT_USER_KEY);
+    if (this.isBrowser()) {
+      localStorage.removeItem(this.CURRENT_USER_KEY);
+    }
   }
 
   getCurrentUser(): any {
-    const data = localStorage.getItem(this.CURRENT_USER_KEY);
-    return data ? JSON.parse(data) : null;
+    if (this.isBrowser()) {
+      const data = localStorage.getItem(this.CURRENT_USER_KEY);
+      return data ? JSON.parse(data) : null;
+    }
+    return null;
   }
 
   isLoggedIn(): boolean {
@@ -50,10 +59,22 @@ export class AuthService {
   }
 
   private getUsers(): any[] {
-    const data = localStorage.getItem(this.USERS_KEY);
-    return data ? JSON.parse(data) : [];
+    if (this.isBrowser()) {
+      const data = localStorage.getItem(this.USERS_KEY);
+      return data ? JSON.parse(data) : [];
+    }
+    return [];
   }
+
   getToken(): string | null {
-    return localStorage.getItem('token');
+    if (this.isBrowser()) {
+      return localStorage.getItem('token');
+    }
+    return null;
+  }
+
+  // Helper function to check if the code is running in the browser
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
   }
 }

@@ -7,7 +7,7 @@ import { serverRoutes } from './app.routes.server';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [AppModule, ServerModule],
+  imports: [AppModule, ServerModule],  // <-- This is the potential issue
   providers: [provideServerRouting(serverRoutes)],
   bootstrap: [AppComponent],
 })

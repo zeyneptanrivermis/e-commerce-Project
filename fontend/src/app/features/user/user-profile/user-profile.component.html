@@ -1,0 +1,24 @@
+<div class="user-profile">
+    <h2>User Profile</h2>
+    <div *ngIf="currentUser">
+      <p><strong>Name:</strong> {{ currentUser.name }}</p>
+      <p><strong>Email:</strong> {{ currentUser.email }}</p>
+    </div>
+  
+    <div class="wishlist">
+      <h3>Your Wishlist</h3>
+      <div *ngIf="wishlist.length === 0">
+        Your wishlist is empty.
+        <button (click)="redirect()">Add More Products to Wishlist?</button>
+      </div>
+
+      <div *ngFor="let product of wishlist" class="wishlist-item">
+        <p>{{ product.name }}</p>
+        <button (click)="removeFromWishlist(product)">Remove</button>
+      </div>
+
+      <div *ngIf="wishlist.length > 0">
+        <button (click)="redirect()">Add More Products to Wishlist?</button> <!-- Example button for adding -->
+      </div>
+    </div>
+  </div>
