@@ -11,9 +11,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.ecommerce_api.services.Auth.CustomUserDetailsService;
+import com.example.ecommerce_api.services.User.CustomUserDetailsService;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -26,17 +28,29 @@ public class JwtFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    private static final List<String> excludedPaths = Arrays.asList(
+        "/auth/login",
+        "/auth/register",
+        "/auth/manual-register"
+    );
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+        if (excludedPaths.contains(path)) {
+            filterChain.doFilter(request, response); // Token kontrolü yapmadan geç
+            return;
+        }
 
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7); // "Bearer " kelimesinden sonrası
+            token = authHeader.substring(7); 
             username = jwtUtil.extractUsername(token);
         }
 

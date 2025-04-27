@@ -10,7 +10,7 @@ import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 
 // Angular Material örneği (isteğe bağlı)
-import { MatIconModule } from '@angular/material/icon';
+
 import { AuthModule } from './features/auth/auth.module';
 //import { ProductsComponent } from './features/products/pages/products/products.component';
 import { provideHttpClient } from '@angular/common/http';
@@ -23,8 +23,6 @@ import { provideHttpClient } from '@angular/common/http';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    MatIconModule,
-
     // Uygulama modülleri
     AuthModule,
     //ProductsModule,

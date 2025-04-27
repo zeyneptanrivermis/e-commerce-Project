@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.EnumType;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.example.ecommerce_api.entity.UserEntity.Role;
@@ -37,7 +39,7 @@ import com.example.ecommerce_api.entity.UserEntity.Role;
 @Table(name = "user")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "user_type")
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -140,8 +142,3 @@ public abstract class User {
     }
 }
 
-enum Gender {
-    MALE,
-    FEMALE,
-    OTHER
-}

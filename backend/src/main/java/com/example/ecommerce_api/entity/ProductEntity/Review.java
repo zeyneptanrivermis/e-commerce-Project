@@ -6,6 +6,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -56,6 +60,9 @@ public class Review {
     public Long getReviewId() {
         return reviewId;
     }
+    public boolean isEdited() {
+        return isEdited;
+    }
 
     public void setComment(String comment) {
         this.comment = comment;
@@ -72,7 +79,13 @@ public class Review {
     public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
     }
+    public void setEdited(boolean isEdited) {
+        this.isEdited = isEdited;
+    }
 
+
+/* 
+    //muhtemelen silinecek
     public void editComment(String newComment){
         if (newComment.length() >= 3 && newComment.length() <= 150) {
             this.comment = newComment;
@@ -85,5 +98,5 @@ public class Review {
     public void deleteComment(){
         this.product.getReviews().remove(this);
         this.product.updateAvgRating();
-    }
+    }*/
 }

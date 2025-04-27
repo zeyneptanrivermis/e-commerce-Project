@@ -20,4 +20,6 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     // Belirli bir ürünü silme
     void deleteByCartAndProduct(Cart cart, Product product);
+
+    int countByCart(Cart cart);
 }

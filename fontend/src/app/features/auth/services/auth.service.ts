@@ -35,8 +35,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
-<<<<<<< Updated upstream
-=======
 
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
@@ -44,5 +42,4 @@ export class AuthService {
       'Authorization': `Bearer ${token}`
     });
   }
->>>>>>> Stashed changes
 }

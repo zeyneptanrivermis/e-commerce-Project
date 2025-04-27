@@ -31,21 +31,15 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-<<<<<<< Updated upstream
-    this.loadProducts();
-
-    //kategorilere gore filtrelenmis sayfa icin 
-=======
     const isPopularRoute = this.route.routeConfig?.path === 'popular';
-
+  
     if (isPopularRoute) {
       this.loadPopularProducts(); // özel servis
     } else {
       this.loadProducts(); // scroll tabanlı yükleme
     }
-
+  
     // Query param ile kategori filtreleme
->>>>>>> Stashed changes
     this.route.queryParams.subscribe(params => {
       const category = params['category'];
       if (category) {
@@ -131,10 +125,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       .map(i => allCategories[i])
       .filter(Boolean);
   }
-<<<<<<< Updated upstream
-}
-=======
-
+  
   loadPopularProducts(): void {
     this.loading = true;
     this.productService.getPopularProducts().subscribe(data => {
@@ -151,4 +142,3 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
 }
->>>>>>> Stashed changes

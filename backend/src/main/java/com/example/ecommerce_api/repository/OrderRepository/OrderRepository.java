@@ -16,4 +16,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Eğer customerId üzerinden çağırmak istersen
     List<Order> findByCustomer_UserId(Long customerId);
+    
 }

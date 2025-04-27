@@ -1,4 +1,4 @@
-<div class="container">
+
   <h2>Merhaba,</h2>
   <p>Trendyol’a giriş yap veya hesap oluştur, indirimleri kaçırma!</p>
 
@@ -9,6 +9,34 @@
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="doRegister()">
+      <!--isim soy isim -->
+      <div class="name-surname-group">
+        <div class="input-half">
+          <label for="name">Ad</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            maxlength="30"
+            placeholder="Adınız" />
+          <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="error">
+            Ad zorunludur (max 30 karakter).
+          </div>
+        </div>
+
+        <div class="input-half">
+          <label for="surname">Soyad</label>
+          <input
+            type="text"
+            id="surname"
+            formControlName="surname"
+            maxlength="30"
+            placeholder="Soyadınız" />
+          <div *ngIf="registerForm.get('surname')?.touched && registerForm.get('surname')?.invalid" class="error">
+            Soyad zorunludur (max 30 karakter).
+          </div>
+        </div>
+      </div>
       <!-- E-Posta -->
       <label for="email">E-Posta</label>
       <input
@@ -41,8 +69,18 @@
       <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="error">
         Şifre tekrar alanı boş olamaz.
       </div>
-
       <p class="password-info">Şifreniz en az 10 karakter olmalı. 1 büyük harf, 1 küçük harf ve rakam içermelidir.</p>
+
+      <!-- Doğum Tarihi -->
+      <label for="birthday">Doğum Tarihi</label>
+      <input
+        type="date"
+        id="birthday"
+        formControlName="birthday"
+        placeholder="GG/AA/YYYY" />
+      <div *ngIf="registerForm.get('birthday')?.touched && registerForm.get('birthday')?.invalid" class="error">
+        Doğum tarihi zorunludur.
+      </div>
 
       <!-- Cinsiyet -->
       <label for="gender">Cinsiyet (Opsiyonel)</label>
@@ -83,4 +121,4 @@
       </div>
     </form>
   </div>
-</div>
+

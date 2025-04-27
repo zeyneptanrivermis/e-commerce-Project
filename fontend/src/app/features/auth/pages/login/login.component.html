@@ -1,43 +1,45 @@
-<div class="container">
-  <h2>Merhaba,</h2>
-  <p>Trendyol’a giriş yap veya hesap oluştur, indirimleri kaçırma!</p>
-
-  <div class="login-box">
-    <div class="tabs">
-      <button class="active" (click)="goToLogin()">Log In</button>
-      <button (click)="goToRegister()">Sign Up</button>
+<div class="login-wrapper">
+  <div class="login-left">
+    <div class="branding">
+      <h1>Hoş Geldiniz!</h1>
+      <p>Alışverişin en hızlı yolu burada.</p>
+      <img src="assets/login-illustration.svg" alt="Alışveriş Görseli" />
     </div>
+  </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
-      <label for="email">E-Mail</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        placeholder="E-posta adresinizi girin"
-      />
-      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error">
-        Geçerli bir e-posta girin.
+  <div class="login-right">
+    <div class="form-box">
+      <div class="form-header">
+        <h2>Giriş Yap</h2>
+        <p>Devam etmek için bilgilerinizi girin</p>
       </div>
 
-      <label for="password">Şifre</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        placeholder="Şifrenizi girin"
-      />
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error">
-        Şifre boş bırakılamaz.
+      <form [formGroup]="loginForm" (ngSubmit)="doLogin()">
+        <div class="input-group">
+          <label for="email">E-Posta</label>
+          <input type="email" id="email" formControlName="email" placeholder="E-posta adresinizi girin" />
+        </div>
+
+        <div class="input-group">
+          <label for="password">Şifre</label>
+          <input type="password" id="password" formControlName="password" placeholder="Şifrenizi girin" />
+        </div>
+
+        <div class="form-actions">
+          <a routerLink="/forgot-password">Şifrenizi mi unuttunuz?</a>
+        </div>
+
+        <button type="submit" [disabled]="loginForm.invalid">GİRİŞ YAP</button>
+
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </form>
+
+      <div class="separator"><span>ya da</span></div>
+
+      <div class="extra-actions">
+        <p>Hesabınız yok mu? <a routerLink="/register">Kayıt Olun</a></p>
+        <p>Mağazanız mı var? <a routerLink="/seller-register">Satıcı olarak kayıt olun</a></p>
       </div>
-
-      <a href="#" class="forgot-password">Şifremi Unuttum</a>
-
-      <button type="submit" class="login-button">GİRİŞ YAP</button>
-
-      <div *ngIf="errorMessage" class="error">
-        {{ errorMessage }}
-      </div>
-    </form>
+    </div>
   </div>
 </div>

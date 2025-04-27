@@ -57,6 +57,3 @@ public class Customer extends User {
         this.wishlist.remove(product);
     }
 }
-
-
-

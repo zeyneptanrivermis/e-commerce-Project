@@ -8,7 +8,7 @@ import { inject } from '@angular/core';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  public apiUrl: string="https://fakestoreapi.com/products";
+  public apiUrl: string="http://localhost:8080/api/products";
 
   constructor() {}
 
@@ -35,14 +35,18 @@ export class ProductService {
       name: apiProduct.title,
       description: apiProduct.description,
       price: apiProduct.price,
+      seller: apiProduct.store,
       mainCategory: mappedCategory,
       sideCategories: SideCategories[mappedCategory].slice(0, 2), // Optional logic
-      isFavourite: false
     };
   }
   
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
+  }
+
+  getPopularProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/popular`);
   }
 
   //addURL(newURL:string){

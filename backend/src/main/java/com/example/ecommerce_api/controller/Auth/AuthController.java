@@ -1,18 +1,20 @@
 package com.example.ecommerce_api.controller.Auth;
 
-import com.example.ecommerce_api.entity.UserEntity.Customer;
-import com.example.ecommerce_api.entity.UserEntity.Role;
-import com.example.ecommerce_api.entity.UserEntity.User;
-import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
-import com.example.ecommerce_api.repository.UserRepository.UserRepository;
-import com.example.ecommerce_api.security.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import com.example.ecommerce_api.entity.UserEntity.*;
+import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
+import com.example.ecommerce_api.repository.UserRepository.UserRepository;
+import com.example.ecommerce_api.security.JwtUtil;
 
+import jakarta.annotation.PostConstruct;
+
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -33,6 +35,7 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     // DTO'lar
+    //ic sinif
     public static class LoginRequest {
         public String email;
         public String password;
@@ -128,3 +131,4 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(newAccessToken, refreshToken));
     }
 }
+
