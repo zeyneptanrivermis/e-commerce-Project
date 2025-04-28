@@ -1,1 +1,13 @@
-<p>wishlist works!</p>
+  <div class="wishlist-container">
+    <h2>Wishlist</h2>
+  
+    <div *ngIf="wishlist.length === 0">
+      Your Wishlist is empty.
+      <button class="wishlist-button" (click)="redirect()">Explore Products</button>
+    </div>
+  
+    <div *ngFor="let product of wishlist" class="wishlist-item">
+      <p>{{ product.name }} - {{ product.price | currency:'TRY' }}</p>
+      <button (click)="removeFromWishlist(product.id)">Remove</button>
+    </div>
+  </div>

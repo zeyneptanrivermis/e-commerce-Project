@@ -1,0 +1,81 @@
+/* Genel Ekran Ayarları */
+html, body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100%;
+  width: 100%; /* Tam genişlik alacak */
+}
+
+/* User Paneli: Tam ekran genişliği ve tam yükseklik */
+.user-panel {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+/* Sol Menü (User Menu) */
+.user-menu {
+  width: 250px;
+  background: #2c3e50;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 30px 20px;
+  gap: 20px;
+  color: white;
+  height: calc(100vh - 120px); /* Subtract navbar and footer height */
+  margin-left: 0;
+  position: relative; /* Use relative to avoid overlap */
+  top: 0;
+}
+
+
+/* Menü Başlığı */
+.panel-title {
+  font-size: 24px; /* Başlık fontu büyütüldü */
+  font-weight: bold;
+  margin-bottom: 30px; /* Boşluk arttırıldı */
+  text-transform: uppercase; /* Başlık büyük harfe çevrildi */
+  letter-spacing: 2px;
+}
+
+/* Linkler */
+.user-menu a {
+  text-decoration: none;
+  color: #ecf0f1; /* Açık gri renk */
+  font-size: 18px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+  display: block;
+}
+
+/* Hover Etkisi */
+.user-menu a:hover {
+  background-color: #3498db; /* Hover'da mavi */
+  color: white; /* Renk beyaza dönüşsün */
+  padding-left: 30px; /* Sol padding artırılarak güzel bir kayma efekti */
+}
+
+/* Aktif Link */
+.active-link {
+  background-color: #2980b9; /* Daha koyu mavi aktif link için */
+  color: white !important;
+  padding-left: 30px; /* Kayma efekti */
+}
+
+/* İçerik Alanı */
+.user-content {
+  flex-grow: 1; /* İçerik genişlesin */
+  background: white;
+  padding: 40px;
+  overflow-y: auto;
+  width: 100%; /* Tam genişlik alsın */
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center; /* Yatayda ortala */
+  align-items: center;     /* Dikeyde ortala */
+}

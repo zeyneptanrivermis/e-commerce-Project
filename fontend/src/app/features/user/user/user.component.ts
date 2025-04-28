@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -8,4 +10,9 @@ import { Component } from '@angular/core';
 })
 export class UserComponent {
 
+  constructor(private authService: AuthService){}
+
+  logout(){
+    this.authService.logout();
+  }
 }

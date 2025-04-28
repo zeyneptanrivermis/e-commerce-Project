@@ -31,10 +31,17 @@ export class NavbarComponent {
 
   // Giriş yapma
   onLogin(): void {
-    // Burada API ile kullanıcı girişi yapılabilir ve token alınabilir
-    const fakeToken = 'sample-jwt-token';  // Bu sadece örnek
-    this.authService.login('user@example.com', 'password123');  // Kendi veritabanına göre login fonksiyonu
+    this.authService.login('user@example.com', 'password123').subscribe({
+      next: (response) => {
+        console.log('Login response:', response);  // Gelen JWT'yi kontrol et
+        this.authService.saveToken(response.token);  // Gelen token'ı kaydet
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+      }
+    });
   }
+  
 
   // Çıkış yapma
   seeUserProfile(): void {

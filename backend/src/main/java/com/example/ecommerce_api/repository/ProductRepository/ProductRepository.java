@@ -12,8 +12,6 @@ import com.example.ecommerce_api.entity.ProductEntity.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // İstediğin ürünü kategoriye göre getirmek istersen
-    List<Product> findByCategory(Category category);
 
     // İstediğin ürünü satıcıya göre getirmek istersen
     List<Product> findBySellerUserId(Long sellerId);
@@ -23,4 +21,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByPriceBetween(double minPrice, double maxPrice);
     List<Product> findByProductNameContaining(String keyword);
+
 }

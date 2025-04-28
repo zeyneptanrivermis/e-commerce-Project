@@ -1,24 +1,71 @@
-<div class="user-profile">
-    <h2>User Profile</h2>
-    <div *ngIf="currentUser">
-      <p><strong>Name:</strong> {{ currentUser.name }}</p>
-      <p><strong>Email:</strong> {{ currentUser.email }}</p>
-    </div>
-  
-    <div class="wishlist">
-      <h3>Your Wishlist</h3>
-      <div *ngIf="wishlist.length === 0">
-        Your wishlist is empty.
-        <button (click)="redirect()">Add More Products to Wishlist?</button>
-      </div>
+<form [formGroup]="profileForm" class="profile-card" *ngIf="currentUser">
+  <h2>Welcome, {{ currentUser?.name }} {{ currentUser?.surname }}!</h2>
 
-      <div *ngFor="let product of wishlist" class="wishlist-item">
-        <p>{{ product.name }}</p>
-        <button (click)="removeFromWishlist(product)">Remove</button>
-      </div>
+  <!-- Email -->
+  <div class="info-row">
+    <strong>Email:</strong> 
+    <span *ngIf="!editEmail">{{ currentUser?.email }}</span>
 
-      <div *ngIf="wishlist.length > 0">
-        <button (click)="redirect()">Add More Products to Wishlist?</button> <!-- Example button for adding -->
+    <div *ngIf="editEmail">
+      <input formControlName="email" type="email" />
+      <div *ngIf="profileForm.get('email')?.errors?.['email']" class="error-message">
+        Enter a valid e-mail.
       </div>
     </div>
+
+    <button (click)="toggleEdit('email')" [disabled]="editEmail && profileForm.get('email')?.invalid">
+      {{ editEmail ? 'save' : 'edit' }}
+    </button>
   </div>
+
+  <!-- Birthday -->
+  <div class="info-row">
+    <strong>Birthday:</strong> 
+    <span *ngIf="!editBirthday">{{ currentUser?.birthday || 'Not set' }}</span>
+
+    <div *ngIf="editBirthday">
+      <input formControlName="birthday" type="date" />
+      <div *ngIf="profileForm.get('birthday')?.errors?.['futureDate']" class="error-message">
+        Enter a valid date.
+      </div>
+    </div>
+
+    <button (click)="toggleEdit('birthday')" [disabled]="editBirthday && profileForm.get('birthday')?.invalid">
+      {{ editBirthday ? 'save' : 'edit' }}
+    </button>
+  </div>
+
+  <!-- Name -->
+  <div class="info-row">
+    <strong>Name:</strong> 
+    <span *ngIf="!editName">{{ currentUser?.name }}</span>
+
+    <div *ngIf="editName">
+      <input formControlName="name" type="text" />
+      <div *ngIf="profileForm.get('name')?.errors?.['maxlength']" class="error-message">
+        Max 50 characters.
+      </div>
+    </div>
+
+    <button (click)="toggleEdit('name')" [disabled]="editName && profileForm.get('name')?.invalid">
+      {{ editName ? 'save' : 'edit' }}
+    </button>
+  </div>
+
+  <!-- Surname -->
+  <div class="info-row">
+    <strong>Surname:</strong>
+    <span *ngIf="!editSurname">{{ currentUser?.surname }}</span>
+
+    <div *ngIf="editSurname">
+      <input formControlName="surname" type="text" />
+      <div *ngIf="profileForm.get('surname')?.errors?.['maxlength']" class="error-message">
+        Max 50 characters.
+      </div>
+    </div>
+
+    <button (click)="toggleEdit('surname')" [disabled]="editSurname && profileForm.get('surname')?.invalid">
+      {{ editSurname ? 'save' : 'edit' }}
+    </button>
+  </div>
+</form>

@@ -5,6 +5,9 @@ import { WishlistComponent } from './wishlist/wishlist.component';
 import { UserComponent } from './user/user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CartModule } from '../cart/cart.module';
+import { RouterModule } from '@angular/router';
+import { UserRoutingModule } from './user.routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +18,11 @@ import { CartModule } from '../cart/cart.module';
   ],
   imports: [
     CommonModule,
-    CartModule
+    CartModule,
+    RouterModule,
+    UserRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule { }

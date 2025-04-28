@@ -16,6 +16,8 @@ import jakarta.annotation.PostConstruct;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -79,7 +81,12 @@ public class AuthController {
         String accessToken = jwtUtil.generateToken(user);
         String refreshToken = jwtUtil.generateRefreshToken(user);
 
-        return ResponseEntity.ok(new AuthResponse(accessToken, refreshToken));
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("token", accessToken);
+        tokens.put("refreshToken", refreshToken);
+
+        return ResponseEntity.ok(tokens);
+
     }
 
     // Kayıt işlemi

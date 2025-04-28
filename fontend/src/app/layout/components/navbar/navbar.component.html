@@ -13,7 +13,7 @@
     <a href="#">❤️ Favourites</a>
     <a href="/shopping-cart">🛒 Cart </a>
     <a *ngIf="!authService.isLoggedIn()" href="/login">Log in</a>
-    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user-profile']">See User Profile</a>
+    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user']">See User Profile</a>
   </div>
 </div>
 

@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Product } from '../../../models/product.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WishlistService {
-  private apiUrl = 'http://localhost:8080/api/user'; // Backend API'si
 
-  constructor(private http: HttpClient) { }
+  private apiUrl = 'http://localhost:8080/api/wishlist';
 
-  // Kullanıcının wishlist'ini alma
-  getWishlist(wishListId: string): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/wishlist/${wishListId}`);
+  constructor(private http: HttpClient) {}
+
+  getWishlist(customerId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/${customerId}`);
   }
 
-  // Wishlist'e ürün ekleme
-  addToWishlist(wishListId: string, product: Product): Observable<any> {
-    return this.http.post(`${this.apiUrl}/wishlist/add`, { wishListId, product });
+  addToWishlist(customerId: number, productId: number): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${customerId}/add/${productId}`, {});
   }
 
-  // Wishlist'ten ürün silme
-  removeFromWishlist(wishListId: string, product: Product): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/wishlist/remove`, { params: { wishListId, productId: product.id } });
+  removeFromWishlist(customerId: number, productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${customerId}/remove/${productId}`);
   }
 }

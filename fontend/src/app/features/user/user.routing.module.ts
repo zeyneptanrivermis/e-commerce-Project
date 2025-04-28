@@ -5,25 +5,19 @@ import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 
 const routes: Routes = [
-  {path: '',
-      component: UserComponent,
-      children: [
-        {
-          path: '',
-          component: UserProfileComponent
-        },
-
-        {
-          path: 'wishlist',
-          component: WishlistComponent
-        },
-
-      ]
-    }
+  {
+    path: '',
+    component: UserComponent,
+    children: [
+      { path: 'user-profile', component: UserProfileComponent },
+      { path: 'wishlist', component: WishlistComponent },
+      { path: '', redirectTo: 'user-profile', pathMatch: 'full' } // opsiyonel: boşken profil aç
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AuthRoutingModule { }
+export class UserRoutingModule { }

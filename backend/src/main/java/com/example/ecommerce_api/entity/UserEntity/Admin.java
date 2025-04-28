@@ -16,9 +16,13 @@ import jakarta.persistence.CascadeType;
 @Entity
 @Table(name = "admin")
 public class Admin extends User {
+
     private String permission;
 
     public String getPermission() {
         return permission;
+    }
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }

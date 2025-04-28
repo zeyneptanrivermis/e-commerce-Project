@@ -7,7 +7,10 @@
 .main-content {
   flex: 1; /* Navbar ve footer arasında kalan alan */
   display: flex;
-  justify-content: center;  /* Yatayda ortala */
-  align-items: center;      /* Dikeyde ortala */
+  justify-content: center; /* Yatayda ortala */
+  align-items: center;     /* Dikeyde ortala */
   padding: 2rem;
+  width: 100%;             /* Ana içerik tam genişlik almalı */
+  box-sizing: border-box;  /* Paddingin genişliği etkilememesi için */
 }
+

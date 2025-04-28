@@ -1,0 +1,109 @@
+.profile-card {
+  background: #ffffff;
+  padding: 2rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.profile-card h2 {
+  font-size: 2rem;
+  color: #2d3436;
+  margin-bottom: 2.5rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 0;
+  transition: background 0.3s;
+}
+
+.info-row:hover {
+  background: #f9f9f9;
+}
+
+.info-row strong {
+  flex: 1;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #636e72;
+}
+
+.info-row span, 
+.info-row input {
+  flex: 2;
+  text-align: left;
+  font-size: 1rem;
+  color: #2d3436;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+  padding: 0.5rem 0.7rem;
+  width: 90%;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s;
+  background: #f8f9fa;
+}
+
+input:focus {
+  border-color: #74b9ff;
+  background: #ffffff;
+}
+
+/* Normal edit butonu */
+button {
+  flex: 0.7;
+  background-color: #74b9ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Hover efekti */
+button:hover {
+  background-color: #0984e3;
+}
+
+/* Save modunda (yeşil) */
+button.save-mode {
+  background-color: #00b894;
+}
+
+button.save-mode:hover {
+  background-color: #019875;
+}
+
+/* Disabled buton */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.error-message {
+  color: #d63031;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  text-align: left;
+}

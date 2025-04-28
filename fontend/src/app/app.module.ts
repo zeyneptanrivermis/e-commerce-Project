@@ -34,6 +34,7 @@ import { UserModule } from './features/user/user.module';
     UserModule
   ],
   providers: [
+    
     provideClientHydration(withEventReplay()),
     provideHttpClient()
   ],
