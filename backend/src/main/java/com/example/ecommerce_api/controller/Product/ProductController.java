@@ -1,9 +1,9 @@
 package com.example.ecommerce_api.controller.Product;
 
+import com.example.ecommerce_api.dto.ProductDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.services.Product.ProductService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,16 +15,23 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @Autowired // Constructor Injection
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     // 🔵 Tüm ürünleri listele
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public List<ProductDTO> getAllProducts() {
+        return productService.getAllProducts().stream()
+            .map(product -> new ProductDTO(
+                product.getProductId(),
+                product.getProductName(),
+                product.getPrice(),
+                product.getSeller() != null ? product.getSeller().getEmail() : "unknown"
+            ))
+            .toList();
     }
+
 
     // 🔵 ID ile ürün getir
     @GetMapping("/{id}")
@@ -55,4 +62,21 @@ public class ProductController {
     public List<Product> getProductsBySeller(@PathVariable Long sellerId) {
         return productService.getProductsBySellerId(sellerId);
     }
+
+    // 🔵 Tüm ürünleri sayfa sayfa getir (scroll için)
+    @GetMapping("/paged")
+    public List<ProductDTO> getProductsPaged(
+    @RequestParam(defaultValue = "10") int limit,
+    @RequestParam(defaultValue = "0") int skip) {
+        return productService.getProductsPaged(limit, skip).stream()
+            .map(product -> new ProductDTO(
+                product.getProductId(),
+                product.getProductName(),
+                product.getPrice(),
+                product.getSeller() != null ? product.getSeller().getEmail() : "unknown"
+            ))
+            .toList();
+    }
+
+
 }

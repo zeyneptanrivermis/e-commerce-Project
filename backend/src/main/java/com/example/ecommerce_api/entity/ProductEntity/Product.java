@@ -1,6 +1,5 @@
 package com.example.ecommerce_api.entity.ProductEntity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,9 +12,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +69,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Discount> discounts = new ArrayList<>();
 
+    @Column(length = 500)
+    private String imageUrl;
+
 
     /*Product(String productName, double price, String description, Category mCategory){
         this.productName=productName;
@@ -101,9 +102,6 @@ public class Product {
     public int getStockCount() {
         return stockCount;
     }
-    public void setCategory(Category category) {
-        this.category = category;
-    }
     public List<String> getSideCategories() {
         return sideCategories;
     }
@@ -118,6 +116,9 @@ public class Product {
     }
     public Seller getSeller() {
         return seller;
+    }
+    public String getImageUrl() {
+        return imageUrl;
     }
     
     public void setDescription(String description) {
@@ -138,6 +139,9 @@ public class Product {
     public void setStockCount(int stockCount) {
             this.stockCount = stockCount;
     }
+    public void setCategory(Category category) {
+        this.category = category;
+    }
     public void setSideCategories(List<String> sideCategories) {
         this.sideCategories = sideCategories;
     }
@@ -153,7 +157,9 @@ public class Product {
     public void setSeller(Seller seller) {
         this.seller = seller;
     }
-    
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 /* 
     */
 

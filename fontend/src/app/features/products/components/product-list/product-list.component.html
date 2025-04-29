@@ -1,7 +1,7 @@
 
 <div class="product-list">
   <app-product-item
-    *ngFor="let product of filteredProducts"
+  *ngFor="let product of filteredProducts; trackBy: trackById"
     [product]="product"
     (add)="addToCart($event)">
   </app-product-item>

@@ -2,7 +2,6 @@ package com.example.ecommerce_api.controller.Product;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }

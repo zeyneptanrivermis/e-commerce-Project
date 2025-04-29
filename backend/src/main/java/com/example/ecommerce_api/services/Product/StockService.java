@@ -2,7 +2,6 @@ package com.example.ecommerce_api.services.Product;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_api.entity.ProductEntity.Stock;
@@ -14,7 +13,6 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    @Autowired
     public StockService(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }

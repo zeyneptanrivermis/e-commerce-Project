@@ -1,10 +1,8 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { MainCategory, Product, SideCategories } from '../../../../models/product.model';
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
-
-
 
 @Component({
   selector: 'app-product-list',
@@ -15,12 +13,12 @@ import { ProductService } from '../../services/product.service';
 export class ProductListComponent implements OnInit, AfterViewInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  observer!: IntersectionObserver; //asagi kaydirdikce yukleme icin, kaydirma denetleyici
+  observer!: IntersectionObserver;
 
-  limit = 10; //sona gelindiginde kac yeni urun yuklenecegi
+  limit = 10;
   skip = 0;
-  loading = false; //yukleniyor mu?
-  allLoaded = false; // yukleyecek urun yoksa true
+  loading = false;
+  allLoaded = false;
 
   @ViewChild('observer', { static: true }) observerElement!: ElementRef;
 
@@ -32,20 +30,19 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const isPopularRoute = this.route.routeConfig?.path === 'popular';
-  
+
     if (isPopularRoute) {
-      this.loadPopularProducts(); // özel servis
+      this.loadPopularProducts();
     } else {
-      this.loadProducts(); // scroll tabanlı yükleme
+      this.loadProducts();
     }
-  
-    // Query param ile kategori filtreleme
+
     this.route.queryParams.subscribe(params => {
       const category = params['category'];
       if (category) {
         this.filterByCategory(category);
       } else {
-        this.filteredProducts = this.products;
+        this.filteredProducts = [...this.products];
       }
     });
   }
@@ -55,25 +52,26 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       this.observer = new IntersectionObserver(
         entries => {
           const entry = entries[0];
-          if (entry.isIntersecting && !this.loading) {
-            console.log('✅ Scroll tetiklendi, ürün yükleniyor...');
+          if (entry.isIntersecting && !this.loading && !this.allLoaded) {
             this.loadProducts();
           }
         },
         {
           root: null,
-          rootMargin: '0px 0px 200px 0px', // Alt kenar gözlemlemesi için marj artırıldı
+          rootMargin: '0px 0px 200px 0px',
           threshold: 0
         }
       );
 
-      // DOM stabilize olduktan sonra bağla
-      setTimeout(() => {
-        if (this.observerElement?.nativeElement) {
-          this.observer.observe(this.observerElement.nativeElement);
-        }
-      }, 200); // DOM tam oturması için gecikme eklendi
+      // DOM’a bağlama işlemi eksikti
+      if (this.observerElement?.nativeElement) {
+        this.observer.observe(this.observerElement.nativeElement);
+      }
     }
+  }
+
+  trackById(index: number, product: any): number {
+    return product?.id ?? index;
   }
 
   loadProducts(): void {
@@ -83,8 +81,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     this.productService.getProducts(this.limit, this.skip).subscribe(data => {
       if (data && data.length > 0) {
         this.products = [...this.products, ...data];
-        this.filteredProducts = [...this.products];
         this.skip += this.limit;
+        this.applyFilter();
 
         if (data.length < this.limit) {
           this.allLoaded = true;
@@ -97,41 +95,19 @@ export class ProductListComponent implements OnInit, AfterViewInit {
 
       this.loading = false;
     }, error => {
+      console.error('🔴 Ürünler alınamadı:', error);
       this.loading = false;
       this.allLoaded = true;
       this.observer?.disconnect();
-      console.error('🔴 Ürünler alınamadı:', error);
     });
   }
 
-  addToCart(product: Product) {
-    this.cartService.addToCart(product.id, 1).subscribe(() => {
-    });
-  }
-
-  filterByCategory(category: MainCategory | keyof typeof SideCategories | 'All') {
-    if (category === 'All') {
-      this.filteredProducts = this.products;
-    } else {
-      this.filteredProducts = this.products.filter(product =>
-        product.mainCategory === category || product.sideCategories?.includes(category)
-      );
-    }
-  }
-
-  getSelectedSideCategories(category: MainCategory, indexes: number[]): string[] {
-    const allCategories = SideCategories[category] || [];
-    return indexes
-      .map(i => allCategories[i])
-      .filter(Boolean);
-  }
-  
   loadPopularProducts(): void {
     this.loading = true;
     this.productService.getPopularProducts().subscribe(data => {
-      this.products = data;
-      this.filteredProducts = data;
-      this.allLoaded = true; // scroll'a gerek yok
+      this.products = data ?? [];
+      this.filteredProducts = [...this.products];
+      this.allLoaded = true;
       this.loading = false;
       this.observer?.disconnect();
     }, error => {
@@ -141,4 +117,33 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  addToCart(product: Product) {
+    this.cartService.addToCart(product.id, 1).subscribe(() => {});
+  }
+
+  filterByCategory(category: MainCategory | keyof typeof SideCategories | 'All') {
+    if (category === 'All') {
+      this.filteredProducts = [...this.products];
+    } else {
+      this.filteredProducts = this.products.filter(product =>
+        product.mainCategory === category || product.sideCategories?.includes(category)
+      );
+    }
+  }
+
+  applyFilter() {
+    const category = this.route.snapshot.queryParams['category'];
+    if (category && category !== 'All') {
+      this.filteredProducts = this.products.filter(product =>
+        product.mainCategory === category || product.sideCategories?.includes(category)
+      );
+    } else {
+      this.filteredProducts = [...this.products];
+    }
+  }
+
+  getSelectedSideCategories(category: MainCategory, indexes: number[]): string[] {
+    const allCategories = SideCategories[category] || [];
+    return indexes.map(i => allCategories[i]).filter(Boolean);
+  }
 }

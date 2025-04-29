@@ -12,9 +12,6 @@ import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
 import com.example.ecommerce_api.repository.UserRepository.UserRepository;
 import com.example.ecommerce_api.security.JwtUtil;
 
-import jakarta.annotation.PostConstruct;
-
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -102,12 +99,13 @@ public class AuthController {
         user.setName(request.name);
         user.setSurname(request.surname);
 
-        Role role = roleRepository.findByName("ROLE_CUSTOMER")
-                .orElseGet(() -> {
-                    Role newRole = new Role();
-                    newRole.setName("ROLE_CUSTOMER");
-                    return roleRepository.save(newRole);
-                });
+        Role role = roleRepository.findByName(UserRole.ROLE_CUSTOMER.name())
+        .orElseGet(() -> {
+        Role newRole = new Role();
+        newRole.setName(UserRole.ROLE_CUSTOMER.name());
+        return roleRepository.save(newRole);
+    });
+
 
         user.setRoles(Collections.singleton(role));
 

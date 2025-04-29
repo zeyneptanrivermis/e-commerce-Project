@@ -13,26 +13,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
 
 
 import java.time.LocalDate;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.EnumType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import com.example.ecommerce_api.entity.UserEntity.Role;
 
 //bitti, değiştirdim bazı kısımları email unique olmalı
 @Entity
@@ -57,7 +53,8 @@ public class User {
 
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Address> addressList = new ArrayList<>();
 
     public Long getUserId() {

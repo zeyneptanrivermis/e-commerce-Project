@@ -31,7 +31,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final List<String> excludedPaths = Arrays.asList(
         "/auth/login",
         "/auth/register",
-        "/auth/manual-register"
+        "/auth/manual-register",
+        "/products" 
     );
 
     @Override
@@ -40,8 +41,11 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         String path = request.getRequestURI();
-        if (excludedPaths.contains(path)) {
-            filterChain.doFilter(request, response); // Token kontrolü yapmadan geç
+        String method = request.getMethod();
+
+        // 🔓 GET isteklerinde /products'a token kontrolü yapma
+        if (excludedPaths.contains(path) && "GET".equalsIgnoreCase(method)) {
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -50,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7); 
+            token = authHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
 
@@ -63,8 +67,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 );
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // Kimlik doğrulama context'e yerleştirilir
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

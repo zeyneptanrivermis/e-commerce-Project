@@ -2,7 +2,6 @@ package com.example.ecommerce_api.services.Product;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_api.entity.ProductEntity.Discount;
@@ -14,7 +13,6 @@ public class DiscountService {
 
     private final DiscountRepository discountRepository;
 
-    @Autowired
     public DiscountService(DiscountRepository discountRepository) {
         this.discountRepository = discountRepository;
     }

@@ -33,14 +33,21 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/error").permitAll()
-                .anyRequest().authenticated()            // diğer her şey için token gerekli
+                    .requestMatchers(
+                        "/api/auth/**",      // Auth API'leri
+                        "/api/products/**",  // Product API'leri
+                        "/register",         // Angular route (UI tarafı)
+                        "/login",            // Angular route
+                        "/favicon.ico",      // Browser tab iconu
+                        "/error"           // Hata sayfası
+                    ).permitAll()
+                    .anyRequest().authenticated() // diğer her şey için token gerekli
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) -> 
+                        .authenticationEntryPoint((request, response, authException) ->
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Yetkisiz erişim")))
-                .authenticationProvider(authenticationProvider()) // ← BU SATIR ÇOK ÖNEMLİ
+                .authenticationProvider(authenticationProvider()) 
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

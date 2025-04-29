@@ -13,11 +13,12 @@ export class ProductService {
   constructor() {}
 
   getProducts(limit: number, skip: number): Observable<Product[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?limit=${limit}&skip=${skip}`).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}/paged?limit=${limit}&skip=${skip}`).pipe(
       map(products => products.map(apiProduct => this.transformApiProduct(apiProduct)))
     );
   }
-  
+
+
   private transformApiProduct(apiProduct: any): Product {
     // Normalize category from API to match your enum
     const categoryMap: Record<string, MainCategory> = {
@@ -27,9 +28,9 @@ export class ProductService {
       "hobby products": MainCategory.Hobbies,
       "electronics": MainCategory.Electronics,
     };
-  
+
     const mappedCategory = categoryMap[apiProduct.category] || MainCategory.Home_and_Kitchen;
-  
+
     return {
       id: apiProduct.id,
       name: apiProduct.title,
@@ -40,7 +41,7 @@ export class ProductService {
       sideCategories: SideCategories[mappedCategory].slice(0, 2), // Optional logic
     };
   }
-  
+
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
   }

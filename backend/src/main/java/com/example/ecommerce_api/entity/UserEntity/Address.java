@@ -1,18 +1,18 @@
 package com.example.ecommerce_api.entity.UserEntity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
-
-
 
 //ekleme yapilabilr
 @Entity
@@ -20,8 +20,9 @@ import jakarta.persistence.CascadeType;
 public class Address {
 
     // userda onetomany kurduk burada şart
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     @Id
@@ -85,123 +86,5 @@ public class Address {
     }
     public void setDistrict(District district) {
         this.district = district;
-    }
-}
-
-enum City {
-    ADANA,
-    ADIYAMAN,
-    AFYONKARAHISAR,
-    AGRI,
-    AMASYA,
-    ANKARA,
-    ANTALYA,
-    ARTVIN,
-    AYDIN,
-    BALIKESIR,
-    BILECIK,
-    BINGOL,
-    BITLIS,
-    BOLU,
-    BURDUR,
-    BURSA,
-    CANAKKALE,
-    CANKIRI,
-    CORUM,
-    DENIZLI,
-    DIYARBAKIR,
-    EDIRNE,
-    ELAZIG,
-    ERZINCAN,
-    ERZURUM,
-    ESKISEHIR,
-    GAZIANTEP,
-    GIRESUN,
-    GUMUSHANE,
-    HAKKARI,
-    HATAY,
-    ISPARTA,
-    MERSIN,
-    ISTANBUL,
-    IZMIR,
-    KARS,
-    KASTAMONU,
-    KAYSERI,
-    KIRKLARELI,
-    KIRSEHIR,
-    KOCAELI,
-    KONYA,
-    KUTAHYA,
-    MALATYA,
-    MANISA,
-    KAHRAMANMARAS,
-    MARDIN,
-    MUGLA,
-    MUS,
-    NEVSEHIR,
-    NIGDE,
-    ORDU,
-    RIZE,
-    SAKARYA,
-    SAMSUN,
-    SIIRT,
-    SINOP,
-    SIVAS,
-    TEKIRDAG,
-    TOKAT,
-    TRABZON,
-    TUNCELI,
-    SANLIURFA,
-    USAK,
-    VAN,
-    YOZGAT,
-    ZONGULDAK,
-    AKSARAY,
-    BAYBURT,
-    KARAMAN,
-    KIRIKKALE,
-    BATMAN,
-    SIRNAK,
-    BARTIN,
-    ARDAHAN,
-    IGDIR,
-    YALOVA,
-    KARABUK,
-    KILIS,
-    OSMANIYE,
-    DUZCE
-}
-enum District {
-
-    MERKEZ(null),
-
-    // ISTANBUL
-    KADIKOY(City.ISTANBUL),
-    BESIKTAS(City.ISTANBUL),
-
-    // ANKARA
-    CANKAYA(City.ANKARA),
-    KECIOREN(City.ANKARA),
-
-    // IZMIR
-    KONAK(City.IZMIR),
-    KARSIYAKA(City.IZMIR),
-
-    // BURSA
-    NILUFER(City.BURSA),
-    OSMANGAZI(City.BURSA),
-
-    // ANTALYA
-    MURATPASA(City.ANTALYA),
-    KEPEZ(City.ANTALYA);
-
-    private final City city;
-
-    District(City city) {
-        this.city = city;
-    }
-
-    public City getCity() {
-        return city;
     }
 }

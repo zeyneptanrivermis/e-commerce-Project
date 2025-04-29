@@ -1,10 +1,12 @@
 package com.example.ecommerce_api.services.Product;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +16,13 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Autowired // Constructor Injection
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    public List<Product> getProductsPaged(int limit, int skip) {
+        Pageable pageable = PageRequest.of(skip / limit, limit);
+        return productRepository.findAll(pageable).getContent();
     }
 
     // Tüm ürünleri getir

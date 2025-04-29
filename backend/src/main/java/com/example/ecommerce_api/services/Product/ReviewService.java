@@ -2,7 +2,6 @@ package com.example.ecommerce_api.services.Product;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
@@ -17,7 +16,6 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
     private final ProductService productService;
-    @Autowired
     public ReviewService(ReviewRepository reviewRepository, ProductRepository productRepository, 
     ProductService productService) {
         this.reviewRepository = reviewRepository;
