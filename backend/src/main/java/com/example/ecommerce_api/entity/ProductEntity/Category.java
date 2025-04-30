@@ -1,6 +1,9 @@
 package com.example.ecommerce_api.entity.ProductEntity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 //enum bitti
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum Category {
     CLOTHING,
     MAKEUP,

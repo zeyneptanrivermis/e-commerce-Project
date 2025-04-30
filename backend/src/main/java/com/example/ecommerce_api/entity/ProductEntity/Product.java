@@ -17,7 +17,7 @@ import jakarta.persistence.Column;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import com.example.ecommerce_api.dto.SellerDTO;
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

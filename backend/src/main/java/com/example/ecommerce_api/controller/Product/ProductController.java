@@ -1,6 +1,7 @@
 package com.example.ecommerce_api.controller.Product;
 
 import com.example.ecommerce_api.dto.ProductDTO;
+import com.example.ecommerce_api.dto.SellerDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.services.Product.ProductService;
 
@@ -20,17 +21,26 @@ public class ProductController {
     }
 
     // 🔵 Tüm ürünleri listele
-    @GetMapping
-    public List<ProductDTO> getAllProducts() {
-        return productService.getAllProducts().stream()
-            .map(product -> new ProductDTO(
-                product.getProductId(),
-                product.getProductName(),
-                product.getPrice(),
-                product.getSeller() != null ? product.getSeller().getEmail() : "unknown"
-            ))
-            .toList();
-    }
+@GetMapping
+public List<ProductDTO> getAllProducts() {
+    return productService.getAllProducts().stream()
+        .map(product -> new ProductDTO(
+            product.getProductId(),
+            product.getProductName(),
+            product.getPrice(),
+            new SellerDTO( // ← doğru şekilde dönüştürüyoruz
+                product.getSeller().getUserId(),
+                product.getSeller().getName(),
+                product.getSeller().getEmail()
+            ),
+            product.getDescription(),
+            product.getAvgRating(),
+            product.getShippingCost(),
+            product.getCategory(),
+            product.getStockCount()
+        ))
+        .toList();
+}
 
 
     // 🔵 ID ile ürün getir
@@ -66,17 +76,28 @@ public class ProductController {
     // 🔵 Tüm ürünleri sayfa sayfa getir (scroll için)
     @GetMapping("/paged")
     public List<ProductDTO> getProductsPaged(
-    @RequestParam(defaultValue = "10") int limit,
-    @RequestParam(defaultValue = "0") int skip) {
+        @RequestParam(defaultValue = "10") int limit,
+        @RequestParam(defaultValue = "0") int skip) {
+        
         return productService.getProductsPaged(limit, skip).stream()
             .map(product -> new ProductDTO(
-                product.getProductId(),
-                product.getProductName(),
-                product.getPrice(),
-                product.getSeller() != null ? product.getSeller().getEmail() : "unknown"
-            ))
+            product.getProductId(),
+            product.getProductName(),
+            product.getPrice(),
+            new SellerDTO(
+                product.getSeller().getUserId(),
+                product.getSeller().getName(),
+                product.getSeller().getEmail()
+            ),
+            product.getDescription(),
+            product.getAvgRating(),
+            product.getShippingCost(),
+            product.getCategory(),
+            product.getStockCount()
+        ))
             .toList();
     }
+    
 
 
 }

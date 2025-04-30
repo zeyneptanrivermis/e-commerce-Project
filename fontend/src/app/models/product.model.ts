@@ -26,11 +26,15 @@ export enum MainCategory {
     name: string;
     description: string;
     price: number;
-    seller: string;
+    seller: Seller;
     mainCategory?: MainCategory;
     sideCategories?: string[]; // ✅ Supports multiple sub-categories
     shippingCost?: number;
     stockCount?: number;
     avgRating?: number;
   }
-  
+  export interface Seller {
+    id: number;
+    name: string;
+    email: string;
+  }

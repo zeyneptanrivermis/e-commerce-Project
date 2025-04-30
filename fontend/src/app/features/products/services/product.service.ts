@@ -18,9 +18,7 @@ export class ProductService {
     );
   }
 
-
   private transformApiProduct(apiProduct: any): Product {
-    // Normalize category from API to match your enum
     const categoryMap: Record<string, MainCategory> = {
       "men's clothing": MainCategory.Clothing,
       "women's clothing": MainCategory.Clothing,
@@ -28,19 +26,28 @@ export class ProductService {
       "hobby products": MainCategory.Hobbies,
       "electronics": MainCategory.Electronics,
     };
-
-    const mappedCategory = categoryMap[apiProduct.category] || MainCategory.Home_and_Kitchen;
-
+  
+    const mappedCategory = categoryMap[apiProduct.mainCategory] || MainCategory.Home_and_Kitchen;
+  
     return {
       id: apiProduct.id,
-      name: apiProduct.title,
-      description: apiProduct.description,
+      name: apiProduct.name,
       price: apiProduct.price,
-      seller: apiProduct.store,
+      description: apiProduct.description,
+      avgRating: apiProduct.avgRating,
+      shippingCost: apiProduct.shippingCost,
+      stockCount: apiProduct.stockCount,
       mainCategory: mappedCategory,
-      sideCategories: SideCategories[mappedCategory].slice(0, 2), // Optional logic
+      sideCategories: SideCategories[mappedCategory].slice(0, 2),
+  
+      seller: {
+        id: apiProduct.seller?.id,
+        name: apiProduct.seller?.name,
+        email: apiProduct.seller?.email,
+      }
     };
   }
+  
 
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
@@ -49,7 +56,11 @@ export class ProductService {
   getPopularProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/popular`);
   }
-
+  
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+  
   //addURL(newURL:string){
   //  this.apiUrl = [...this.apiURLs, newURL];
   //}

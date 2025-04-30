@@ -1,0 +1,96 @@
+.product-details-page {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    background: #F3FFE1;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .product-details-page .product-title {
+    font-size: 2.4rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .product-details-page .product-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  
+  .product-details-page .product-box {
+    flex: 1 1 250px;
+    background-color: #FFECEC;
+    border: 2px solid #FFC2C2;
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(255, 194, 194, 0.3);
+  }
+  
+  .product-details-page .product-box:hover {
+    background-color: #FFC2C2;
+    transform: translateY(-4px);
+  }
+  
+  .product-details-page .product-box h4 {
+    margin-bottom: 0.5rem;
+    color: #444;
+    font-size: 1.1rem;
+  }
+  
+  .product-details-page .product-box p {
+    font-size: 1rem;
+    color: #222;
+  }
+  
+  .product-details-page .category-badge,
+  .product-details-page .subcategory-badge {
+    background-color: #A8DF8E;
+    padding: 6px 12px;
+    margin-right: 8px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .product-details-page .product-actions {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .product-details-page .product-actions button {
+    background-color: #A8DF8E;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .product-details-page .product-actions button:hover {
+    background-color: #90c96f;
+  }
+  .category-badge.clickable {
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .category-badge.clickable:hover {
+    background-color: #90c96f;
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  

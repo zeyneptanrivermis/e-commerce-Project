@@ -2,6 +2,7 @@
   <a [routerLink]="['/products', product.id]" class="product-link">
     <h3>{{ product.name }}</h3>
     <p><strong>Price:</strong> {{ product.price | currency }}</p>
+    <p><strong>{{product.seller}}</strong></p>
   </a>
 
   <p><strong>Main Category:</strong>
