@@ -87,4 +87,14 @@ public class Address {
     public void setDistrict(District district) {
         this.district = district;
     }
+
+    public Address addAddressToUser(Long userId, Address address) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'addAddressToUser'");
+    }
+
+    public Object getAddressesByUserId(Long userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAddressesByUserId'");
+    }
 }
