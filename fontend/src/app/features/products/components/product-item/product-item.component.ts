@@ -12,11 +12,11 @@ import { PopularityService } from '../../services/popular-products/product-popul
 export class ProductItemComponent {
 
   @Input() product!: Product;
-  @Output() add = new EventEmitter<Product>();
+  @Output() add  = new EventEmitter<Product>();
   private productPopularity: number= 0;
 
   constructor(private popularity: PopularityService, private authguard: AuthGuard){}
-  
+
   onAdd() {
     this.add.emit(this.product);
     this.popularity.increment(this.productPopularity);
