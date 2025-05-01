@@ -24,7 +24,7 @@ export class WishlistComponent implements OnInit {
 
   loadWishlist(): void {
     const user = this.authService.getCurrentUser();
-    this.wishlistService.getWishlist(user.id).subscribe({
+    this.wishlistService.getWishlist().subscribe({
       next: (products) => {
         this.wishlist = products;
       },
@@ -36,7 +36,7 @@ export class WishlistComponent implements OnInit {
 
   removeFromWishlist(productId: number): void {
     const user = this.authService.getCurrentUser();
-    this.wishlistService.removeFromWishlist(user.id, productId).subscribe({
+    this.wishlistService.removeFromWishlist(user!.userId, productId).subscribe({
       next: () => {
         this.wishlist = this.wishlist.filter(p => p.id !== productId);
       },

@@ -44,7 +44,8 @@ export class ProductService {
         id: apiProduct.seller?.id,
         name: apiProduct.seller?.name,
         email: apiProduct.seller?.email,
-      }
+      },
+      reviews: apiProduct.reviews
     };
   }
   

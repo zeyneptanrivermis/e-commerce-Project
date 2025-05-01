@@ -1,7 +1,7 @@
+import { WishlistService } from './../services/wishlist.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserService } from '../services/user.service';
-import { WishlistService } from '../services/wishlist.service';
 import { Product } from '../../../models/product.model';
 import { User } from '../../../models/user.model';
 import { Router } from '@angular/router';
@@ -34,9 +34,11 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadUserInfo();
-    this.loadWishlist();
-    this.initializeForm();
+      setTimeout(() => {
+        this.loadUserInfo();
+        this.loadWishlist();
+        this.initializeForm();
+      }, 50);
   }
 
   initializeForm(): void {
@@ -71,18 +73,16 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadWishlist(): void {
-    const user = this.authService.getCurrentUser();
-    if (user && user.wishListId) {
-      this.wishlistService.getWishlist(user.wishListId).subscribe({
-        next: (data) => {
-          this.wishlist = data;
-        },
-        error: (error) => {
-          console.error('Error loading wishlist', error);
-        }
-      });
-    }
+    this.wishlistService.getWishlist().subscribe({
+      next: (products) => {
+        this.wishlist = products;
+      },
+      error: (err) => {
+        console.error('Wishlist yüklenirken hata oluştu', err);
+      }
+    });
   }
+  
 
   toggleEdit(field: string): void {
     if (!this.currentUser) return;
@@ -137,7 +137,7 @@ export class UserProfileComponent implements OnInit {
 
   addToWishlist(product: Product): void {
     if (this.currentUser) {
-      this.wishlistService.addToWishlist(this.currentUser.id, product.id).subscribe({
+      this.wishlistService.addToWishlist( product.id).subscribe({
         next: () => {
           this.loadWishlist();
         },
@@ -150,7 +150,7 @@ export class UserProfileComponent implements OnInit {
 
   removeFromWishlist(product: Product): void {
     if (this.currentUser) {
-      this.wishlistService.removeFromWishlist(this.currentUser.id, product.id).subscribe({
+      this.wishlistService.removeFromWishlist(this.currentUser.userId, product.id).subscribe({
         next: () => {
           this.loadWishlist();
         },

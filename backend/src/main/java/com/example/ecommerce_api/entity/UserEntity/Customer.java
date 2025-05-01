@@ -29,7 +29,7 @@ public class Customer extends User {
     @ManyToMany
     @JoinTable(
         name = "wishlist",
-        joinColumns = @JoinColumn(name = "customer_id"),
+        joinColumns = @JoinColumn(name = "user_şd"),
         inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> wishlist = new HashSet<>();

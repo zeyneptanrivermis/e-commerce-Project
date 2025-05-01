@@ -12,6 +12,38 @@
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+.product-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.product-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.wishlist-button {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.wishlist-button .filled {
+  color: #e74c3c; /* Dolu kalp kırmızı */
+}
+
+.wishlist-button:hover {
+  color: #e74c3c;
+}
+
+
 
 .product-link {
   text-decoration: none;

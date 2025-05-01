@@ -93,4 +93,67 @@
     transform: scale(1.05);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }
-  
+
+  /* Review alanı için dış kutu */
+.review-section {
+  background-color: #F3FFE1;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  margin: 3rem auto;
+  max-width: 1200px;
+}
+
+/* Başlık */
+.review-section .review-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #444;
+  text-align: center;
+}
+
+/* Her bir yorum kutusu */
+.review-section .review-box {
+  background-color: #FFECEC;
+  border: 2px solid #FFC2C2;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(255, 194, 194, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.review-section .review-box:hover {
+  background-color: #FFDADA;
+}
+
+.review-section .review-box p {
+  margin: 0.4rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.review-section .review-box p strong {
+  color: #C94F4F;
+  font-weight: bold;
+}
+
+/* Düzenlenmiş etiketi */
+.review-section .edited-label {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* Hiç yorum yoksa */
+.review-section .no-reviews-message {
+  background-color: #f8fff1;
+  border: 1px dashed #c9e7b8;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #6b8e23;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+}

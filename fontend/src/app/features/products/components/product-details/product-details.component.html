@@ -1,3 +1,4 @@
+<div *ngIf="product">
 <div *ngIf="product" class="product-details-page">
     <h2 class="product-title">{{ product.name }}</h2>
   
@@ -57,4 +58,21 @@
       <button (click)="addToCart()">Sepete Ekle</button>
     </div>
   </div>
-  
+
+  <div class="review-section">
+    <h2 class="review-title">Reviews</h2>
+
+    <div *ngIf="product.reviews && product.reviews.length > 0; else noReviews">
+      <div class="review-box" *ngFor="let review of product.reviews">
+        <p><strong>{{ review.customerName }}</strong></p>
+        <p>Puan: {{ review.rating }} / 5</p>
+        <p>{{ review.comment }}</p>
+        <p *ngIf="review.edited" class="edited-label">(Düzenlenmiş)</p>
+      </div>
+    </div>
+
+    <ng-template #noReviews>
+      <p class="no-reviews-message">There are no reviews yet.</p>
+    </ng-template>
+  </div>
+</div>

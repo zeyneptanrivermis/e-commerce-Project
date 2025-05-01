@@ -1,10 +1,14 @@
 package com.example.ecommerce_api.controller.Product;
 
 import com.example.ecommerce_api.dto.ProductDTO;
+import com.example.ecommerce_api.dto.ReviewDTO;
 import com.example.ecommerce_api.dto.SellerDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +19,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private ProductRepository productRepository;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
+        this.productRepository=productRepository;
     }
 
     // 🔵 Tüm ürünleri listele
@@ -37,7 +43,11 @@ public List<ProductDTO> getAllProducts() {
             product.getAvgRating(),
             product.getShippingCost(),
             product.getCategory(),
-            product.getStockCount()
+            product.getStockCount(),
+            product.getReviews()
+            .stream()
+            .map(ReviewDTO::new)  // 💥 asıl düzeltme burada
+            .toList()
         ))
         .toList();
 }
@@ -45,9 +55,12 @@ public List<ProductDTO> getAllProducts() {
 
     // 🔵 ID ile ürün getir
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+        return ResponseEntity.ok(new ProductDTO(product));
     }
+
 
     // 🔵 Yeni ürün oluştur
     @PostMapping
@@ -81,23 +94,26 @@ public List<ProductDTO> getAllProducts() {
         
         return productService.getProductsPaged(limit, skip).stream()
             .map(product -> new ProductDTO(
-            product.getProductId(),
-            product.getProductName(),
-            product.getPrice(),
-            new SellerDTO(
-                product.getSeller().getUserId(),
-                product.getSeller().getName(),
-                product.getSeller().getEmail()
-            ),
-            product.getDescription(),
-            product.getAvgRating(),
-            product.getShippingCost(),
-            product.getCategory(),
-            product.getStockCount()
-        ))
+                product.getProductId(),
+                product.getProductName(),
+                product.getPrice(),
+                new SellerDTO( // ← doğru şekilde dönüştürüyoruz
+                    product.getSeller().getUserId(),
+                    product.getSeller().getName(),
+                    product.getSeller().getEmail()
+                ),
+                product.getDescription(),
+                product.getAvgRating(),
+                product.getShippingCost(),
+                product.getCategory(),
+                product.getStockCount(),
+                product.getReviews()
+                .stream()
+                .map(ReviewDTO::new)  // 💥 asıl düzeltme burada
+                .toList()
+            ))
             .toList();
     }
-    
 
 
 }

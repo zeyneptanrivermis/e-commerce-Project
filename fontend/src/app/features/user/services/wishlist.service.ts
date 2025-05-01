@@ -8,16 +8,16 @@ import { Observable } from 'rxjs';
 })
 export class WishlistService {
 
-  private apiUrl = 'http://localhost:8080/api/wishlist';
+  private apiUrl = 'http://localhost:8080/api/user/wishlist';
 
   constructor(private http: HttpClient) {}
 
-  getWishlist(customerId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/${customerId}`);
+  getWishlist(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
   }
 
-  addToWishlist(customerId: number, productId: number): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/${customerId}/add/${productId}`, {});
+  addToWishlist(productId: number): Observable<void> {
+    return this.http.post<void>(this.apiUrl, { productId });
   }
 
   removeFromWishlist(customerId: number, productId: number): Observable<void> {

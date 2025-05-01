@@ -1,9 +1,15 @@
 <div class="product-item">
-  <a [routerLink]="['/products', product.id]" class="product-link">
-    <h3>{{ product.name }}</h3>
-    <p><strong>Price:</strong> {{ product.price | currency }}</p>
-    <p><strong>{{product.seller}}</strong></p>
-  </a>
+  <div class="product-header">
+    <h3 class="product-title">
+      <a [routerLink]="['/products', product.id]" class="product-link">{{ product.name }}</a>
+    </h3>
+    <button class="wishlist-button" (click)="onToggleWishlist()">
+      <span [class.filled]="isInWishlist">❤</span>
+    </button>
+  </div>
+
+  <p><strong>Price:</strong> {{ product.price | currency }}</p>
+  <p><strong>{{product.seller.name}}</strong></p>
 
   <p><strong>Main Category:</strong>
     <a [routerLink]="['/products']" [queryParams]="{ category: product.mainCategory }" class="category-button">
@@ -14,9 +20,7 @@
   <p>
     <ng-container *ngIf="product.sideCategories && product.sideCategories.length > 0">
       <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">
-        <a [routerLink]="['/products']"
-           [queryParams]="{ category: sideCategory }"
-           class="category-button">
+        <a [routerLink]="['/products']" [queryParams]="{ category: sideCategory }" class="category-button">
           {{ sideCategory }}
         </a><span *ngIf="!last">, </span>
       </ng-container>

@@ -1,3 +1,5 @@
+import { Review } from "./Review.model";
+
 export enum MainCategory {
     Clothing = 'Clothing',
     Makeup = 'Makeup',
@@ -32,6 +34,7 @@ export enum MainCategory {
     shippingCost?: number;
     stockCount?: number;
     avgRating?: number;
+    reviews: Review[]; // 💥 ürünle birlikte gelir
   }
   export interface Seller {
     id: number;

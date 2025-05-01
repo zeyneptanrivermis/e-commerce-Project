@@ -1,23 +1,37 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../features/auth/services/auth.service';
+// src/app/core/interceptors/auth.interceptor.ts
+import {
+  HttpInterceptorFn,
+  HttpRequest,
+  HttpHandlerFn
+} from '@angular/common/http';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { TokenService } from '../services/token.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export const authInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+) => {
+  const tokenService = inject(TokenService);
+  const platformId = inject(PLATFORM_ID);
 
-  constructor(private authService: AuthService) {}
+  console.log('✅ AuthInterceptor (function) çalıştı!');
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();  // Token'ı AuthService'den alıyoruz
+  if (isPlatformBrowser(platformId)) {
+    const token = tokenService.getToken();
+    console.log('Token from TokenService (client):', token);
+
     if (token) {
-      request = request.clone({
+      const authReq = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`  // Token'ı Authorization header'ına ekliyoruz
+          Authorization: `Bearer ${token}`
         }
       });
+      return next(authReq);
     }
-
-    return next.handle(request);  // request'i devam ettiriyoruz
+  } else {
+    console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
   }
-}
+
+  return next(req);
+};
