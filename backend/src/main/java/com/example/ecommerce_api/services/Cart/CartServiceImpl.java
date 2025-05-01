@@ -34,15 +34,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addToCart(Long customerId, Long productId, int quantity) {
-        User user = userRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!(user instanceof Customer customer)) {
-            throw new RuntimeException("User is not a customer");
-        }
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        Customer customer = getCustomerById(customerId);
+        Product product = getProductById(productId);
 
         Cart cart = cartRepository.findByCustomer(customer)
                 .orElseGet(() -> {
@@ -51,46 +44,33 @@ public class CartServiceImpl implements CartService {
                     return cartRepository.save(newCart);
                 });
 
-        List<CartItem> existingItems = cartItemRepository.findByCart(cart);
-        for (CartItem item : existingItems) {
-            if (item.getProduct().getProductId().equals(productId)) {
-                item.setQuantity(item.getQuantity() + quantity);
-                cartItemRepository.save(item);
-                return;
-            }
-        }
-
-        CartItem cartItem = new CartItem(product, quantity);
-        cartItem.setCart(cart);
-        cartItemRepository.save(cartItem);
+        cartItemRepository.findByCart(cart).stream()
+            .filter(item -> item.getProduct().getProductId().equals(productId))
+            .findFirst()
+            .ifPresentOrElse(existingItem -> {
+                existingItem.setQuantity(existingItem.getQuantity() + quantity);
+                cartItemRepository.save(existingItem);
+            }, () -> {
+                CartItem cartItem = new CartItem(product, quantity);
+                cartItem.setCart(cart);
+                cartItemRepository.save(cartItem);
+            });
     }
 
     @Override
     public void removeFromCart(Long customerId, Long productId) {
-        User user = userRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!(user instanceof Customer customer)) {
-            throw new RuntimeException("User is not a customer");
-        }
+        Customer customer = getCustomerById(customerId);
+        Product product = getProductById(productId);
 
         Cart cart = cartRepository.findByCustomer(customer)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
 
         cartItemRepository.deleteByCartAndProduct(cart, product);
     }
 
     @Override
     public List<CartItem> listCartItems(Long customerId) {
-        User user = userRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!(user instanceof Customer customer)) {
-            throw new RuntimeException("User is not a customer");
-        }
+        Customer customer = getCustomerById(customerId);
 
         Cart cart = cartRepository.findByCustomer(customer)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
@@ -100,9 +80,41 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public double getCartTotal(Long customerId) {
-        List<CartItem> items = listCartItems(customerId);
-        return items.stream()
+        return listCartItems(customerId).stream()
                 .mapToDouble(CartItem::getTotalPrice)
                 .sum();
+    }
+
+    // -------------------- YARDIMCI METODLAR --------------------
+
+    private Customer getCustomerById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!(user instanceof Customer customer)) {
+            throw new RuntimeException("User is not a customer");
+        }
+
+        return customer;
+    }
+
+    private Product getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    @Override
+    public void updateQuantity(Long customerId, Long productId, int quantity) {
+        Customer customer = getCustomerById(customerId);
+        Product product = getProductById(productId);
+    
+        Cart cart = cartRepository.findByCustomer(customer)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+    
+        CartItem cartItem = cartItemRepository.findByCartAndProduct(cart, product)
+                .orElseThrow(() -> new RuntimeException("Product not found in cart"));
+    
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
     }
 }

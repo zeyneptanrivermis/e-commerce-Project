@@ -5,8 +5,14 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface CartItem {
-  product: Product;
+  cartItemId: number;
   quantity: number;
+  totalPrice: number;
+  product: {
+    productId: number;
+    name: string;
+    price: number;
+  };
 }
 
 @Injectable({
@@ -26,20 +32,19 @@ export class CartService {
     });
   }
 
-  // Sepete ürün ekleme
-  addToCart(productId: number, quantity: number): Observable<string> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams()
-      .set('productId', productId.toString())
-      .set('quantity', quantity.toString());
 
-    return this.http.post<string>(`${this.apiUrl}/add`, null, {
-      headers: headers,
-      params: params
-    }).pipe(
+  // Sepete ürün ekleme
+  // Sepete ürün ekleme (Authorization header eklendi)
+  addToCart(productId: number, quantity: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post(`${this.apiUrl}/add`, {
+      productId: productId,
+      quantity: quantity
+    }, { headers }).pipe(
       catchError(this.handleError)
     );
   }
+
 
   // Sepetten ürün silme
   removeFromCart(productId: number): Observable<string> {
@@ -74,5 +79,19 @@ export class CartService {
   private handleError(error: any): Observable<never> {
     console.error('Error occurred:', error);
     throw error;
+  }
+
+  updateQuantity(productId: number, quantity: number): Observable<string> {
+    const headers = this.getAuthHeaders();
+    const params = new HttpParams()
+      .set('productId', productId)
+      .set('quantity', quantity);
+
+    return this.http.put<string>(`${this.apiUrl}/update`, null, {
+      headers,
+      params
+    }).pipe(
+      catchError(this.handleError)
+    );
   }
 }

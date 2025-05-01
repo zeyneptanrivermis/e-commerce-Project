@@ -1,17 +1,37 @@
 <div class="cart-container">
   <h2>Sepetim</h2>
 
-  <div *ngIf="cartItems.length === 0">
-    Sepetiniz boş.
+  <!-- Sepet boşsa -->
+  <div *ngIf="cartItems && cartItems.length === 0" class="empty-cart">
+    <p>Sepetiniz boş.</p>
+    <button (click)="goToProducts()">Alışverişe Başla</button>
   </div>
 
-  <div *ngFor="let item of cartItems" class="cart-item">
-    <p>{{ item.product.name }} - {{ item.quantity }} adet</p>
-    <p>Toplam: {{ totalPrice | currency:'TRY' }}</p>
-    <button (click)="removeItem(item.product.id)">Sil</button>
-  </div>
+  <!-- Sepette ürün varsa -->
+  <div *ngIf="cartItems && cartItems.length > 0">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <div class="item-details">
+        <p><strong>{{ item.product.name }}</strong></p>
 
-  <div class="cart-total" *ngIf="cartItems.length > 0">
-    <h3>Toplam Tutar: {{ totalPrice | currency:'TRY' }}</h3>
+        <!-- Miktar kontrol -->
+        <div class="quantity-controls">
+          <button (click)="decreaseQuantity(item)">−</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="increaseQuantity(item)">+</button>
+        </div>
+
+        <!-- Fiyat bilgisi -->
+        <p>Ürün Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
+      </div>
+
+      <!-- Silme butonu -->
+      <button class="delete-btn" (click)="removeItem(item.product.productId)">Sil</button>
+    </div>
+
+    <!-- Toplam tutar ve sipariş -->
+    <div class="cart-total">
+      <h3>Toplam Tutar: {{ totalPrice | currency:'TRY' }}</h3>
+      <button class="checkout-btn" (click)="checkout()">Siparişi Tamamla</button>
+    </div>
   </div>
 </div>

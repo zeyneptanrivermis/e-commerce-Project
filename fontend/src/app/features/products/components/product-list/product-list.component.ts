@@ -118,7 +118,10 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   }
 
   addToCart(product: Product) {
-    this.cartService.addToCart(product.id, 1).subscribe(() => {});
+    this.cartService.addToCart(product.id, 1).subscribe({
+      next: () => alert('✅ Ürün sepete eklendi'),
+      error: err => console.error('❌ Sepete eklenemedi:', err)
+    });
   }
 
   filterByCategory(category: MainCategory | keyof typeof SideCategories | 'All') {

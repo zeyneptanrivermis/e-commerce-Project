@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { AuthModule } from './features/auth/auth.module';
 //import { ProductsComponent } from './features/products/pages/products/products.component';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { UserComponent } from './features/user/user/user.component';
 import { UserModule } from './features/user/user.module';
 
@@ -24,6 +24,7 @@ import { UserModule } from './features/user/user.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ReactiveFormsModule,
     // Uygulama modülleri
     AuthModule,
@@ -34,7 +35,7 @@ import { UserModule } from './features/user/user.module';
     UserModule
   ],
   providers: [
-    
+
     provideClientHydration(withEventReplay()),
     provideHttpClient()
   ],
