@@ -13,7 +13,7 @@ import com.example.ecommerce_api.repository.OrderRepository.OrderItemRepository;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
 import com.example.ecommerce_api.repository.OrderRepository.ShippingRepository;
-import com.example.ecommerce_api.repository.UserRepository.UserRepository;
+import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

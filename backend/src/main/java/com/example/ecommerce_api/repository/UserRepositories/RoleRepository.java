@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.repository.UserRepository;
+package com.example.ecommerce_api.repository.UserRepositories;
 
 import java.util.Optional;
 

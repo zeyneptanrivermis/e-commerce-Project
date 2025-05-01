@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.example.ecommerce_api.entity.UserEntity.*;
-import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
-import com.example.ecommerce_api.repository.UserRepository.UserRepository;
+import com.example.ecommerce_api.repository.UserRepositories.RoleRepository;
+import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.security.JwtUtil;
 
 import java.util.Collections;

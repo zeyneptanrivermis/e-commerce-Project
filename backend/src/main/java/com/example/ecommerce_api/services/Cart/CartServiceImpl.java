@@ -8,7 +8,7 @@ import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.CartRepository.CartItemRepository;
 import com.example.ecommerce_api.repository.CartRepository.CartRepository;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
-import com.example.ecommerce_api.repository.UserRepository.UserRepository;
+import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

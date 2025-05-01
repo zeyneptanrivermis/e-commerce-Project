@@ -1,16 +1,14 @@
+import { TokenService } from './../../../core/services/token.service';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Product } from '../../../models/product.model';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class WishlistService {
+  private apiUrl = 'http://localhost:8080/api/user/wishlist'; // ✅ doğru URL
 
-  private apiUrl = 'http://localhost:8080/api/user/wishlist';
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   getWishlist(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
@@ -20,7 +18,17 @@ export class WishlistService {
     return this.http.post<void>(this.apiUrl, { productId });
   }
 
-  removeFromWishlist(customerId: number, productId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${customerId}/remove/${productId}`);
+  // src/app/features/user/services/wishlist.service.ts
+
+  removeFromWishlist(productId: number): Observable<void> {
+    return this.http.request<void>('DELETE', this.apiUrl, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.tokenService.getToken()}`
+      }),
+      body: { productId }
+    });
   }
+  
+
 }

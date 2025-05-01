@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
-import com.example.ecommerce_api.repository.UserRepository.UserRepository;
+import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.security.CustomerDetails;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
