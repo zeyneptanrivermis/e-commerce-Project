@@ -1,0 +1,33 @@
+<h3>My addresses</h3>
+
+<div *ngIf="addresses.length > 0; else noAddress">
+  <ul>
+    <li *ngFor="let address of addresses">
+      {{ address.country }}, {{ address.city }}, {{ address.district }}
+    </li>
+  </ul>
+</div>
+<ng-template #noAddress>
+  <p>No saved addresses.</p>
+</ng-template>
+
+<hr>
+
+<h4>Add address:</h4>
+<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+
+    <label for="city">City:</label>
+    <select id="city" formControlName="city">
+      <option value="">Select a city</option>
+      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+    </select>
+    
+    <label for="district">District:</label>
+    <select id="district" formControlName="district">
+      <option value="">Select a district</option>
+      <option *ngFor="let district of filteredDistricts" [value]="district">{{ district }}</option>
+    </select>
+    
+  
+    <button type="submit" [disabled]="addressForm.invalid">Save</button>
+  </form>

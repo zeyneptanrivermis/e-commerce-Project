@@ -1,11 +1,10 @@
 package com.example.ecommerce_api.dto;
 
 
-import java.util.Set;
-import java.util.concurrent.atomic.LongAdder;
+import java.util.List;
 
 import com.example.ecommerce_api.entity.ProductEntity.Category;
-import com.example.ecommerce_api.entity.UserEntity.Seller;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 public class ProductDTO {
     private Long id;
@@ -18,10 +17,11 @@ public class ProductDTO {
     private int stockCount;
 
     private SellerDTO seller;
+    private List<ReviewDTO> reviews;
 
     public ProductDTO(Long id, String name, double price, SellerDTO seller, String description,
                       double avgRating, double shippingCost,
-                      Category mainCategory, int stockCount) {
+                      Category mainCategory, int stockCount, List<ReviewDTO> reviews) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -31,8 +31,29 @@ public class ProductDTO {
         this.shippingCost = shippingCost;
         this.mainCategory = mainCategory;
         this.stockCount = stockCount;
+        this.reviews=reviews;
     }
     
+    public ProductDTO(Product product) {
+        this.id = product.getProductId();
+        this.name = product.getProductName();
+        this.price = product.getPrice();
+        this.description = product.getDescription();
+        this.avgRating = product.getAvgRating();
+        this.shippingCost = product.getShippingCost();
+        this.mainCategory = product.getCategory();
+        this.stockCount = product.getStockCount();
+
+        this.seller = new SellerDTO(
+            product.getSeller().getUserId(),
+            product.getSeller().getName(),
+            product.getSeller().getEmail()
+        );
+
+        this.reviews = product.getReviews().stream()
+            .map(ReviewDTO::new)
+            .toList();
+    }
 
     // Getter ve Setter'lar
 
@@ -103,5 +124,11 @@ public class ProductDTO {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 }

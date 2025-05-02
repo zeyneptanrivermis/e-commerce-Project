@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class AuthService {
   private readonly API_URL = 'http://localhost:8080/api/auth'; // Backend Auth Endpoint
   private readonly TOKEN_KEY = 'token'; // JWT token key
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   login(email: string, password: string): Observable<any> {
     const loginData = { email, password };
@@ -25,22 +27,36 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(this.TOKEN_KEY);
-    } else {
-      return null;  // Return null if localStorage is not available
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token');
     }
+    return null;
   }
 
-  // Manually decode JWT
-  getCurrentUser(): any {
-    const token = this.getToken();
-    if (token) {
-      return decodeJWT(token); // Decode edilen token'dan kullanıcı bilgisini al
-    } else {
+
+
+  getCurrentUser(): User | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
+
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+  userId: payload.userId,
+  name: payload.name,
+  surname: payload.surname,
+  email: payload.email,
+  birthday: payload.birthday,
+  wishListId: payload.wishListId
+};
+    } catch (e) {
+      console.error('❌ Token parse hatası:', e);
       return null;
     }
   }
+   
 
   isLoggedIn(): boolean {
     const token = this.getToken();

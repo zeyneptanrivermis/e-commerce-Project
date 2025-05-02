@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { WishlistService } from '../services/wishlist.service';
 import { Product } from '../../../models/product.model';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TokenService } from '../../../core/services/token.service';
 
 @Component({
   selector: 'app-wishlist',
@@ -11,20 +13,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./wishlist.component.css'],
   standalone:false
 })
+
 export class WishlistComponent implements OnInit {
 
   currentUser: User | null= null;
   wishlist: Product[] = [];
 
-  constructor(private authService :AuthService, private wishlistService: WishlistService, private router: Router) {}
+  constructor(private authService :AuthService, private wishlistService: WishlistService, 
+    private router: Router, private tokenService: TokenService) {}
 
   ngOnInit(): void {
     this.loadWishlist();
   }
 
   loadWishlist(): void {
-    const user = this.authService.getCurrentUser();
-    this.wishlistService.getWishlist(user.id).subscribe({
+    this.wishlistService.getWishlist().subscribe({
       next: (products) => {
         this.wishlist = products;
       },
@@ -35,17 +38,13 @@ export class WishlistComponent implements OnInit {
   }
 
   removeFromWishlist(productId: number): void {
-    const user = this.authService.getCurrentUser();
-    this.wishlistService.removeFromWishlist(user.id, productId).subscribe({
-      next: () => {
-        this.wishlist = this.wishlist.filter(p => p.id !== productId);
-      },
-      error: (err) => {
-        console.error('Ürün silinirken hata oluştu', err);
-      }
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: () => this.loadWishlist(),
+      error: (err) => console.error('Hata oluştu:', err)
     });
   }
-
+  
+  
   redirect(){
     this.router.navigate(["/products"]);
   }

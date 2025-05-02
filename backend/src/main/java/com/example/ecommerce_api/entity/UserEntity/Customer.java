@@ -9,6 +9,7 @@ import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
@@ -26,7 +27,7 @@ public class Customer extends User {
 
     private String wishListId = UUID.randomUUID().toString();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "wishlist",
         joinColumns = @JoinColumn(name = "customer_id"),

@@ -8,6 +8,8 @@ import { CartModule } from '../cart/cart.module';
 import { RouterModule } from '@angular/router';
 import { UserRoutingModule } from './user.routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddressModule } from '../address/address.module';
+import { AddressComponent } from '../address/address-component/address.component';
 
 
 @NgModule({
@@ -15,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     WishlistComponent,
     UserComponent,
     UserProfileComponent,
+    AddressComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RouterModule,
     UserRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class UserModule { }

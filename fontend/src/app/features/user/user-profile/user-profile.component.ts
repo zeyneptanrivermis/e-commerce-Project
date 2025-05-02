@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { WishlistService } from './../services/wishlist.service';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserService } from '../services/user.service';
-import { WishlistService } from '../services/wishlist.service';
 import { Product } from '../../../models/product.model';
 import { User } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,15 +31,19 @@ export class UserProfileComponent implements OnInit {
     private userService: UserService,
     private wishlistService: WishlistService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
-    this.loadUserInfo();
-    this.loadWishlist();
     this.initializeForm();
+  
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadUserInfo();
+      this.loadWishlist();
+    }
   }
-
+  
   initializeForm(): void {
     this.profileForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -71,18 +76,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadWishlist(): void {
-    const user = this.authService.getCurrentUser();
-    if (user && user.wishListId) {
-      this.wishlistService.getWishlist(user.wishListId).subscribe({
-        next: (data) => {
-          this.wishlist = data;
-        },
-        error: (error) => {
-          console.error('Error loading wishlist', error);
-        }
-      });
-    }
+    this.wishlistService.getWishlist().subscribe({
+      next: (products) => {
+        this.wishlist = products;
+        console.log('✅ Wishlist yüklendi:', products);
+      },
+      error: (err) => {
+        console.error('❌ Wishlist yüklenirken hata oluştu:', err);
+      }
+    });
   }
+  
+  
 
   toggleEdit(field: string): void {
     if (!this.currentUser) return;
@@ -134,31 +139,12 @@ export class UserProfileComponent implements OnInit {
       }
     });
   }
-
-  addToWishlist(product: Product): void {
-    if (this.currentUser) {
-      this.wishlistService.addToWishlist(this.currentUser.id, product.id).subscribe({
-        next: () => {
-          this.loadWishlist();
-        },
-        error: (error) => {
-          console.error('Error adding to wishlist', error);
-        }
-      });
-    }
-  }
-
+  
   removeFromWishlist(product: Product): void {
-    if (this.currentUser) {
-      this.wishlistService.removeFromWishlist(this.currentUser.id, product.id).subscribe({
-        next: () => {
-          this.loadWishlist();
-        },
-        error: (error) => {
-          console.error('Error removing from wishlist', error);
-        }
-      });
-    }
+    this.wishlistService.removeFromWishlist(product.id).subscribe({
+      next: () => this.loadWishlist(),
+      error: (error) => console.error('Error removing from wishlist', error)
+    });
   }
 
   redirect(): void {

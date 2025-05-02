@@ -37,7 +37,7 @@
 
   <!-- Name -->
   <div class="info-row">
-    <strong>Name:</strong> 
+    <strong>Name:</strong>
     <span *ngIf="!editName">{{ currentUser?.name }}</span>
 
     <div *ngIf="editName">
@@ -68,4 +68,8 @@
       {{ editSurname ? 'save' : 'edit' }}
     </button>
   </div>
+
+  <app-address *ngIf="currentUser" [userId]="currentUser.userId"></app-address>
+
+
 </form>
