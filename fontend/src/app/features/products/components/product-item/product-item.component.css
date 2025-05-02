@@ -1,17 +1,24 @@
 .product-item {
-  width: calc(20% - 20px); /* 5 item x %20, araya boşluklar için küçük eksiltme */
-  min-width: 200px; /* responsive çökmesini engellemek için */
+  width: calc(20% - 20px);
+  min-width: 200px;
   height: 340px;
   padding: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  background-color: #faf8f4;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #dfe6e9;
+  border-radius: 12px;
+  background-color: #F3FDE8; /* açık yeşilimsi arka plan */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.product-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* Üst kısım */
 .product-header {
   display: flex;
   align-items: center;
@@ -22,10 +29,11 @@
 .product-title {
   font-size: 1.1rem;
   font-weight: bold;
+  color: #2c3e50;
   margin: 0;
-  color: #333;
 }
 
+/* Favori butonu */
 .wishlist-button {
   background: none;
   border: none;
@@ -36,41 +44,54 @@
 }
 
 .wishlist-button .filled {
-  color: #e74c3c; /* Dolu kalp kırmızı */
+  color: #FFBFBF; /* Kalp kırmızımsı pembe */
 }
 
 .wishlist-button:hover {
-  color: #e74c3c;
+  color: #FFBFBF;
 }
 
-
-
+/* Tıklanabilir ürün kutusu */
 .product-link {
   text-decoration: none;
   color: inherit;
   display: block;
 }
 
-.product-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
+/* Kategori butonu */
 .category-button {
   display: inline-block;
   padding: 6px 14px;
   margin-top: 12px;
-  background-color: #6c7bd3;
-  color: #fff;
+  background-color: #A8DF8E; /* yeşil ton */
+  color: white;
   border: none;
   border-radius: 6px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .category-button:hover {
-  background-color: #5a6bc1;
+  background-color: #94c97d;
+  transform: scale(1.05);
+}
+
+.add-to-cart-btn {
+  background-color: #FFE5E5; /* Açık pembe */
+  color: #d63031;            /* Kırmızımsı yazı tonu */
+  border: 1px solid #FFBFBF; /* Pembe sınır */
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #FFBFBF;
+  color: white;
   transform: scale(1.05);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cart")
@@ -21,11 +22,10 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@RequestBody CartItemDTO request, Principal principal) {
+    public ResponseEntity<Map<String, String>> addToCart(@RequestBody CartItemDTO request, Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
         cartService.addToCart(customerId, request.getProductId(), request.getQuantity());
-        return ResponseEntity.ok("Product added to cart successfully.");
-    }
+        return ResponseEntity.ok(Map.of("message", "Product added to cart successfully."));    }
 
     @GetMapping("/items")
     public ResponseEntity<List<CartItemDTO>> listCartItems(Principal principal) {
@@ -64,11 +64,11 @@ public class CartController {
 
 
     @DeleteMapping("/remove")
-    public ResponseEntity<String> removeFromCart(@RequestParam Long productId, 
+    public ResponseEntity<Map<String, String>> removeFromCart(@RequestParam Long productId, 
                                                  Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
         cartService.removeFromCart(customerId, productId);
-        return ResponseEntity.ok("Product removed from cart successfully.");
+        return ResponseEntity.ok(Map.of("message", "Product removed from cart successfully."));
     }
 
     @GetMapping("/total")

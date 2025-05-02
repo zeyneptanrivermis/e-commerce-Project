@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px;
-  background-color: #f7f7f7;
+  background-color: #F3FDE8; /* Açık yeşil pastel */
 }
 
 .logo img {
@@ -16,7 +16,8 @@
   margin: 0 30px;
   padding: 8px 12px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #A8DF8E;
+  background-color: white;
 }
 
 .right-links a {
@@ -24,6 +25,10 @@
   text-decoration: none;
   color: #333;
   font-size: 14px;
+  transition: color 0.3s ease;
+}
+.right-links a:hover {
+  color: #A8DF8E;
 }
 
 .bottom-navbar {
@@ -31,18 +36,19 @@
   align-items: center;
   padding: 10px 30px;
   background-color: white;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   position: relative;
 }
 
 .menu-toggle {
   cursor: pointer;
   font-weight: bold;
+  color: #A8DF8E;
 }
 
 .label {
-  background: #c00;
+  background: #FFBFBF;
   color: white;
   font-size: 10px;
   padding: 2px 6px;
@@ -53,8 +59,11 @@
 .quick-links a {
   margin-left: 20px;
   text-decoration: none;
-  color: black;
+  color: #333;
   font-weight: 500;
+}
+.quick-links a:hover {
+  color: #FFBFBF;
 }
 
 .mega-menu {
@@ -63,7 +72,7 @@
   top: 100%;
   left: 0;
   width: 100%;
-  background: white;
+  background: #FFE5E5;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   z-index: 100;
   display: flex;
@@ -71,24 +80,14 @@
 
 .left-pane {
   width: 200px;
-  background: #f8f8f8;
+  background: #F3FDE8;
   padding: 10px;
   display: none;
 }
 
-.left-pane ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.left-pane li {
-  padding: 10px;
-  cursor: pointer;
-}
-
 .left-pane li:hover {
-  background: #eee;
+  background: #A8DF8E;
+  color: white;
 }
 
 .right-pane {
@@ -97,20 +96,20 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  background-color: white;
 }
 
 .right-pane h4 {
   margin-bottom: 10px;
   font-size: 16px;
-}
-
-.right-pane ul {
-  list-style: none;
-  padding: 0;
+  color: #A8DF8E;
 }
 
 .right-pane ul li {
   margin-bottom: 6px;
   font-size: 14px;
   cursor: pointer;
+}
+.right-pane ul li:hover {
+  color: #FFBFBF;
 }

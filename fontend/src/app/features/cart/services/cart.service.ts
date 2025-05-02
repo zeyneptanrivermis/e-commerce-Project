@@ -47,17 +47,23 @@ export class CartService {
 
 
   // Sepetten ürün silme
-  removeFromCart(productId: number): Observable<string> {
+  removeFromCart(productId: number | null): Observable<string> {
+    if (productId == null) {
+      console.error('❌ removeFromCart: productId null!');
+      throw new Error('Product ID is null. Cannot remove item.');
+    }
+
     const headers = this.getAuthHeaders();
     const params = new HttpParams().set('productId', productId.toString());
 
     return this.http.delete<string>(`${this.apiUrl}/remove`, {
-      headers: headers,
-      params: params
+      headers,
+      params
     }).pipe(
       catchError(this.handleError)
     );
   }
+
 
   // Sepet öğelerini listeleme
   listCartItems(): Observable<CartItem[]> {
@@ -81,17 +87,19 @@ export class CartService {
     throw error;
   }
 
-  updateQuantity(productId: number, quantity: number): Observable<string> {
+  updateQuantity(productId: number, quantity: number): Observable<any> {
     const headers = this.getAuthHeaders();
     const params = new HttpParams()
       .set('productId', productId)
       .set('quantity', quantity);
 
-    return this.http.put<string>(`${this.apiUrl}/update`, null, {
+    return this.http.put(`${this.apiUrl}/update`, null, {
       headers,
-      params
-    }).pipe(
-      catchError(this.handleError)
-    );
+      params,
+      responseType: 'text'  // 🔥 bu satır kilit
+    });
   }
-}
+
+  }
+
+

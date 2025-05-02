@@ -37,27 +37,45 @@ export class CartComponent implements OnInit {
   }
 
   loadCart(): void {
+    console.log(this.cartItems)
     this.cartService.listCartItems().subscribe({
       next: (items) => {
+        console.log('Sepet öğeleri:', items); // Gelen yanıtı gör
         this.cartItems = items;
       },
-      error: (err) => console.error('Sepet yüklenemedi:', err)
+      error: (err) => {
+        console.error('Sepet yüklenemedi:', err); // Hata detayları
+      }
     });
 
     this.cartService.getCartTotal().subscribe({
       next: (total) => {
+        console.log('Toplam tutar:', total); // Gelen toplam tutar yanıtını gör
         this.totalPrice = total;
       },
-      error: (err) => console.error('Toplam tutar yüklenemedi:', err)
+      error: (err) => {
+        console.error('Toplam tutar yüklenemedi:', err); // Hata detayları
+      }
     });
   }
 
-  removeItem(productId: number): void {
-    this.cartService.removeFromCart(productId).subscribe({
-      next: () => this.loadCart(),
-      error: (err) => console.error('Ürün silinemedi:', err)
-    });
+
+  removeItem(item: CartItem): void {
+    const productId = item.product?.productId ?? null;
+    console.log('Silinecek ürün ID\'si:', productId);
+
+    if (productId !== undefined) {
+      this.cartService.removeFromCart(productId).subscribe({
+        next: () => this.loadCart(),
+        error: (err) => console.error('Ürün silinemedi:', err)
+      });
+    } else {
+      console.error('Ürün ID bulunamadı, item:', item);
+    }
   }
+
+
+
 
   increaseQuantity(item: CartItem): void {
     const newQty = item.quantity + 1;
@@ -66,6 +84,7 @@ export class CartComponent implements OnInit {
       error: (err) => console.error('Miktar artırılamadı:', err)
     });
   }
+
 
   decreaseQuantity(item: CartItem): void {
     const newQty = item.quantity - 1;
@@ -76,6 +95,7 @@ export class CartComponent implements OnInit {
       });
     }
   }
+
 
   goToProducts(): void {
     this.router.navigate(['/products']);

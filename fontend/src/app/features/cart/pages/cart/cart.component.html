@@ -1,10 +1,10 @@
 <div class="cart-container">
-  <h2>Sepetim</h2>
+  <h2>MY CART</h2>
 
   <!-- Sepet boşsa -->
   <div *ngIf="cartItems && cartItems.length === 0" class="empty-cart">
-    <p>Sepetiniz boş.</p>
-    <button (click)="goToProducts()">Alışverişe Başla</button>
+    <p>Your Cart is Empty</p>
+    <button (click)="goToProducts()"><span style="margin-right: 8px;">🛒</span>Start Shopping</button>
   </div>
 
   <!-- Sepette ürün varsa -->
@@ -25,7 +25,7 @@
       </div>
 
       <!-- Silme butonu -->
-      <button class="delete-btn" (click)="removeItem(item.product.productId)">Sil</button>
+      <button class="delete-btn" (click)="removeItem(item)">Remove from Cart</button>
     </div>
 
     <!-- Toplam tutar ve sipariş -->

@@ -91,8 +91,8 @@ public class UserController {
 
     @GetMapping("/wishlist")
     public ResponseEntity<?> getWishlist(Authentication authentication) {
-        CustomerDetails userDetails = (CustomerDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
+        // CustomerDetails userDetails = (CustomerDetails) authentication.getPrincipal();
+        String email = authentication.getName();
 
         Customer customer = customerRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
@@ -103,20 +103,29 @@ public class UserController {
 
         return ResponseEntity.ok(wishlist);
     }
+
     @PostMapping("/wishlist")
     public ResponseEntity<?> addToWishlist(
             Authentication authentication,
             @RequestBody WishlistRequest request) {
-
-        String email = ((CustomerDetails) authentication.getPrincipal()).getUsername();
-
-        Customer customer = customerRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
-
-        customerService.addProductToWishlist(customer, request.getProductId());
-
-        return ResponseEntity.ok(Map.of("message", "Ürün wishlist'te eklendi"));
+        try {
+            // authentication.getName() doğrudan email/username döner
+            String email = authentication.getName();
+    
+            Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
+    
+            customerService.addProductToWishlist(customer, request.getProductId());
+    
+            return ResponseEntity.ok(Map.of("message", "Ürün wishlist'e eklendi"));
+        } catch (Exception e) {
+            e.printStackTrace(); // Log hata detayları
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
+    
+
 
     @DeleteMapping("/wishlist")
     public ResponseEntity<?> removeFromWishlist(Authentication authentication, @RequestBody WishlistRequest request) {

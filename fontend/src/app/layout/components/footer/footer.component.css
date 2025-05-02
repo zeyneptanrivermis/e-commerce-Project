@@ -1,87 +1,96 @@
 footer {
   background: #F3FDE8;
-  padding: 40px;
-  font-family: Arial, sans-serif;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  color: #333;
+}
 
-  .footer-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-  }
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
 
-  .footer-column {
-    width: 18%;
-    min-width: 150px;
+.footer-column {
+  flex: 1 1 180px;
+}
 
-    h4 {
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
+.footer-column h4 {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #2e7d32;
+  border-bottom: 2px solid #A8DF8E;
+  display: inline-block;
+  padding-bottom: 4px;
+}
 
-    ul {
-      list-style: none;
-      padding: 0;
-    }
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
-    li {
-      margin-bottom: 10px;
-    }
+.footer-column li {
+  margin-bottom: 10px;
+}
 
-    a {
-      text-decoration: none;
-      color: #333;
-      font-size: 14px;
+.footer-column a {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
 
-      &:hover {
-        color: #BE5985;
-      }
-    }
+.footer-column a:hover {
+  color: #BE5985;
+}
 
-    select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: 1px solid #ddd;
-    }
-  }
+/* Sosyal Medya */
+.social-media {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .social-media {
-    text-align: center;
-    margin-bottom: 20px;
+.social-media h4 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #BE5985; /* Başlık da pembeye çekildi */
+}
 
-    h4 {
-      margin-bottom: 15px;
-    }
+.social-media i {
+  font-size: 26px;
+  margin: 0 12px;
+  cursor: pointer;
+  color: #FFBFBF; /* ✔️ Açık pembe */
+  transition: color 0.3s ease, transform 0.3s ease;
+}
 
-    mat-icon {
-      font-size: 28px;
-      margin: 0 10px;
-      cursor: pointer;
-      color: #666;
-      transition: color 0.3s;
+.social-media i:hover {
+  color: #BE5985; /* ✔️ Hover’da koyu pembe */
+  transform: scale(1.2);
+}
 
-      &:hover {
-        color: #BE5985;
-      }
-    }
-  }
+/* Ödeme ikonları */
+.payment-section {
+  text-align: center;
+}
 
-  .security-section,
-  .payment-section,
-  .mobile-apps {
-    text-align: center;
-    margin-bottom: 20px;
+.payment-section h4 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #2e7d32;
+}
 
-    h4 {
-      margin-bottom: 10px;
-    }
-
-    img {
-      height: 40px;
-      margin: 5px;
-    }
-  }
+.payment-section img {
+  height: 36px;
+  margin: 5px 8px;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }

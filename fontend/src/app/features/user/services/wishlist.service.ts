@@ -21,14 +21,13 @@ export class WishlistService {
   // src/app/features/user/services/wishlist.service.ts
 
   removeFromWishlist(productId: number): Observable<void> {
-    return this.http.request<void>('DELETE', this.apiUrl, {
+    return this.http.delete<void>(`${this.apiUrl}?productId=${productId}`, {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.tokenService.getToken()}`
-      }),
-      body: { productId }
+      })
     });
   }
-  
+
+
 
 }
