@@ -1,33 +1,36 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Order } from '../../../models/order.model';
+import { AuthService } from '../../auth/services/auth.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class OrderService {
-  private apiUrl = 'http://localhost:8080/api/orders';
+  private baseUrl = 'http://localhost:8080/api/orders';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService  // AuthService'i inject et
+  ) {}
 
-  // Sepetten sipariş oluşturur
-  createOrder(): Observable<Order> {
-    return this.http.post<Order>(`${this.apiUrl}/create`, {});
+  // Sipariş gönderme
+  placeOrder(order: Order): Observable<any> {
+    const headers = this.authService.getAuthHeaders();  // Authorization header'ı ekliyoruz
+    return this.http.post(`${this.baseUrl}`, order, { headers });  // apiUrl hatalıydı, baseUrl kullanılmalı
   }
 
-  // Kullanıcının siparişlerini getirir
-  getCustomerOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.apiUrl);
+  // Kullanıcının tüm siparişlerini getirme
+  getUserOrders(userId: number): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`);
   }
 
-  // Siparişe ödeme ekler
-  addPayment(orderId: number, amount: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${orderId}/payment?amount=${amount}`, {});
+  // Tekil siparişi ID ile alma
+  getOrderById(orderId: number): Observable<Order> {
+    return this.http.get<Order>(`${this.baseUrl}/${orderId}`);
   }
 
-  // Siparişe kargo bilgisi ekler
-  addShipping(orderId: number, shippingData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${orderId}/shipping`, shippingData);
+  // Siparişi iptal etme
+  cancelOrder(orderId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/cancel/${orderId}`, null);
   }
 }

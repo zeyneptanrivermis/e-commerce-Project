@@ -1,19 +1,69 @@
-<div class="orders-container">
-  <h2 class="section-title">My Orders</h2>
+<div class="container mt-4">
+  <div class="row">
 
-  <button class="create-order-btn" (click)="createOrder()">
-    🛒 Create Order from Cart
-  </button>
+    <!-- Sol Panel -->
+    <div class="col-lg-8">
+      <div class="card p-4 shadow-sm mb-4">
+        <h4>📍 Teslimat Adresi</h4>
 
-  <div class="order-card" *ngFor="let order of orders">
-    <h3>Order #{{ order.orderId }}</h3>
-    <p><strong>Items:</strong> {{ order.itemList.length }}</p>
-    <ul class="item-list">
-      <li *ngFor="let item of order.itemList">
-        <span>{{ item.product.name }}</span>
-        <span>Qty: {{ item.quantity }}</span>
-        <span>${{ item.price }}</span>
-      </li>
-    </ul>
+        <!-- Adres Formu -->
+        <form [formGroup]="addressForm" (ngSubmit)="saveNewAddress()">
+
+          <!-- Adres Seçimi (Dropdown) -->
+          <div class="mb-3">
+            <label>Adres Seç:</label>
+            <select class="form-select" formControlName="selectedAddressId">
+              <option *ngFor="let addr of addresses" [value]="addr.addressId">
+                {{ addr.addressId }}, {{ addr.city }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Yeni adres formunu aç/kapat -->
+          <button type="button" class="btn btn-outline-primary btn-sm mb-3" (click)="toggleAddressForm()">
+            {{ showAddressForm ? 'İptal Et' : '➕ Adres Ekle / Değiştir' }}
+          </button>
+
+          <!-- Yeni Adres Giriş Alanı -->
+          <div *ngIf="showAddressForm">
+            <input class="form-control mb-2" placeholder="Adres" formControlName="addressLine" />
+            <input class="form-control mb-2" placeholder="Şehir" formControlName="city" />
+            <button class="btn btn-success btn-sm" type="submit" [disabled]="addressForm.invalid">
+              Kaydet
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Sağ Panel -->
+    <div class="col-lg-4">
+      <div class="card p-4 shadow-sm">
+        <h4 class="mb-3">🛒 Sipariş Özeti</h4>
+
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between" *ngFor="let item of cartItems">
+            {{ item.productId }} x{{ item.quantity }}
+            <span>{{ item.price * item.quantity | currency:'TRY' }}</span>
+          </li>
+        </ul>
+
+        <div class="d-flex justify-content-between">
+          <span>Ürünler</span>
+          <strong>{{ getCartTotal() | currency:'TRY' }}</strong>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Kargo</span>
+          <strong>{{ shippingFee | currency:'TRY' }}</strong>
+        </div>
+        <hr />
+        <div class="d-flex justify-content-between">
+          <span>Toplam</span>
+          <strong>{{ getCartTotal() + shippingFee | currency:'TRY' }}</strong>
+        </div>
+
+        <button class="btn btn-primary w-100 mt-3" (click)="placeOrder()">💳 Ödeme Yap</button>
+      </div>
+    </div>
   </div>
 </div>
