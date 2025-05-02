@@ -24,9 +24,9 @@ const routes: Routes = [
 
   { path: 'products', loadChildren: () => import('./features/products/products.module').then(m => m.ProductsModule) },
 
-  { path: 'shopping-cart',  loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
+  { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
   
-  { path: 'user', loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)},
+  { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)},
   
   { path: '**', redirectTo: '/home' }
 ];

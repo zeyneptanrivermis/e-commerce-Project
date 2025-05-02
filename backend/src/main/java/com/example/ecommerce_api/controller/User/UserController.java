@@ -107,27 +107,40 @@ public class UserController {
     public ResponseEntity<?> addToWishlist(
             Authentication authentication,
             @RequestBody WishlistRequest request) {
-
-        String email = ((CustomerDetails) authentication.getPrincipal()).getUsername();
-
-        Customer customer = customerRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
-
-        customerService.addProductToWishlist(customer, request.getProductId());
-
-        return ResponseEntity.ok(Map.of("message", "Ürün wishlist'te eklendi"));
+        try {
+            // authentication.getName() doğrudan email/username döner
+            String email = authentication.getName();
+    
+            Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
+    
+            customerService.addProductToWishlist(customer, request.getProductId());
+    
+            return ResponseEntity.ok(Map.of("message", "Ürün wishlist'e eklendi"));
+        } catch (Exception e) {
+            e.printStackTrace(); // Log hata detayları
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
+    
 
     @DeleteMapping("/wishlist")
     public ResponseEntity<?> removeFromWishlist(Authentication authentication, @RequestBody WishlistRequest request) {
-        String email = ((CustomerDetails) authentication.getPrincipal()).getUsername();
+        try {
+            String email = authentication.getName(); // ✅ Use this instead of CustomerDetails cast
     
-        Customer customer = customerRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
+            Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
     
-        customerService.removeProductFromWishlist(customer, request.getProductId());
+            customerService.removeProductFromWishlist(customer, request.getProductId());
     
-        return ResponseEntity.ok(Map.of("message", "Ürün wishlist'ten silindi"));
+            return ResponseEntity.ok(Map.of("message", "Product removed from wishlist"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
     
 
