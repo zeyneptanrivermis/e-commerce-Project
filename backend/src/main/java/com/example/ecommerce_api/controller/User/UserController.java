@@ -7,7 +7,6 @@ import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
-import com.example.ecommerce_api.security.CustomerDetails;
 import com.example.ecommerce_api.security.JwtUtil;
 import com.example.ecommerce_api.services.User.CustomerService;
 
@@ -124,19 +123,24 @@ public class UserController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-    
 
 
     @DeleteMapping("/wishlist")
     public ResponseEntity<?> removeFromWishlist(Authentication authentication, @RequestBody WishlistRequest request) {
-        String email = ((CustomerDetails) authentication.getPrincipal()).getUsername();
+        try {
+            String email = authentication.getName(); // ✅ Use this instead of CustomerDetails cast
     
-        Customer customer = customerRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Müşteri bulunamadı"));
+            Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
     
-        customerService.removeProductFromWishlist(customer, request.getProductId());
+            customerService.removeProductFromWishlist(customer, request.getProductId());
     
-        return ResponseEntity.ok(Map.of("message", "Ürün wishlist'ten silindi"));
+            return ResponseEntity.ok(Map.of("message", "Product removed from wishlist"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
     
 

@@ -1,0 +1,19 @@
+<div class="orders-container">
+  <h2 class="section-title">My Orders</h2>
+
+  <button class="create-order-btn" (click)="createOrder()">
+    🛒 Create Order from Cart
+  </button>
+
+  <div class="order-card" *ngFor="let order of orders">
+    <h3>Order #{{ order.orderId }}</h3>
+    <p><strong>Items:</strong> {{ order.itemList.length }}</p>
+    <ul class="item-list">
+      <li *ngFor="let item of order.itemList">
+        <span>{{ item.product.name }}</span>
+        <span>Qty: {{ item.quantity }}</span>
+        <span>${{ item.price }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

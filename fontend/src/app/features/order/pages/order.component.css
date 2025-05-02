@@ -1,0 +1,49 @@
+.orders-container {
+  padding: 20px;
+  background-color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.create-order-btn {
+  background-color: #d4f1d4;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.create-order-btn:hover {
+  background-color: #bdebbd;
+}
+
+.order-card {
+  background-color: #e9ffe9;
+  border: 1px solid #c5e1c5;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.item-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.item-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px dashed #ccc;
+  font-size: 14px;
+}
