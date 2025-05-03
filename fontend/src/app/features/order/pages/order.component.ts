@@ -37,13 +37,22 @@ export class OrderComponent implements OnInit {
     this.loadCart();
     const user = this.authService.getCurrentUser();
     this.userId = user?.userId ?? 0;
+      if (user) {
+        this.addressService.getUserAddresses(user.userId).subscribe({
+          next: (addresses) => this.addresses = addresses,
+          error: (err) => console.error('Adresler alınamadı:', err)
+        });
+      }
+
   }
 
   initForm(): void {
     this.addressForm = this.fb.group({
-      addressLine: ['', Validators.required],
+      selectedAddressId: this.selectedAddressId,
+      country: ['Turkey', Validators.required],
       city: ['', Validators.required],
-      postalCode: ['', Validators.required]
+      district: ['', Validators.required],
+      addressDetail: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
 
@@ -80,16 +89,15 @@ export class OrderComponent implements OnInit {
   }
 
   saveNewAddress(): void {
-    const address = this.addressForm.value;
-    const userId = this.userId; // veya: this.authService.getCurrentUser()?.userId
-    this.addressService.addAddress(address, userId).subscribe({
+    const address: Address = this.addressForm.value;
+    this.addressService.addAddress(this.userId, address).subscribe({
       next: () => {
         this.loadAddresses();
         this.toggleAddressForm();
       },
       error: err => console.error('Adres eklenemedi:', err)
     });
-
+    
   }
 
   getCartTotal(): number {
@@ -126,4 +134,35 @@ export class OrderComponent implements OnInit {
       });
     });
   }
+
+  saveAddress(): void {
+    if (this.addressForm.invalid) {
+      this.addressForm.markAllAsTouched();
+      return;
+    }
+  
+    const address: Address = this.addressForm.value;
+  
+    this.addressService.addAddress(this.userId, address).subscribe({
+      next: () => {
+        this.loadAddresses();       // Adres listesini yeniden yükle
+        this.resetForm();           // Formu temizle
+        this.showAddressForm = false; // Formu gizle
+      },
+      error: err => {
+        console.error('Adres eklenemedi:', err);
+        alert('Adres kaydedilirken hata oluştu.');
+      }
+    });
+  }
+
+  resetForm(): void {
+    this.addressForm.reset({
+      country: 'Turkey',
+      city: '',
+      district: '',
+      addressDetail: ''
+    });
+  }
+
 }

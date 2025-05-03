@@ -1,25 +1,51 @@
-.profile-card {
+main {
+  min-height: 100vh;
+  padding-top: 6rem; /* Welcome mesajının görünmesi için padding artırıldı */
+}
+
+.user-profile-layout {
+  display: flex;
+  gap: 2rem;
+  justify-content: flex-start; /* Öğeler soldan başlayarak yan yana sıralanacak */
+  align-items: flex-start;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  flex-direction: row; /* Öğelerin yatay sıralanmasını sağlar */
+  flex-wrap: nowrap; /* Öğelerin alt alta geçmesini engeller */
+}
+
+/* Profil kartı ve adres kartı aynı temel stil yapısında */
+.profile-card,
+.address-card {
+  flex: 1; /* Her iki kart da eşit oranda yer kaplayacak */
+  min-width: 320px;
+  max-width: 700px;
+  margin: 0;
   background-color: #F3FDE8;
   padding: 2.5rem 3rem;
   border-radius: 20px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  width: 100%;
-  max-width: 700px;
-  margin: 2rem auto;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease-in-out;
 }
 
-.profile-card h2 {
+/* Başlık stili */
+.profile-card h2,
+.address-card h3 {
   font-size: 1.8rem;
   font-weight: 700;
   color: #2e7d32;
   text-align: center;
+  margin-top: 0;
   margin-bottom: 2rem;
+  padding-top: 1rem;
   position: relative;
 }
 
-.profile-card h2::after {
+.profile-card h2::after,
+.address-card h3::after {
   content: "";
   display: block;
   width: 60px;
@@ -29,6 +55,7 @@
   border-radius: 2px;
 }
 
+/* Bilgi satırı */
 .info-row {
   display: flex;
   align-items: center;
@@ -76,6 +103,7 @@
   outline: none;
 }
 
+/* Genel buton stilleri */
 button {
   background-color: #FFBFBF;
   color: #900;
@@ -92,7 +120,7 @@ button:hover {
   background-color: #e68a8a;
 }
 
-/* Save butonu için */
+/* Kaydet butonu */
 button.save-mode {
   background-color: #A8DF8E;
   color: #2e7d32;
@@ -102,17 +130,16 @@ button.save-mode:hover {
   background-color: #94cb7b;
 }
 
-/* Disabled buton */
+/* Devre dışı buton */
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+/* Hata mesajı */
 .error-message {
   color: #d63031;
   font-size: 0.85rem;
   margin-top: 0.3rem;
   text-align: left;
 }
-
-

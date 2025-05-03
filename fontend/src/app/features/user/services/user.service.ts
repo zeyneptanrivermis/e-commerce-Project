@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/services/auth.service';  // AuthService'e ihtiyacımız var
 
@@ -7,21 +7,30 @@ import { AuthService } from '../../auth/services/auth.service';  // AuthService'
   providedIn: 'root'
 })
 export class UserService {
-  private readonly API_URL = 'http://localhost:8080/api/user/info';  // Kullanıcı bilgisi için backend URL
+  private readonly API_URL = 'http://localhost:8080/api/user';  // <-- düzeltildi
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService  // AuthService'i burada kullanıyoruz
+    private authService: AuthService
   ) {}
 
-  // Kullanıcı bilgilerini almak için HTTP GET isteği
   getUserInfo(): Observable<any> {
-    const headers = this.authService.getAuthHeaders();  // Authorization header'ını alıyoruz
-    return this.http.get(this.API_URL, { headers });  // Kullanıcı bilgilerini backend'den alıyoruz
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get(`${this.API_URL}/info`, { headers });  // <-- info endpointi sabit kaldı
   }
-  
+
   updateUser(userData: any): Observable<any> {
-    const headers = this.authService.getAuthHeaders();  // Tokenı ekliyoruz
-    return this.http.put('http://localhost:8080/api/user/update', userData, { headers });
+    const token = this.authService.getToken();
+    if (!token) {
+      throw new Error("JWT token bulunamadı");
+    }
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  
+    return this.http.put(`${this.API_URL}/update`, userData, { headers });
   }
 }
+

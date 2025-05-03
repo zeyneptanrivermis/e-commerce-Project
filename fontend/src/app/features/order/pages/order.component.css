@@ -1,12 +1,150 @@
+/* Genel Stiller */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8fbf5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+.mt-4 { margin-top: 1.5rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+.rounded { border-radius: 0.5rem !important; }
+.p-4 { padding: 1.5rem !important; }
+.fw-bold { font-weight: bold !important; }
+.text-danger { color: #e74c3c !important; }
+
+/* ✅ Adres Kutusu */
+.address-box {
+  background-color: #eaffea;
+  border: 1px solid #c3e6cb;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(130, 205, 71, 0.12);
+  padding: 1.5rem;
+}
+
+/* ✅ Etiketler */
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+/* ✅ Form Kontrolleri */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #ffffff;
+  border: 1px solid #b3ddb2;
+  border-radius: 10px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #82cd47;
+  box-shadow: 0 0 0 0.15rem rgba(168, 223, 142, 0.4);
+}
+
+select.form-control {
+  background-color: #f3fde8;
+  border-color: #a8df8e;
+  border-radius: 12px;
+}
+
+select.form-control:focus {
+  border-color: #82cd47;
+  box-shadow: 0 0 0 0.2rem rgba(168, 223, 142, 0.25);
+  background-color: #ffffff;
+}
+
+input.form-control,
+textarea.form-control {
+  background-color: #f9fefb;
+}
+
+/* ✅ Form Grupları */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* ✅ Butonlar */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: #66bb6a;
+  border: none;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: #519c56;
+}
+
+.btn-outline-primary {
+  border: 2px solid #66bb6a;
+  background-color: transparent;
+  color: #2e7d32;
+}
+
+.btn-outline-primary:hover {
+  background-color: #66bb6a;
+  color: #fff;
+}
+
+.btn-success {
+  background-color: #82cd47;
+  border-color: #82cd47;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #6cb139;
+  border-color: #6cb139;
+}
+
+.btn-secondary {
+  background-color: #ff9999;
+  border-color: #ff9999;
+  color: #7c0000;
+}
+
+.btn-secondary:hover {
+  background-color: #e68080;
+  border-color: #e68080;
+}
+
+/* ✅ Küçük Butonlar */
+.btn-sm {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* ✅ Sipariş Özeti Kartı */
 .card {
-  background-color: #fdfdfd;
-  border-radius: 20px;
+  background-color: #ffffff;
   border: 1px solid #e4e4e4;
+  border-radius: 20px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
-  padding: 24px; /* 🔥 genişlik etkisi */
-  margin-bottom: 24px;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
-  max-width: 100%;
+  padding: 1.5rem;
+  transition: 0.3s ease;
 }
 
 .card:hover {
@@ -14,90 +152,33 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
 }
 
-h4 {
+.card h4 {
   font-size: 1.35rem;
   font-weight: 600;
-  color: #2b2b2b;
-  margin-bottom: 20px;
+  color: #2e7d32;
+  margin-bottom: 1.25rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* Geniş butonlar, yüksek iç boşluk */
-button,
-input.form-control,
-select.form-select {
-  border-radius: 12px;
-  font-size: 0.95rem;
-  padding: 10px 16px;
-  transition: all 0.25s ease;
+/* ✅ Liste */
+.list-group {
+  margin-bottom: 1.25rem;
 }
 
-input.form-control:focus,
-select.form-select:focus {
-  border-color: #a8df8e;
-  box-shadow: 0 0 0 0.2rem rgba(168, 223, 142, 0.3);
-  outline: none;
-}
-
-/* Buton hover hissi */
-button:hover {
-  transform: translateY(-1px);
-}
-
-.btn-outline-primary {
-  background-color: #f3fde8;
-  color: #5a8f66;
-  border-color: #a8df8e;
-}
-
-.btn-outline-primary:hover {
-  background-color: #d7f3c9;
-  border-color: #94d074;
-}
-
-.btn-primary {
-  background-color: #a8df8e;
-  border-color: #a8df8e;
-  color: #1e1e1e;
-}
-
-.btn-primary:hover {
-  background-color: #94d074;
-  border-color: #94d074;
-}
-
-/* Sipariş Özeti */
 .list-group-item {
-  border: none;
-  font-size: 0.95rem;
   background: none;
-}
-
-.d-flex {
+  border: none;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  display: flex;
   justify-content: space-between;
-  font-size: 1rem;
-  margin-top: 4px;
+  align-items: center;
 }
 
+/* ✅ HR */
 hr {
-  margin: 16px 0;
-  border-top: 1px solid #ccc;
-}
-
-/* Responsive iyileştirme */
-@media (max-width: 768px) {
-  .row {
-    flex-direction: column;
-  }
-
-  .col-lg-8,
-  .col-lg-4 {
-    width: 100%;
-  }
-
-  .card {
-    padding: 20px;
-  }
+  border-top: 1px solid #c5dec5;
+  margin: 1rem 0;
 }

@@ -1,39 +1,33 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Address, City, District, CITY_DISTRICT_MAP } from "../../../models/Address.model";
+import { Address } from "../../../models/Address.model";
 import { AddressService } from "../service/address.service";
 
 @Component({
   selector: 'app-address',
-  standalone:false,
   templateUrl: './address.component.html',
-  styleUrl: './address.component.css'
+  styleUrls: ['./address.component.css'],
+  standalone: false
 })
 export class AddressComponent implements OnInit {
   @Input() userId!: number;
 
   addressForm!: FormGroup;
   addresses: Address[] = [];
-  cities = Object.values(City);
-  districts = Object.values(District);
-  filteredDistricts: District[] = [];
+  selectedAddressId: number | null = null;
+  editMode: boolean = false;
 
   constructor(private fb: FormBuilder, private addressService: AddressService) {}
 
   ngOnInit(): void {
     this.addressForm = this.fb.group({
-      country: ['Turkey'],
+      country: ['Turkey', Validators.required],
       city: ['', Validators.required],
-      district: ['', Validators.required]
+      district: ['', Validators.required],
+      addressDetail: ['', [Validators.required, Validators.minLength(5)]]
     });
-      this.addressForm.get('city')?.valueChanges.subscribe(() => this.onCityChange());
-    this.loadAddresses();
-  }
 
-  onCityChange(): void {
-    const selectedCity = this.addressForm.get('city')?.value as keyof typeof CITY_DISTRICT_MAP;
-    this.filteredDistricts = CITY_DISTRICT_MAP[selectedCity] || [];
-    this.addressForm.get('district')?.setValue(''); // seçimi sıfırla
+    this.loadAddresses();
   }
 
   loadAddresses(): void {
@@ -43,15 +37,47 @@ export class AddressComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  toggleEditMode(): void {
+    this.editMode = !this.editMode;
+    this.resetForm();
+  }
+
+  editAddress(address: Address): void {
+    this.addressForm.patchValue(address);
+    this.selectedAddressId = address.addressId!;
+  }
+
+  saveAddress(): void {
     if (this.addressForm.valid) {
-      this.addressService.addAddress(this.userId, this.addressForm.value).subscribe({
-        next: () => {
-          this.addressForm.reset({ country: 'Turkey' });
-          this.loadAddresses();
-        },
-        error: err => console.error(err)
-      });
+      const data = this.addressForm.value;
+
+      if (this.selectedAddressId) {
+        this.addressService.updateAddress(this.selectedAddressId, data).subscribe({
+          next: () => {
+            this.resetForm();
+            this.loadAddresses();
+          }
+        });
+      } else {
+        this.addressService.addAddress(this.userId, data).subscribe({
+          next: () => {
+            this.resetForm();
+            this.loadAddresses();
+          }
+        });
+      }
     }
+  }
+
+  deleteAddress(addressId: number): void {
+    this.addressService.deleteAddress(addressId).subscribe({
+      next: () => this.loadAddresses(),
+      error: err => console.error(err)
+    });
+  }
+
+  resetForm(): void {
+    this.addressForm.reset({ country: 'Turkey' });
+    this.selectedAddressId = null;
   }
 }

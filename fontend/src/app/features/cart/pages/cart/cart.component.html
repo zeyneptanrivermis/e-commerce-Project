@@ -1,37 +1,35 @@
 <div class="cart-container">
   <h2>MY CART</h2>
 
-  <!-- Sepet boşsa -->
   <div *ngIf="cartItems && cartItems.length === 0" class="empty-cart">
     <p>Your Cart is Empty</p>
-    <button (click)="goToProducts()"><span style="margin-right: 8px;">🛒</span>Start Shopping</button>
+    <button (click)="goToProducts()">🛒 Start Shopping</button>
   </div>
 
-  <!-- Sepette ürün varsa -->
-  <div *ngIf="cartItems && cartItems.length > 0">
-    <div *ngFor="let item of cartItems" class="cart-item">
-      <div class="item-details">
-        <p><strong>{{ item.product.name }}</strong></p>
+  <div *ngIf="cartItems && cartItems.length > 0" class="cart-flex-container">
 
-        <!-- Miktar kontrol -->
-        <div class="quantity-controls">
-          <button (click)="decreaseQuantity(item)">−</button>
-          <span>{{ item.quantity }}</span>
-          <button (click)="increaseQuantity(item)">+</button>
+    <!-- Toplam Tutar (Sol Taraf) -->
+    <div class="cart-summary">
+      <h3>Toplam Tutar</h3>
+      <p>{{ totalPrice | currency:'TRY' }}</p>
+      <button class="checkout-btn" (click)="goToOrderPage()">Siparişi Tamamla</button>
+    </div>
+
+    <!-- Ürün Listesi (Sağ Taraf - Kaydırmalı) -->
+    <div class="cart-items">
+      <div class="cart-item" *ngFor="let item of cartItems">
+        <div class="item-details">
+          <p><strong>{{ item.product.name }}</strong></p>
+          <div class="quantity-controls">
+            <button (click)="decreaseQuantity(item)">−</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increaseQuantity(item)">+</button>
+          </div>
+          <p>Ürün Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
         </div>
-
-        <!-- Fiyat bilgisi -->
-        <p>Ürün Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
+        <button class="delete-btn" (click)="removeItem(item)">Remove from Cart</button>
       </div>
-
-      <!-- Silme butonu -->
-      <button class="delete-btn" (click)="removeItem(item)">Remove from Cart</button>
     </div>
 
-    <!-- Toplam tutar ve sipariş -->
-    <div class="cart-total">
-      <h3>Toplam Tutar: {{ totalPrice | currency:'TRY' }}</h3>
-      <button class="btn btn-success" (click)="goToOrderPage()">Siparişi Tamamla</button>
-    </div>
   </div>
 </div>

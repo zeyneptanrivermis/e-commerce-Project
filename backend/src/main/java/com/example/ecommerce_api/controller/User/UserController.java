@@ -85,7 +85,7 @@ public class UserController {
 
         userRepository.save(existingUser);
 
-        return ResponseEntity.ok("Kullanıcı başarıyla güncellendi");
+        return ResponseEntity.ok(Map.of("message", "Kullanıcı başarıyla güncellendi"));
     }
 
     @GetMapping("/wishlist")

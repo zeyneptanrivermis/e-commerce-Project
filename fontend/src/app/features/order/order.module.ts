@@ -5,7 +5,7 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { SharedModule } from '../../shared/shared.module';
 import { OrderRoutingModule } from './order-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     OrderRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class OrderModule { }

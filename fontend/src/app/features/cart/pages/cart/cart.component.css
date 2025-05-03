@@ -137,3 +137,70 @@ h2::after {
 .checkout-btn:hover {
   background-color: #94cb7b;
 }
+.cart-flex-container {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap; /* responsive davranış */
+}
+
+/* Sol taraftaki özet alanı */
+.cart-summary {
+  background-color: #FFE5E5;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 250px;
+  max-width: 300px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.cart-summary h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.cart-summary p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.checkout-btn {
+  padding: 0.7rem 1.4rem;
+  background-color: #A8DF8E;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: #94cb7b;
+}
+
+/* Sağ taraftaki ürünler alanı */
+.cart-items {
+  max-height: 500px; /* yüksekliği sabit tutarak kaydırılabilir yap */
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+/* Kaydırma çubuğu için basit stil */
+.cart-items::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cart-items::-webkit-scrollbar-thumb {
+  background-color: #a8df8e;
+  border-radius: 6px;
+}
+
+.cart-items::-webkit-scrollbar-track {
+  background-color: #f3fde8;
+}

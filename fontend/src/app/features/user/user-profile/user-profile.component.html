@@ -1,3 +1,5 @@
+
+<div class="user-profile-layout">
 <form [formGroup]="profileForm" class="profile-card" *ngIf="currentUser">
   <h2>Welcome, {{ currentUser?.name }} {{ currentUser?.surname }}!</h2>
 
@@ -69,7 +71,7 @@
     </button>
   </div>
 
-  <app-address *ngIf="currentUser" [userId]="currentUser.userId"></app-address>
-
 
 </form>
+  <app-address class="address-card" *ngIf="currentUser" [userId]="currentUser.userId"></app-address>
+</div>

@@ -31,17 +31,18 @@ public class Address {
 
     private String country = "Turkey"; // su an sadece turkiye icinde kargo
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private City city;
+    private String city;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private District district;
+    private String district;
 
+    @Column(length = 500)
+    private String addressDetail;
+    
     public Address() {}
 
-    public Address(City city, District district) {
+    public Address(String city, String district) {
         this.city = city;
         this.district = district;
     }
@@ -59,16 +60,25 @@ public class Address {
         return country;
     }
 
-    public City getCity() {
+    public String getCity() {
         return city;
     }
 
-    public District getDistrict() {
+    public String getDistrict() {
         return district;
     }
 
     public User getUser() {
         return user;
+    }
+    public String getAddressDetail() {
+        return addressDetail;
+    }
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
+    }
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public void setUser(User user) {
@@ -81,10 +91,10 @@ public class Address {
     public void setCountry(String country) {
         this.country = country;
     }
-    public void setCity(City city) {
+    public void setCity(String city) {
         this.city = city;
     }
-    public void setDistrict(District district) {
+    public void setDistrict(String district) {
         this.district = district;
     }
 

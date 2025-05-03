@@ -7,6 +7,7 @@ import { User } from '../../../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
   private readonly API_URL = 'http://localhost:8080/api/auth'; // Backend Auth Endpoint
   private readonly TOKEN_KEY = 'token'; // JWT token key

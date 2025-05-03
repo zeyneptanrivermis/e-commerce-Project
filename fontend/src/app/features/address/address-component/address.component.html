@@ -1,33 +1,59 @@
-<h3>My addresses</h3>
+<div class="address-container">
+  <div class="header">
+    <h3>My Addresses</h3>
+    <button (click)="toggleEditMode()" class="edit-toggle-btn">
+      {{ editMode ? 'Done' : 'Edit' }}
+    </button>
+  </div>
 
-<div *ngIf="addresses.length > 0; else noAddress">
-  <ul>
-    <li *ngFor="let address of addresses">
-      {{ address.country }}, {{ address.city }}, {{ address.district }}
-    </li>
-  </ul>
-</div>
-<ng-template #noAddress>
-  <p>No saved addresses.</p>
-</ng-template>
+  <div *ngIf="addresses.length > 0; else noAddress">
+    <ul>
+      <li *ngFor="let address of addresses">
+        📍 {{ address.country }}, {{ address.city }}, {{ address.district }}, {{ address.addressDetail }}
 
-<hr>
+        <ng-container *ngIf="editMode">
+          <button (click)="editAddress(address)">Update</button>
+          <button (click)="deleteAddress(address.addressId!)">Delete</button>
+        </ng-container>
+      </li>
+    </ul>
+  </div>
 
-<h4>Add address:</h4>
-<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+  <ng-template #noAddress>
+    <p>No saved addresses.</p>
+  </ng-template>
 
-    <label for="city">City:</label>
-    <select id="city" formControlName="city">
-      <option value="">Select a city</option>
-      <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-    </select>
-    
-    <label for="district">District:</label>
-    <select id="district" formControlName="district">
-      <option value="">Select a district</option>
-      <option *ngFor="let district of filteredDistricts" [value]="district">{{ district }}</option>
-    </select>
-    
-  
-    <button type="submit" [disabled]="addressForm.invalid">Save</button>
+  <h4>{{ selectedAddressId ? 'Edit Address' : 'Add New Address' }}</h4>
+
+  <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+    <div class="form-group">
+      <label for="country">Country</label>
+      <input id="country" formControlName="country" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="city">City</label>
+      <input id="city" formControlName="city" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="district">District</label>
+      <input id="district" formControlName="district" type="text" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="addressDetail">Address Detail</label>
+      <textarea id="addressDetail" formControlName="addressDetail" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" [disabled]="addressForm.invalid">
+      {{ selectedAddressId ? 'Update Address' : 'Save Address' }}
+    </button>
+
+    <button *ngIf="selectedAddressId" type="button" (click)="resetForm()">Cancel</button>
+
+    <p *ngIf="addressForm.invalid && addressForm.touched" style="color:red;">
+      Form is invalid. Please check all fields.
+    </p>
   </form>
+</div>

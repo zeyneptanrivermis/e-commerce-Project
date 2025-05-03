@@ -69,6 +69,7 @@ html, body {
 
 /* İçerik Alanı */
 .user-content {
+  margin-left: 500;
   flex-grow: 1;
   background: #ffffff;
   padding: 40px;
