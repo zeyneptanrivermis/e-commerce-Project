@@ -29,7 +29,15 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
-  addToCart(){
-    this.cartService.addToCart(this.product.id,1);
+  addToCart(productId: number): void {
+    this.cartService.addToCart(productId, 1).subscribe({
+      next: () => {
+        alert('Ürün sepete eklendi ✅');
+      },
+      error: (err) => {
+        console.error('❌ Sepete eklenemedi:', err);
+        alert('Ürün sepete eklenirken bir hata oluştu!');
+      }
+    });
   }
 }

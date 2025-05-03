@@ -9,11 +9,10 @@
   <div class="right-links">
     <a href="/">Be a seller </a>
     <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master">About Us</a>
-    <a href="#">Customer Service</a>
-    <a href="#">❤️ Favourites</a>
+    <a routerLink="/user/wishlist">❤️ Whishlist</a>
     <a href="/shopping-cart">🛒 Cart </a>
     <a *ngIf="!authService.isLoggedIn()" href="/login">Log in</a>
-    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user']">See User Profile</a>
+    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user', 'user-profile']">See User Profile</a>
   </div>
 </div>
 

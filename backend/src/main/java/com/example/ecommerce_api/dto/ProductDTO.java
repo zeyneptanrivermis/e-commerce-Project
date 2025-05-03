@@ -44,20 +44,29 @@ public class ProductDTO {
         this.mainCategory = product.getCategory();
         this.stockCount = product.getStockCount();
 
+        // null kontrolü eklendi, seller varsa DTO'ya aktar
+    if (product.getSeller() != null) {
         this.seller = new SellerDTO(
             product.getSeller().getUserId(),
             product.getSeller().getName(),
             product.getSeller().getEmail()
         );
+    } else {
+        this.seller = null;
+    }
 
-        this.reviews = product.getReviews().stream()
-            .map(ReviewDTO::new)
-            .toList();
+    // null kontrolü ile review listesi güvenli şekilde dolduruldu
+    this.reviews = (product.getReviews() != null)
+        ? product.getReviews().stream().map(ReviewDTO::new).toList()
+        : List.of();
     }
 
     // Getter ve Setter'lar
 
     public ProductDTO(Long productId, String productName, double price2, Object object) {
+        this.id = productId;
+    this.name = productName;
+    this.price = price;
 	}
 
 	public Long getId() {
@@ -85,7 +94,7 @@ public class ProductDTO {
     }
 
     public Long getSellerDTOId() {
-        return seller.getId();
+        return (seller != null) ? seller.getId() : null;
     }
 
     public void setSeller(SellerDTO seller) {
@@ -130,5 +139,9 @@ public class ProductDTO {
     }
     public void setReviews(List<ReviewDTO> reviews) {
         this.reviews = reviews;
+    }
+
+    public Long getProductId() {
+        return id;
     }
 }

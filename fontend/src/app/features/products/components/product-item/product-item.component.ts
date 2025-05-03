@@ -15,13 +15,13 @@ import { Router } from '@angular/router';
 export class ProductItemComponent {
 
   @Input() product!: Product;
-  @Output() add = new EventEmitter<Product>();
+  @Output() add  = new EventEmitter<Product>();
   private productPopularity: number= 0;
   isInWishlist = false;
 
   constructor(  private wishlistService: WishlistService,private authService: AuthService,
                 private popularity: PopularityService, private authguard: AuthGuard, private router: Router){}
-  
+
   onAdd() {
     this.add.emit(this.product);
     this.popularity.increment(this.productPopularity);
@@ -29,13 +29,13 @@ export class ProductItemComponent {
 
   onToggleWishlist(): void {
     const user = this.authService.getCurrentUser();
-  
+
     if (!user || !user.userId) {
       console.warn("Not logged in");
       this.router.navigate(['/login']);
       return;
     }
-  
+
     this.wishlistService.addToWishlist(this.product.id).subscribe({
       next: () => {
         this.isInWishlist = true;
@@ -43,5 +43,5 @@ export class ProductItemComponent {
       error: (err) => console.error("Wishlist ekleme hatası", err)
     });
   }
-  
+
 }

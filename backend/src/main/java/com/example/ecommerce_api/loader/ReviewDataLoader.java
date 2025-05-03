@@ -1,4 +1,4 @@
-/*
+
 package com.example.ecommerce_api.loader;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
@@ -6,7 +6,7 @@ import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.repository.ProductRepository.ReviewRepository;
-import com.example.ecommerce_api.repository.UserRepository.CustomerRepository;
+import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -61,4 +61,3 @@ public class ReviewDataLoader implements CommandLineRunner {
         System.out.println("✅ Tüm ürünlere 2'şer adet review başarıyla yüklendi.");
     }
 }
-*/

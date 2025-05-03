@@ -1,7 +1,5 @@
 package com.example.ecommerce_api.dto;
 
-
-
 public class SellerDTO {
     private Long id;
     private String name;
@@ -11,6 +9,14 @@ public class SellerDTO {
         this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public SellerDTO(SellerDTO seller) {
+        if (seller != null) {
+            this.id = seller.getId();
+            this.name = seller.getName();
+            this.email = seller.getEmail();
+        }
     }
 
     // Getter ve Setter'lar

@@ -19,12 +19,22 @@ public class CustomerService {
 
 
     public void addProductToWishlist(Customer customer, Long productId) {
-        Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new RuntimeException("Ürün bulunamadı"));
-
-        customer.addToWishlist(product);
-        customerRepository.save(customer);
+        try {
+            System.out.println("Wishlist'e eklenecek ürün ID: " + productId);
+    
+            Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Ürün bulunamadı"));
+    
+            customer.addToWishlist(product);
+            customerRepository.save(customer);
+    
+            System.out.println("Ürün wishlist'e eklendi");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Wishlist'e eklenirken hata: " + e.getMessage());
+        }
     }
+    
     
     public void removeProductFromWishlist(Customer customer, Long productId) {
         Product product = productRepository.findById(productId)

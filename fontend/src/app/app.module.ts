@@ -1,6 +1,5 @@
 import { inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +17,7 @@ import { UserComponent } from './features/user/user/user.component';
 import { UserModule } from './features/user/user.module';
 import { TokenService } from './core/services/token.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],

@@ -5,8 +5,14 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface CartItem {
-  product: Product;
+  cartItemId: number;
   quantity: number;
+  totalPrice: number;
+  product: {
+    productId: number;
+    name: string;
+    price: number;
+  };
 }
 
 @Injectable({
@@ -26,33 +32,38 @@ export class CartService {
     });
   }
 
-  // Sepete ürün ekleme
-  addToCart(productId: number, quantity: number): Observable<string> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams()
-      .set('productId', productId.toString())
-      .set('quantity', quantity.toString());
 
-    return this.http.post<string>(`${this.apiUrl}/add`, null, {
-      headers: headers,
-      params: params
-    }).pipe(
+  // Sepete ürün ekleme
+  // Sepete ürün ekleme (Authorization header eklendi)
+  addToCart(productId: number, quantity: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post(`${this.apiUrl}/add`, {
+      productId: productId,
+      quantity: quantity
+    }, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
+
   // Sepetten ürün silme
-  removeFromCart(productId: number): Observable<string> {
+  removeFromCart(productId: number | null): Observable<string> {
+    if (productId == null) {
+      console.error('❌ removeFromCart: productId null!');
+      throw new Error('Product ID is null. Cannot remove item.');
+    }
+
     const headers = this.getAuthHeaders();
     const params = new HttpParams().set('productId', productId.toString());
 
     return this.http.delete<string>(`${this.apiUrl}/remove`, {
-      headers: headers,
-      params: params
+      headers,
+      params
     }).pipe(
       catchError(this.handleError)
     );
   }
+
 
   // Sepet öğelerini listeleme
   listCartItems(): Observable<CartItem[]> {
@@ -75,4 +86,20 @@ export class CartService {
     console.error('Error occurred:', error);
     throw error;
   }
-}
+
+  updateQuantity(productId: number, quantity: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    const params = new HttpParams()
+      .set('productId', productId)
+      .set('quantity', quantity);
+
+    return this.http.put(`${this.apiUrl}/update`, null, {
+      headers,
+      params,
+      responseType: 'text'  // 🔥 bu satır kilit
+    });
+  }
+
+  }
+
+
