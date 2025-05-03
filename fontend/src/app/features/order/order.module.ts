@@ -6,12 +6,14 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
 import { SharedModule } from '../../shared/shared.module';
 import { OrderRoutingModule } from './order-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaymentComponent } from './components/payment/payment.component';
 
 @NgModule({
   declarations: [
     OrderComponent,
     OrderHistoryComponent,
-    OrderDetailComponent
+    OrderDetailComponent,
+    PaymentComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../../models/product.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 export interface CartItem {
   cartItemId: number;
@@ -98,6 +98,21 @@ export class CartService {
       params,
       responseType: 'text'  // 🔥 bu satır kilit
     });
+  }
+
+  /** Sepetteki tüm öğeleri siler */
+  clearCart(): Observable<any[]> {
+    return this.listCartItems().pipe(
+      switchMap(items => {
+        if (items.length === 0) {
+          return of([]);                    // Sepet boşsa hemen tamam
+        }
+        // Tüm silme isteklerini paralel çalıştır
+        return forkJoin(items.map(item =>
+          this.removeFromCart(item.product.productId)
+        ));
+      })
+    );
   }
 
 }

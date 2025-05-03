@@ -16,6 +16,7 @@ import jakarta.persistence.CascadeType;
 
 import com.example.ecommerce_api.entity.ProductEntity.Discount;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 // incele, gözden geçir
 @Entity
@@ -48,12 +49,14 @@ public class Order {
     public Discount getDiscount() { return discount; }
     public void setDiscount(Discount discount) { this.discount = discount; }
 
+    @JsonProperty
     public double getOrderTotalWithoutDiscount() {
         return itemList.stream()
                 .mapToDouble(OrderItem::getOrderItemTotal)
                 .sum();
     }
 
+    @JsonProperty
     public double getOrderTotalWithDiscount() {
         double total = getOrderTotalWithoutDiscount();
         if (discount != null) {

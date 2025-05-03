@@ -47,6 +47,23 @@ public class OrderService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
+     /**
+     * Frontend'den gelen sipariş ve ürün listesini işler, müşteri bilgisi controller'dan set edilir.
+     */
+    public Order createOrderWithItems(Order incomingOrder) {
+        if (incomingOrder.getCustomer() == null) {
+            throw new RuntimeException("Customer information is missing.");
+        }
+
+        // Sipariş içindeki ürünlerin fiyatlarını güncelle ve ilişkilendir
+        for (OrderItem item : incomingOrder.getItemList()) {
+            item.setOrder(incomingOrder);
+            item.setPrice(item.getProduct().getPrice()); // üründen güncel fiyatı al
+        }
+
+        return orderRepository.save(incomingOrder); // cascade = ALL sayesinde OrderItem'lar da kaydedilir
+    }
+
     // Müşteri için yeni sipariş oluştur
     public Order createOrder(Long customerId) {
         Customer customer = (Customer) userRepository.findById(customerId)

@@ -3,6 +3,8 @@ package com.example.ecommerce_api.controller.Order;
 import com.example.ecommerce_api.entity.OrderEntity.Order;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
+import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.services.Order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +20,30 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @Autowired
-    public OrderController(OrderService orderService) {
+    private UserRepository userRepository;
+
+    public OrderController(OrderService orderService, UserRepository userRepository) {
         this.orderService = orderService;
+        this.userRepository = userRepository;
     }
 
     // 🔵 Müşterinin kendi sepetinden sipariş oluşturur
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(Principal principal) {
+    public ResponseEntity<Order> createOrder(@RequestBody Order incomingOrder, Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
-        Order order = orderService.createOrder(customerId);
-        return ResponseEntity.ok(order);
+        
+        // Müşteriyi veritabanından al
+        Customer customer = (Customer) userRepository.findById(customerId)
+            .orElseThrow(() -> new RuntimeException("Customer not found"));
+    
+        // Siparişe müşteri ata
+        incomingOrder.setCustomer(customer);
+    
+        Order savedOrder = orderService.createOrderWithItems(incomingOrder);
+        return ResponseEntity.ok(savedOrder);
     }
+
+
 
     // 🔵 Müşterinin tüm siparişlerini getir
     @GetMapping
@@ -55,8 +69,10 @@ public class OrderController {
 
     // Yardımcı method: Principal'dan customerId çıkar
     private Long getCustomerIdFromPrincipal(Principal principal) {
-        // Burada principal.getName() ile email geliyor, ama 
-        // istersen UserService ile email -> id çözümünü dışarı alabiliriz.
-        throw new UnsupportedOperationException("Principal çözümleme henüz tamamlanmadı.");
+        String email = principal.getName();
+        return userRepository                                // ← static çağrı yerine örnek üzerinden
+            .findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"))
+            .getUserId();
     }
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
-
+import jakarta.persistence.Column;
 
 import com.example.ecommerce_api.entity.UserEntity.Address;
 
@@ -32,6 +32,9 @@ public class Shipping {
     @JoinColumn(name = "shipping_address_id")
     private Address shippingAddress;
 
+    @Column(nullable = false)
+    private double fee;
+
     public Long getShippingId() { return shippingId; }
     public void setShippingId(Long shippingId) { this.shippingId = shippingId; }
 
@@ -52,5 +55,12 @@ public class Shipping {
 
     public String getTracking() {
         return trackingNumber;
+    }
+
+    public double getFee() {
+        return fee;
+    }
+    public void setFee(double fee) {
+        this.fee = fee;
     }
 }

@@ -30,8 +30,6 @@ const routes: Routes = [
 
   { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)},
 
-  { path: 'orders', loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule) },
-
   { path: '**', redirectTo: '/home' }
 ];
 

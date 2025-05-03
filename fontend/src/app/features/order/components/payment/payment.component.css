@@ -1,0 +1,137 @@
+:root {
+  --color-primary:        #A8DF8E;
+  --color-bg-light:       #F3FDE8;
+  --color-error-bg:       #FFE5E5;
+  --color-error-accent:   #FFBFBF;
+  --border-radius:        8px;
+  --transition-speed:     0.3s ease;
+  --text-primary:         #333333;
+  --text-secondary:       #555555;
+  --input-border:         rgba(168, 223, 142, 0.4);
+  --input-focus-shadow:   rgba(168, 223, 142, 0.25);
+}
+
+/* Page Wrapper */
+.payment-page {
+  padding: 4rem 1rem 2rem;
+  background-color: var(--color-bg-light);
+  min-height: calc(100vh - 4rem);
+  box-sizing: border-box;
+}
+
+/* Form Card */
+#payment-form {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: var(--border-radius);
+  border-top: 4px solid var(--color-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transition: box-shadow var(--transition-speed);
+}
+#payment-form:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+/* Form Groups */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+.inline-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Inputs */
+input.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background-color: #fff;
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--input-focus-shadow);
+}
+
+input[readonly] {
+  background-color: var(--color-bg-light);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+/* Validation Styles */
+input.ng-invalid.ng-touched {
+  border-color: var(--color-error-accent);
+  background-color: var(--color-error-bg);
+}
+.invalid-feedback {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-error-bg);
+  color: var(--color-error-accent);
+  border-left: 4px solid var(--color-error-accent);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  font-size: 0.9rem;
+}
+
+/* Button */
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 1.5rem;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: var(--border-radius);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: filter 0.1s ease-in-out, transform 0.1s ease, box-shadow var(--transition-speed);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  #payment-form {
+    margin: 0 1rem;
+    padding: 1.5rem;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+}

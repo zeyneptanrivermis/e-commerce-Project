@@ -106,6 +106,6 @@ export class CartComponent implements OnInit {
   }
 
   goToOrderPage(): void {
-    this.router.navigate(['/orders']);
+    this.router.navigate(['/order']);
   }
 }
