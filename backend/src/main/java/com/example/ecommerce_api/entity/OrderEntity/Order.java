@@ -19,7 +19,7 @@ import com.example.ecommerce_api.entity.UserEntity.Customer;
 
 // incele, gözden geçir
 @Entity
-@Table(name = "order")
+@Table(name = "`order`") // ← dikkat: ters tırnak (backtick) kullanıyoruz
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

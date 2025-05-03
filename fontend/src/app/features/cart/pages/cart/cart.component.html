@@ -31,7 +31,7 @@
     <!-- Toplam tutar ve sipariş -->
     <div class="cart-total">
       <h3>Toplam Tutar: {{ totalPrice | currency:'TRY' }}</h3>
-      <button class="checkout-btn" (click)="checkout()">Siparişi Tamamla</button>
+      <button class="btn btn-success" (click)="goToOrderPage()">Siparişi Tamamla</button>
     </div>
   </div>
 </div>

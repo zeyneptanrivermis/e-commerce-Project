@@ -28,7 +28,8 @@ public class Shipping {
     private String trackingNumber;
     private String status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "shipping_address_id")
     private Address shippingAddress;
 
     public Long getShippingId() { return shippingId; }

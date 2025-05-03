@@ -25,9 +25,12 @@ const routes: Routes = [
   { path: 'products', loadChildren: () => import('./features/products/products.module').then(m => m.ProductsModule) },
 
   { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
-  
+
   { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)},
-  
+
+  { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)},
+  { path: 'orders', loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule) },
+
   { path: '**', redirectTo: '/home' }
 ];
 
