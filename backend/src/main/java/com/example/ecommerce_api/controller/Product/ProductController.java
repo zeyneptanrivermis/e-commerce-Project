@@ -115,5 +115,10 @@ public List<ProductDTO> getAllProducts() {
             .toList();
     }
 
-
+    @GetMapping("/popular") // 🔧 düzeltildi
+    public List<Product> getPopularProducts(@RequestParam(defaultValue = "10") int count) {
+        return productService.getRandomProducts(count);
+    }
+    
+    
 }

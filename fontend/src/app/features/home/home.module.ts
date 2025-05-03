@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { ProductListComponent } from '../products/components/product-list/product-list.component';
 import { HomeComponent } from './pages/home/home.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
         HomeComponent
     ],
     imports: [
-        
+        CommonModule
     ],
     exports: [
 

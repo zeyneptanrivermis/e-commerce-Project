@@ -18,6 +18,7 @@ import { UserModule } from './features/user/user.module';
 import { TokenService } from './core/services/token.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HomeModule } from './features/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     AuthModule,
     LayoutModule,
+
+    HomeModule,
     SharedModule,
     AppRoutingModule,
     UserModule

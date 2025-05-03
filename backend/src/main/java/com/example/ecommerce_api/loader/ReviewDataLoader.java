@@ -1,4 +1,4 @@
-
+/*
 package com.example.ecommerce_api.loader;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
@@ -61,3 +61,4 @@ public class ReviewDataLoader implements CommandLineRunner {
         System.out.println("✅ Tüm ürünlere 2'şer adet review başarıyla yüklendi.");
     }
 }
+*/

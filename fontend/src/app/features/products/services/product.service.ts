@@ -54,9 +54,11 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiUrl);
   }
 
-  getPopularProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/popular`);
+  getPopularProducts(count: number = 10): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/popular?count=${count}`);
   }
+  
+  
   
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
