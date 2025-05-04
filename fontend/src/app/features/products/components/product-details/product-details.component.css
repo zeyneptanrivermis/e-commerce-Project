@@ -158,6 +158,28 @@
   margin-top: 1rem;
 }
 
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.toggle-review-btn {
+  background-color: #A8DF8E;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-review-btn:hover {
+  background-color: #90c96f;
+}
+
 /* Mevcut stillerinize ekleyin */
 
 /* Ana içerik alanının tam genişliği kullanması için */
@@ -176,36 +198,51 @@
 }
 
 /* 3. Sağ sidebar */
+/* Sağ taraftaki öneri kutularını barındıran sidebar */
 .sidebar-right {
-  flex: 0 0 260px;                /* sabit genişlik */
+  flex: 0 0 260px;
   max-width: 260px;
   position: sticky;
   top: 1rem;
   max-height: calc(100vh - 2rem);
   overflow-y: auto;
-  background-color: #fafafa;
-  border-left: 1px solid #e0e0e0;
-  padding: 1rem;
+
+  background-color: #ffffff;
+  border-left: 2px solid #e0e0e0;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
 }
 
-/* 4. Section başlıkları */
-.sidebar-section + .sidebar-section {
-  margin-top: 1.5rem;
+.sidebar-right:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
+/* Sidebar içindeki her bölüm */
+.sidebar-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Başlıklar */
 .sidebar-section h4 {
-  margin: 0 0 0.5rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  border-bottom: 1px solid #ddd;
+  color: #4CAF50;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #A8DF8E;
   padding-bottom: 0.25rem;
 }
 
-/* 5. Mobilde yan yana boşuna kalmasın */
+/* Sonuncu section'da alt çizgi olmasın */
+.sidebar-section:last-child {
+  border-bottom: none;
+}
+
+/* Mobil görünüm: sidebar alta iner, görünüm sadeleşir */
 @media (max-width: 768px) {
-  .page-wrapper {
-    flex-direction: column;
-  }
   .sidebar-right {
     position: static;
     width: 100%;
@@ -213,5 +250,10 @@
     border-left: none;
     border-top: 1px solid #e0e0e0;
     margin-top: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: none;
   }
 }
+

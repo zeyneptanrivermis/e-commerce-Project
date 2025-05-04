@@ -1,9 +1,11 @@
 .top-navbar {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px;
-  background-color: #F3FDE8; /* Açık yeşil pastel */
+  background-color: #F3FDE8;
+  box-sizing: border-box;
 }
 
 .logo img {
@@ -32,12 +34,15 @@
 }
 
 .bottom-navbar {
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 10px 30px;
   background-color: white;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  box-sizing: border-box;
   position: relative;
 }
 

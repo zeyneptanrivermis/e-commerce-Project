@@ -1,25 +1,54 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Sayfanın minimum yüksekliği kadar olmasını sağlar */
+footer {
+  width: 100%;
+  background-color: #f4ffe6; /* arka plan isteğe bağlı */
+  padding: 2rem 0;
+  box-sizing: border-box;
 }
 
-.app-container {
-  display: flex; /* Ana düzen için flexbox kullanıyoruz */
-  flex-direction: column; /* İç öğeleri dikey sırala (varsayılan) */
-  min-height: 100vh; /* Yine tam yüksekliği alması için */
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-column h4 {
+  color: #228B22;
+  border-bottom: 2px solid #228B22;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.social-media {
+  text-align: center;
+  margin-top: 1rem;
+  color: #d85a84;
+}
+
+.social-media i {
+  margin: 0 0.5rem;
+  font-size: 1.5rem;
 }
 
 .main-content {
-  display: flex; /* İçerik ve sidebar'ı yan yana düzenlemek için */
-  flex-grow: 1; /* Kalan alanı kapla */
-  padding: 2rem; /* İsteğe bağlı iç boşluk */
-  box-sizing: border-box; /* Paddingin genişliği etkilememesi için */
-  width: 100%; /* Ana içerik tam genişlik almalı */
-  /* Aşağıdaki satırları kaldırın veya yorum satırı yapın */
-  /* justify-content: center; */
-  /* align-items: center; */
+  padding: 2rem 3rem; /* Üst-alt ve sağ-sol boşluk */
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
-
-/* Eğer navbar ve footer sabit değilse ve akışta yer alıyorsa,
-   main-content'in padding'ini buna göre ayarlamanız gerekebilir. */

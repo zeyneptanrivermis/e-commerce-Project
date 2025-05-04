@@ -14,6 +14,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class ProductDetailsComponent implements OnInit {
   product!: Product;
   currentUserId!: number;
+  showReviews = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,5 +48,9 @@ export class ProductDetailsComponent implements OnInit {
         alert('Ürün sepete eklenirken bir hata oluştu!');
       }
     });
+  }
+
+  toggleReviews(): void {
+    this.showReviews = !this.showReviews;
   }
 }
