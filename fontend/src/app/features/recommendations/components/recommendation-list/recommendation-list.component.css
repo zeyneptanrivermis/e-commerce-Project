@@ -1,0 +1,66 @@
+.recommendation-box {
+  padding: 0.5rem;
+  background: #fdfdfd;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+.sidebar-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.25rem;
+  color: #333;
+}
+
+.recommendation-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.rec-card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: box-shadow .2s;
+}
+
+.rec-card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.rec-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.rec-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.rec-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #007acc;
+  text-decoration: none;
+}
+
+.rec-name:hover {
+  text-decoration: underline;
+}
+
+.rec-price {
+  font-size: 0.8rem;
+  color: #555;
+  margin-top: 0.2rem;
+}

@@ -8,6 +8,8 @@ import { ProductsRoutingModule } from './products-routing.module';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ManageProductsComponent } from './pages/manage-products/manage-products.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RecommendationListComponent } from '../recommendations/components/recommendation-list/recommendation-list.component';
+import { RecommendationsModule } from '../recommendations/recommendations.module';
 
 
 
@@ -18,16 +20,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProductListComponent,
     ProductItemComponent,
     ProductDetailsComponent,
-    ManageProductsComponent,
-
+    ManageProductsComponent
   ],
   imports: [
     CommonModule,
     ProductsRoutingModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RecommendationsModule
   ],
   exports: [
+    ProductItemComponent
   ],
   providers: []
 })

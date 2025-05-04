@@ -19,6 +19,7 @@ import { TokenService } from './core/services/token.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeModule } from './features/home/home.module';
+import { RecommendationsModule } from './features/recommendations/recommendations.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,11 +28,11 @@ import { HomeModule } from './features/home/home.module';
     ReactiveFormsModule,
     AuthModule,
     LayoutModule,
-
     HomeModule,
     SharedModule,
     AppRoutingModule,
-    UserModule
+    UserModule,
+    RecommendationsModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),

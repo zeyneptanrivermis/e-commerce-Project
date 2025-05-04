@@ -1,78 +1,105 @@
-<div *ngIf="product">
-<div *ngIf="product" class="product-details-page">
-    <h2 class="product-title">{{ product.name }}</h2>
+<!-- src/app/features/products/components/product-details/product-details.component.html -->
+<div class="page-wrapper">
 
-    <div class="product-info-row">
-      <div class="product-box">
-        <h4>Description</h4>
-        <p>{{ product.description }}</p>
-      </div>
+  <!-- Ana içerik kolonu -->
+  <main class="content">
+    <div *ngIf="product">
+      <div *ngIf="product" class="product-details-page">
+        <h2 class="product-title">{{ product.name }}</h2>
 
-      <div class="product-box">
-        <h4>Price</h4>
-        <p>{{ product.price | currency }}</p>
-      </div>
+        <div class="product-info-row">
+          <div class="product-box">
+            <h4>Description</h4>
+            <p>{{ product.description }}</p>
+          </div>
 
-      <div class="product-box">
-        <h4>Shipping</h4>
-        <p>{{ product.shippingCost | currency }}</p>
-      </div>
+          <div class="product-box">
+            <h4>Price</h4>
+            <p>{{ product.price | currency }}</p>
+          </div>
 
-      <div class="product-box">
-        <h4>Stock</h4>
-        <p>{{ product.stockCount }}</p>
-      </div>
+          <div class="product-box">
+            <h4>Shipping</h4>
+            <p>{{ product.shippingCost | currency }}</p>
+          </div>
 
-      <div class="product-box">
-        <h4>Rating</h4>
-        <p>{{ product.avgRating }} / 5</p>
-      </div>
+          <div class="product-box">
+            <h4>Stock</h4>
+            <p>{{ product.stockCount }}</p>
+          </div>
 
-      <div class="product-box">
-        <h4>Seller</h4>
-        <p>{{ product.seller?.name }} ({{ product.seller?.email }})</p>
-      </div>
+          <div class="product-box">
+            <h4>Rating</h4>
+            <p>{{ product.avgRating }} / 5</p>
+          </div>
 
-      <div class="product-box">
-        <h4>Main Category</h4>
-        <a
-          [routerLink]="['/products']"
-          [queryParams]="{ category: product.mainCategory }"
-          class="category-badge clickable"
-        >
-          {{ product.mainCategory }}
-        </a>
-      </div>
+          <div class="product-box">
+            <h4>Seller</h4>
+            <p>{{ product.seller?.name }} ({{ product.seller?.email }})</p>
+          </div>
 
-      <div class="product-box" *ngIf="product.sideCategories?.length">
-        <h4>Sub Categories</h4>
-        <div class="subcategory-badges">
-          <ng-container *ngFor="let sub of product.sideCategories">
-            <span class="subcategory-badge">{{ sub }}</span>
-          </ng-container>
+          <div class="product-box">
+            <h4>Main Category</h4>
+            <a
+              [routerLink]="['/products']"
+              [queryParams]="{ category: product.mainCategory }"
+              class="category-badge clickable"
+            >
+              {{ product.mainCategory }}
+            </a>
+          </div>
+
+          <div class="product-box" *ngIf="product.sideCategories?.length">
+            <h4>Sub Categories</h4>
+            <div class="subcategory-badges">
+              <ng-container *ngFor="let sub of product.sideCategories">
+                <span class="subcategory-badge">{{ sub }}</span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-actions">
+          <button (click)="addToCart(product.id)">Add to Cart</button>
         </div>
       </div>
-    </div>
 
-    <div class="product-actions">
-      <button (click)="addToCart(product.id)">Add to Cart</button>
-    </div>
-  </div>
+      <div class="review-section">
+        <h2 class="review-title">Reviews</h2>
 
-  <div class="review-section">
-    <h2 class="review-title">Reviews</h2>
+        <div *ngIf="product.reviews && product.reviews.length > 0; else noReviews">
+          <div class="review-box" *ngFor="let review of product.reviews">
+            <p><strong>{{ review.customerName }}</strong></p>
+            <p>Puan: {{ review.rating }} / 5</p>
+            <p>{{ review.comment }}</p>
+            <p *ngIf="review.edited" class="edited-label">(Düzenlenmiş)</p>
+          </div>
+        </div>
 
-    <div *ngIf="product.reviews && product.reviews.length > 0; else noReviews">
-      <div class="review-box" *ngFor="let review of product.reviews">
-        <p><strong>{{ review.customerName }}</strong></p>
-        <p>Puan: {{ review.rating }} / 5</p>
-        <p>{{ review.comment }}</p>
-        <p *ngIf="review.edited" class="edited-label">(Düzenlenmiş)</p>
+        <ng-template #noReviews>
+          <p class="no-reviews-message">There are no reviews yet.</p>
+        </ng-template>
       </div>
     </div>
+  </main>
 
-    <ng-template #noReviews>
-      <p class="no-reviews-message">There are no reviews yet.</p>
-    </ng-template>
-  </div>
+  <!-- Sağda kayan öneri sidebar’ı -->
+  <aside class="sidebar-right">
+    <section class="sidebar-section">
+      <h4>Benzer Ürünler</h4>
+      <app-similar-products
+        *ngIf="product?.id"
+        [productId]="product.id">
+      </app-similar-products>
+    </section>
+
+    <section class="sidebar-section">
+      <h4>Beğenebileceğin Ürünler</h4>
+      <app-recommendation-list
+        *ngIf="currentUserId"
+        [userId]="currentUserId">
+      </app-recommendation-list>
+    </section>
+  </aside>
+
 </div>

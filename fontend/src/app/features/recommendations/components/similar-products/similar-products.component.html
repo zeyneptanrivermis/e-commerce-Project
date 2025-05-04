@@ -1,0 +1,20 @@
+<div class="recommendation-box similar-box">
+  <h5 class="sidebar-title">Benzer Ürünler</h5>
+  <div class="recommendation-cards">
+    <div
+      class="rec-card"
+      *ngFor="let item of similarList"
+      (click)="goToProduct(item.product.id)"
+    >
+      <div class="rec-info">
+        <a
+          class="rec-name"
+          [routerLink]="['/products', item.product.id]"
+        >
+          {{ item.product.name }}
+        </a>
+        <p class="rec-price">{{ item.product.price | currency }}</p>
+      </div>
+    </div>
+  </div>
+</div>

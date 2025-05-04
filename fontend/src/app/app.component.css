@@ -1,16 +1,25 @@
 :host {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Sayfanın minimum yüksekliği kadar olmasını sağlar */
+}
+
+.app-container {
+  display: flex; /* Ana düzen için flexbox kullanıyoruz */
+  flex-direction: column; /* İç öğeleri dikey sırala (varsayılan) */
+  min-height: 100vh; /* Yine tam yüksekliği alması için */
 }
 
 .main-content {
-  flex: 1; /* Navbar ve footer arasında kalan alan */
-  display: flex;
-  justify-content: center; /* Yatayda ortala */
-  align-items: center;     /* Dikeyde ortala */
-  padding: 2rem;
-  width: 100%;             /* Ana içerik tam genişlik almalı */
-  box-sizing: border-box;  /* Paddingin genişliği etkilememesi için */
+  display: flex; /* İçerik ve sidebar'ı yan yana düzenlemek için */
+  flex-grow: 1; /* Kalan alanı kapla */
+  padding: 2rem; /* İsteğe bağlı iç boşluk */
+  box-sizing: border-box; /* Paddingin genişliği etkilememesi için */
+  width: 100%; /* Ana içerik tam genişlik almalı */
+  /* Aşağıdaki satırları kaldırın veya yorum satırı yapın */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 
+/* Eğer navbar ve footer sabit değilse ve akışta yer alıyorsa,
+   main-content'in padding'ini buna göre ayarlamanız gerekebilir. */
