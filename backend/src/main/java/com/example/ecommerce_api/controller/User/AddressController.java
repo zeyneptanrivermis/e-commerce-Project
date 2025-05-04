@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ecommerce_api.dto.AddressDTO;
+import com.example.ecommerce_api.dto.UserDTO.AddressDTO;
 import com.example.ecommerce_api.entity.UserEntity.Address;
 import com.example.ecommerce_api.repository.UserRepositories.AddressRepository;
 import com.example.ecommerce_api.services.User.AddressService;

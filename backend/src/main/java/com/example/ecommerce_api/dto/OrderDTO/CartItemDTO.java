@@ -1,4 +1,6 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.OrderDTO;
+
+import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 
 public class CartItemDTO {
     private Long cartItemId;

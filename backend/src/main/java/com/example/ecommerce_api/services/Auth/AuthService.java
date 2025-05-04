@@ -1,6 +1,6 @@
 package com.example.ecommerce_api.services.Auth;
 
-import com.example.ecommerce_api.dto.LoginRequest;
+import com.example.ecommerce_api.dto.UserDTO.LoginRequest;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.security.JwtUtil;

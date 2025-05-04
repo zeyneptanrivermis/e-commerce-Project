@@ -9,6 +9,7 @@ import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.security.CustomerDetails;
+import com.example.ecommerce_api.security.UserDetailsImpl;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
@@ -20,10 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = (Customer) userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
-
-        return new CustomerDetails(customer);
+    
+        return new UserDetailsImpl(user); // ❗ Tüm roller (Admin, Customer) için ortak
     }
-
+    
 }

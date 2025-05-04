@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserComponent } from './user/user.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { UserOrderlistComponent } from './user-orderlist/user-orderlist.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       { path: 'user-profile', component: UserProfileComponent },
       { path: 'wishlist', component: WishlistComponent },
+      { path: 'orderlist', component: UserOrderlistComponent},
       { path: '', redirectTo: 'user-profile', pathMatch: 'full' } // opsiyonel: boşken profil aç
     ]
   }

@@ -1,7 +1,7 @@
 package com.example.ecommerce_api.controller.Cart;
 
-import com.example.ecommerce_api.dto.CartItemDTO;
-import com.example.ecommerce_api.dto.ProductDTO;
+import com.example.ecommerce_api.dto.OrderDTO.CartItemDTO;
+import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.entity.CartEntity.CartItem;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.services.Cart.CartService;

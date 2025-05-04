@@ -1,5 +1,7 @@
 package com.example.ecommerce_api.services.Order;
 
+import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
+import com.example.ecommerce_api.dto.OrderDTO.OrderItemDTO;
 import com.example.ecommerce_api.entity.CartEntity.Cart;
 import com.example.ecommerce_api.entity.CartEntity.CartItem;
 import com.example.ecommerce_api.entity.OrderEntity.Order;
@@ -19,6 +21,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,6 +102,30 @@ public class OrderService {
         cartItemRepository.deleteAll(cartItems);
 
         return savedOrder;
+    }
+
+    public List<OrderDTO> getOrdersByUserId(Long userId) {
+        List<Order> orders = orderRepository.findAllById(Collections.singletonList(userId));
+
+        return orders.stream().map(order -> {
+            Payment payment = paymentRepository.findByOrder(order)
+                    .orElseThrow(() -> new RuntimeException("Payment not found for the order."));
+            
+            OrderDTO dto = new OrderDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+            dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+            dto.setStatus(payment.getStatus());
+            dto.setPaymentDate(payment.getPaymentDate());
+
+            List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .map(OrderItemDTO::fromEntity) 
+                    .toList();
+
+            dto.setItemList(itemDtos);
+
+            return dto;
+        }).toList();
     }
 
     // Müşterinin siparişlerini listele

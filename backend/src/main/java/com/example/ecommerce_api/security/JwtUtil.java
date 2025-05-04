@@ -10,6 +10,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
@@ -24,14 +25,16 @@ public class JwtUtil {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        // Add user information to the claims
-        claims.put("role", user.getRoles().stream().findFirst().get().getName());
-        claims.put("userId", user.getUserId());  // Add user ID
-        claims.put("name", user.getName());      // Use "name" instead of "username"
-        claims.put("surname", user.getSurname());
-        claims.put("email", user.getEmail());  // Optionally, include email
 
-        // Generate the JWT token with the claims
+        claims.put("roles", user.getRoles().stream()
+            .map(role -> role.getName())
+            .collect(Collectors.toList()));
+
+        claims.put("userId", user.getUserId());
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+        claims.put("email", user.getEmail());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getEmail())
@@ -40,25 +43,28 @@ public class JwtUtil {
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
+    
     public String generateRefreshToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        // Add user information to the claims
-        claims.put("role", user.getRoles().stream().findFirst().get().getName());
-        claims.put("userId", user.getUserId());  // Add user ID
-        claims.put("name", user.getName());      // Use "name" instead of "username"
-        claims.put("surname", user.getSurname());
-        claims.put("email", user.getEmail());  // Optionally, include email
 
-        // Generate the JWT refresh token
+        claims.put("roles", user.getRoles().stream()
+            .map(role -> role.getName())
+            .collect(Collectors.toList()));
+
+        claims.put("userId", user.getUserId());
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+        claims.put("email", user.getEmail());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7 days
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 7)) // 7 gün
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     public String extractUsername(String token) {
         try {
@@ -69,7 +75,6 @@ public class JwtUtil {
                 .getBody();
             
             String username = claims.getSubject();  // Username'i al
-            System.out.println("Decoded Token Username: " + username); // Token içeriğini kontrol et
             return username;
         } catch (JwtException e) {
             System.err.println("Token çözme hatası: " + e.getMessage());

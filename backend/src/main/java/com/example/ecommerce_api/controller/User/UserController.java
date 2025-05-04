@@ -1,8 +1,8 @@
 package com.example.ecommerce_api.controller.User;
 
-import com.example.ecommerce_api.dto.ProductDTO;
-import com.example.ecommerce_api.dto.UserDTO;
-import com.example.ecommerce_api.dto.WishlistRequest;
+import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
+import com.example.ecommerce_api.dto.UserDTO.UserDTO;
+import com.example.ecommerce_api.dto.UserDTO.WishlistRequest;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;

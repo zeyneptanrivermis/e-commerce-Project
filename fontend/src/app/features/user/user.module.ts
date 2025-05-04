@@ -10,6 +10,7 @@ import { UserRoutingModule } from './user.routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressModule } from '../address/address.module';
 import { AddressComponent } from '../address/address-component/address.component';
+import { UserOrderlistComponent } from './user-orderlist/user-orderlist.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { AddressComponent } from '../address/address-component/address.component
     WishlistComponent,
     UserComponent,
     UserProfileComponent,
-    AddressComponent
+    AddressComponent,
+    UserOrderlistComponent
   ],
   imports: [
     CommonModule,

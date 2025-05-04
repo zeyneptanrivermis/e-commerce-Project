@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ecommerce_api.dto.RecommendationDTO;
+import com.example.ecommerce_api.dto.ProductDTO.RecommendationDTO;
 import com.example.ecommerce_api.services.Recommendation.RecommendationService;
 
 @RestController

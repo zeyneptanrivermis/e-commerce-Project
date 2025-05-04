@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.ProductDTO;
 
 import com.example.ecommerce_api.entity.ProductEntity.Review;
 

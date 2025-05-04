@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.UserDTO;
 
 public class SellerDTO {
     private Long id;

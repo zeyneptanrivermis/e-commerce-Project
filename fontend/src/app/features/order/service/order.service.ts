@@ -24,11 +24,10 @@ export class OrderService {
     return this.http.post(`${this.baseUrl}/create`, order, { headers });
   }
 
-
-  // Kullanıcının tüm siparişlerini getirme
-  getUserOrders(userId: number): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`);
+  getUserOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/user`);
   }
+  
 
   // Tekil siparişi ID ile alma
   getOrderById(orderId: number): Observable<Order> {

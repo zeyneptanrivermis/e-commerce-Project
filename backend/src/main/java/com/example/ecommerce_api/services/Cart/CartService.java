@@ -2,7 +2,7 @@ package com.example.ecommerce_api.services.Cart;
 
 import java.util.List;
 
-import com.example.ecommerce_api.dto.CartItemDTO;
+import com.example.ecommerce_api.dto.OrderDTO.CartItemDTO;
 import com.example.ecommerce_api.entity.CartEntity.CartItem;
 
 public interface CartService {

@@ -1,4 +1,5 @@
 import { OrderItem } from "./order.item.model";
+import { Payment } from "./payment.model";
 
 export interface Order {
   orderId?: number;
@@ -8,4 +9,5 @@ export interface Order {
   totalWithoutDiscount?: number;   // Backend hesaplıyor
   totalWithDiscount?: number;      // Backend hesaplıyor
   shippingAddressId: number;
+  paymentInfo: Payment;
 }

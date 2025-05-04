@@ -1,8 +1,9 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.ProductDTO;
 
 
 import java.util.List;
 
+import com.example.ecommerce_api.dto.UserDTO.SellerDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Category;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 

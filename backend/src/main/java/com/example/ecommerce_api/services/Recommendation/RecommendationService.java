@@ -1,6 +1,5 @@
 package com.example.ecommerce_api.services.Recommendation;
 
-import com.example.ecommerce_api.dto.RecommendationDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.ecommerce_api.dto.ProductDTO.RecommendationDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;

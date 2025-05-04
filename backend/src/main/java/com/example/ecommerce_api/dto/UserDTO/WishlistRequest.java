@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.UserDTO;
 
 //frontendden gelen productId bilgisisni karsilamak icin kullanilacaktir
 public class WishlistRequest {

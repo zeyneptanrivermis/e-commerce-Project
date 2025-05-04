@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ecommerce_api.dto.ChatRequest;
-import com.example.ecommerce_api.dto.ChatResponse;
+import com.example.ecommerce_api.dto.featuresDTO.ChatRequest;
+import com.example.ecommerce_api.dto.featuresDTO.ChatResponse;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;

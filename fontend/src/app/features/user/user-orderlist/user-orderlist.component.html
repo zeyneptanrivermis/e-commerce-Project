@@ -1,0 +1,21 @@
+<div *ngIf="loading">Yükleniyor...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="orders.length > 0">
+  <div *ngFor="let order of orders" class="order-card">
+    <h3>Sipariş #{{ order.orderId }}</h3>
+    <p><strong>Tarih:</strong> {{ order.paymentInfo?.paymentDate| date:'medium' }}</p>
+    <p><strong>Durum:</strong> {{ order.paymentInfo?.status }}</p>
+    <p><strong>Toplam:</strong> {{ order.totalWithDiscount | currency:'TRY' }}</p>
+
+    <ul>
+      <li *ngFor="let item of order.itemList">
+        {{ item.productName }} - {{ item.quantity }} adet - {{ item.totalPrice | currency:'TRY' }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div *ngIf="!loading && orders.length === 0">
+  <p>Hiç siparişiniz yok.</p>
+</div>

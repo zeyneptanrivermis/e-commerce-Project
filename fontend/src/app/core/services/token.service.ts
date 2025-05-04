@@ -8,15 +8,16 @@ import { isPlatformBrowser } from '@angular/common';
 export class TokenService {
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-  getToken(): string | null {
-    console.log('Running in browser?', isPlatformBrowser(this.platformId));
-    console.log('Token in TokenService:', localStorage.getItem('token'));
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('token');
-
-    }
-    return null;
+getToken(): string | null {
+  if (isPlatformBrowser(this.platformId)) {
+    const token = localStorage.getItem('token');
+    console.log('TokenService: token =', token);
+    return token;
   }
+
+  console.log('TokenService: Not in browser');
+  return null;
+}
 
   setToken(token: string): void {
     if (isPlatformBrowser(this.platformId)) {

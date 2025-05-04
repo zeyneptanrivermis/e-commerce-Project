@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.controller.Order;
 
+import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.entity.OrderEntity.Order;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
@@ -45,11 +46,14 @@ public class OrderController {
 
 
 
-    // 🔵 Müşterinin tüm siparişlerini getir
-    @GetMapping
-    public ResponseEntity<List<Order>> getCustomerOrders(Principal principal) {
-        Long customerId = getCustomerIdFromPrincipal(principal);
-        List<Order> orders = orderService.getOrdersByCustomer(customerId);
+    @GetMapping("/user")
+    public ResponseEntity<List<OrderDTO>> getUserOrders(Principal principal) {
+        String email = principal.getName();
+        Long userId = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı"))
+                .getUserId();
+
+        List<OrderDTO> orders = orderService.getOrdersByUserId(userId);
         return ResponseEntity.ok(orders);
     }
 

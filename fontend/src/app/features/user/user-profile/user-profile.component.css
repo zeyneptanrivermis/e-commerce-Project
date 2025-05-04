@@ -1,7 +1,8 @@
 main {
   min-height: 100vh;
-  padding-top: 6rem; /* Welcome mesajının görünmesi için padding artırıldı */
+  padding-top: 80px; /* Navbar yüksekliğine göre ayarlayın */
 }
+
 
 .user-profile-layout {
   display: flex;
@@ -20,6 +21,7 @@ main {
 .profile-card,
 .address-card {
   flex: 1; /* Her iki kart da eşit oranda yer kaplayacak */
+  padding-top: 10px;
   min-width: 320px;
   max-width: 700px;
   margin: 0;

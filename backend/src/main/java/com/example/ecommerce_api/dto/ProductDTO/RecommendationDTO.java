@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.ProductDTO;
 
 public class RecommendationDTO {
     private Long productId;

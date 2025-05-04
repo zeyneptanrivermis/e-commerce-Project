@@ -1,4 +1,4 @@
-package com.example.ecommerce_api.dto;
+package com.example.ecommerce_api.dto.featuresDTO;
 
 public class ChatResponse {
     private String reply;

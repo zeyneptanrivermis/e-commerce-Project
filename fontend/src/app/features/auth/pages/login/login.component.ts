@@ -26,24 +26,32 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   doLogin(): void {
     if (this.loginForm.invalid) {
       this.errorMessage = 'Lütfen geçerli bir e-posta ve şifre girin.';
       return;
     }
-  
-    const email = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
-  
+
+    const { email, password } = this.loginForm.value;
+
     this.authService.login(email, password).subscribe({
       next: (response) => {
-        console.log('Login response:', response);  // <-- Burası önemli
-  
         if (response && response.token) {
-          this.authService.saveToken(response.token);  // <-- Sadece "token" kaydediyoruz
-          console.log('Token başarıyla kaydedildi.');
-          this.router.navigate(['/']);
+          this.authService.saveToken(response.token);
+
+          const roles = this.authService.getUserRoles();
+          console.log('🎫 Kullanıcı rolleri:', roles);
+
+          // ✅ ROL BAZLI YÖNLENDİRME
+          if (roles.includes('ROLE_ADMIN')) {
+            this.router.navigate(['/admin']);
+          } else if (roles.includes('ROLE_SELLER')) {
+            this.router.navigate(['/seller/dashboard']);
+          } else if (roles.includes('ROLE_CUSTOMER')) {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/']); // varsayılan
+          }
         } else {
           this.errorMessage = 'Sunucudan geçerli bir token alınamadı.';
         }
@@ -54,7 +62,6 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  
 
   goToLogin(): void {
     this.router.navigate(['/login']);

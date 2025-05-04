@@ -7,6 +7,7 @@ import { RegisterComponent } from './features/auth/pages/register/register.compo
 import { HomeComponent } from './features/home/pages/home/home.component';
 import { AuthLayoutComponent } from './features/auth/auth-layout/auth-layout.component';
 import { UserComponent } from './features/user/user/user.component';
+import { AdminComponent } from './admin-layout/admin/admin/admin.component';
 
 
 const routes: Routes = [
@@ -26,10 +27,12 @@ const routes: Routes = [
 
   { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
 
-  { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule)},
+  { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),    data: { roles: ['ROLE_CUSTOMER'] }},
 
   { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)},
 
+  { path: 'admin', component: AdminComponent,canActivate: [AuthGuard],data: { roles: ['ROLE_ADMIN'] } },
+  
   { path: '**', redirectTo: '/home' }
 ];
 

@@ -1,4 +1,13 @@
-<div class="app-container">
+<div
+class="app-container"
+*ngIf="isLoggedIn && userRoles?.includes('ROLE_ADMIN')">
+<a  href="/admin">Log in</a>
+  <router-outlet></router-outlet>
+</div>
+
+<div
+  class="app-container"
+  *ngIf="!isLoggedIn || userRoles?.includes('ROLE_CUSTOMER')">
   <app-navbar></app-navbar>
 
   <main class="main-content">
@@ -6,6 +15,7 @@
   </main>
 
   <app-footer></app-footer>
+  <app-chat *ngIf="isLoggedIn"></app-chat> <!-- sayfa dışı sabit chat butonu -->
 </div>
 
-<app-chat *ngIf="isLoggedIn"></app-chat> <!-- sayfa dışı sabit chat butonu -->
+
