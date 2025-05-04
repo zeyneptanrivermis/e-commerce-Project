@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'e-commerceWebsite';
+
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // veya sessionStorage vs.
+  }
 }

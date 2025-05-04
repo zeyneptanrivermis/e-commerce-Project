@@ -20,6 +20,7 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HomeModule } from './features/home/home.module';
 import { RecommendationsModule } from './features/recommendations/recommendations.module';
+import { ChatModule } from './features/chat/chat.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { RecommendationsModule } from './features/recommendations/recommendation
     SharedModule,
     AppRoutingModule,
     UserModule,
-    RecommendationsModule
+    RecommendationsModule,
+    ChatModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),
