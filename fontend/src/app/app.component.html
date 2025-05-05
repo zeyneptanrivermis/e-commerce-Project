@@ -1,21 +1,31 @@
-<div
-class="app-container"
-*ngIf="isLoggedIn && userRoles?.includes('ROLE_ADMIN')">
-<a  href="/admin">Log in</a>
-  <router-outlet></router-outlet>
-</div>
+<ng-container *ngIf="dataLoaded; else loading">
 
-<div
-  class="app-container"
-  *ngIf="!isLoggedIn || userRoles?.includes('ROLE_CUSTOMER')">
-  <app-navbar></app-navbar>
+  <!-- 1) Non-admin layout -->
+  <ng-container *ngIf="showLayout; else adminOnly">
+    <app-navbar class="fixed-navbar"></app-navbar>
 
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
 
-  <app-footer></app-footer>
-  <app-chat *ngIf="isLoggedIn"></app-chat> <!-- sayfa dışı sabit chat butonu -->
-</div>
+    <app-footer class="fixed-footer"></app-footer>
 
+    <!-- 5) Chat-bot sadece non-admin ve (istersen) login olmuşsa -->
+    <app-chat
+      class="chat-bot"
+      *ngIf="isLoggedIn">
+    </app-chat>
+  </ng-container>
 
+  <!-- 2) Admin-only layout -->
+  <ng-template #adminOnly>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </ng-template>
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading">Loading…</div>
+</ng-template>

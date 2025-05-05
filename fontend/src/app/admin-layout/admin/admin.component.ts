@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { AuthService } from './../../../features/auth/services/auth.service';
 import { Component } from '@angular/core';
+import { AuthService } from '../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -19,8 +19,8 @@ export class AdminComponent {
     this.authService.logout();
     this.router.navigate(['/home']).then(() => {
       setTimeout(() => {
-        window.location.reload(); 
-      }, 100); 
+        window.location.reload();
+      }, 100);
     });
   }
 

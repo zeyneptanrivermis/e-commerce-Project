@@ -1,38 +1,69 @@
-import { UserModule } from './features/user/user.module';
-import { NgModule } from '@angular/core';
+import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './features/auth/pages/login/login.component';
-import { AuthGuard } from './core/guards/auth-guard.service';
-import { RegisterComponent } from './features/auth/pages/register/register.component';
-import { HomeComponent } from './features/home/pages/home/home.component';
-import { AuthLayoutComponent } from './features/auth/auth-layout/auth-layout.component';
-import { UserComponent } from './features/user/user/user.component';
-import { AdminComponent } from './admin-layout/admin/admin/admin.component';
 
+import { LoginComponent }        from './features/auth/pages/login/login.component';
+import { RegisterComponent }     from './features/auth/pages/register/register.component';
+import { HomeComponent }         from './features/home/pages/home/home.component';
+import { AuthLayoutComponent }   from './features/auth/auth-layout/auth-layout.component';
+import { AuthGuard }             from './core/guards/auth-guard.service';
 
 const routes: Routes = [
+  // 1) Anasayfa
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
 
+  // 2) Auth (login/register)
   {
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
+      { path: 'login',    component: LoginComponent },
       { path: 'register', component: RegisterComponent }
     ]
   },
 
-  { path: 'products', loadChildren: () => import('./features/products/products.module').then(m => m.ProductsModule) },
+  // 3) Ürün listeleme (herkes görebilir)
+  {
+    path: 'products',
+    loadChildren: () => import('./features/products/products.module')
+                          .then(m => m.ProductsModule)
+  },
 
-  { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
+  // 4) Sepet (misafir de görebilir)
+  {
+    path: 'shopping-cart',
+    loadChildren: () => import('./features/cart/cart.module')
+                          .then(m => m.CartModule)
+  },
 
-  { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),    data: { roles: ['ROLE_CUSTOMER'] }},
+  // 5) Kullanıcı profili (sadece müşteri)
+  {
+    path: 'user',
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_CUSTOMER'] },
+    loadChildren: () => import('./features/user/user.module')
+                          .then(m => m.UserModule)
+  },
 
-  { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)},
+  // 6) Siparişler (sadece müşteri)
+  {
+    path: 'order',
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_CUSTOMER'] },
+    loadChildren: () => import('./features/order/order.module')
+                          .then(m => m.OrderModule)
+  },
 
-  { path: 'admin', component: AdminComponent,canActivate: [AuthGuard],data: { roles: ['ROLE_ADMIN'] } },
-  
+  // 7) Admin (sadece admin, navbar/footer gizli olsun)
+  {
+    path: 'admin',
+    canActivate: [AuthGuard],
+    data: { roles: ['ROLE_ADMIN'], hideLayout: true },
+    loadChildren: () => import('./admin-layout/admin-layout.module')
+                          .then(m => m.AdminLayoutModule)
+  },
+
+  // 8) Yakalanamayan tüm rotalar
   { path: '**', redirectTo: '/home' }
 ];
 

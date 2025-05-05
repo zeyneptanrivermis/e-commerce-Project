@@ -1,0 +1,45 @@
+<div class="card">
+  <h2>Kullanıcılar</h2>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Ad Soyad</th><th>Email</th><th>Rol</th><th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of users">
+        <td>{{ u.id }}</td>
+        <td>{{ u.name }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.roles.join(', ') }}</td>
+        <td>
+          <button (click)="edit(u)">Düzenle</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Düzenleme formu modal benzeri -->
+<div class="modal-backdrop" *ngIf="editingUser">
+  <div class="modal">
+    <h3>Kullanıcı Düzenle</h3>
+    <form [formGroup]="form" (ngSubmit)="save()">
+
+      <label>Ad Soyad</label>
+      <input formControlName="name" />
+
+      <label>Email</label>
+      <input formControlName="email" />
+
+      <label>Roller (virgülle ayrılmış)</label>
+      <input formControlName="roles" />
+
+      <div class="actions">
+        <button type="button" (click)="cancel()">İptal</button>
+        <button type="submit" [disabled]="form.invalid">Kaydet</button>
+      </div>
+    </form>
+  </div>
+</div>
+s

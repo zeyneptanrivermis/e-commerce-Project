@@ -20,7 +20,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HomeModule } from './features/home/home.module';
 import { RecommendationsModule } from './features/recommendations/recommendations.module';
 import { ChatModule } from './features/chat/chat.module';
-import { AdminModule } from './admin-layout/admin-layout.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,8 +33,7 @@ import { AdminModule } from './admin-layout/admin-layout.module';
     AppRoutingModule,
     UserModule,
     RecommendationsModule,
-    ChatModule,
-    AdminModule
+    ChatModule
   ],
   providers: [
     provideClientHydration(withEventReplay()),

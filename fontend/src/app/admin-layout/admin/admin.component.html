@@ -1,0 +1,53 @@
+<div class="admin-container">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">ADMIN PANEL</div>
+
+    <nav>
+      <ul>
+        <li routerLinkActive="active">
+          <a routerLink="dashboard">
+            <span class="icon">🏠</span>
+            <span class="label">Dashboard</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="users">
+            <span class="icon">👥</span>
+            <span class="label">Kullanıcılar</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="products">
+            <span class="icon">📦</span>
+            <span class="label">Ürünler</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="orders">
+            <span class="icon">🛒</span>
+            <span class="label">Siparişler</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="support">
+            <span class="icon">💬</span>
+            <span class="label">Destek</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="logout-btn" (click)="logout()">
+      <span class="icon">🚪</span>
+      <span class="label">Çıkış Yap</span>
+    </button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <section class="admin-content">
+    <router-outlet></router-outlet>
+  </section>
+
+</div>

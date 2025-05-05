@@ -1,4 +1,4 @@
-/*package com.example.ecommerce_api.loader;
+package com.example.ecommerce_api.loader;
 
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.entity.UserEntity.Role;
@@ -58,4 +58,3 @@ public class AdminLoader {
         System.out.println("✔ Admin kullanıcı başarıyla yüklendi: " + adminEmail);
     }
 }
-*/

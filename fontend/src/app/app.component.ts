@@ -1,37 +1,61 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { AuthService } from './features/auth/services/auth.service';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser }                     from '@angular/common';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { filter }                                from 'rxjs/operators';
+import { AuthService }                           from './features/auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  standalone:false
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'e-commerceWebsite';
-  userRoles: string[] = []; // Holds the roles of the logged-in user
+export class AppComponent implements OnInit {
+  userRoles: string[] = [];
+  dataLoaded = false;
+  isAdmin = false;
+  showLayout = true;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private authService: AuthService
-  ) {
-    if (this.isLoggedIn) {
-      this.userRoles = this.authService.getUserRoles(); // Fetch user roles if logged in
-    }
-  }
-  
-  ngOnInit(): void {
-    if (this.isLoggedIn) {
-      this.userRoles = this.authService.getUserRoles(); // Kullanıcı rollerini al
-    }
-  }
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
   get isLoggedIn(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('token');
-      return token !== null;
+      return !!localStorage.getItem('token');
     }
-    return false; // Return false during server-side rendering (SSR)
+    return false;
   }
 
+  ngOnInit(): void {
+    // Roller ve login durumunu hazırla
+    if (this.isLoggedIn) {
+      this.userRoles = this.authService.getUserRoles();
+      this.isAdmin    = this.userRoles.includes('ROLE_ADMIN');
+    }
+    this.dataLoaded = true;
+
+    // Her navigasyon sonrası hem root hem çocuk data.hideLayout kontrolü
+    this.router.events.pipe(
+      filter(evt => evt instanceof NavigationEnd)
+    ).subscribe(() => {
+      let route = this.activatedRoute.root;
+      let hide = false;
+
+      // En üstten başlayıp tüm child’lara iniyoruz
+      while (route) {
+        const data = route.snapshot.data;
+        if (data && data['hideLayout']) {
+          hide = true;
+          break;
+        }
+        route = route.firstChild!;
+      }
+
+      this.showLayout = !hide;
+    });
+  }
 }

@@ -1,0 +1,19 @@
+<div class="dashboard-page">
+  <h1>Dashboard</h1>
+  <p>Hoş geldiniz, <strong>{{ authService.getCurrentUser?.name }}</strong>!</p>
+
+  <div class="stats-cards">
+    <div class="card">
+      <h2>Toplam Kullanıcı</h2>
+      <p>{{ stats?.userCount | number }}</p>
+    </div>
+    <div class="card">
+      <h2>Toplam Ürün</h2>
+      <p>{{ stats?.productCount | number }}</p>
+    </div>
+    <div class="card">
+      <h2>Bekleyen Sipariş</h2>
+      <p>{{ stats?.pendingOrders | number }}</p>
+    </div>
+  </div>
+</div>

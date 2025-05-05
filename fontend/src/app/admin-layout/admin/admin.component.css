@@ -1,0 +1,64 @@
+/* admin.component.css */
+:root {
+  --primary-green:   #A8DF8E;
+  --bg-light:        #F3FDE8;
+  --btn-pink:        #FFE5E5;
+  --accent-pink:     #FFBFBF;
+  --text-dark:       #111827;
+  --text-muted:      #475569;
+}
+
+/* Container */
+.admin-container {
+  display: flex; height: 100vh; font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  display: flex; flex-direction: column; padding: 1rem 0;
+  box-shadow: 2px 0 6px rgba(0,0,0,0.05);
+}
+
+.sidebar .logo {
+  text-align: center; font-weight: bold; margin-bottom: 1rem;
+}
+
+/* Menü öğeleri */
+.sidebar nav a {
+  display: flex; align-items: center;
+  padding: .75rem 1.5rem;
+  border-radius: .5rem;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: background-color .2s;
+}
+
+.sidebar nav li.active a,
+.sidebar nav a:hover {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+/* Çıkış butonu */
+.logout-btn {
+  margin: 1rem; padding: .75rem 1rem;
+  background-color: var(--btn-pink);
+  color: var(--text-dark);
+  border: none; border-radius: .5rem;
+  display: flex; align-items: center; cursor: pointer;
+  transition: background-color .2s;
+}
+
+.logout-btn:hover {
+  background-color: var(--accent-pink);
+}
+
+/* Main Content */
+.admin-content {
+  flex: 1;
+  background-color: var(--bg-light);
+  padding: 2rem; overflow-y: auto;
+}
