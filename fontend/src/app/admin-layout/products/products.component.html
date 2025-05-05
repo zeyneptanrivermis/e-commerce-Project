@@ -14,7 +14,9 @@
         <td>{{ p.cancelled ? 'İptal Edildi' : 'Aktif' }}</td>
         <td>
           <button (click)="cancelProduct(p.id)" [disabled]="p.cancelled">İptal Et</button>
+          <button (click)="deleteProduct(p.id)" [disabled]="!p.cancelled">Sil</button>
         </td>
+        
       </tr>
     </tbody>
   </table>

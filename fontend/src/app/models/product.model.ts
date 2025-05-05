@@ -35,6 +35,7 @@ export enum MainCategory {
     stockCount?: number;
     avgRating?: number;
     reviews: Review[]; // 💥 ürünle birlikte gelir
+    cancelled: boolean;
   }
   export interface Seller {
     id: number;

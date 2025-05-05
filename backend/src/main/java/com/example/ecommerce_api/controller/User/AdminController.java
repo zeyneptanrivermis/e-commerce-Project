@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.controller.User;
 
+import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
@@ -93,8 +94,15 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(adminService.getAllProducts());
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.ok(adminService.getAllProductDTOs());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/products/{id}/delete")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        adminService.deleteProductPermanently(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

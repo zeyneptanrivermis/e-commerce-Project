@@ -14,7 +14,7 @@ public class ProductDTO {
     private String description;
     private double avgRating;
     private double shippingCost;
-    private Category mainCategory;
+    private String mainCategory;
     private int stockCount;
 
     private SellerDTO seller;
@@ -30,7 +30,8 @@ public class ProductDTO {
         this.seller = seller;
         this.avgRating = avgRating;
         this.shippingCost = shippingCost;
-        this.mainCategory = mainCategory;
+        this.mainCategory = mainCategory.name();
+
         this.stockCount = stockCount;
         this.reviews=reviews;
     }
@@ -42,25 +43,23 @@ public class ProductDTO {
         this.description = product.getDescription();
         this.avgRating = product.getAvgRating();
         this.shippingCost = product.getShippingCost();
-        this.mainCategory = product.getCategory();
         this.stockCount = product.getStockCount();
-
-        // null kontrolü eklendi, seller varsa DTO'ya aktar
-    if (product.getSeller() != null) {
-        this.seller = new SellerDTO(
-            product.getSeller().getUserId(),
-            product.getSeller().getName(),
-            product.getSeller().getEmail()
-        );
-    } else {
-        this.seller = null;
+    
+        this.mainCategory = (product.getCategory() != null)
+            ? product.getCategory().name()
+            : null;
+    
+        this.seller = (product.getSeller() != null)
+            ? new SellerDTO(product.getSeller().getUserId(),
+                            product.getSeller().getName(),
+                            product.getSeller().getEmail())
+            : null;
+    
+        this.reviews = (product.getReviews() != null)
+            ? product.getReviews().stream().map(ReviewDTO::new).toList()
+            : List.of();
     }
-
-    // null kontrolü ile review listesi güvenli şekilde dolduruldu
-    this.reviews = (product.getReviews() != null)
-        ? product.getReviews().stream().map(ReviewDTO::new).toList()
-        : List.of();
-    }
+    
 
     // Getter ve Setter'lar
 
@@ -104,7 +103,7 @@ public class ProductDTO {
     public double getAvgRating() {
         return avgRating;
     }
-    public Category getMainCategory() {
+    public String getMainCategory() {
         return mainCategory;
     }
     public SellerDTO getSeller() {
@@ -119,7 +118,7 @@ public class ProductDTO {
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }
-    public void setMainCategory(Category mainCategory) {
+    public void setMainCategory(String mainCategory) {
         this.mainCategory = mainCategory;
     }
 

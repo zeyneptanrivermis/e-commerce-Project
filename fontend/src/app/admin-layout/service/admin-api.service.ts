@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Product } from "../../models/product.model";
 
 export interface User {
   userId: number;
@@ -9,13 +10,13 @@ export interface User {
   roles: string[];
   banned: boolean;
 }
-
+/*
 export interface Product {
   id: number;
   name: string;           // ✅ JSON'daki "name" ile eşleşir
   price: number;
   cancelled: boolean;
-}
+}*/
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
@@ -57,4 +58,8 @@ export class AdminApiService {
   cancelProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}`);
   }
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/products/${id}/delete`);
+  }
+  
 }

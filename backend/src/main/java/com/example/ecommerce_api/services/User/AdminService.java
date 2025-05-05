@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.services.User;
 
+import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
 import com.example.ecommerce_api.dto.UserDTO.UserDTO;
@@ -128,6 +129,19 @@ public class AdminService {
 
   @PreAuthorize("hasRole('ADMIN')")
   public List<Product> getAllProducts() {
-    return productRepository.findAll();
-}
+      return productRepository.getAllProductsRaw(); // ← geçici test için kullan
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  public List<ProductDTO> getAllProductDTOs() {
+        return productRepository.findAll().stream()
+            .map(ProductDTO::new)
+            .toList();
+  }
+
+    @PreAuthorize("hasRole('ADMIN')")
+  public void deleteProductPermanently(Long id) {
+        productRepository.deleteById(id);
+  }
+
 }

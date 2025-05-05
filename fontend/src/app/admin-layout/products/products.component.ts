@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AdminApiService, Product } from '../service/admin-api.service';
+import { AdminApiService } from '../service/admin-api.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-products',
@@ -28,4 +29,11 @@ export class ProductsComponent {
   cancelProduct(id: number) {
     this.api.cancelProduct(id).subscribe(() => this.loadProducts());
   }
+
+  deleteProduct(id: number) {
+    if (confirm('Bu ürünü kalıcı olarak silmek istediğinize emin misiniz?')) {
+      this.api.deleteProduct(id).subscribe(() => this.loadProducts());
+    }
+  }
+  
 }
