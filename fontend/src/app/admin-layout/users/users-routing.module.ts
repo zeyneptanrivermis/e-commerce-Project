@@ -1,9 +1,9 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent } from '../../features/user/user/user.component';
+import { UsersComponent } from './users.component';
 
 const routes: Routes = [
-  { path: '', component: UserComponent }  // artık başka route yok
+  { path: '', component: UsersComponent }  // artık başka route yok
 ];
 
 @NgModule({

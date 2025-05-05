@@ -72,6 +72,8 @@ public class Product {
     @Column(length = 500)
     private String imageUrl;
 
+    private Boolean cancelled = false;
+
 
     /*Product(String productName, double price, String description, Category mCategory){
         this.productName=productName;
@@ -182,6 +184,13 @@ public class Product {
         } else {
             return 0;
         }
+    }
+
+    public Boolean getCancelled() {
+        return cancelled;
+    }
+    public void setCancelled(Boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }
 

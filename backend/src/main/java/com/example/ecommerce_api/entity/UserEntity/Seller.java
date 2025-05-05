@@ -20,12 +20,21 @@ import jakarta.persistence.CascadeType;
 @Table(name = "seller")
 public class Seller extends User {
 
+    private Boolean banned = false; 
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_address_id")
     private Address stockAddress;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private List<Stock> sellingStocks = new ArrayList<>();
+
+    public Boolean getBanned() {
+        return banned;
+    }
+    public void setBanned(Boolean banned) {
+        this.banned = banned;
+    }
 
     public Address getStockAddress() {
         return stockAddress;

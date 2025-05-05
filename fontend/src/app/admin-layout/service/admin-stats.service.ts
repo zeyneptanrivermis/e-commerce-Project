@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
 
@@ -12,10 +13,11 @@ export interface Stats {
 })
 export class AdminStatsService {
 
-  constructor() { }
+  private readonly baseUrl = '/api/admin/stats';
 
-  getStats(): Observable<{ userCount: number, productCount: number, pendingOrders: number }> {
-    // TODO: gerçek API call yap
-    return of({ userCount: 120, productCount: 58, pendingOrders: 14 });
+  constructor(private http: HttpClient) {}
+
+  getStats(): Observable<Stats> {
+    return this.http.get<Stats>(this.baseUrl);
   }
 }

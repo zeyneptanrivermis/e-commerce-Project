@@ -1,9 +1,12 @@
 package com.example.ecommerce_api.controller.User;
 
+import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
+import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
+import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.services.User.AdminService;
+import com.example.ecommerce_api.services.User.CustomerService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,13 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200") // Angular erişimi için
 public class AdminController {
 
-    @Autowired
-    private AdminService adminService;
+    private final AdminService adminService;
+    private final CustomerService customerService;
+    
+    public AdminController(AdminService adminService, CustomerService customerService) {
+        this.adminService = adminService;
+        this.customerService = customerService;
+    }
 
     // 🔐 Bu endpoint sadece ADMIN rolüne açık
     @PreAuthorize("hasRole('ADMIN')")
@@ -25,26 +33,61 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllAdmins());
     }
 
-    // Yeni admin ekleme (istersen sadece superadmin'e açabilirsin)
+    // --- STATISTICS endpoint’i ---
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/create")
-    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
-        return ResponseEntity.ok(adminService.createAdmin(admin));
+    @GetMapping("/stats")
+    public ResponseEntity<StatsDTO> getStats() {
+        StatsDTO stats = adminService.getStats();
+        return ResponseEntity.ok(stats);
     }
 
-    // Belirli admin detayını getir
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<Admin> getAdminById(@PathVariable Long id) {
-        Admin admin = adminService.getAdminById(id);
-        return ResponseEntity.ok(admin);
-    }
+  @GetMapping("/customers")
+  public ResponseEntity<List<AdminUserDTO>> getAllCustomers() {
+    return ResponseEntity.ok(adminService.getAllCustomersDto());
+  }
 
-    // Admin silme
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/sellers")
+  public ResponseEntity<List<AdminUserDTO>> getAllSellers() {
+    return ResponseEntity.ok(adminService.getAllSellersDto());
+  }
+
+    // ────────────────────────────────────────────────
+    //  1) Müşteriyi yasakla / yasaklamayı kaldır
+    // ────────────────────────────────────────────────
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
-        adminService.deleteAdmin(id);
+    @PutMapping("/customers/{id}/ban")
+    public ResponseEntity<Void> toggleCustomerBan(@PathVariable Long id) {
+        adminService.toggleCustomerBan(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ────────────────────────────────────────────────
+    //  2) Satıcıyı yasakla / yasaklamayı kaldır
+    // ────────────────────────────────────────────────
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/sellers/{id}/ban")
+    public ResponseEntity<Void> toggleSellerBan(@PathVariable Long id) {
+        adminService.toggleSellerBan(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ────────────────────────────────────────────────
+    //  3) Ürünü iptal et (soft-delete veya durum güncelle)
+    // ────────────────────────────────────────────────
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Void> cancelProduct(@PathVariable Long id) {
+        adminService.cancelProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<Void> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+        customerService.updateCustomer(id, updatedCustomer);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_api.entity.OrderEntity.Order;
+import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 
@@ -26,5 +27,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findTopByCustomerOrderByOrderIdDesc(Customer customer);
 
+    long countByStatus(OrderStatus  status);
     
 }

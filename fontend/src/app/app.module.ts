@@ -41,6 +41,7 @@ import { ChatModule } from './features/chat/chat.module';
     provideHttpClient(
       withFetch(),
       withInterceptors([authInterceptor])),
+
   ],
   bootstrap: [AppComponent]
 })

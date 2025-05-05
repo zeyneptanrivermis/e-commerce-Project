@@ -8,24 +8,26 @@
     </thead>
     <tbody>
       <tr *ngFor="let u of users">
-        <td>{{ u.id }}</td>
+        <td>{{ u.userId }}</td>
         <td>{{ u.name }}</td>
         <td>{{ u.email }}</td>
         <td>{{ u.roles.join(', ') }}</td>
         <td>
           <button (click)="edit(u)">Düzenle</button>
+          <button (click)="toggleBan(u)">
+            {{ u.banned ? 'Yasağı Kaldır' : 'Banla' }}
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- Düzenleme formu modal benzeri -->
+<!-- Düzenleme formu -->
 <div class="modal-backdrop" *ngIf="editingUser">
   <div class="modal">
     <h3>Kullanıcı Düzenle</h3>
     <form [formGroup]="form" (ngSubmit)="save()">
-
       <label>Ad Soyad</label>
       <input formControlName="name" />
 
@@ -42,4 +44,3 @@
     </form>
   </div>
 </div>
-s

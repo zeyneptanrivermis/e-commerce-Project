@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +14,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.CascadeType;
-
+import jakarta.persistence.Column;
 
 import com.example.ecommerce_api.entity.ProductEntity.Discount;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
@@ -37,6 +39,10 @@ public class Order {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
+     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private OrderStatus status = OrderStatus.PENDING;  // default PENDING
+
     public Long getOrderId() { return orderId; }
     public void setOrderId(Long orderId) { this.orderId = orderId; }
 
@@ -48,6 +54,14 @@ public class Order {
 
     public Discount getDiscount() { return discount; }
     public void setDiscount(Discount discount) { this.discount = discount; }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
 
     @JsonProperty
     public double getOrderTotalWithoutDiscount() {

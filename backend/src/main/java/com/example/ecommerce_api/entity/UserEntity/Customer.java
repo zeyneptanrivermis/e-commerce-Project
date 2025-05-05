@@ -25,6 +25,7 @@ import jakarta.persistence.ManyToMany;
 @DiscriminatorValue("Customer")
 public class Customer extends User {
 
+    private Boolean banned = false; 
     private String wishListId = UUID.randomUUID().toString();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -35,6 +36,12 @@ public class Customer extends User {
     )
     private Set<Product> wishlist = new HashSet<>();
 
+    public Boolean getBanned() {
+        return banned;
+    }
+    public void setBanned(Boolean banned) {
+        this.banned = banned;
+    }
     public Set<Product> getWishlist() {
         return wishlist;
     }

@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
-import { AdminStatsService } from '../service/admin-stats.service';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
+import { AdminStatsService, Stats } from '../service/admin-stats.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
-  stats?: { userCount: number, productCount: number, pendingOrders: number };
+export class DashboardComponent implements OnInit {
+  stats?: Stats;
 
-  // ① AuthService'i burada tanımlayıp inject ediyoruz
   constructor(
     public authService: AuthService,
     private statsService: AdminStatsService
   ) {}
 
   ngOnInit() {
-    // ② Kullanıcı adı gibi bilgilere authService üzerinden erişebilirsiniz
-    console.log('Hoş geldin:', this.authService.getCurrentUser?.name);
-
-    this.statsService.getStats().subscribe(data => this.stats = data);
+    this.statsService.getStats().subscribe({
+      next: (data: Stats) => this.stats = data,
+      error: err => console.error('Stats yüklenirken hata:', err)
+    });
   }
 }
