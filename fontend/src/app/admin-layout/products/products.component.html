@@ -1,1 +1,21 @@
-<p>products works!</p>
+<div class="card">
+  <h2>Ürün Listesi</h2>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Ad</th><th>Fiyat</th><th>Durum</th><th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price }} ₺</td>
+        <td>{{ p.cancelled ? 'İptal Edildi' : 'Aktif' }}</td>
+        <td>
+          <button (click)="cancelProduct(p.id)" [disabled]="p.cancelled">İptal Et</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

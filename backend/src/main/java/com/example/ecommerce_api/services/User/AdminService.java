@@ -125,4 +125,9 @@ public class AdminService {
       ))
       .collect(Collectors.toList());
   }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  public List<Product> getAllProducts() {
+    return productRepository.findAll();
+}
 }

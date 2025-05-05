@@ -1,0 +1,66 @@
+/* Genel kart kutusu */
+.card {
+  background: white;
+  border-left: 4px solid #A8DF8E; /* yeşilimsi ton */
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Tablo yapısı */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+
+.product-table th, .product-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #E5E7EB;
+  text-align: left;
+}
+
+.product-table thead {
+  background-color: #F0FDF4;
+}
+
+.product-table tr:hover {
+  background: #F3FDE8;
+}
+
+/* Durum etiketi */
+.status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.status.active {
+  background-color: #DCFCE7;
+  color: #166534;
+}
+.status.cancelled {
+  background-color: #FEE2E2;
+  color: #991B1B;
+}
+
+/* Butonlar */
+button {
+  background: #FFE5E5;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background: #FFBFBF;
+}
+
+button:disabled {
+  background: #F3F4F6;
+  color: #9CA3AF;
+  cursor: not-allowed;
+}

@@ -2,6 +2,7 @@ package com.example.ecommerce_api.controller.User;
 
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.services.User.AdminService;
@@ -88,6 +89,12 @@ public class AdminController {
     public ResponseEntity<Void> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
         customerService.updateCustomer(id, updatedCustomer);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(adminService.getAllProducts());
     }
 
 }

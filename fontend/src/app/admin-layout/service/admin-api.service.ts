@@ -12,7 +12,7 @@ export interface User {
 
 export interface Product {
   id: number;
-  productName: string;
+  name: string;           // ✅ JSON'daki "name" ile eşleşir
   price: number;
   cancelled: boolean;
 }

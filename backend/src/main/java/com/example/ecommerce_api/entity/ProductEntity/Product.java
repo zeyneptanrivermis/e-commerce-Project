@@ -72,6 +72,7 @@ public class Product {
     @Column(length = 500)
     private String imageUrl;
 
+    @Column(name = "cancelled")
     private Boolean cancelled = false;
 
 
