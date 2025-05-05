@@ -22,7 +22,6 @@ export class PaymentComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private orderService: OrderService,
     private paymentService: PaymentService,
     private cartService: CartService,
     private router: Router

@@ -31,15 +31,16 @@ export class NavbarComponent {
 
   // Giriş yapma
   onLogin(): void {
-    this.authService.login('user@example.com', 'password123').subscribe({
+    this.authService.login({ email: 'user@example.com', password: 'password123' }).subscribe({
       next: (response) => {
-        console.log('Login response:', response);  // Gelen JWT'yi kontrol et
-        this.authService.saveToken(response.token);  // Gelen token'ı kaydet
+        console.log('Login response:', response);
+        this.authService.saveToken(response.token);
       },
       error: (err) => {
         console.error('Login failed:', err);
       }
     });
+    
   }
   
 

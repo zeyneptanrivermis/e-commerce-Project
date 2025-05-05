@@ -25,11 +25,11 @@ const routes: Routes = [
 
   { path: 'products', loadChildren: () => import('./features/products/products.module').then(m => m.ProductsModule) },
 
-  { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule) },
+  { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule),    data: { roles: ['ROLE_CUSTOMER'] } },
 
   { path: 'user', canActivate:[AuthGuard], loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),    data: { roles: ['ROLE_CUSTOMER'] }},
 
-  { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)},
+  { path: 'order', canActivate:[AuthGuard], loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule), data: { roles: ['ROLE_CUSTOMER'] }},
 
   { path: 'admin', component: AdminComponent,canActivate: [AuthGuard],data: { roles: ['ROLE_ADMIN'] } },
   

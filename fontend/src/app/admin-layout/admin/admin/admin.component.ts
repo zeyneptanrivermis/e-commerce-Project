@@ -19,7 +19,7 @@ export class AdminComponent {
     this.authService.logout();
     this.router.navigate(['/home']).then(() => {
       setTimeout(() => {
-        window.location.reload(); 
+        window.location.reload();
       }, 100); 
     });
   }

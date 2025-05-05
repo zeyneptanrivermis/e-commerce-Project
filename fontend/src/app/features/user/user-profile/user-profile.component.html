@@ -1,12 +1,12 @@
 
 <div class="user-profile-layout">
 <form [formGroup]="profileForm" class="profile-card" *ngIf="currentUser">
-  <h2>Welcome, {{ currentUser?.name }} {{ currentUser?.surname }}!</h2>
+  <h2>Welcome, {{ currentUser.name }} {{ currentUser.surname }}!</h2>
 
   <!-- Email -->
   <div class="info-row">
     <strong>Email:</strong> 
-    <span *ngIf="!editEmail">{{ currentUser?.email }}</span>
+    <span *ngIf="!editEmail">{{ currentUser.email }}</span>
 
     <div *ngIf="editEmail">
       <input formControlName="email" type="email" />
@@ -23,7 +23,7 @@
   <!-- Birthday -->
   <div class="info-row">
     <strong>Birthday:</strong> 
-    <span *ngIf="!editBirthday">{{ currentUser?.birthday || 'Not set' }}</span>
+    <span *ngIf="!editBirthday">{{ currentUser.birthday || 'Not set' }}</span>
 
     <div *ngIf="editBirthday">
       <input formControlName="birthday" type="date" />
@@ -40,7 +40,7 @@
   <!-- Name -->
   <div class="info-row">
     <strong>Name:</strong>
-    <span *ngIf="!editName">{{ currentUser?.name }}</span>
+    <span *ngIf="!editName">{{ currentUser.name }}</span>
 
     <div *ngIf="editName">
       <input formControlName="name" type="text" />
@@ -57,7 +57,7 @@
   <!-- Surname -->
   <div class="info-row">
     <strong>Surname:</strong>
-    <span *ngIf="!editSurname">{{ currentUser?.surname }}</span>
+    <span *ngIf="!editSurname">{{ currentUser.surname }}</span>
 
     <div *ngIf="editSurname">
       <input formControlName="surname" type="text" />
