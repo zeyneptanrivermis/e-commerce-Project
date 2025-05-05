@@ -1,3 +1,4 @@
+import { TokenService } from './../../../../core/services/token.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -31,27 +33,29 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Lütfen geçerli bir e-posta ve şifre girin.';
       return;
     }
-
+  
     const { email, password } = this.loginForm.value;
-
-    this.authService.login(email, password).subscribe({
+  
+    this.authService.login({email, password}).subscribe({
       next: (response) => {
         if (response && response.token) {
-          this.authService.saveToken(response.token);
-
-          const roles = this.authService.getUserRoles();
-          console.log('🎫 Kullanıcı rolleri:', roles);
-
-          // ✅ ROL BAZLI YÖNLENDİRME
-          if (roles.includes('ROLE_ADMIN')) {
-            this.router.navigate(['/admin']);
-          } else if (roles.includes('ROLE_SELLER')) {
-            this.router.navigate(['/seller/dashboard']);
-          } else if (roles.includes('ROLE_CUSTOMER')) {
-            this.router.navigate(['/']);
-          } else {
-            this.router.navigate(['/']); // varsayılan
-          }
+          this.tokenService.setToken(response.token); // ✅ Belleğe set et
+  
+          setTimeout(() => { // ✅ Küçük gecikmeyle rol oku
+            const roles = this.authService.getUserRoles();
+            console.log('🎫 Kullanıcı rolleri:', roles);
+  
+            if (roles.includes('ROLE_ADMIN')) {
+              this.router.navigate(['/admin']);
+            } else if (roles.includes('ROLE_SELLER')) {
+              this.router.navigate(['/seller/dashboard']);
+            } else if (roles.includes('ROLE_CUSTOMER')) {
+              this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/']);
+            }
+          }, 50);
+  
         } else {
           this.errorMessage = 'Sunucudan geçerli bir token alınamadı.';
         }
@@ -62,6 +66,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  
 
   goToLogin(): void {
     this.router.navigate(['/login']);

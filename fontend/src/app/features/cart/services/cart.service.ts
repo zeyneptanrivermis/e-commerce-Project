@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Product } from '../../../models/product.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
+import { TokenService } from '../../../core/services/token.service';
 
 export interface CartItem {
   cartItemId: number;
@@ -22,16 +24,25 @@ export class CartService {
 
   private apiUrl = 'http://localhost:8080/api/cart';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   // JWT token'ı header'a ekleyen yardımcı metod
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      const token = this.tokenService.getToken();
+      return new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    } else {
+      console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
+      return new HttpHeaders(); // SSR'de boş header döndür
+    }
   }
-
+  
 
   // Sepete ürün ekleme
   // Sepete ürün ekleme (Authorization header eklendi)

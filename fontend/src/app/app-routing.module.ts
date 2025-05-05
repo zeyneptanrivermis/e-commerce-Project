@@ -29,12 +29,7 @@ const routes: Routes = [
                           .then(m => m.ProductsModule)
   },
 
-  // 4) Sepet (misafir de görebilir)
-  {
-    path: 'shopping-cart',
-    loadChildren: () => import('./features/cart/cart.module')
-                          .then(m => m.CartModule)
-  },
+  { path: 'shopping-cart', canActivate:[AuthGuard], loadChildren: () => import('./features/cart/cart.module').then(m => m.CartModule),    data: { roles: ['ROLE_CUSTOMER'] } },
 
   // 5) Kullanıcı profili (sadece müşteri)
   {

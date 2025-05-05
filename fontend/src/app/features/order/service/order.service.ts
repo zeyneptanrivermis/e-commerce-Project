@@ -1,27 +1,37 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Order } from '../../../models/order.model';
 import { AuthService } from '../../auth/services/auth.service';
 import { Payment } from '../../../models/payment.model';
+import { TokenService } from '../../../core/services/token.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private baseUrl = 'http://localhost:8080/api/orders';
-
+  
   constructor(
     private http: HttpClient,
-    private authService: AuthService  // AuthService'i inject et
+    private tokenService: TokenService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
-
-  // Sipariş gönderme
+  
   placeOrder(order: Order): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post(`${this.baseUrl}/create`, order, { headers });
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    if (isPlatformBrowser(this.platformId)) {
+      const token = this.tokenService.getToken();
+      if (token) {
+        headers = headers.set('Authorization', `Bearer ${token}`);
+      } else {
+        console.warn('❗ Token boş, yetkisiz işlem olabilir.');
+      }
+    } else {
+      console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
+    }
+  
+    return this.http.post<any>('http://localhost:8080/api/orders/place', order, { headers });
   }
 
   getUserOrders(): Observable<Order[]> {

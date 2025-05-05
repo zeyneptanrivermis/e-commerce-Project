@@ -30,7 +30,7 @@ export const authInterceptor: HttpInterceptorFn = (
       return next(authReq);
     }
   } else {
-    console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
+      console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
   }
 
   return next(req);

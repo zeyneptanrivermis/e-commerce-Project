@@ -1,33 +1,28 @@
-// src/app/core/services/token.service.ts
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  private tokenSubject = new BehaviorSubject<string | null>(this.getTokenFromStorage());
+  public token$ = this.tokenSubject.asObservable(); // dışarıdan dinlenebilir
 
-getToken(): string | null {
-  if (isPlatformBrowser(this.platformId)) {
-    const token = localStorage.getItem('token');
-    console.log('TokenService: token =', token);
-    return token;
+  private getTokenFromStorage(): string | null {
+    return typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   }
 
-  console.log('TokenService: Not in browser');
-  return null;
-}
+  getToken(): string | null {
+    return this.tokenSubject.value;
+  }
 
   setToken(token: string): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('token', token);
-    }
+    localStorage.setItem('token', token);
+    this.tokenSubject.next(token); // yay!
   }
 
   removeToken(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-    }
+    localStorage.removeItem('token');
+    this.tokenSubject.next(null); // temizle!
   }
 }
