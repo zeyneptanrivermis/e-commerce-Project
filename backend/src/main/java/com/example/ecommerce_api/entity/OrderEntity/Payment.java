@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.entity.OrderEntity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,10 @@ public class Payment {
     private String status;
     private LocalDate paymentDate;
 
+    // Yeni alan: Stripe PaymentIntent ID’si
+    @Column(name = "stripe_payment_intent_id", nullable = false, unique = true)
+    private String stripePaymentIntentId;
+
     public Long getPaymentId() { return paymentId; }
     public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
 
@@ -50,4 +55,11 @@ public class Payment {
 
     public LocalDate getPaymentDate() { return paymentDate; }
     public void setPaymentDate(LocalDate paymentDate) { this.paymentDate = paymentDate; }
+
+    public String getStripePaymentIntentId() {
+        return stripePaymentIntentId;
+    }
+    public void setStripePaymentIntentId(String stripePaymentIntentId) {
+        this.stripePaymentIntentId = stripePaymentIntentId;
+    }
 }

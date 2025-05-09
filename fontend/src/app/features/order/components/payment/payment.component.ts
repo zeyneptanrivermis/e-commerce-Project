@@ -1,10 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// src/app/components/payment/payment.component.ts
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  loadStripe,
+  Stripe,
+  StripeCardElement,
+  StripeElements,
+  StripeElementsOptions
+} from '@stripe/stripe-js';
+
 import { PaymentService } from '../../service/payment.service';
-import { OrderService } from '../../service/order.service';
 import { CartService } from '../../../cart/services/cart.service';
-import { OrderItem } from '../../../../models/order.item.model';
+import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -13,11 +31,16 @@ import { OrderItem } from '../../../../models/order.item.model';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
+  @ViewChild('cardInfo', { static: true }) cardInfo!: ElementRef;
+
   paymentForm!: FormGroup;
+  private stripePromise!: Promise<Stripe | null>;
+  private elements!: StripeElements;
+  private card!: StripeCardElement;
+
   orderId!: number;
-  itemsTotal = 0;
-  shippingFee = 0;
-  amount = 0;
+  amount!: number;
+  currency = 'try';
 
   constructor(
     private fb: FormBuilder,
@@ -28,50 +51,70 @@ export class PaymentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1) Build the form immediately
-    this.initForm();
+    // Formu hazırla
+    this.paymentForm = this.fb.group({
+      amount:     [{ value: 0, disabled: true }, Validators.required],
+      cardholder: ['', Validators.required],
+    });
 
-    // 2) Read values from queryParams
+    // Query param’leri al
     this.route.queryParams.subscribe(params => {
-      this.itemsTotal  = +params['itemsTotal']  || 0;
-      this.shippingFee = +params['shippingFee'] || 0;
-      this.amount      = +params['amount']      || (this.itemsTotal + this.shippingFee);
-      this.orderId     = +params['orderId']     || 0;
-
-      // 3) Patch the amount into the form control
+      this.orderId       = Number(params['orderId']);
+      this.amount  = Number(params['amount'])  || 0;
       this.paymentForm.get('amount')!.setValue(this.amount);
     });
-  }
 
-  private initForm(): void {
-    this.paymentForm = this.fb.group({
-      amount:      [{ value: 0, disabled: true }, Validators.required],
-      cardholder:  ['', Validators.required],
-      cardNumber:  ['', [Validators.required, Validators.minLength(16)]],
-      expiryMonth: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])$')]],
-      expiryYear:  ['', [Validators.required, Validators.pattern('^\\d{2}$')]],
-      cvv:         ['', [Validators.required, Validators.minLength(3), Validators.maxLength(4)]]
+    // Stripe Elements’i yükle ve mount et
+    this.stripePromise = loadStripe(environment.stripePublicKey);
+    this.stripePromise.then((stripe: Stripe | null) => {
+      if (!stripe) {
+        console.error('Stripe yüklenemedi');
+        return;
+      }
+      this.elements = stripe.elements({ locale: 'tr' });
+      this.card = this.elements.create('card');
+      this.card.mount(this.cardInfo.nativeElement);
     });
   }
 
-  submitPayment(): void {
-    if (this.paymentForm.invalid) {
-      this.paymentForm.markAllAsTouched();
-      return;
-    }
+  async submitPayment(): Promise<void> {
+  if (this.paymentForm.invalid) {
+    this.paymentForm.markAllAsTouched();
+    return;
+  }
 
-    const amount = this.paymentForm.get('amount')!.value as number;
-    this.paymentService.addPayment(this.orderId, amount).subscribe({
-      next: () => {
-        this.cartService.clearCart().subscribe(() => {
-          alert(`🎉 Payment successful! Order #${this.orderId}`);
-          this.router.navigate(['/order', 'history']);
-        });
-      },
-      error: err => {
-        console.error('Payment error', err);
-        alert('❌ Payment failed. Please try again.');
+  try {
+    // 1) İlk değer olarak clientSecret’i alıyoruz.
+    const { clientSecret } = await firstValueFrom(
+      this.paymentService.createPaymentIntent(this.orderId, this.currency)
+    );
+
+    // 2) Kart onayı
+    const stripe = await this.stripePromise;
+    if (!stripe) throw new Error('Stripe yüklenemedi');
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: this.card,
+        billing_details: { name: this.paymentForm.value.cardholder }
       }
     });
+    if (result.error) throw result.error;
+
+    // 3) Başarılıysa backend’e bildir
+    if (result.paymentIntent?.status === 'succeeded') {
+      await firstValueFrom(
+        this.paymentService.completePayment(this.orderId, result.paymentIntent.id)
+      );
+
+      // 4) Sepeti temizle ve yönlendir
+      this.cartService.clearCart().subscribe(() => {
+        alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}`);
+        this.router.navigate(['/order/history']);
+      });
+    }
+  } catch (err: any) {
+    console.error('Ödeme hatası', err);
+    alert(err.message || 'Ödeme sırasında bir hata oluştu.');
+  }
   }
 }

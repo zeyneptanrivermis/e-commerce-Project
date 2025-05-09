@@ -1,148 +1,54 @@
-<!-- payment.component.html -->
-<div class="payment-page" *ngIf="paymentForm">
-  <form
-    [formGroup]="paymentForm"
-    (ngSubmit)="submitPayment()"
-    id="payment-form"
-    novalidate
-  >
-    <!-- Amount Due -->
-    <div class="form-group">
-      <label for="amount">Amount Due</label>
-      <input
-        id="amount"
-        type="text"
-        class="form-control"
-        formControlName="amount"
-        readonly
-      />
-    </div>
+<!-- src/app/features/order/components/payment/payment.component.html -->
+<form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="payment-form">
+  <!-- Tutar Alanı (sürekli disabled olacak) -->
+  <div class="form-group">
+    <label for="amount">Tutar (kuruş)</label>
+    <input
+      id="amount"
+      type="number"
+      formControlName="amount"
+      [disabled]="true"
+    />
+  </div>
 
-    <!-- Cardholder Name -->
-    <div class="form-group">
-      <label for="cardholder">Cardholder Name</label>
-      <input
-        id="cardholder"
-        type="text"
-        class="form-control"
-        formControlName="cardholder"
-        placeholder="Enter cardholder name"
-        [class.is-invalid]="
-          paymentForm.get('cardholder')?.invalid &&
-          paymentForm.get('cardholder')?.touched
-        "
-      />
-      <div
-        *ngIf="
-          paymentForm.get('cardholder')?.invalid &&
-          paymentForm.get('cardholder')?.touched
-        "
-        class="invalid-feedback"
-      >
-        Please enter the cardholder’s name.
-      </div>
-    </div>
-
-    <!-- Card Number -->
-    <div class="form-group">
-      <label for="cardNumber">Card Number</label>
-      <input
-        id="cardNumber"
-        type="text"
-        class="form-control"
-        formControlName="cardNumber"
-        placeholder="1234 5678 9012 3456"
-        maxlength="19"
-        [class.is-invalid]="
-          paymentForm.get('cardNumber')?.invalid &&
-          paymentForm.get('cardNumber')?.touched
-        "
-      />
-      <div
-        *ngIf="
-          paymentForm.get('cardNumber')?.invalid &&
-          paymentForm.get('cardNumber')?.touched
-        "
-        class="invalid-feedback"
-      >
-        Please enter a valid card number.
-      </div>
-    </div>
-
-    <!-- Expiration Date & CVV -->
-    <div class="form-row">
-      <div class="form-group half">
-        <label>Expiration Date</label>
-        <div class="inline-inputs">
-          <input
-            type="text"
-            class="form-control"
-            formControlName="expiryMonth"
-            placeholder="MM"
-            maxlength="2"
-            [class.is-invalid]="
-              paymentForm.get('expiryMonth')?.invalid &&
-              paymentForm.get('expiryMonth')?.touched
-            "
-          />
-          <span>/</span>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="expiryYear"
-            placeholder="YY"
-            maxlength="2"
-            [class.is-invalid]="
-              paymentForm.get('expiryYear')?.invalid &&
-              paymentForm.get('expiryYear')?.touched
-            "
-          />
-        </div>
-        <div
-          *ngIf="
-            (paymentForm.get('expiryMonth')?.invalid ||
-              paymentForm.get('expiryYear')?.invalid) &&
-            (paymentForm.get('expiryMonth')?.touched ||
-              paymentForm.get('expiryYear')?.touched)
-          "
-          class="invalid-feedback"
-        >
-          Please enter a valid expiration date.
-        </div>
-      </div>
-
-      <div class="form-group half">
-        <label for="cvv">CVV</label>
-        <input
-          id="cvv"
-          type="password"
-          class="form-control"
-          formControlName="cvv"
-          placeholder="123"
-          maxlength="4"
-          [class.is-invalid]="
-            paymentForm.get('cvv')?.invalid &&
-            paymentForm.get('cvv')?.touched
-          "
-        />
-        <div
-          *ngIf="
-            paymentForm.get('cvv')?.invalid &&
-            paymentForm.get('cvv')?.touched
-          "
-          class="invalid-feedback"
-        >
-          Please enter a valid CVV.
-        </div>
-      </div>
-    </div>
-
-    <button
-      type="submit"
-      class="btn-primary w-100 mt-3"
-      [disabled]="paymentForm.invalid"
+  <!-- Kart Sahibinin Adı -->
+  <div class="form-group">
+    <label for="cardholder">Kart Üzerindeki İsim</label>
+    <input
+      id="cardholder"
+      type="text"
+      formControlName="cardholder"
+      class="form-control"
+      [class.is-invalid]="
+        paymentForm.get('cardholder')!.invalid &&
+        (paymentForm.get('cardholder')!.touched ||
+         paymentForm.get('cardholder')!.dirty)
+      "
+    />
+    <div
+      *ngIf="
+        paymentForm.get('cardholder')!.invalid &&
+        paymentForm.get('cardholder')!.touched
+      "
+      class="invalid-feedback"
     >
-      Pay Now
-    </button>
-  </form>
-</div>
+      Lütfen kart üzerindeki ismi girin.
+    </div>
+  </div>
+
+  <!-- Stripe Elements Kart Bilgileri -->
+  <div class="form-group">
+    <label>Kart Bilgileri</label>
+    <div #cardInfo class="card-element"></div>
+    <div id="card-errors" role="alert" class="text-danger mt-2"></div>
+  </div>
+
+  <!-- Gönder Butonu -->
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="paymentForm.invalid"
+  >
+    Ödeme Yap
+  </button>
+</form>

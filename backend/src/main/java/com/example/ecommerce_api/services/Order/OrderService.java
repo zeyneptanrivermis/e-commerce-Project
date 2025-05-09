@@ -16,11 +16,14 @@ import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
 import com.example.ecommerce_api.repository.OrderRepository.ShippingRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +52,43 @@ public class OrderService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private PaymentService stripePaymentService;
+
+
+    /**
+     * Verilen orderId için Stripe PaymentIntent yaratır,
+     * intent ID’yi ve clientSecret’i kaydeder, clientSecret’i döner.
+     */
+    public String createStripePayment(Long orderId, String currency) throws StripeException {
+        // 1) Order’ı çek
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        // 2) double dönen toplam tutarı long’a çevir:
+        //    a) Eğer getOrderTotalWithoutDiscount kuruş cinsinden geliyorsa:
+        long amount = (long) order.getOrderTotalWithoutDiscount();
+        //
+        //    b) Eğer getOrderTotalWithoutDiscount liralar cinsinden (örn: 123.45) geliyorsa:
+        // long amount = Math.round(order.getOrderTotalWithoutDiscount() * 100);
+
+        // 3) Stripe’da PaymentIntent oluştur
+        PaymentIntent intent = stripePaymentService.createPaymentIntent(amount, currency);
+
+        // 4) DB’ye kaydet
+        Payment payment = new Payment();
+        payment.setOrder(order);
+        payment.setCustomer((Customer) order.getCustomer());
+        payment.setAmount(amount);
+        payment.setStripePaymentIntentId(intent.getId());
+        payment.setStatus(intent.getStatus());  // örn: "requires_payment_method"
+        payment.setPaymentDate(null);           // henüz tamamlanmadı
+        paymentRepository.save(payment);
+
+        // 5) Frontend’e clientSecret döndür
+        return intent.getClientSecret();
+    }
 
      /**
      * Frontend'den gelen sipariş ve ürün listesini işler, müşteri bilgisi controller'dan set edilir.
@@ -157,5 +197,19 @@ public class OrderService {
 
         shippingInfo.setOrder(order);
         return shippingRepository.save(shippingInfo);
+    }
+
+        /**
+     * Front-end’den onay geldikten sonra Payment durumunu “succeeded” olarak işaretler.
+     */
+    public void finalizePayment(Long orderId, String paymentIntentId) {
+        Payment payment = paymentRepository
+            .findByStripePaymentIntentId(paymentIntentId)
+            .orElseThrow(() ->
+               new RuntimeException("PaymentIntent bulunamadı: " + paymentIntentId)
+            );
+        payment.setStatus("succeeded");
+        payment.setPaymentDate(LocalDate.now());
+        paymentRepository.save(payment);
     }
 }

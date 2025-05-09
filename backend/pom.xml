@@ -96,6 +96,12 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+        <dependency>
+          <groupId>com.stripe</groupId>
+          <artifactId>stripe-java</artifactId>
+          <version>22.26.0</version>
+        </dependency>
     </dependencies>
       
     <build>

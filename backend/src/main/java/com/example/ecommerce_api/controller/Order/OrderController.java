@@ -28,22 +28,14 @@ public class OrderController {
         this.userRepository = userRepository;
     }
 
-    // 🔵 Müşterinin kendi sepetinden sipariş oluşturur
+    // 🔵 Frontend artık boş body veya hiç body göndermeden bu endpoint'i çağıracak
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestBody Order incomingOrder, Principal principal) {
+    public ResponseEntity<Order> createOrder(Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
-        
-        // Müşteriyi veritabanından al
-        Customer customer = (Customer) userRepository.findById(customerId)
-            .orElseThrow(() -> new RuntimeException("Customer not found"));
-    
-        // Siparişe müşteri ata
-        incomingOrder.setCustomer(customer);
-    
-        Order savedOrder = orderService.createOrderWithItems(incomingOrder);
+        // Sepetteki ürünleri alıp yeni Order ve OrderItem'ları oluşturan metod
+        Order savedOrder = orderService.createOrder(customerId);
         return ResponseEntity.ok(savedOrder);
     }
-
 
 
     @GetMapping("/user")
