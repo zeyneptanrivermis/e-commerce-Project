@@ -6,6 +6,8 @@ import { AuthService } from '../../auth/services/auth.service';
 import { AddressService } from '../../address/service/address.service';
 import { Address } from '../../../models/Address.model';
 import { OrderItem } from '../../../models/order.item.model';
+import { OrderService } from '../service/order.service';
+import { OrderData } from '../../../models/order-data';
 
 @Component({
   selector: 'app-order',
@@ -23,13 +25,15 @@ export class OrderComponent implements OnInit {
   showAddressForm = false;
   shippingFee = 44.99;
   totalWithoutDiscount = 0;
+  orderId!: number;
 
   constructor(
     private fb: FormBuilder,
     private cartService: CartService,
     private authService: AuthService,
     private addressService: AddressService,
-    private router: Router                          // ← eklendi
+    private orderService: OrderService,
+    private router: Router                    // ← eklendi
   ) {}
 
   ngOnInit(): void {
@@ -99,23 +103,34 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  /** “Ödeme Yap” butonuna bastığında çalışacak: sadece yönlendirir */
   goToPayment(): void {
-    if (!this.selectedAddressId || this.cartItems.length === 0) {
+    if (this.cartItems.length === 0) {
+      alert('Önce sepete ürün ekleyin.');
       return;
     }
 
-    const itemsTotal = this.totalWithoutDiscount;
-    const shippingFee = this.shippingFee;
-    const amount = itemsTotal + shippingFee;
+    const orderData: OrderData = {
+      customerId:        this.userId,
+      shippingAddressId: this.selectedAddressId,
+      itemList:          this.cartItems.map(i => ({
+        productId:  i.productId,
+        quantity:   i.quantity,
+        totalPrice: i.totalPrice
+      })),
+      shippingFee: this.shippingFee
+    };
 
-    this.router.navigate(['/order', 'payment'], {
-      queryParams: {
-        // Ödeme sayfası, bu üç değeri alacak
-        shippingAddressId: this.selectedAddressId,
-        itemsTotal,
-        shippingFee,
-        amount
+    this.orderService.createOrder().subscribe({
+  next: order => {
+    const id = order.orderId!;
+    const amount = Math.round((this.totalWithoutDiscount + this.shippingFee) * 100);
+    this.router.navigate(['/order','payment'], {
+      queryParams: { orderId: id, amount }
+    });
+  },
+      error: err => {
+        console.error('Sipariş oluşturulamadı', err);
+        alert('Sipariş oluşturma sırasında hata oluştu.');
       }
     });
   }

@@ -6,20 +6,22 @@ import { AuthService } from '../../auth/services/auth.service';
 import { Payment } from '../../../models/payment.model';
 import { TokenService } from '../../../core/services/token.service';
 import { isPlatformBrowser } from '@angular/common';
+import { OrderData } from '../../../models/order-data';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private baseUrl = 'http://localhost:8080/api/orders';
-  
+
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
-  
+
   placeOrder(order: Order): Observable<any> {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  
+
     if (isPlatformBrowser(this.platformId)) {
       const token = this.tokenService.getToken();
       if (token) {
@@ -30,14 +32,14 @@ export class OrderService {
     } else {
       console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
     }
-  
+
     return this.http.post<any>('http://localhost:8080/api/orders/place', order, { headers });
   }
 
   getUserOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}/user`);
   }
-  
+
 
   // Tekil siparişi ID ile alma
   getOrderById(orderId: number): Observable<Order> {
@@ -55,4 +57,13 @@ export class OrderService {
     return this.http.post<Payment>(url, null, { params });
   }
 
+  /**
+   * Backend’deki @PostMapping("/create")’e POST atar
+   */
+createOrder(): Observable<Order> {
+  return this.http.post<Order>(
+    `${environment.apiUrl}/api/orders/create`,
+    {}    // boş body, çünkü body artık kullanılmıyor
+  );
+}
 }
