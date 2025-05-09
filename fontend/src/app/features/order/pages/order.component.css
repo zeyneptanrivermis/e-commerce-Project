@@ -1,77 +1,88 @@
 /* Genel Stiller */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8fbf5;
+  background-color: #f4f8f6; /* Daha yumuşak bir arka plan */
+  color: #333; /* Daha okunabilir metin rengi */
+  line-height: 1.6; /* Daha iyi okunabilirlik için satır yüksekliği */
+  -webkit-font-smoothing: antialiased; /* Daha pürüzsüz yazı tipi */
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
   max-width: 1200px;
-  margin: 20px auto;
-  padding: 0 15px;
+  margin: 30px auto; /* Üst ve altta biraz daha boşluk */
+  padding: 0 20px; /* Yanlarda biraz daha nefes alma alanı */
 }
 
-.mt-4 { margin-top: 1.5rem !important; }
-.mb-4 { margin-bottom: 1.5rem !important; }
-.rounded { border-radius: 0.5rem !important; }
-.p-4 { padding: 1.5rem !important; }
-.fw-bold { font-weight: bold !important; }
-.text-danger { color: #e74c3c !important; }
+.mt-4 { margin-top: 1.75rem !important; } /* Daha tutarlı aralık */
+.mb-4 { margin-bottom: 1.75rem !important; } /* Daha tutarlı aralık */
+.rounded { border-radius: 0.6rem !important; } /* Biraz daha yuvarlak köşeler */
+.p-4 { padding: 1.75rem !important; } /* Daha dengeli iç boşluk */
+.fw-bold { font-weight: 600 !important; } /* Daha belirgin kalınlık */
+.text-danger { color: #dc3545 !important; } /* Standart tehlike rengi */
 
 /* ✅ Adres Kutusu */
 .address-box {
-  background-color: #eaffea;
-  border: 1px solid #c3e6cb;
-  border-radius: 15px;
-  box-shadow: 0 0 10px rgba(130, 205, 71, 0.12);
-  padding: 1.5rem;
+  background-color: #f1fdf0; /* Daha açık ve davetkar */
+  border: 1px solid #d1ead1; /* Daha ince ve zarif kenarlık */
+  border-radius: 12px; /* Daha modern köşeler */
+  box-shadow: 0 2px 8px rgba(130, 205, 71, 0.08); /* Daha hafif gölge */
+  padding: 1.75rem; /* İç boşluğu genel stillere uyumlu */
 }
 
 /* ✅ Etiketler */
 .form-label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: #2e7d32;
+  margin-bottom: 0.6rem; /* Biraz daha yakın */
+  font-weight: 500; /* Daha az agresif kalınlık */
+  color: #28a745; /* Standart başarı rengine yakın */
 }
 
 /* ✅ Form Kontrolleri */
 .form-control {
   display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.8rem 1.2rem; /* Daha rahat dolgu */
   font-size: 1rem;
   color: #495057;
-  background-color: #ffffff;
-  border: 1px solid #b3ddb2;
-  border-radius: 10px;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: #fff; /* Her zaman beyaz arka plan */
+  border: 1px solid #ced4da; /* Daha standart ve modern kenarlık */
+  border-radius: 0.4rem; /* Daha yaygın köşe yuvarlaklığı */
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; /* Daha hızlı geçişler */
 }
 
 .form-control:focus {
-  border-color: #82cd47;
-  box-shadow: 0 0 0 0.15rem rgba(168, 223, 142, 0.4);
+  border-color: #28a745; /* Odaklandığında ana renk */
+  outline: 0; /* Varsayılan odak çizgisini kaldır */
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* Daha belirgin odak gölgesi */
 }
 
 select.form-control {
-  background-color: #f3fde8;
-  border-color: #a8df8e;
-  border-radius: 12px;
+  background-color: #fff; /* Her zaman beyaz arka plan */
+  border-color: #ced4da; /* Standart kenarlık */
+  border-radius: 0.4rem; /* Standart köşe yuvarlaklığı */
+  appearance: none; /* Özel ok işaretini kaldırmak için */
+  background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 5%22%3E%3Cpath fill=%22%23343a40%22 d=%22M2 0L0 2h4zm0 5L0 3h4z%22/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 8px 10px;
+  padding-right: 2.25rem; /* Ok için yeterli boşluk */
 }
 
 select.form-control:focus {
-  border-color: #82cd47;
-  box-shadow: 0 0 0 0.2rem rgba(168, 223, 142, 0.25);
-  background-color: #ffffff;
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+  background-color: #fff; /* Odaklandığında da beyaz */
 }
 
 input.form-control,
 textarea.form-control {
-  background-color: #f9fefb;
+  background-color: #fff; /* Her zaman beyaz arka plan */
 }
 
 /* ✅ Form Grupları */
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem; /* Biraz daha boşluk */
 }
 
 /* ✅ Butonlar */
@@ -82,96 +93,101 @@ textarea.form-control {
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  border-radius: 10px;
-  transition: all 0.2s ease-in-out;
-  padding: 0.5rem 1.2rem;
+  border: 1px solid transparent; /* Kenarlık varsayılan olarak şeffaf */
+  border-radius: 0.4rem; /* Daha standart köşe yuvarlaklığı */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  padding: 0.6rem 1.2rem; /* Biraz daha dengeli dolgu */
   font-size: 1rem;
+  line-height: 1.5;
 }
 
 .btn-primary {
-  background-color: #66bb6a;
-  border: none;
+  background-color: #28a745; /* Standart birincil renk */
+  border-color: #28a745;
   color: #fff;
 }
 
 .btn-primary:hover {
-  background-color: #519c56;
+  background-color: #218838;
+  border-color: #1e7e34;
 }
 
 .btn-outline-primary {
-  border: 2px solid #66bb6a;
+  color: #28a745;
+  border-color: #28a745;
   background-color: transparent;
-  color: #2e7d32;
 }
 
 .btn-outline-primary:hover {
-  background-color: #66bb6a;
+  background-color: #28a745;
+  border-color: #28a745;
   color: #fff;
 }
 
 .btn-success {
-  background-color: #82cd47;
-  border-color: #82cd47;
-  color: white;
+  background-color: #198754; /* Standart başarı rengi */
+  border-color: #198754;
+  color: #fff;
 }
 
 .btn-success:hover {
-  background-color: #6cb139;
-  border-color: #6cb139;
+  background-color: #157347;
+  border-color: #146c43;
 }
 
 .btn-secondary {
-  background-color: #ff9999;
-  border-color: #ff9999;
-  color: #7c0000;
+  background-color: #dc3545; /* Standart ikincil (tehlike) rengi */
+  border-color: #dc3545;
+  color: #fff;
 }
 
 .btn-secondary:hover {
-  background-color: #e68080;
-  border-color: #e68080;
+  background-color: #c82333;
+  border-color: #bd2130;
 }
 
 /* ✅ Küçük Butonlar */
 .btn-sm {
-  padding: 0.3rem 0.75rem;
+  padding: 0.4rem 0.8rem; /* Daha küçük dolgu */
   font-size: 0.875rem;
+  border-radius: 0.3rem; /* Daha küçük köşe yuvarlaklığı */
 }
 
 /* ✅ Sipariş Özeti Kartı */
 .card {
-  background-color: #ffffff;
-  border: 1px solid #e4e4e4;
-  border-radius: 20px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125); /* Daha standart kenarlık */
+  border-radius: 0.5rem; /* Daha standart köşe yuvarlaklığı */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Daha yaygın gölge */
   padding: 1.5rem;
-  transition: 0.3s ease;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Daha akıcı geçişler */
 }
 
 .card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+  transform: translateY(-0.25rem); /* Daha az belirgin yukarı kayma */
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.075); /* Daha belirgin gölge */
 }
 
 .card h4 {
-  font-size: 1.35rem;
+  font-size: 1.25rem; /* Biraz daha küçük başlık */
   font-weight: 600;
-  color: #2e7d32;
-  margin-bottom: 1.25rem;
+  color: #28a745; /* Ana renk */
+  margin-bottom: 1rem; /* Daha az alt boşluk */
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem; /* Daha tutarlı boşluk */
 }
 
 /* ✅ Liste */
 .list-group {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem; /* Daha tutarlı alt boşluk */
 }
 
 .list-group-item {
   background: none;
   border: none;
-  padding: 0.5rem 0;
-  font-size: 0.95rem;
+  padding: 0.6rem 0; /* Daha dengeli dikey boşluk */
+  font-size: 0.9rem; /* Biraz daha küçük yazı tipi */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -179,6 +195,6 @@ textarea.form-control {
 
 /* ✅ HR */
 hr {
-  border-top: 1px solid #c5dec5;
-  margin: 1rem 0;
+  border-top: 1px solid #dee2e6; /* Daha standart ayırıcı renk */
+  margin: 1.25rem 0; /* Daha tutarlı dikey boşluk */
 }

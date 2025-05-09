@@ -13,7 +13,6 @@ import com.example.ecommerce_api.services.Order.OrderService;
 
 @RestController
 @RequestMapping("/api/payments")
-@RequiredArgsConstructor
 public class PaymentController {
 
 

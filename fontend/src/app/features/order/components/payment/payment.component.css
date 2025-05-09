@@ -1,65 +1,73 @@
 :root {
-  --color-primary:        #A8DF8E;
-  --color-bg-light:       #F3FDE8;
-  --color-error-bg:       #FFE5E5;
-  --color-error-accent:   #FFBFBF;
-  --border-radius:        8px;
-  --transition-speed:     0.3s ease;
-  --text-primary:         #333333;
-  --text-secondary:       #555555;
-  --input-border:         rgba(168, 223, 142, 0.4);
-  --input-focus-shadow:   rgba(168, 223, 142, 0.25);
+  --color-primary: #82cd47; /* Daha canlı bir birincil renk */
+  --color-bg-light: #f8fbf5; /* Daha nötr ve modern bir açık arka plan */
+  --color-error-bg: #ffe6e6; /* Daha yumuşak bir hata arka planı */
+  --color-error-accent: #e57373; /* Daha belirgin bir hata rengi */
+  --border-radius: 10px; /* Biraz daha yuvarlak köşeler */
+  --transition-speed: 0.2s ease-in-out; /* Daha hızlı ve akıcı geçişler */
+  --text-primary: #37474f; /* Daha profesyonel birincil metin rengi */
+  --text-secondary: #78909c; /* Daha yumuşak ikincil metin rengi */
+  --input-border: #ced4da; /* Standart ve modern input kenarlığı */
+  --input-focus-shadow: rgba(130, 205, 71, 0.2); /* Birincil renkle uyumlu odak gölgesi */
 }
 
 /* Page Wrapper */
 .payment-page {
-  padding: 4rem 1rem 2rem;
+  padding: 3rem 1.5rem; /* Daha dengeli iç boşluk */
   background-color: var(--color-bg-light);
-  min-height: calc(100vh - 4rem);
+  min-height: calc(100vh - 3rem); /* Üstten daha az boşluk */
   box-sizing: border-box;
+  display: flex;
+  justify-content: center; /* Formu ortalamak için */
+  align-items: center;
 }
 
 /* Form Card */
 #payment-form {
   max-width: 520px;
-  margin: 0 auto;
-  padding: 2.5rem;
+  width: 100%; /* Mobil uyumluluk için genişliği ayarla */
+  margin: 0 auto; /* Yatayda ortala */
+  padding: 2rem; /* Daha dengeli iç boşluk */
   background-color: #ffffff;
   border-radius: var(--border-radius);
-  border-top: 4px solid var(--color-primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-top: 3px solid var(--color-primary); /* Daha ince bir vurgu */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* Daha hafif ve modern gölge */
   transition: box-shadow var(--transition-speed);
 }
+
 #payment-form:hover {
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Daha belirgin hover efekti */
 }
 
 /* Form Groups */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem; /* Biraz daha az alt boşluk */
 }
+
 .form-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem; /* Daha tutarlı boşluk */
 }
+
 .inline-inputs {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem; /* Daha yakın aralık */
 }
 
 /* Labels */
 label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem; /* Biraz daha yakın */
   font-weight: 500;
   color: var(--text-primary);
+  font-size: 0.95rem; /* Biraz daha küçük etiket */
 }
 
 /* Inputs */
 input.form-control {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.65rem 1rem; /* Daha kompakt dolgu */
   font-size: 1rem;
   color: var(--text-primary);
   background-color: #fff;
@@ -71,11 +79,11 @@ input.form-control {
 input.form-control:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--input-focus-shadow);
+  box-shadow: 0 0 0 0.2rem var(--input-focus-shadow); /* Daha standart odak gölgesi */
 }
 
 input[readonly] {
-  background-color: var(--color-bg-light);
+  background-color: #eef2f5; /* Daha açık okunamaz arka plan */
   color: var(--text-secondary);
   cursor: not-allowed;
 }
@@ -83,55 +91,60 @@ input[readonly] {
 /* Validation Styles */
 input.ng-invalid.ng-touched {
   border-color: var(--color-error-accent);
-  background-color: var(--color-error-bg);
+  background-color: #ffe0e0; /* Daha açık hata arka planı */
 }
+
 .invalid-feedback {
   display: block;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  background-color: var(--color-error-bg);
+  margin-top: 0.3rem; /* Daha az üst boşluk */
+  padding: 0.4rem 0.6rem; /* Daha kompakt iç boşluk */
+  background-color: #ffe0e0;
   color: var(--color-error-accent);
-  border-left: 4px solid var(--color-error-accent);
+  border-left: 3px solid var(--color-error-accent); /* Daha ince çizgi */
   border-radius: 0 var(--border-radius) var(--border-radius) 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Daha küçük geri bildirim metni */
 }
 
 /* Button */
 .btn-primary {
   display: block;
   width: 100%;
-  padding: 0.85rem;
-  margin-top: 1.5rem;
+  padding: 0.75rem; /* Biraz daha az dikey dolgu */
+  margin-top: 1.25rem; /* Biraz daha az üst boşluk */
   background-color: var(--color-primary);
   border: none;
   border-radius: var(--border-radius);
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Biraz daha küçük yazı tipi */
   font-weight: 600;
   text-align: center;
   cursor: pointer;
-  transition: filter 0.1s ease-in-out, transform 0.1s ease, box-shadow var(--transition-speed);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.15s ease-in-out, transform 0.1s ease, box-shadow var(--transition-speed); /* Daha standart geçiş */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* Daha hafif gölge */
 }
 
 .btn-primary:hover {
-  filter: brightness(0.9);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  background-color: #6cb139; /* Hover rengi ayarlandı */
+  transform: translateY(-1px); /* Daha az belirgin yukarı kayma */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12); /* Daha belirgin hover gölgesi */
 }
 
 .btn-primary:active {
-  transform: translateY(1px);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transform: translateY(0); /* Aktif durumda geri gelme */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Daha az belirgin aktif gölge */
 }
 
 /* Responsive */
 @media (max-width: 576px) {
+  .payment-page {
+    padding: 2rem 1rem; /* Mobil için daha az genel boşluk */
+  }
   #payment-form {
-    margin: 0 1rem;
-    padding: 1.5rem;
+    margin: 1rem; /* Mobil için kenarlardan boşluk */
+    padding: 1.5rem; /* Mobil için daha az iç boşluk */
   }
   .form-row {
-    flex-direction: column;
+    flex-direction: column; /* Mobil için alt alta sıralama */
+    gap: 0.5rem; /* Mobil için daha az satır boşluğu */
   }
 }
