@@ -2,16 +2,14 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Order } from '../../../models/order.model';
-import { AuthService } from '../../auth/services/auth.service';
 import { Payment } from '../../../models/payment.model';
 import { TokenService } from '../../../core/services/token.service';
 import { isPlatformBrowser } from '@angular/common';
-import { OrderData } from '../../../models/order-data';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
-  private baseUrl = 'http://localhost:8080/api/orders';
+  private baseUrl = `${environment.apiUrl}/api/orders`;
 
   constructor(
     private http: HttpClient,
@@ -19,38 +17,27 @@ export class OrderService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  placeOrder(order: Order): Observable<any> {
-    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    if (isPlatformBrowser(this.platformId)) {
-      const token = this.tokenService.getToken();
-      if (token) {
-        headers = headers.set('Authorization', `Bearer ${token}`);
-      } else {
-        console.warn('❗ Token boş, yetkisiz işlem olabilir.');
-      }
-    } else {
-      console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
-    }
-
-    return this.http.post<any>('http://localhost:8080/api/orders/place', order, { headers });
+  /**
+   * Backend'deki @PostMapping("/create") endpointine POST atar.
+   * Body gönderilmez, kullanıcıya göre sipariş oluşturulur.
+   */
+  createOrder(): Observable<Order> {
+    return this.http.post<Order>(
+      `${this.baseUrl}/create`,
+      {} // boş body
+    );
   }
 
+  /**
+   * Kullanıcının siparişlerini getirir.
+   */
   getUserOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}/user`);
   }
 
-
-  // Tekil siparişi ID ile alma
-  getOrderById(orderId: number): Observable<Order> {
-    return this.http.get<Order>(`${this.baseUrl}/${orderId}`);
-  }
-
-  // Siparişi iptal etme
-  cancelOrder(orderId: number): Observable<any> {
-    return this.http.put(`${this.baseUrl}/cancel/${orderId}`, null);
-  }
-
+  /**
+   * Siparişe ödeme ekler.
+   */
   addPayment(orderId: number, amount: number): Observable<Payment> {
     const url    = `${this.baseUrl}/${orderId}/payment`;
     const params = new HttpParams().set('amount', amount.toString());
@@ -58,12 +45,10 @@ export class OrderService {
   }
 
   /**
-   * Backend’deki @PostMapping("/create")’e POST atar
+   * Siparişe kargo bilgisi ekler.
    */
-createOrder(): Observable<Order> {
-  return this.http.post<Order>(
-    `${environment.apiUrl}/api/orders/create`,
-    {}    // boş body, çünkü body artık kullanılmıyor
-  );
-}
+  addShipping(orderId: number, shippingInfo: any): Observable<any> {
+    const url = `${this.baseUrl}/${orderId}/shipping`;
+    return this.http.post<any>(url, shippingInfo);
+  }
 }

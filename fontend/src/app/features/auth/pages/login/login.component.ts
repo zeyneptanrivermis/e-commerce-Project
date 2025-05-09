@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   
           setTimeout(() => { // ✅ Küçük gecikmeyle rol oku
             const roles = this.authService.getUserRoles();
+            const user= this.authService.getCurrentUser();
             console.log('🎫 Kullanıcı rolleri:', roles);
   
             if (roles.includes('ROLE_ADMIN')) {

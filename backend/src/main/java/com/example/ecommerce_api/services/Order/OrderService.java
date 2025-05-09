@@ -59,24 +59,24 @@ public class OrderService {
 
     /**
      * Verilen orderId için Stripe PaymentIntent yaratır,
-     * intent ID’yi ve clientSecret’i kaydeder, clientSecret’i döner.
+     * intent ID'yi ve clientSecret'i kaydeder, clientSecret'i döner.
      */
     public String createStripePayment(Long orderId, String currency) throws StripeException {
-        // 1) Order’ı çek
+        // 1) Order'ı çek
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // 2) double dönen toplam tutarı long’a çevir:
+        // 2) double dönen toplam tutarı long'a çevir:
         //    a) Eğer getOrderTotalWithoutDiscount kuruş cinsinden geliyorsa:
         long amount = (long) order.getOrderTotalWithoutDiscount();
         //
         //    b) Eğer getOrderTotalWithoutDiscount liralar cinsinden (örn: 123.45) geliyorsa:
         // long amount = Math.round(order.getOrderTotalWithoutDiscount() * 100);
 
-        // 3) Stripe’da PaymentIntent oluştur
+        // 3) Stripe'da PaymentIntent oluştur
         PaymentIntent intent = stripePaymentService.createPaymentIntent(amount, currency);
 
-        // 4) DB’ye kaydet
+        // 4) DB'ye kaydet
         Payment payment = new Payment();
         payment.setOrder(order);
         payment.setCustomer((Customer) order.getCustomer());
@@ -86,7 +86,7 @@ public class OrderService {
         payment.setPaymentDate(null);           // henüz tamamlanmadı
         paymentRepository.save(payment);
 
-        // 5) Frontend’e clientSecret döndür
+        // 5) Frontend'e clientSecret döndür
         return intent.getClientSecret();
     }
 
@@ -200,7 +200,7 @@ public class OrderService {
     }
 
         /**
-     * Front-end’den onay geldikten sonra Payment durumunu “succeeded” olarak işaretler.
+     * Front-end'den onay geldikten sonra Payment durumunu "succeeded" olarak işaretler.
      */
     public void finalizePayment(Long orderId, String paymentIntentId) {
         Payment payment = paymentRepository
@@ -211,5 +211,17 @@ public class OrderService {
         payment.setStatus("succeeded");
         payment.setPaymentDate(LocalDate.now());
         paymentRepository.save(payment);
+    }
+
+    public OrderDTO createOrderDTO(Long customerId) {
+        Order order = createOrder(customerId); // mevcut fonksiyonunu kullan
+        // Order'ı OrderDTO'ya map et
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+        dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+        // ... diğer alanları da ekle ...
+        // itemList ve paymentInfo'yu da uygun şekilde ekle
+        return dto;
     }
 }

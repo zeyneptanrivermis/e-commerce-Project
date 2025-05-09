@@ -19,6 +19,13 @@ export class AuthService {
 
   
   login(credentials: any): Observable<any> {
+    if(this.getCurrentUser()?.banned){
+      console.log('User is banned');
+      return new Observable(observer => {
+        observer.error('User is banned');
+        observer.complete();
+      });
+    }
     return this.http.post<any>(`${this.API_URL}/login`, credentials).pipe(
       tap(response => {
         this.tokenService.setToken(response.token); // ✔️ Tek merkezden set et

@@ -19,8 +19,10 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class OrderController {
 
+    @Autowired
     private final OrderService orderService;
 
+    @Autowired
     private UserRepository userRepository;
 
     public OrderController(OrderService orderService, UserRepository userRepository) {
@@ -30,13 +32,11 @@ public class OrderController {
 
     // 🔵 Frontend artık boş body veya hiç body göndermeden bu endpoint'i çağıracak
     @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(Principal principal) {
+    public ResponseEntity<OrderDTO> createOrder(Principal principal) {
         Long customerId = getCustomerIdFromPrincipal(principal);
-        // Sepetteki ürünleri alıp yeni Order ve OrderItem'ları oluşturan metod
-        Order savedOrder = orderService.createOrder(customerId);
+        OrderDTO savedOrder = orderService.createOrderDTO(customerId); // DTO dönen bir servis metodu
         return ResponseEntity.ok(savedOrder);
     }
-
 
     @GetMapping("/user")
     public ResponseEntity<List<OrderDTO>> getUserOrders(Principal principal) {

@@ -6,4 +6,5 @@ export interface User{
     surname: string;
     birthday: Date;
     wishListId: string;
+    banned?: false;
 }

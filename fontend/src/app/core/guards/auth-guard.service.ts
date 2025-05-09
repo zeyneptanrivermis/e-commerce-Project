@@ -10,12 +10,17 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const requiredRoles = route.data['roles'] || ['ROLE_USER']; 
+    const requiredRoles = route.data['roles'] || ['ROLE_USER'];
     const userRoles = this.authService.getUserRoles();
   
     if (this.authService.isLoggedIn() && requiredRoles.some((role: string) => userRoles.includes(role))) {
       return true;
-    } else {
+    } if(this.authService.getCurrentUser()?.banned){
+      console.log('User is banned');
+      this.router.navigate(['/login']);
+      return false;
+    }
+    else {
       this.router.navigate(['/login']);
       return false;
     }
