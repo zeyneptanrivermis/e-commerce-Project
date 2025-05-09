@@ -56,8 +56,9 @@ export class AdminApiService {
   }
 
   cancelProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.base}/products/${id}`);
+    return this.http.put<void>(`${this.base}/products/${id}/cancel`, null);
   }
+
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}/delete`);
   }

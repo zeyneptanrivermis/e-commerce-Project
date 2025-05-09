@@ -18,6 +18,7 @@ import jakarta.persistence.Column;
 
 import com.example.ecommerce_api.entity.ProductEntity.Discount;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 // incele, gözden geçir
@@ -42,6 +43,11 @@ public class Order {
      @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private OrderStatus status = OrderStatus.PENDING;  // default PENDING
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private Seller seller;
+
 
     public Long getOrderId() { return orderId; }
     public void setOrderId(Long orderId) { this.orderId = orderId; }

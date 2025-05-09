@@ -3,11 +3,22 @@
     <a href="/products"> Start Shopping</a>
 </div>
 
-<h2>Önerilen Ürünler</h2>
+<div class="categories-section">
+    <h2>Hot Categories:</h2>
+    <div class="categories-grid">
+        <div class="category-card" *ngFor="let category of categories">
+            <img [src]="category.image" [alt]="category.name">
+            <h3>{{category.name}}</h3>
+            <a [routerLink]="['/products']" [queryParams]="{ category: category.name }">Ürünleri Gör</a>        </div>
+    </div>
+</div>
+
+
+<h2>Featured Products!</h2>
 <div class="scroll-container">
   <div class="product-card" *ngFor="let product of products">
     <img
-      [src]=" 'https://via.placeholder.com/200x150?text=No+Image'"
+      [src]="'fontend/src/assets/images/urun.png'"
       [alt]="product.name"
     />
     <h4>{{ product.name }}</h4>

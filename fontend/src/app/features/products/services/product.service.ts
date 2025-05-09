@@ -45,7 +45,8 @@ export class ProductService {
         name: apiProduct.seller?.name,
         email: apiProduct.seller?.email,
       },
-      reviews: apiProduct.reviews
+      reviews: apiProduct.reviews,
+      cancelled: apiProduct.cancelled
     };
   }
   

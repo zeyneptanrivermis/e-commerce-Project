@@ -1,11 +1,14 @@
 package com.example.ecommerce_api.services.Product;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.data.domain.PageRequest;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
+import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.stereotype.Service;
 
@@ -17,9 +20,11 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final SellerRepository sellerRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, SellerRepository sel) {
         this.productRepository = productRepository;
+        this.sellerRepository=sel;
     }
 
     public List<Product> getProductsPaged(int limit, int skip) {
@@ -91,6 +96,19 @@ public class ProductService {
         List<Product> all = productRepository.findAll();
         Collections.shuffle(all);
         return all.stream().limit(count).collect(Collectors.toList());
+    }
+
+    public void cancelProduct(Long id) {
+        Product product = productRepository.findById(id)
+            .orElseThrow();
+        product.setCancelled(true);
+        productRepository.save(product);
+    }
+    
+    public List<Product> getProductsBySellerEmail(String email) {
+        Seller seller = sellerRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("Seller not found"));
+        return productRepository.findAllBySeller(seller);
     }
 
 }

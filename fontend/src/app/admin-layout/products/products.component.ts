@@ -27,13 +27,17 @@ export class ProductsComponent {
   }
 
   cancelProduct(id: number) {
-    this.api.cancelProduct(id).subscribe(() => this.loadProducts());
-  }
+    this.api.cancelProduct(id).subscribe(() => {
+      const product = this.products.find(p => p.id === id);
+      if (product) {
+        product.cancelled = true;
+      }
+    });  }
 
   deleteProduct(id: number) {
     if (confirm('Bu ürünü kalıcı olarak silmek istediğinize emin misiniz?')) {
       this.api.deleteProduct(id).subscribe(() => this.loadProducts());
     }
   }
-  
+
 }

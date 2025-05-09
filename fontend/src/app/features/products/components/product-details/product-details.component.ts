@@ -54,3 +54,4 @@ export class ProductDetailsComponent implements OnInit {
     this.showReviews = !this.showReviews;
   }
 }
+

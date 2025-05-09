@@ -20,7 +20,9 @@ import jakarta.persistence.CascadeType;
 @Table(name = "seller")
 public class Seller extends User {
 
-    private Boolean banned = false; 
+    private Boolean banned = false;
+
+    private String shopName;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stock_address_id")
@@ -40,6 +42,10 @@ public class Seller extends User {
         return stockAddress;
     }
 
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+    
     public void setStockAddress(Address stockAddress) {
         this.stockAddress = stockAddress;
     }

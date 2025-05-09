@@ -62,11 +62,12 @@ public class Product {
     @Max(value = 500, message = "Stock can be between 1-500.")
     private int stockCount;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+
     private double avgRating;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Discount> discounts = new ArrayList<>();
 
     @Column(length = 500)

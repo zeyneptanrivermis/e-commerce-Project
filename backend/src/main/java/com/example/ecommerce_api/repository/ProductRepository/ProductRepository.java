@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
@@ -25,5 +26,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByPriceBetween(double minPrice, double maxPrice);
     List<Product> findByProductNameContaining(String keyword);
+
+
+    long countBySeller(Seller seller);
+
+    List<Product> findAllBySeller(Seller seller);
+
 
 }

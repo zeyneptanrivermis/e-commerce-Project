@@ -1,6 +1,6 @@
 import { AuthGuard } from './../../../../core/guards/auth-guard.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Product } from '../../../../models/product.model';
+import { MainCategory, Product } from '../../../../models/product.model';
 import { PopularityService } from '../../services/popular-products/product-popularity.service';
 import { WishlistService } from '../../../user/services/wishlist.service';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -18,6 +18,7 @@ export class ProductItemComponent {
   @Output() add  = new EventEmitter<Product>();
   private productPopularity: number= 0;
   isInWishlist = false;
+  categoryLabel = MainCategoryLabel;
 
   constructor(  private wishlistService: WishlistService,private authService: AuthService,
                 private popularity: PopularityService, private authguard: AuthGuard, private router: Router){}
@@ -44,4 +45,17 @@ export class ProductItemComponent {
     });
   }
 
+  
+
 }
+
+export const MainCategoryLabel: Record<MainCategory, string> = {
+  [MainCategory.Clothing]: 'Giyim',
+  [MainCategory.Makeup]: 'Makyaj',
+  [MainCategory.Electronics]: 'Elektronik',
+  [MainCategory.Pet_Supplies]: 'Evcil Hayvan',
+  [MainCategory.Home_and_Kitchen]: 'Ev & Mutfak',
+  [MainCategory.Toys_and_Games]: 'Oyuncaklar',
+  [MainCategory.Sports_and_Outdoor]: 'Spor & Açık Hava',
+  [MainCategory.Hobbies]: 'Hobiler',
+};

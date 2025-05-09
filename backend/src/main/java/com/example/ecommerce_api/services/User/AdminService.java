@@ -12,6 +12,9 @@ import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.repository.UserRepositories.AdminRepository;
 import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 
@@ -140,8 +143,14 @@ public class AdminService {
   }
 
     @PreAuthorize("hasRole('ADMIN')")
-  public void deleteProductPermanently(Long id) {
-        productRepository.deleteById(id);
-  }
-
+    @Transactional
+    public void deleteProductPermanently(Long id) {
+        Product p = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+    
+        // İlişkili alt verileri temizle (eğer cascade yoksa)
+        p.getReviews().clear();
+    
+        productRepository.delete(p);
+    }
 }

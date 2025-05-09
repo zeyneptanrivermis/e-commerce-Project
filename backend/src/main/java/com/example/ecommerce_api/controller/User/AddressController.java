@@ -31,6 +31,7 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
     private AddressRepository addressRepository;
 
     @PostMapping("/user/{userId}")

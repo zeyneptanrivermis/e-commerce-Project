@@ -6,6 +6,7 @@ import { RegisterComponent }     from './features/auth/pages/register/register.c
 import { HomeComponent }         from './features/home/pages/home/home.component';
 import { AuthLayoutComponent }   from './features/auth/auth-layout/auth-layout.component';
 import { AuthGuard }             from './core/guards/auth-guard.service';
+import { SellerRegisterComponent } from './seller-layout/pages/seller-register/seller-register.component';
 
 const routes: Routes = [
   // 1) Anasayfa
@@ -57,7 +58,16 @@ const routes: Routes = [
     loadChildren: () => import('./admin-layout/admin-layout.module')
                           .then(m => m.AdminLayoutModule)
   },
-
+    {
+      path: 'seller/register',
+      component: SellerRegisterComponent
+    },
+    {
+      path: 'seller',
+      canActivate: [AuthGuard],
+      data: { roles: ['ROLE_SELLER'], hideLayout: true },
+      loadChildren: () => import('./seller-layout/seller.module').then(m => m.SellerModule)
+    },
   // 8) Yakalanamayan tüm rotalar
   { path: '**', redirectTo: '/home' }
 ];

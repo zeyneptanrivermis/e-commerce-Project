@@ -1,0 +1,15 @@
+<div class="product-list">
+    <h2>My products</h2>
+    
+    <ul *ngIf="products.length > 0; else noProducts">
+      <li *ngFor="let product of products">
+        <strong>{{ product.name }}</strong> - {{ product.price }}₺
+      </li>
+    </ul>
+  
+    <ng-template #noProducts>
+      <p>You have no Products.</p>
+      <button routerLink="/seller/products/manage">Add new products</button>
+    </ng-template>
+  </div>
+  

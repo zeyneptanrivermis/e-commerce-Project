@@ -74,79 +74,107 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     return product?.id ?? index;
   }
 
-  loadProducts(): void {
-    if (this.loading || this.allLoaded) return;
+ loadProducts(): void {
+  if (this.loading || this.allLoaded) return;
 
+  this.loading = true;
+
+  this.productService.getProducts(this.limit, this.skip).subscribe(data => {
+    if (data && data.length > 0) {
+      // DÖNÜŞÜM YAPMA, olduğu gibi bırak
+      this.products = [...this.products, ...data];
+      this.skip += this.limit;
+      this.applyFilter();
+
+      if (data.length < this.limit) {
+        this.allLoaded = true;
+        this.observer?.disconnect();
+      }
+    } else {
+      this.allLoaded = true;
+      this.observer?.disconnect();
+    }
+
+    this.loading = false;
+
+
+  }, error => {
+    console.error('🔴 Ürünler alınamadı:', error);
+    this.loading = false;
+    this.allLoaded = true;
+    this.observer?.disconnect();
+  });
+}
+
+  loadPopularProducts(): void {
     this.loading = true;
-    this.productService.getProducts(this.limit, this.skip).subscribe(data => {
-      if (data && data.length > 0) {
+    this.productService.getProducts(this.limit, this.skip).subscribe({
+      next: (data) => {
         this.products = [...this.products, ...data];
         this.skip += this.limit;
         this.applyFilter();
-
+    
         if (data.length < this.limit) {
           this.allLoaded = true;
           this.observer?.disconnect();
         }
-      } else {
+    
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('🔴 Ürünler alınamadı:', err);
+        this.loading = false;
         this.allLoaded = true;
         this.observer?.disconnect();
       }
-
-      this.loading = false;
-    }, error => {
-      console.error('🔴 Ürünler alınamadı:', error);
-      this.loading = false;
-      this.allLoaded = true;
-      this.observer?.disconnect();
     });
   }
 
-  loadPopularProducts(): void {
-    this.loading = true;
-    this.productService.getPopularProducts().subscribe(data => {
-      this.products = data ?? [];
-      this.filteredProducts = [...this.products];
-      this.allLoaded = true;
-      this.loading = false;
-      this.observer?.disconnect();
-    }, error => {
-      console.error('🔴 Popüler ürünler alınamadı:', error);
-      this.loading = false;
-      this.allLoaded = true;
-    });
-  }
-
-  addToCart(product: Product) {
-    this.cartService.addToCart(product.id, 1).subscribe({
-      next: () => alert('✅ Ürün sepete eklendi'),
-      error: err => console.error('❌ Sepete eklenemedi:', err)
-    });
-  }
-
-  filterByCategory(category: MainCategory | keyof typeof SideCategories | 'All') {
+  filterByCategory(category: string | 'All') {
     if (category === 'All') {
       this.filteredProducts = [...this.products];
-    } else {
-      this.filteredProducts = this.products.filter(product =>
-        product.mainCategory === category || product.sideCategories?.includes(category)
-      );
+      return;
     }
+  
+    this.filteredProducts = this.products.filter(product =>
+      product.mainCategory === category || product.sideCategories?.includes(category)
+    );
   }
+  
 
   applyFilter() {
     const category = this.route.snapshot.queryParams['category'];
     if (category && category !== 'All') {
+      const matchedEnum = Object.values(MainCategory).find(val => val === category);
       this.filteredProducts = this.products.filter(product =>
-        product.mainCategory === category || product.sideCategories?.includes(category)
+        product.mainCategory === matchedEnum || product.sideCategories?.includes(category)
       );
     } else {
       this.filteredProducts = [...this.products];
     }
   }
+  
 
   getSelectedSideCategories(category: MainCategory, indexes: number[]): string[] {
     const allCategories = SideCategories[category] || [];
     return indexes.map(i => allCategories[i]).filter(Boolean);
   }
+
+  addToCart(product: Product): void {
+    const quantity = 1; // Varsayılan olarak 1 adet eklensin
+  
+    this.cartService.addToCart(product.id, quantity).subscribe({
+      next: () => {
+        console.log(`🛒 ${product.name} sepete eklendi.`);
+        // İstersen bir toast gösterimi veya animasyon tetikleyebilirsin
+      },
+      error: (err) => {
+        console.error('❌ Sepete eklenirken hata oluştu:', err);
+        // Eğer kullanıcı login değilse yönlendirme gibi şeyler burada yapılabilir
+      }
+    });
+  }
+  
 }
+
+

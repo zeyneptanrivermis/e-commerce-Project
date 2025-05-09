@@ -1,9 +1,27 @@
 <div class="login-wrapper">
-  <div class="login-left">
-    <div class="branding">
-      <h1>Hoş Geldiniz!</h1>
-      <p>Alışverişin en hızlı yolu burada.</p>
-      <img src="assets/login-illustration.svg" alt="Alışveriş Görseli" />
+  <div class="why-customer-section">
+    <h2>Why Shop With Us?</h2>
+    <div class="customer-features">
+      <div class="customer-feature">
+        <span class="customer-icon">🌱</span>
+        <h3>Fresh Deals, Every Day</h3>
+        <p>Discover new discounts and exclusive offers on your favorite products daily.</p>
+      </div>
+      <div class="customer-feature">
+        <span class="customer-icon">💚</span>
+        <h3>Trusted Quality</h3>
+        <p>We carefully select our products and sellers to ensure you always get the best.</p>
+      </div>
+      <div class="customer-feature">
+        <span class="customer-icon">🚚</span>
+        <h3>Fast & Safe Delivery</h3>
+        <p>Your orders are delivered quickly and securely, right to your door.</p>
+      </div>
+      <div class="customer-feature">
+        <span class="customer-icon">🎁</span>
+        <h3>Customer-First Service</h3>
+        <p>Our support team is always here to help you with a smile!</p>
+      </div>
     </div>
   </div>
 
@@ -26,10 +44,10 @@
         </div>
 
         <div class="form-actions">
-          <a routerLink="/forgot-password">Şifrenizi mi unuttunuz?</a>
+          <a routerLink="/forgot-password">Şifrenizi mi unuttunuz? 👉</a>
         </div>
 
-        <button type="submit" [disabled]="loginForm.invalid">GİRİŞ YAP</button>
+        <button type="submit" [disabled]="loginForm.invalid">GİRİŞ YAP 👆</button>
 
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       </form>
@@ -37,8 +55,8 @@
       <div class="separator"><span>ya da</span></div>
 
       <div class="extra-actions">
-        <p>Hesabınız yok mu? <a routerLink="/register">Kayıt Olun</a></p>
-        <p>Mağazanız mı var? <a routerLink="/seller-register">Satıcı olarak kayıt olun</a></p>
+        <p>Hesabınız yok mu? <a href="/register">Kayıt Olun 👇</a></p>
+        <p>Mağazanız mı var? <a href="/seller-login">Satıcı olarak giriş yapın 👇</a></p>
       </div>
     </div>
   </div>

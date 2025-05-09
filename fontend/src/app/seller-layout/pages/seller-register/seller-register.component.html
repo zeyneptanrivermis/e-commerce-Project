@@ -1,0 +1,74 @@
+<div class="register-page-container">
+  <div class="register-container">
+    <h2 class="title">Mağaza Kaydı</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" novalidate>
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Adınız</label>
+        <input type="text" id="name" formControlName="name" placeholder="Adınızı girin" />
+        <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="error">
+          Ad zorunludur.
+        </div>
+      </div>
+
+      <!-- Surname -->
+      <div class="form-group">
+        <label for="surname">Soyadınız</label>
+        <input type="text" id="surname" formControlName="surname" placeholder="Soyadınızı girin" />
+        <div *ngIf="registerForm.get('surname')?.invalid && registerForm.get('surname')?.touched" class="error">
+          Soyad zorunludur.
+        </div>
+      </div>
+
+      <!-- Shop Name -->
+      <div class="form-group">
+        <label for="shopName">Mağaza Adı</label>
+        <input type="text" id="shopName" formControlName="shopName" placeholder="Mağaza ismi girin" />
+        <div *ngIf="registerForm.get('shopName')?.invalid && registerForm.get('shopName')?.touched" class="error">
+          Mağaza adı gerekli.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="Email adresiniz" />
+        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="error">
+          Geçerli bir e-posta giriniz.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Şifre</label>
+        <input type="password" id="password" formControlName="password" placeholder="Şifreniz" />
+        <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="error">
+          Şifre en az 6 karakter olmalıdır.
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="register-button">Kayıt Ol</button>
+    </form>
+  </div>
+
+  <div class="why-register-container">
+    <h2 class="why-title">Why Open Your Store With Us?</h2>
+    <div class="why-item">
+      <i class="fas fa-rocket"></i>
+      <h3>Boost Your Sales!</h3>
+      <p>Reach more customers and watch your business grow.</p>
+    </div>
+    <div class="why-item">
+      <i class="fas fa-chart-line"></i>
+      <h3>Easy Management</h3>
+      <p>Our platform makes managing your store a breeze.</p>
+    </div>
+    <div class="why-item">
+      <i class="fas fa-users"></i>
+      <h3>Join a Community</h3>
+      <p>Connect with other sellers and grow together.</p>
+    </div>
+  </div>
+</div>

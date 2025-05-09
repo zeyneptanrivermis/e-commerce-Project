@@ -15,12 +15,8 @@ export const authInterceptor: HttpInterceptorFn = (
   const tokenService = inject(TokenService);
   const platformId = inject(PLATFORM_ID);
 
-  console.log('✅ AuthInterceptor (function) çalıştı!');
-
   if (isPlatformBrowser(platformId)) {
     const token = tokenService.getToken();
-    console.log('Token from TokenService (client):', token);
-
     if (token) {
       const authReq = req.clone({
         setHeaders: {
@@ -29,8 +25,6 @@ export const authInterceptor: HttpInterceptorFn = (
       });
       return next(authReq);
     }
-  } else {
-      console.warn('🚫 Token erişimi sunucu tarafında engellendi (SSR)');
   }
 
   return next(req);

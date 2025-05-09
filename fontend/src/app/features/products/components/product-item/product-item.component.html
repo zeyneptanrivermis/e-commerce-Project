@@ -11,12 +11,17 @@
   <p><strong>Price:</strong> {{ product.price | currency }}</p>
   <p><strong>{{product.seller.name}}</strong></p>
 
-  <p><strong>Main Category:</strong>
-    <a [routerLink]="['/products']" [queryParams]="{ category: product.mainCategory }" class="category-button">
-      {{ product.mainCategory }}
+  <p *ngIf="product.mainCategory">
+    <strong>Main Category:</strong>
+    <a
+      [routerLink]="['/products']"
+      [queryParams]="{ category: product.mainCategory }"
+      class="category-button"
+    >
+      {{ categoryLabel[product.mainCategory] }}
     </a>
   </p>
-
+  
   <p>
     <ng-container *ngIf="product.sideCategories && product.sideCategories.length > 0">
       <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">

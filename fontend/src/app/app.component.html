@@ -1,7 +1,7 @@
 <ng-container *ngIf="dataLoaded; else loading">
 
-  <!-- 1) Non-admin layout -->
-  <ng-container *ngIf="showLayout; else adminOnly">
+  <!-- Non-admin, non-seller layout -->
+  <ng-container *ngIf="showLayout && !isAdmin && !isSeller; else restrictedLayout">
     <app-navbar class="fixed-navbar"></app-navbar>
 
     <main class="main-content">
@@ -10,15 +10,15 @@
 
     <app-footer class="fixed-footer"></app-footer>
 
-    <!-- 5) Chat-bot sadece non-admin ve (istersen) login olmuşsa -->
+    <!-- Chat-bot sadece müşteri ise gösterilsin -->
     <app-chat
       class="chat-bot"
       *ngIf="isLoggedIn">
     </app-chat>
   </ng-container>
 
-  <!-- 2) Admin-only layout -->
-  <ng-template #adminOnly>
+  <!-- Admin veya Seller için sade layout -->
+  <ng-template #restrictedLayout>
     <main class="main-content">
       <router-outlet></router-outlet>
     </main>

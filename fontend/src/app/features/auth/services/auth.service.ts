@@ -64,7 +64,7 @@ export class AuthService {
   }
   
   getUserRoles(): string[] {
-    const token = this.tokenService.getToken();
+    const token = this.getToken(); // tokenService.getToken()
     if (!token) return [];
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
@@ -72,6 +72,7 @@ export class AuthService {
     } catch {
       return [];
     }
+    
   }
   
   getAuthHeaders(): HttpHeaders {

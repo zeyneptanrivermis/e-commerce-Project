@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.ecommerce_api.dto.featuresDTO.AuthResponse;
 import com.example.ecommerce_api.entity.UserEntity.*;
 import com.example.ecommerce_api.repository.UserRepositories.RoleRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
@@ -32,7 +34,6 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     // DTO'lar
     //ic sinif
     public static class LoginRequest {
@@ -49,16 +50,6 @@ public class AuthController {
 
     public static class RefreshTokenRequest {
         public String refreshToken;
-    }
-
-    public static class AuthResponse {
-        public String accessToken;
-        public String refreshToken;
-
-        public AuthResponse(String accessToken, String refreshToken) {
-            this.accessToken = accessToken;
-            this.refreshToken = refreshToken;
-        }
     }
 
     // Login işlemi
@@ -135,4 +126,5 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthResponse(newAccessToken, refreshToken));
     }
+    
 }

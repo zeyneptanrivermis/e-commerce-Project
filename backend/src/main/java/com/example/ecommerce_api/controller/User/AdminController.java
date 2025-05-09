@@ -6,6 +6,7 @@ import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.services.Product.ProductService;
 import com.example.ecommerce_api.services.User.AdminService;
 import com.example.ecommerce_api.services.User.CustomerService;
 
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -22,10 +24,12 @@ public class AdminController {
 
     private final AdminService adminService;
     private final CustomerService customerService;
-    
-    public AdminController(AdminService adminService, CustomerService customerService) {
+    private final ProductService productService;
+
+    public AdminController(AdminService adminService, CustomerService customerService, ProductService productService) {
         this.adminService = adminService;
         this.customerService = customerService;
+        this.productService=productService;
     }
 
     // 🔐 Bu endpoint sadece ADMIN rolüne açık
@@ -79,12 +83,12 @@ public class AdminController {
     //  3) Ürünü iptal et (soft-delete veya durum güncelle)
     // ────────────────────────────────────────────────
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/products/{id}")
+    @PutMapping("/products/{id}/cancel")
     public ResponseEntity<Void> cancelProduct(@PathVariable Long id) {
-        adminService.cancelProduct(id);
-        return ResponseEntity.noContent().build();
+        productService.cancelProduct(id);
+        return ResponseEntity.ok().build();
     }
-
+    
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/customers/{id}")
     public ResponseEntity<Void> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
@@ -98,11 +102,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllProductDTOs());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/products/{id}/delete")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        adminService.deleteProductPermanently(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        adminService.deleteProductPermanently(id); // ← doğru servis
+        return ResponseEntity.ok(Map.of("message", "Deletion success!"));
     }
-
+    
 }

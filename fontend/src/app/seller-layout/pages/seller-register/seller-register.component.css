@@ -1,0 +1,133 @@
+/* Genel stil düzenlemeleri */
+body {
+    background: linear-gradient(135deg, #fce4ec, #e6f7f5); 
+    min-height: 100vh; 
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+  }
+  
+  .register-page-container {
+    display: flex;
+    width: 80%; /* Daha geniş bir alan */
+    max-width: 1200px; /* Maksimum genişlik */
+    gap: 40px; /* Containerlar arası boşluk artırıldı */
+    align-items: center;
+}
+  
+  /* Mağaza Kaydı Container */
+  .register-container {
+    padding-left: 20px;
+    flex: 1; /* Eşit oranda yer kapla */
+    padding: 40px; /* İç padding artırıldı */
+    border-radius: 15px;
+    background-color: #f1f8e9; /* Daha açık bir yeşil tonu */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-top: 6px solid #aed581; /* Daha canlı açık yeşil */
+    align-items: center;
+  }
+  
+  /* Neden Bizimle Mağaza Açmalısın Container */
+  .why-register-container {
+    flex: 1; /* Eşit oranda yer kapla */
+    padding: 40px;
+    border-radius: 15px;
+    background-color: #fce4ec; /* Daha belirgin bir pembe tonu */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    color: #4a148c; /* Daha koyu bir mor */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .why-title {
+    font-size: 26px;
+    color: #e91e63; /* Pembe */
+    margin-bottom: 30px;
+    font-weight: bold;
+    align-items: center;
+  }
+  
+  .why-item {
+    margin-bottom: 30px;
+    align-items: center;
+  }
+  
+  .why-item i {
+    font-size: 3em;
+    color: #689f38; /* Daha koyu bir yeşil */
+    margin-bottom: 15px;
+    align-items: center;
+  }
+  
+  .why-item h3 {
+    font-size: 20px;
+    color: #d81b60; /* Daha canlı bir pembe */
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  
+  .why-item p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+  }
+  
+  /* Başlık (Mağaza Kaydı) */
+  .title {
+    text-align: center;
+    font-size: 28px;
+    color: #d81b60; /* Daha canlı bir pembe */
+    margin-bottom: 35px;
+    font-weight: bold;
+  }
+  
+  /* Form elementleri */
+  .register-form .form-group {
+    margin-bottom: 22px;
+  }
+  
+  .register-form label {
+    display: block;
+    margin-bottom: 7px;
+    color: #333;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c5e1a5; /* Daha soluk bir yeşil */
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #f0f4c3; /* Açık sarımsı yeşil */
+    transition: border-color 0.3s;
+  }
+  
+  .register-form input:focus {
+    border-color: #8bc34a; /* Daha canlı yeşil */
+    outline: none;
+    background-color: #fff;
+  }
+  
+  /* Buton */
+  .register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #aed581; /* Daha canlı açık yeşil */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #8bc34a; /* Daha koyu canlı yeşil */
+  }

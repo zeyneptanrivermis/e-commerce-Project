@@ -12,6 +12,7 @@ import com.example.ecommerce_api.entity.OrderEntity.Order;
 import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.entity.UserEntity.Seller;
 
 
 @Repository
@@ -28,5 +29,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> findTopByCustomerOrderByOrderIdDesc(Customer customer);
 
     long countByStatus(OrderStatus  status);
+
+    long countBySeller(Seller seller);
     
 }
