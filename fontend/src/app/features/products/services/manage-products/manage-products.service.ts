@@ -10,7 +10,7 @@ import { Product } from '../../../../models/product.model';
 // manage-product.service.ts
 @Injectable({ providedIn: 'root' })
 export class ManageProductService {
-  private apiUrl = 'http://localhost:8080/api/products';
+  private apiUrl = 'http://localhost:8080/api/seller/auth/products';
 
   constructor(private http: HttpClient) {}
 
@@ -27,7 +27,7 @@ export class ManageProductService {
   }
 
   getSellerProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/my-products`);
+    return this.http.get<Product[]>(`${this.apiUrl}`);
   }
 
   getProductById(id: number): Observable<Product> {

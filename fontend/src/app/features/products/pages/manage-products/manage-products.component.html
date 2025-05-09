@@ -34,18 +34,21 @@
     <div>
         <label>Ana Kategori</label>
         <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
-          <option *ngFor="let cat of mainCategories" [ngValue]="cat">{{ cat }}</option>
+          <option *ngFor="let cat of mainCategories" [value]="cat">{{ cat }}</option>
         </select>
       </div>
       
-      <!-- Yan Kategoriler -->
-      <div *ngIf="sideCategories.length > 0">
-        <label>Yan Kategoriler</label>
-        <div *ngFor="let sub of sideCategories">
-          <input type="checkbox" [value]="sub" (change)="toggleSideCategory(sub, $event)" [checked]="productForm.value.sideCategories.includes(sub)" />
-          {{ sub }}
-        </div>
+    <div *ngIf="availableSideCategories.length > 0">
+      <label>Alt Kategoriler:</label>
+      <div *ngFor="let sideCat of availableSideCategories">
+        <input type="checkbox"
+              [checked]="productForm.value.sideCategories.includes(sideCat)"
+              (change)="toggleSideCategory(sideCat, $event)">
+        {{ sideCat }}
       </div>
+    </div>
+
+
         <!-- Kargo Ücreti -->
         <div>
           <label>Kargo Ücreti (₺)</label>

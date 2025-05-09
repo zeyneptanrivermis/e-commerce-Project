@@ -1,25 +1,18 @@
-<div class="dashboard-container">
-  <h2>👩‍💼 Seller Dashboard</h2>
-  <div class="stats-container">
-    <div class="stat-card">
-      <h3>{{ totalProducts }}</h3>
-      <p>Total Products</p>
-    </div>
-    <div class="stat-card">
-      <h3>{{ totalOrders }}</h3>
-      <p>Total Orders</p>
-    </div>
-  </div>
-  <div class="actions-container">
-    <button routerLink="/seller/products" class="action-btn manage-products-btn">
-      📦 Manage Products
-    </button>
-    <button routerLink="/seller/orders" class="action-btn view-orders-btn">
-      📑 See orders
-    </button>
-
-  </div>
-  <button (click)="logout()" class="action-btn logout-btn">
-    🚪 Logout
-  </button>
+<div class="seller-layout">
+  <app-seller-menu></app-seller-menu>
+  <main class="seller-main-content">
+    <section class="dashboard-container">
+      <h2>👩‍💼 Seller Dashboard</h2>
+      <div class="stats-container">
+        <div class="stat-card">
+          <h3>{{ totalProducts }}</h3>
+          <p>Total Products</p>
+        </div>
+        <div class="stat-card">
+          <h3>{{ totalOrders }}</h3>
+          <p>Total Orders</p>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     {
       id: MainCategory.Clothing,
       name: 'Giyim',
-      image: 'assets/images/categories/clothing.jpg'
+      image: 'assets/images/canta.png'
     },
     {
       id: MainCategory.Hobbies,

@@ -13,20 +13,19 @@ import { ProductService } from '../../services/product.service';
 export class ManageProductsComponent implements OnInit {
   public productForm!: FormGroup;
   products: Product[] = [];
-  sideCategories: string[] = [];
+  availableSideCategories: string[] = [];
   mainCategories = Object.values(MainCategory);
   isEditMode = false;
   selectedProductId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private manageProductService: ManageProductService,
-    private productService: ProductService
+    private manageProductService: ManageProductService
   ) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.loadSellerProducts(); // kendi ürünlerini getir
+    this.loadSellerProducts();
   }
 
   initForm() {
@@ -34,18 +33,20 @@ export class ManageProductsComponent implements OnInit {
       productName: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.maxLength(500)]],
-      category: ['', Validators.required],
+      mainCategory: ['', Validators.required],
       sideCategories: [[]],
       shippingCost: [0],
-      stockCount: [1, [Validators.min(1), Validators.max(500)]],
+      stockCount: [1, [Validators.min(1), Validators.max(1000)]],
+      cancelled: [false]
     });
   }
 
+
   onSubmit() {
     if (this.productForm.invalid) return;
-  
+
     const productData = this.productForm.value;
-  
+
     if (this.isEditMode && this.selectedProductId) {
       this.manageProductService.updateProduct(this.selectedProductId, productData).subscribe(() => {
         this.loadSellerProducts();
@@ -66,22 +67,24 @@ export class ManageProductsComponent implements OnInit {
   }
 
   onMainCategoryChange(event: any) {
-    const selected = event.target.value as MainCategory;
-    this.sideCategories = SideCategories[selected] || [];
-    this.productForm.patchValue({ sideCategories: [] }); // sıfırla
+    const selected: MainCategory = event.target.value;
+    this.availableSideCategories = SideCategories[selected] || [];
+    this.productForm.patchValue({ sideCategories: [] });
   }
-  
+
   toggleSideCategory(category: string, event: any) {
-    const current = this.productForm.value.sideCategories || [];
-    const updated = event.target.checked
-      ? [...current, category]
-      : current.filter((c: string) => c !== category);
-  
-    this.productForm.patchValue({ sideCategories: updated });
+    const selected = new Set(this.productForm.value.sideCategories || []);
+    if (event.target.checked) {
+      selected.add(category);
+    } else {
+      selected.delete(category);
+    }
+    this.productForm.patchValue({ sideCategories: Array.from(selected) });
   }
 
   onEdit(product: Product) {
     this.productForm.patchValue(product);
+    this.availableSideCategories = SideCategories[product.mainCategory!] || [];
     this.isEditMode = true;
     this.selectedProductId = product.id;
   }

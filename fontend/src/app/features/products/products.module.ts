@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ProductsComponent } from './pages/products/products.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { ManageProductsComponent } from './pages/manage-products/manage-products.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RecommendationListComponent } from '../recommendations/components/recommendation-list/recommendation-list.component';
 import { RecommendationsModule } from '../recommendations/recommendations.module';
@@ -20,7 +19,6 @@ import { RecommendationsModule } from '../recommendations/recommendations.module
     ProductListComponent,
     ProductItemComponent,
     ProductDetailsComponent,
-    ManageProductsComponent
   ],
   imports: [
     CommonModule,

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import { Product } from '../../../../models/product.model';
+import { Product, MainCategory } from '../../../../models/product.model';
 import { CartService } from '../../../cart/services/cart.service';
 import { AuthService } from '../../../auth/services/auth.service';
+import { MainCategoryLabel } from '../product-item/product-item.component';
 
 @Component({
   selector: 'app-product-details',
@@ -15,6 +16,7 @@ export class ProductDetailsComponent implements OnInit {
   product!: Product;
   currentUserId!: number;
   showReviews = false;
+  mainCategoryLabel = MainCategoryLabel;
 
   constructor(
     private route: ActivatedRoute,

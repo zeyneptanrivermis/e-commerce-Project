@@ -6,7 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SellerRoutingModule } from './seller-routing.module';
 import { SellerProductsComponent } from './pages/seller-products/seller-products.component';
 import { SellerOrdersComponent } from './pages/seller-orders/seller-orders.component';
-
+import { SellerMenuComponent } from './seller-menu/seller-menu.component';
+import { ManageProductsComponent } from '../features/products/pages/manage-products/manage-products.component';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { SellerOrdersComponent } from './pages/seller-orders/seller-orders.compo
     SellerRegisterComponent,
     SellerDashboardComponent,
     SellerProductsComponent,
-    SellerOrdersComponent
+    SellerOrdersComponent,
+    ManageProductsComponent,
+    SellerMenuComponent
   ],
   imports: [
     ReactiveFormsModule,

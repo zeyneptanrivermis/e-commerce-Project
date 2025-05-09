@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SellerProductService } from '../../services/seller-product.service';
-import { Product } from '../../../models/product.model';
+import { Product, Seller } from '../../../models/product.model';
+import { SellerAuthService } from '../../services/seller-auth.service';
 
 @Component({
   selector: 'app-seller-products',
@@ -10,13 +11,14 @@ import { Product } from '../../../models/product.model';
 })
 export class SellerProductsComponent implements OnInit {
   products: Product[] = [];
-
-  constructor(private productService: SellerProductService) {}
+  currentSeller: Seller | null = null;
+  
+  constructor(private productService: SellerProductService,
+    private sellerAuthService: SellerAuthService
+  ) {}
 
   ngOnInit(): void {
-    this.productService.getSellerProducts().subscribe({
-      next: (data) => this.products = data,
-      error: (err) => console.error('Ürünler yüklenemedi:', err)
-    });
+    
   }
+
 }

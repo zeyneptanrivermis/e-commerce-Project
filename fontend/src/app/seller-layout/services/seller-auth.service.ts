@@ -47,6 +47,9 @@ export class SellerAuthService {
       })
     );
   }
+  getProducts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/products`);
+  }
   
 }
 

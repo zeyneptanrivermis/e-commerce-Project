@@ -6,11 +6,15 @@ import { Product } from '../../models/product.model';
   providedIn: 'root'
 })
 export class SellerProductService {
-  private apiUrl = 'http://localhost:8080/api/seller/products';
+  private apiUrl = 'http://localhost:8080/api/products/seller';
 
   constructor(private http: HttpClient) {}
 
-  getSellerProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl);
+  getSellerProducts(sellerId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/${sellerId}`);
   }
+  addProduct(product: Product, sellerId: number): Observable<Product> {
+    return this.http.post<Product>(`${this.apiUrl}/${sellerId}`, product);
+  }
+
 }

@@ -27,31 +27,30 @@ public class ProductController {
     }
 
     // 🔵 Tüm ürünleri listele
-@GetMapping
-public List<ProductDTO> getAllProducts() {
-    return productService.getAllProducts().stream()
-        .map(product -> new ProductDTO(
-            product.getProductId(),
-            product.getProductName(),
-            product.getPrice(),
-            new SellerDTO( // ← doğru şekilde dönüştürüyoruz
-                product.getSeller().getUserId(),
-                product.getSeller().getName(),
-                product.getSeller().getEmail()
-            ),
-            product.getDescription(),
-            product.getAvgRating(),
-            product.getShippingCost(),
-            product.getCategory(),
-            product.getStockCount(),
-            product.getReviews()
-            .stream()
-            .map(ReviewDTO::new)  // 💥 asıl düzeltme burada
-            .toList()
-        ))
-        .toList();
-}
-
+    @GetMapping
+    public List<ProductDTO> getAllProducts() {
+        return productService.getAllProducts().stream()
+            .map(product -> new ProductDTO(
+                product.getProductId(),
+                product.getProductName(),
+                product.getPrice(),
+                new SellerDTO( // ← doğru şekilde dönüştürüyoruz
+                    product.getSeller().getUserId(),
+                    product.getSeller().getName(),
+                    product.getSeller().getEmail()
+                ),
+                product.getDescription(),
+                product.getAvgRating(),
+                product.getShippingCost(),
+                product.getCategory(),
+                product.getStockCount(),
+                product.getReviews()
+                .stream()
+                .map(ReviewDTO::new) 
+                .toList()
+            ))
+            .toList();
+    }
 
     // 🔵 ID ile ürün getir
     @GetMapping("/{id}")

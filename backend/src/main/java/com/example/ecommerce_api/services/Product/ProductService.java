@@ -12,6 +12,7 @@ import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,6 @@ public class ProductService {
     // Ürünü güncelle
     public Product updateProduct(Long id, Product updatedProduct) {
         Product existingProduct = getProductById(id);
-
         existingProduct.setProductName(updatedProduct.getProductName());
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setDescription(updatedProduct.getDescription());
@@ -63,7 +63,6 @@ public class ProductService {
         existingProduct.setDiscounts(updatedProduct.getDiscounts());
         existingProduct.setReviews(updatedProduct.getReviews());
         //existingProduct.updateAvgRating(); // Ortalama ratingi güncelle
-
         return productRepository.save(existingProduct);
     }
 
@@ -75,6 +74,7 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    
     // Ekstra: Belirli bir satıcının ürünlerini getir
     public List<Product> getProductsBySellerId(Long sellerId) {
         return productRepository.findBySellerUserId(sellerId);
@@ -107,8 +107,16 @@ public class ProductService {
     
     public List<Product> getProductsBySellerEmail(String email) {
         Seller seller = sellerRepository.findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException("Seller not found"));
+            .orElseThrow(() -> new UsernameNotFoundException("Satıcı bulunamadı"));
         return productRepository.findAllBySeller(seller);
+    }
+
+    public Product saveProductForSeller(Product product, String sellerEmail) {
+        Seller seller = sellerRepository.findByEmail(sellerEmail)
+            .orElseThrow(() -> new UsernameNotFoundException("Satıcı bulunamadı"));
+
+        product.setSeller(seller);
+        return productRepository.save(product);
     }
 
 }

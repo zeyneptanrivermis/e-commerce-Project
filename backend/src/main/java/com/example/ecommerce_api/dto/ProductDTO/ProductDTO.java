@@ -14,7 +14,7 @@ public class ProductDTO {
     private String description;
     private double avgRating;
     private double shippingCost;
-    private String mainCategory;
+    private Category mainCategory;
     private int stockCount;
 
     private SellerDTO seller;
@@ -30,8 +30,7 @@ public class ProductDTO {
         this.seller = seller;
         this.avgRating = avgRating;
         this.shippingCost = shippingCost;
-        this.mainCategory = mainCategory.name();
-
+        this.mainCategory = mainCategory;
         this.stockCount = stockCount;
         this.reviews=reviews;
     }
@@ -46,7 +45,7 @@ public class ProductDTO {
         this.stockCount = product.getStockCount();
     
         this.mainCategory = (product.getCategory() != null)
-            ? product.getCategory().name()
+            ? product.getCategory()
             : null;
     
         this.seller = (product.getSeller() != null)
@@ -103,7 +102,7 @@ public class ProductDTO {
     public double getAvgRating() {
         return avgRating;
     }
-    public String getMainCategory() {
+    public Category getMainCategory() {
         return mainCategory;
     }
     public SellerDTO getSeller() {
@@ -118,7 +117,7 @@ public class ProductDTO {
     public void setAvgRating(double avgRating) {
         this.avgRating = avgRating;
     }
-    public void setMainCategory(String mainCategory) {
+    public void setMainCategory(Category mainCategory) {
         this.mainCategory = mainCategory;
     }
 

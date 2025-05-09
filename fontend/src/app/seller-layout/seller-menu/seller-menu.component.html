@@ -1,0 +1,13 @@
+<aside class="seller-sidebar">
+  <div class="seller-logo">SELLER PANEL</div>
+  <nav>
+    <ul>
+      <li routerLinkActive="active"><a routerLink="/seller/dashboard"><span class="icon">🏠</span> Dashboard</a></li>
+      <li routerLinkActive="active"><a routerLink="/seller/products"><span class="icon">📦</span> Products</a></li>
+      <li routerLinkActive="active"><a routerLink="/seller/orders"><span class="icon">🛒</span> Orders</a></li>
+    </ul>
+  </nav>
+  <button class="seller-logout-btn" (click)="logout()">
+    <span class="icon">🚪</span> Logout
+  </button>
+</aside>

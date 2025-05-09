@@ -50,12 +50,12 @@ export class ProductItemComponent {
 }
 
 export const MainCategoryLabel: Record<MainCategory, string> = {
-  [MainCategory.Clothing]: 'Giyim',
-  [MainCategory.Makeup]: 'Makyaj',
-  [MainCategory.Electronics]: 'Elektronik',
-  [MainCategory.Pet_Supplies]: 'Evcil Hayvan',
-  [MainCategory.Home_and_Kitchen]: 'Ev & Mutfak',
-  [MainCategory.Toys_and_Games]: 'Oyuncaklar',
-  [MainCategory.Sports_and_Outdoor]: 'Spor & Açık Hava',
-  [MainCategory.Hobbies]: 'Hobiler',
+  [MainCategory.Clothing]: 'Clothing',
+  [MainCategory.Makeup]: 'Makeup',
+  [MainCategory.Electronics]: 'Electronics',
+  [MainCategory.Pet_Supplies]: 'Pet Supplies',
+  [MainCategory.Home_and_Kitchen]: 'Home & Kitchen',
+  [MainCategory.Toys_and_Games]: 'Toys & Games',
+  [MainCategory.Sports_and_Outdoor]: 'Sports & Outdoor',
+  [MainCategory.Hobbies]: 'Hobbies',
 };

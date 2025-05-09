@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import com.example.ecommerce_api.dto.ProductDTO.ProductMapper;
+import com.example.ecommerce_api.dto.ProductDTO.ProductRequestDto;
 import com.example.ecommerce_api.dto.UserDTO.LoginRequest;
 import com.example.ecommerce_api.dto.featuresDTO.AuthResponse;
 import com.example.ecommerce_api.dto.UserDTO.SellerRegisterDTO;
@@ -25,20 +27,11 @@ import com.example.ecommerce_api.services.User.SellerService;
 @CrossOrigin(origins = "http://localhost:4200")
 public class SellerController {
 
-    @Autowired
-    private SellerService sellerService;
-
-    @Autowired
-    private SellerRepository sellerRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private ProductService productService;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    @Autowired private SellerService sellerService;
+    @Autowired private SellerRepository sellerRepository;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private ProductService productService;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody SellerRegisterDTO dto) {
@@ -66,16 +59,24 @@ public class SellerController {
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
             String token = sellerService.login(request);
-            return ResponseEntity.ok(new AuthResponse(token, null)); // refreshToken opsiyonel
+            return ResponseEntity.ok(new AuthResponse(token, null));
         } catch (Exception e) {
             return ResponseEntity.status(401).body("Giriş başarısız: " + e.getMessage());
         }
     }
-    
+
     @GetMapping("/products")
-    public ResponseEntity<?> getSellerProducts(Authentication authentication) {
+    public ResponseEntity<List<Product>> getSellerProducts(Authentication authentication) {
         String sellerEmail = authentication.getName();
         List<Product> products = productService.getProductsBySellerEmail(sellerEmail);
         return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/products")
+    public ResponseEntity<Product> createProduct(@RequestBody ProductRequestDto dto, Authentication auth) {
+        String email = auth.getName();
+        Product product = ProductMapper.fromDto(dto);
+        Product saved = productService.saveProductForSeller(product, email);
+        return ResponseEntity.ok(saved);
     }
 }

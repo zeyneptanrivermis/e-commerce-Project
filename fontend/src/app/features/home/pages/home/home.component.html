@@ -16,12 +16,16 @@
 
 <h2>Featured Products!</h2>
 <div class="scroll-container">
-  <div class="product-card" *ngFor="let product of products">
+  <a
+    class="product-card"
+    *ngFor="let product of products"
+    [routerLink]="['/products', product.id]"
+  >
     <img
       [src]="'fontend/src/assets/images/urun.png'"
       [alt]="product.name"
     />
     <h4>{{ product.name }}</h4>
     <p>{{ product.price | currency }}</p>
-  </div>
+  </a>
 </div>
