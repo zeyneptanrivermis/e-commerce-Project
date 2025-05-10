@@ -23,6 +23,7 @@ public class OrderDTO {
     }
     public LocalDate getPaymentDate() {
         return paymentDate;
+        
     }public String getStatus() {
         return status;
     }

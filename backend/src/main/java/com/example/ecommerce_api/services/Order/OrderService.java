@@ -224,4 +224,58 @@ public class OrderService {
         // itemList ve paymentInfo'yu da uygun şekilde ekle
         return dto;
     }
+
+    // 🔵 Admin panel için tüm siparişleri getir
+    public List<OrderDTO> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(order -> {
+            OrderDTO dto = new OrderDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+            dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+            dto.setStatus(order.getStatus().toString());
+            
+            // Payment bilgisini al
+            Payment payment = paymentRepository.findByOrder(order).orElse(null);
+            if (payment != null) {
+                dto.setPaymentDate(payment.getPaymentDate());
+            }
+
+            // OrderItem'ları DTO'ya çevir
+            List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .map(OrderItemDTO::fromEntity)
+                    .toList();
+            dto.setItemList(itemDtos);
+
+            return dto;
+        }).toList();
+    }
+
+    public OrderDTO updateOrderStatus(Long orderId, String status) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setStatus(OrderStatus.valueOf(status));
+        orderRepository.save(order);
+
+        // Map to DTO (similar to getAllOrders)
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+        dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+        dto.setStatus(order.getStatus().toString());
+
+        // Payment info
+        Payment payment = paymentRepository.findByOrder(order).orElse(null);
+        if (payment != null) {
+            dto.setPaymentDate(payment.getPaymentDate());
+        }
+
+        // Order items
+        List<OrderItemDTO> itemDtos = order.getItemList().stream()
+            .map(OrderItemDTO::fromEntity)
+            .toList();
+        dto.setItemList(itemDtos);
+
+        return dto;
+    }
 }

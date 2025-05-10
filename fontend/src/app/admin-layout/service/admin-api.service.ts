@@ -2,6 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Product } from "../../models/product.model";
+import { Order } from "../../models/order.model";
+import { environment } from "../../../environments/environment";
 
 export interface User {
   userId: number;
@@ -21,6 +23,7 @@ export interface Product {
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
   private base = '/api/admin';
+  private baseUrl = `${environment.apiUrl}/api`;
 
   constructor(private http: HttpClient) {}
 
@@ -62,5 +65,13 @@ export class AdminApiService {
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}/delete`);
   }
-  
+
+  // --- Orders ---
+  getAllOrders(): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/admin/all`);
+  }
+
+  updateOrderStatus(orderId: number, status: string): Observable<Order> {
+    return this.http.put<Order>(`${this.baseUrl}/orders/admin/${orderId}/status?status=${status}`, {});
+  }
 }

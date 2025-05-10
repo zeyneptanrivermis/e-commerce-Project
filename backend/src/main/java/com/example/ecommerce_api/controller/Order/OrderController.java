@@ -71,4 +71,17 @@ public class OrderController {
             .orElseThrow(() -> new RuntimeException("User not found"))
             .getUserId();
     }
+
+    // 🔵 Admin panel için tüm siparişleri getir
+    @GetMapping("/admin/all")
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        List<OrderDTO> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
+
+    @PutMapping("/admin/{orderId}/status")
+    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long orderId, @RequestParam String status) {
+        OrderDTO updatedOrder = orderService.updateOrderStatus(orderId, status);
+        return ResponseEntity.ok(updatedOrder);
+    }
 }

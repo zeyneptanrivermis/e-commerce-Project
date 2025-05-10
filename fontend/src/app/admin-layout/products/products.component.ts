@@ -32,12 +32,7 @@ export class ProductsComponent {
       if (product) {
         product.cancelled = true;
       }
-    });  }
-
-  deleteProduct(id: number) {
-    if (confirm('Bu ürünü kalıcı olarak silmek istediğinize emin misiniz?')) {
-      this.api.deleteProduct(id).subscribe(() => this.loadProducts());
-    }
+    });  
   }
 
 }
