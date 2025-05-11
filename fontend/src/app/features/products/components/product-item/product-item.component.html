@@ -16,8 +16,9 @@
   <p *ngIf="product.mainCategory">
     <strong>Main Category:</strong>
     <a
+      *ngIf="getCategoryKey(product.mainCategory) as categoryKey"
       [routerLink]="['/products']"
-      [queryParams]="{ category: product.mainCategory }"
+      [queryParams]="{ category: categoryKey }"
       class="category-button"
     >
       {{ categoryLabel[product.mainCategory] }}
@@ -28,7 +29,7 @@
     <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">
       <a
         [routerLink]="['/products']"
-        [queryParams]="{ category: sideCategory }"
+        [queryParams]="{ category: normalize(sideCategory) }"
         class="category-button"
       >
         {{ sideCategory }}

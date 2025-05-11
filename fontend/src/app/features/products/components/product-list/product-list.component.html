@@ -1,3 +1,12 @@
+<div class="categories">
+  <ng-container *ngIf="route.snapshot.queryParams['category'] as currentCategory">
+    <span class="category-tag main-category">
+      Filtering by: {{ currentCategory }}
+    </span>
+    <button class="category-tag side-category" (click)="clearCategory()">Cancel Category</button>
+  </ng-container>
+</div>
+
 <div class="product-list">
   <app-product-item
     *ngFor="let product of filteredProducts; trackBy: trackById"

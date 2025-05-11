@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Product, MainCategory, SideCategories } from '../../../models/product.model';
 import { inject } from '@angular/core';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,16 +20,9 @@ export class ProductService {
   }
 
   private transformApiProduct(apiProduct: any): Product {
-    const categoryMap: Record<string, MainCategory> = {
-      "men's clothing": MainCategory.Clothing,
-      "women's clothing": MainCategory.Clothing,
-      "jewelry": MainCategory.Hobbies,
-      "hobby products": MainCategory.Hobbies,
-      "electronics": MainCategory.Electronics,
-    };
-  
-    const mappedCategory = categoryMap[apiProduct.mainCategory] || MainCategory.Home_and_Kitchen;
-  
+    const backendCategory = apiProduct.mainCategory || apiProduct.category;
+    const mappedCategory = mapBackendCategoryToEnum(backendCategory);
+
     return {
       id: apiProduct.id,
       name: apiProduct.name,
@@ -38,8 +32,7 @@ export class ProductService {
       shippingCost: apiProduct.shippingCost,
       stockCount: apiProduct.stockCount,
       mainCategory: mappedCategory,
-      sideCategories: SideCategories[mappedCategory].slice(0, 2),
-  
+      sideCategories: SideCategories[mappedCategory as keyof typeof SideCategories]?.slice(0, 2) || [],
       seller: {
         id: apiProduct.seller?.id,
         name: apiProduct.seller?.name,
@@ -49,7 +42,6 @@ export class ProductService {
       cancelled: apiProduct.cancelled
     };
   }
-  
 
   getAllProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
@@ -69,5 +61,23 @@ export class ProductService {
   //  this.apiUrl = [...this.apiURLs, newURL];
   //}
 
-
+  getProductsByCategory(category: string): Observable<Product[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/filter?category=${encodeURIComponent(category)}`).pipe(
+      map(products => products.map(apiProduct => this.transformApiProduct(apiProduct)))
+    );
+  }
 }
+
+function mapBackendCategoryToEnum(backendCategory: string): MainCategory {
+  if (!backendCategory) return MainCategory.Home_and_Kitchen;
+
+  // Doğrudan enum key'iyse, eşleşeni bul
+  const match = Object.keys(MainCategory).find(
+    key => key.toUpperCase() === backendCategory.toUpperCase()
+  );
+
+  return match ? MainCategory[match as keyof typeof MainCategory] : MainCategory.Home_and_Kitchen;
+}
+
+
+

@@ -67,6 +67,15 @@ export class ProductItemComponent {
       error: err => console.error('Wishlist ekleme hatası', err)
     });
   }
+
+  getCategoryKey(value: string): string | null {
+      const entry = Object.entries(MainCategory).find(([_, val]) => val === value);
+      return entry ? entry[0].toUpperCase() : null; // büyük harfli KEY döner
+  }
+  normalize(value: string): string {
+    return value?.toUpperCase().replace(/\s+/g, '_').replace(/&/g, 'AND');
+  }
+
 }
 
 export const MainCategoryLabel: Record<MainCategory, string> = {
@@ -77,5 +86,5 @@ export const MainCategoryLabel: Record<MainCategory, string> = {
   [MainCategory.Home_and_Kitchen]: 'Home & Kitchen',
   [MainCategory.Toys_and_Games]: 'Toys & Games',
   [MainCategory.Sports_and_Outdoor]: 'Sports & Outdoor',
-  [MainCategory.Hobbies]: 'Hobbies',
+  [MainCategory.Hobbies]: 'Hobby Products',
 };

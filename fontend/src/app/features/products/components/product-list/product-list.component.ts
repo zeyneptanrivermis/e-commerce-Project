@@ -1,5 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainCategory, Product, SideCategories } from '../../../../models/product.model';
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
@@ -10,7 +10,7 @@ import { ProductService } from '../../services/product.service';
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
-export class ProductListComponent implements OnInit, AfterViewInit {
+export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   observer!: IntersectionObserver;
@@ -19,49 +19,48 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   skip = 0;
   loading = false;
   allLoaded = false;
+  currentCategory: string | null = null;
 
   @ViewChild('observer', { static: true }) observerElement!: ElementRef;
 
   constructor(
     private cartService: CartService,
-    private route: ActivatedRoute,
-    private productService: ProductService
+    public route: ActivatedRoute,
+    private productService: ProductService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    const isPopularRoute = this.route.routeConfig?.path === 'popular';
-
-    if (isPopularRoute) {
-      this.loadPopularProducts();
-    } else {
-      this.loadProducts();
-    }
-
     this.route.queryParams.subscribe(params => {
-      const category = params['category'];
-      if (category) {
-        this.filterByCategory(category);
+      this.currentCategory = params['category'] || null;
+      this.products = [];
+      this.filteredProducts = [];
+      this.skip = 0;
+      this.allLoaded = false;
+
+      if (this.currentCategory) {
+        this.productService.getProductsByCategory(this.currentCategory).subscribe(products => {
+          this.products = products;
+          this.filteredProducts = products;
+        });
       } else {
-        this.filteredProducts = [...this.products];
+        this.loadProducts();
       }
     });
   }
 
   ngAfterViewInit(): void {
-    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
-      this.observer = new IntersectionObserver(
-        entries => {
-          const entry = entries[0];
-          if (entry.isIntersecting && !this.loading && !this.allLoaded) {
-            this.loadProducts();
-          }
-        },
-        {
-          root: null,
-          rootMargin: '0px 0px 200px 0px',
-          threshold: 0
+    if ('IntersectionObserver' in window) {
+      this.observer = new IntersectionObserver(entries => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !this.loading && !this.allLoaded && !this.currentCategory) {
+          this.loadProducts();
         }
-      );
+      }, {
+        root: null,
+        rootMargin: '0px 0px 200px 0px',
+        threshold: 0
+      });
 
       if (this.observerElement?.nativeElement) {
         this.observer.observe(this.observerElement.nativeElement);
@@ -86,8 +85,8 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       next: data => {
         if (data?.length) {
           this.products = [...this.products, ...data];
+          this.filteredProducts = this.products;
           this.skip += this.limit;
-          this.applyFilter();
 
           if (data.length < this.limit) {
             this.allLoaded = true;
@@ -108,74 +107,34 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private loadPopularProducts(): void {
-    this.loading = true;
-    this.productService.getProducts(this.limit, this.skip).subscribe({
-      next: data => {
-        this.products = [...this.products, ...data];
-        this.skip += this.limit;
-        this.applyFilter();
-
-        if (data.length < this.limit) {
-          this.allLoaded = true;
-          this.observer.disconnect();
-        }
-        this.loading = false;
-      },
-      error: err => {
-        console.error('🔴 Ürünler alınamadı:', err);
-        this.loading = false;
-        this.allLoaded = true;
-        this.observer.disconnect();
-      }
+  filterByCategory(category: string | 'All') {
+    this.router.navigate([], {
+      queryParams: { category: category === 'All' ? null : category },
+      queryParamsHandling: 'merge'
     });
   }
 
-  filterByCategory(category: string | 'All'): void {
-    if (category === 'All') {
-      this.filteredProducts = [...this.products];
-    } else {
-      this.filteredProducts = this.products.filter(
-        p =>
-          p.mainCategory === category ||
-          p.sideCategories?.includes(category)
-      );
-    }
+  clearCategory() {
+    this.router.navigate([], {
+      queryParams: { category: null },
+      queryParamsHandling: 'merge'
+    });
   }
 
-  private applyFilter(): void {
-    const category = this.route.snapshot.queryParams['category'];
-    if (category && category !== 'All') {
-      const matchedEnum = Object.values(MainCategory).find(v => v === category);
-      this.filteredProducts = this.products.filter(
-        p =>
-          p.mainCategory === matchedEnum ||
-          p.sideCategories?.includes(category)
-      );
-    } else {
-      this.filteredProducts = [...this.products];
-    }
-  }
-
-  getSelectedSideCategories(
-    category: MainCategory,
-    indexes: number[]
-  ): string[] {
+  getSelectedSideCategories(category: MainCategory, indexes: number[]): string[] {
     const all = SideCategories[category] || [];
     return indexes.map(i => all[i]).filter(Boolean);
   }
 
-  /** artık {product, quantity} alıyor */
   onAddToCart(event: { product: Product; quantity: number }): void {
     const { product, quantity } = event;
     this.cartService.addToCart(product.id, quantity).subscribe({
-      next: () =>
-        console.log(`🛒 ${product.name} sepete eklendi (x${quantity}).`),
-      error: err =>
-        console.error('❌ Sepete eklenirken hata oluştu:', err)
+      next: () => console.log(`🛒 ${product.name} sepete eklendi (x${quantity}).`),
+      error: err => console.error('❌ Sepete eklenirken hata oluştu:', err)
     });
   }
-
 }
 
-
+function normalize(value: string): string {
+  return value?.toUpperCase().replace(/[\s&]/g, '_');
+}
