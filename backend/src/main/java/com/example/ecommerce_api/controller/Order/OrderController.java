@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping({ "/api/orders", "/orders" })
@@ -88,6 +89,16 @@ public class OrderController {
         return ResponseEntity.ok(history);
     }
 
-
+    @PostMapping("/{orderId}/refund")
+    public ResponseEntity<?> refundOrder(@PathVariable Long orderId) {
+        try {
+            orderService.refundOrder(orderId);
+            return ResponseEntity.ok(Map.of("message", "İade işlemi başarıyla tamamlandı."));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("message", "Bir hata oluştu: " + e.getMessage()));
+        }
+    }
 
 }

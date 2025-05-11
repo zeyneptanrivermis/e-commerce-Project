@@ -34,8 +34,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllBySeller(Seller seller);
 
     // ProductRepository.java
-    List<Product> findByCategory(Category category);
+    // Removed duplicate method definition to resolve the error
 
     @Query("SELECT p FROM Product p WHERE p.category = :category OR :category IN elements(p.sideCategories)")
     List<Product> findByMainOrSideCategory(@Param("category") String category);
+
+    List<Product> findByCategory(Category category);
 }

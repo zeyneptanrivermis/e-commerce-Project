@@ -19,4 +19,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByCustomer(Customer customer);
 
     Optional<Payment> findByStripePaymentIntentId(String intentId);
+    
 }

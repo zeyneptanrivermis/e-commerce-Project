@@ -44,6 +44,13 @@ export class OrderService {
     return this.http.post<Payment>(url, null, { params });
   }
 
+  refundOrder(orderId: number): Observable<any> {
+    return this.http.post(`${this.baseUrl}/${orderId}/refund`, {});
+  }
+
+  getOrders(): Observable<any[]> {
+    return this.http.get<any[]>(this.baseUrl);
+  }
   /**
    * Siparişe kargo bilgisi ekler.
    */

@@ -14,17 +14,17 @@ export class HomeComponent implements OnInit {
   categories = [
     {
       id: MainCategory.Electronics,
-      name: 'Elektronik',
+      name: 'Electronics',
       image: 'assets/images/categories/electronics.jpg'
     },
     {
       id: MainCategory.Clothing,
-      name: 'Giyim',
+      name: 'Clothing',
       image: 'assets/images/canta.png'
     },
     {
       id: MainCategory.Hobbies,
-      name: 'Hobi',
+      name: 'Hobbies',
       image: 'assets/images/categories/hobbies.jpg'
     },
     {
@@ -56,4 +56,9 @@ export class HomeComponent implements OnInit {
     }
     return newArray;
   }
+
+  normalize(name: string): string {
+    return name.toUpperCase().replace(/\s+/g, '_').replace(/&/g, 'AND');
+  }
+
 }

@@ -25,7 +25,8 @@ public class ProductController {
     public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
         this.productRepository=productRepository;
-    }
+        }
+    
 
     // 🔵 Tüm ürünleri listele
     @GetMapping
@@ -121,7 +122,7 @@ public class ProductController {
     }
 
     @GetMapping("/filter")
-    public List<ProductDTO> getProductsByCategory(@RequestParam String category) {
+    public List<ProductDTO> filterProductsByCategory(@RequestParam String category) {
         List<Product> products;
 
         String normalizedParam = normalize(category); // normalize yap
@@ -140,7 +141,7 @@ public class ProductController {
                 .toList();
         }
 
-        return products.stream().map(ProductDTO::new).toList();
+            return products.stream().map(ProductDTO::new).toList();
     }
     // 🔧 Normalize metodu (boşlukları "_" yap, & → AND, büyük harfe çevir)
     private String normalize(String input) {

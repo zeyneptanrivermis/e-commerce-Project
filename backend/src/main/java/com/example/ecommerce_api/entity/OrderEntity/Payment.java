@@ -38,6 +38,10 @@ public class Payment {
     @Column(name = "stripe_payment_intent_id", nullable = false, unique = true)
     private String stripePaymentIntentId;
 
+    @Column(name = "stripe_charge_id")
+    private String stripeChargeId;
+
+
     public Long getPaymentId() { return paymentId; }
     public void setPaymentId(Long paymentId) { this.paymentId = paymentId; }
 
@@ -62,4 +66,12 @@ public class Payment {
     public void setStripePaymentIntentId(String stripePaymentIntentId) {
         this.stripePaymentIntentId = stripePaymentIntentId;
     }
+    public String getStripeChargeId() {
+    return stripeChargeId;
+    }
+
+    public void setStripeChargeId(String stripeChargeId) {
+        this.stripeChargeId = stripeChargeId;
+    }
+
 }

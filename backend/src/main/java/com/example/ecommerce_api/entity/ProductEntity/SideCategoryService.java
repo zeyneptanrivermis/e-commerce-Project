@@ -33,6 +33,4 @@ public class SideCategoryService {
 private static String normalize(String input) {
     return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
 }
-
-
 }

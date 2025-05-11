@@ -75,49 +75,69 @@ export class PaymentComponent implements OnInit {
   }
 
   async submitPayment(): Promise<void> {
-    if (this.paymentForm.invalid) {
-      this.paymentForm.markAllAsTouched();
-      return;
+  if (this.paymentForm.invalid) {
+    this.paymentForm.markAllAsTouched();
+    return;
+  }
+
+  this.isLoading = true;
+  try {
+    // 1) clientSecret al
+    const { clientSecret } = await lastValueFrom(
+      this.paymentService.createPaymentIntent(this.orderId, this.currency)
+    );
+
+    // 2) Kart onayı
+    const stripe = await this.stripePromise;
+    if (!stripe) throw new Error('Stripe yüklenemedi');
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: this.card,
+        billing_details: { name: this.paymentForm.value.cardholder }
+      }
+    });
+
+    if (result.error) throw result.error;
+
+    // 3) Ödeme başarılıysa backend'e sadece intentId ve amount gönder
+    if (result.paymentIntent?.status === 'succeeded') {
+      // Bu alanı tamamen kaldır:
+      const charges = (result.paymentIntent as any).charges;
+    let chargeId: string | undefined = undefined;
+
+    if (charges && charges.data && charges.data.length > 0) {
+      chargeId = charges.data[0].id;
     }
 
-    this.isLoading = true;
-    try {
-      // 1) clientSecret al
-      const { clientSecret } = await lastValueFrom(
-        this.paymentService.createPaymentIntent(this.orderId, this.currency)
+    if (!chargeId) {
+      throw new Error('Charge ID alınamadı.');
+    }
+
+      const payload = {
+        paymentIntentId: result.paymentIntent.id,
+        chargeId: chargeId,
+        amount: this.amount
+      };
+
+      await lastValueFrom(
+        this.paymentService.completePayment(this.orderId, payload)
       );
 
-      // 2) Kart onayı
-      const stripe = await this.stripePromise;
-      if (!stripe) throw new Error('Stripe yüklenemedi');
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: this.card,
-          billing_details: { name: this.paymentForm.value.cardholder }
-        }
+      // 4) Sepeti temizle ve yönlendir
+      this.cartService.clearCart().subscribe(() => {
+        alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}`);
+        this.router.navigate(['/order/history']);
       });
-      if (result.error) throw result.error;
-
-      // 3) Başarılıysa backend’e sadece intentId gönder
-      if (result.paymentIntent?.status === 'succeeded') {
-        await lastValueFrom(
-          this.paymentService.completePayment(
-            this.orderId,
-            result.paymentIntent.id
-          )
-        );
-
-        // 4) Sepeti temizle ve yönlendir
-        this.cartService.clearCart().subscribe(() => {
-          alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}`);
-          this.router.navigate(['/order/history']);
-        });
-      }
-    } catch (err: any) {
-      console.error('Ödeme hatası', err);
-      alert(err.message || 'Ödeme sırasında bir hata oluştu.');
-    } finally {
-      this.isLoading = false;
+    } else {
+      throw new Error('Ödeme onaylanmadı.');
     }
+  } catch (err: any) {
+    console.error('Ödeme hatası', err);
+    alert(err.message || 'Ödeme sırasında bir hata oluştu.');
+  } finally {
+    this.isLoading = false;
   }
+}
+
 }

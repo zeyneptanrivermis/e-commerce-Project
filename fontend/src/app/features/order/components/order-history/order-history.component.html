@@ -1,28 +1,38 @@
-<div *ngIf="isLoading" class="p-4">Loading…</div>
+<div *ngIf="isLoading" class="loading">Loading…</div>
 
 <div *ngIf="!isLoading && orders.length">
-  <table class="w-full text-left border-collapse">
+  <table class="order-table">
     <thead>
       <tr>
-        <th class="p-2 border-b">Order ID</th>
-        <th class="p-2 border-b">Payment Date</th>
-        <th class="p-2 border-b">Total (₺)</th>
-        <th class="p-2 border-b">Status</th>
+        <th>Order ID</th>
+        <th>Payment Date</th>
+        <th>Total (₺)</th>
+        <th>Status</th>
+        <th>İşlem</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of orders" class="hover:bg-gray-50">
-        <td class="p-2 border-b">
-          <a [routerLink]="['/user','shipment', o.orderId]" class="text-blue-600 hover:underline"> {{ o.orderId }}</a>
+      <tr *ngFor="let o of orders">
+        <td>
+          <a [routerLink]="['/user','shipment', o.orderId]" class="order-link">
+            {{ o.orderId }}
+          </a>
         </td>
-        <td class="p-2 border-b">{{ o.paymentDate | date:'short' }}</td>
-        <td class="p-2 border-b">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
-        <td class="p-2 border-b">{{ o.status }}</td>
+        <td>{{ o.paymentDate | date:'short' }}</td>
+        <td>{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
+        <td>{{ o.status }}</td>
+        <td>
+          <button *ngIf="o.status !== 'CANCELLED' && o.status !== 'DELIVERED'"
+                  class="refund-button"
+                  (click)="confirmRefund(o.orderId)">
+            İade Talep Et
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<div *ngIf="!isLoading && !orders.length" class="p-4 text-center">
+<div *ngIf="!isLoading && !orders.length" class="no-orders">
   You have no past orders.
 </div>

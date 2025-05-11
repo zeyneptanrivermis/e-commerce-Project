@@ -123,7 +123,7 @@ public class ProductService {
         return productRepository.findByCategory(category);
     }
 
-    public List<Product> getProductsByAnyCategory(String category) {
+    public List<Product> getProductsByMainOrSideCategory(String category) {
         return productRepository.findByMainOrSideCategory(category);
     }
     private String normalize(String input) {

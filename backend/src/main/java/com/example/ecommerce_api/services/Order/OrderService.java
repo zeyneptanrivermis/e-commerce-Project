@@ -21,7 +21,10 @@ import com.example.ecommerce_api.repository.OrderRepository.ShippingRepository;
 import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
+import com.stripe.param.ChargeListParams;
+import com.stripe.param.PaymentIntentRetrieveParams;
 import org.springframework.security.core.Authentication;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -129,34 +132,34 @@ public class OrderService {
         return orderRepository.save(incomingOrder); // cascade = ALL sayesinde OrderItem'lar da kaydedilir
     }
 
-public List<OrderDTO> getAllOrders() {
-    List<Order> orders = orderRepository.findAll();
-    
-    return orders.stream().map(order -> {
-        // Ödeme varsa al, yoksa null bırak
-        Payment payment = paymentRepository.findByOrder(order).orElse(null);
+    public List<OrderDTO> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        
+        return orders.stream().map(order -> {
+            // Ödeme varsa al, yoksa null bırak
+            Payment payment = paymentRepository.findByOrder(order).orElse(null);
 
-        OrderDTO dto = new OrderDTO();
-        dto.setOrderId(order.getOrderId());
-        dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
-        dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+            OrderDTO dto = new OrderDTO();
+            dto.setOrderId(order.getOrderId());
+            dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+            dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
 
-        if (payment != null) {
-            dto.setStatus(payment.getStatus());
-            dto.setPaymentDate(payment.getPaymentDate());
-        } else {
-            dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
-            dto.setPaymentDate(null);
-        }
-        List<OrderItemDTO> itemDtos = order.getItemList().stream()
-                .map(OrderItemDTO::fromEntity)
-                .toList();
+            if (payment != null) {
+                dto.setStatus(payment.getStatus());
+                dto.setPaymentDate(payment.getPaymentDate());
+            } else {
+                dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
+                dto.setPaymentDate(null);
+            }
+            List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .map(OrderItemDTO::fromEntity)
+                    .toList();
 
-        dto.setItemList(itemDtos);
+            dto.setItemList(itemDtos);
 
-        return dto;
-    }).toList();
-}
+            return dto;
+        }).toList();
+    }
 
     // Müşteri için yeni sipariş oluştur
     public Order createOrder(Long customerId) {
@@ -250,19 +253,26 @@ public List<OrderDTO> getAllOrders() {
         return shippingRepository.save(shippingInfo);
     }
 
-        /**
-     * Front-end'den onay geldikten sonra Payment durumunu "succeeded" olarak işaretler.
-     */
-    public void finalizePayment(Long orderId, String paymentIntentId) {
-        Payment payment = paymentRepository
-            .findByStripePaymentIntentId(paymentIntentId)
-            .orElseThrow(() ->
-               new RuntimeException("PaymentIntent bulunamadı: " + paymentIntentId)
-            );
+    @Transactional
+    public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order bulunamadı"));
+
+        Payment payment = paymentRepository.findByStripePaymentIntentId(req.getPaymentIntentId())
+            .orElseThrow(() -> new RuntimeException("Payment bulunamadı"));
+
         payment.setStatus("succeeded");
         payment.setPaymentDate(LocalDate.now());
+        payment.setStripeChargeId(req.getChargeId()); // FRONTEND'TEN GELEN CHARGE ID
         paymentRepository.save(payment);
+
+        order.setStatus(OrderStatus.COMPLETED);
+        order.setPaymentDate(LocalDateTime.now());
+        order.setPaymentIntentId(req.getPaymentIntentId());
+        order.setPaidAmount(req.getAmount());
+        orderRepository.save(order);
     }
+
 
     public OrderDTO createOrderDTO(Long customerId) {
         Order order = createOrder(customerId); // mevcut fonksiyonunu kullan
@@ -349,4 +359,28 @@ public List<OrderDTO> getAllOrders() {
         orderRepository.save(order);
         return getOrderById(orderId);
     }
+
+    public void refundOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
+
+        Payment payment = paymentRepository.findByOrder(order)
+            .orElseThrow(() -> new RuntimeException("Ödeme bilgisi bulunamadı."));
+
+        String chargeId = payment.getStripeChargeId();
+        if (chargeId == null || chargeId.isBlank()) {
+            throw new RuntimeException("Charge ID bulunamadı. finalizePayment() eksik olabilir.");
+        }
+
+        try {
+            stripePaymentService.refundCharge(chargeId);  // ✅ Burada kullanılıyor
+        } catch (StripeException e) {
+            throw new RuntimeException("Stripe refund hatası: " + e.getMessage());
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+        order.setPaymentDate(LocalDateTime.now());
+        orderRepository.save(order);
+    }
+
 }
