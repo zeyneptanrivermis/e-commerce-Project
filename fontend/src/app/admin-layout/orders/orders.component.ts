@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminApiService } from '../service/admin-api.service';
 import { Order } from '../../models/order.model';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-orders',
@@ -56,17 +57,17 @@ export class OrdersComponent implements OnInit {
     const canvas = this.pieChartRef.nativeElement;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-  
+
     // Count statuses
     const pending = this.orders.filter(o => o.status === 'PENDING').length;
     const accepted = this.orders.filter(o => o.status === 'COMPLETED').length;
     const cancelled = this.orders.filter(o => o.status === 'CANCELLED').length;
     const data = [pending, accepted, cancelled];
     const colors = ['#fbbf24', '#34d399', '#f87171'];
-  
+
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
     // Draw pie
     const total = data.reduce((a, b) => a + b, 0) || 1;
     let startAngle = -0.5 * Math.PI;
@@ -81,4 +82,15 @@ export class OrdersComponent implements OnInit {
       startAngle += sliceAngle;
     }
   }
+
+cancelOrder(orderId: number) {
+  this.api.cancelOrder(orderId).subscribe({
+    next: () => {
+      alert('Sipariş iptal edildi.');
+      this.loadOrders(); // Listeyi yenile
+    },
+    error: err => alert('İşlem başarısız: ' + err.message)
+  });
+}
+
 }

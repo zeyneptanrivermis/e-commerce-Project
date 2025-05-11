@@ -9,6 +9,7 @@ import com.example.ecommerce_api.services.Order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 
 
@@ -100,5 +101,12 @@ public class OrderController {
             return ResponseEntity.internalServerError().body(Map.of("message", "Bir hata oluştu: " + e.getMessage()));
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/orders/{id}/cancel")
+    public ResponseEntity<String> cancelOrderByAdmin(@PathVariable Long id) {
+    orderService.cancelOrderByAdmin(id);
+    return ResponseEntity.ok("Sipariş iptal edildi.");
+    }
+
 
 }

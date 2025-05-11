@@ -58,6 +58,9 @@ public class Product {
 
     private double shippingCost;
 
+    // 1) Stok alanı
+    private int stock;
+
     @Min(value = 1, message = "Stock can be between 1-500.")
     @Max(value = 500, message = "Stock can be between 1-500.")
     private int stockCount;
@@ -84,6 +87,13 @@ public class Product {
     }*/
 
     // Getters and Setters
+
+    public int getStock() {
+        return stock;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
     public Category getCategory() {
         return category;

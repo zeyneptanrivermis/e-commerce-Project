@@ -1,45 +1,40 @@
 <!-- ÜST NAVBAR -->
-<div class="top-navbar">
-  <div class="logo">
+<div class="w-full flex items-center justify-between px-10 py-4 bg-green-50 shadow">
+  <div class="flex items-center gap-6">
     <a routerLink="/">
-      <img src="assets/images/logo.png" alt="Trendyol Logo">
+      <img src="assets/images/logo.png" alt="Logo" class="h-10">
     </a>
+    <input
+      type="text"
+      placeholder="Aradığınız ürün, kategori veya marka yazınız"
+      class="hidden md:block px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-pink-200 transition w-96"
+    />
   </div>
-  <input class="search-bar" type="text" placeholder="Aradığınız ürün, kategori veya marka yazınız">
-  <div class="right-links">
-    <a href="/seller/register">Be a seller </a>
-    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master">About Us</a>
-    <a routerLink="/user/wishlist">❤️ Whishlist</a>
-    <a href="/shopping-cart">🛒 Cart </a>
-    <a *ngIf="!authService.isLoggedIn()" href="/login">Log in</a>
-    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user', 'user-profile']">See User Profile</a>
+
+  <div class="flex items-center space-x-6 text-gray-600 text-sm font-medium">
+    <a href="/seller/register" class="hover:text-green-400">Be a seller</a>
+    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master" class="hover:text-green-400">About Us</a>
+    <a routerLink="/user/wishlist" class="hover:text-pink-400">❤️ Wishlist</a>
+    <a href="/shopping-cart" class="hover:text-pink-400">🛒 Cart</a>
+    <a *ngIf="!authService.isLoggedIn()" href="/login" class="hover:text-blue-500">Log in</a>
+    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user', 'user-profile']" class="hover:text-blue-500">Profile</a>
   </div>
 </div>
 
-<!-- ALT NAVBAR: Kategoriler -->
-<div class="bottom-navbar">
-  <div class="category-menu">
-    <div class="menu-toggle" (click)="toggleMegaMenu()">
-      ☰ TÜM KATEGORİLER <span class="label">Yeni</span>
-    </div>
-    <div id="mega-menu" #megaMenu class="mega-menu">
-      <div id="submenu" #submenu class="right-pane">
-        <!-- Alt kategori içeriği Angular ile değişecek -->
-      </div>
-    </div>
+<!-- ALT NAVBAR -->
+<div class="w-full flex flex-wrap items-center px-10 py-3 border-y border-gray-200 bg-white">
+  <div class="flex flex-wrap gap-6 text-gray-700 text-sm font-medium">
+    <a routerLink="/products" class="hover:text-pink-400">All Products <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span></a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Clothing' }" class="hover:text-pink-400">Clothing</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Makeup' }" class="hover:text-pink-400">Makeup</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Electronics' }" class="hover:text-pink-400">Electronics</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Pet Supplies' }" class="hover:text-pink-400">Pet Supplies</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Home and Kitchen' }" class="hover:text-pink-400">Home & Kitchen</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Toys & Games' }" class="hover:text-pink-400">Toys & Games</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Sports & Outdoor' }" class="hover:text-pink-400">Sports & Outdoor</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: 'Hobby Products' }" class="hover:text-pink-400">Hobby Products</a>
+    <a [routerLink]="['/products']" [queryParams]="{ bestsellers: true }" class="hover:text-pink-400">
+      Best Sellers <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span>
+    </a>
   </div>
-
-  <div class="quick-links">
-    <a routerLink="/products">All Products <span class="label">New</span></a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Clothing' }">Clothing</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Makeup' }">Makeup</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Electronics' }">Electronics</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Pet Supplies' }">Pet Supplies</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Home and Kitchen' }">Home & Kitchen</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Toys & Games' }">Toys & Games</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Sports & Outdoor' }">Sports & Outdoor</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Hobby Products' }">Hobby Products</a>
-    <a [routerLink]="['/products']" [queryParams]="{ bestsellers: true }">Best Sellers <span class="label">New</span></a>
-  </div>
-
 </div>

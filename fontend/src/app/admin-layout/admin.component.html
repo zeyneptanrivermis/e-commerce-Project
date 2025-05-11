@@ -1,53 +1,49 @@
-<div class="admin-container">
+<div class="min-h-screen bg-[#EEEEEE] flex">
+  <aside class="bg-[#201E43] text-[#EEEEEE] w-64 flex flex-col py-6 px-4">
+    <div class="text-xl font-semibold mb-8 px-2">ADMIN PANEL</div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="logo">ADMIN PANEL</div>
-
-    <nav>
+    <nav class="flex-grow">
       <ul>
-        <li routerLinkActive="active" >
-          <a routerLink="dashboard">
-            <span class="icon">🏠</span>
+        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
+          <a routerLink="dashboard" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+            <span class="mr-2">🏠</span>
             <span class="label">Dashboard</span>
           </a>
         </li>
-        <li routerLinkActive="active" >
-          <a routerLink="users">
-            <span class="icon">👥</span>
-            <span class="label">Kullanıcılar</span>
+        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
+          <a routerLink="users" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+            <span class="mr-2">👥</span>
+            <span class="label">Users</span>
           </a>
         </li>
-        <li routerLinkActive="active" >
-          <a routerLink="products">
-            <span class="icon">📦</span>
-            <span class="label">Ürünler</span>
+        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
+          <a routerLink="products" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+            <span class="mr-2">📦</span>
+            <span class="label">Products</span>
           </a>
         </li>
-        <li routerLinkActive="active" >
-          <a routerLink="orders">
-            <span class="icon">🛒</span>
-            <span class="label">Siparişler</span>
+        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
+          <a routerLink="orders" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+            <span class="mr-2">🛒</span>
+            <span class="label">Orders</span>
           </a>
         </li>
-        <li routerLinkActive="active">
-          <a routerLink="support">
-            <span class="icon">💬</span>
+        <li routerLinkActive="bg-[#134B70] rounded">
+          <a routerLink="support" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+            <span class="mr-2">💬</span>
             <span class="label">Destek</span>
           </a>
         </li>
       </ul>
     </nav>
 
-    <button class="logout-btn" (click)="logout()">
-      <span class="icon">🚪</span>
-      <span class="label">Çıkış Yap</span>
+    <button class="bg-[#508C9B] text-[#EEEEEE] py-2 px-4 rounded-md mt-8 hover:bg-[#134B70] transition duration-300 focus:outline-none" (click)="logout()">
+      <span class="mr-2">🚪</span>
+      <span class="label">Log Out</span>
     </button>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <section class="admin-content">
+  <section class="flex-grow p-6">
     <router-outlet></router-outlet>
   </section>
-
 </div>

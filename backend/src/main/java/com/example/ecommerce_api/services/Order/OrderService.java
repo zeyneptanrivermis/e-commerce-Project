@@ -11,6 +11,7 @@ import com.example.ecommerce_api.entity.OrderEntity.OrderItem;
 import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.repository.CartRepository.CartItemRepository;
 import com.example.ecommerce_api.repository.CartRepository.CartRepository;
@@ -18,6 +19,7 @@ import com.example.ecommerce_api.repository.OrderRepository.OrderItemRepository;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
 import com.example.ecommerce_api.repository.OrderRepository.ShippingRepository;
+import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.stripe.exception.StripeException;
@@ -25,6 +27,8 @@ import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.ChargeListParams;
 import com.stripe.param.PaymentIntentRetrieveParams;
+import com.stripe.param.PaymentIntentCreateParams;
+
 import org.springframework.security.core.Authentication;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -71,6 +75,9 @@ public class OrderService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     private final ModelMapper mapper;
 
         public OrderService(OrderRepository orderRepo,
@@ -87,32 +94,30 @@ public class OrderService {
      * intent ID'yi ve clientSecret'i kaydeder, clientSecret'i döner.
      */
     public String createStripePayment(Long orderId, String currency) throws StripeException {
-        // 1) Order'ı çek
-        Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new RuntimeException("Order not found"));
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // 2) double dönen toplam tutarı long'a çevir:
-        //    a) Eğer getOrderTotalWithoutDiscount kuruş cinsinden geliyorsa:
-        long amount = (long) order.getOrderTotalWithoutDiscount();
-        //
-        //    b) Eğer getOrderTotalWithoutDiscount liralar cinsinden (örn: 123.45) geliyorsa:
-        // long amount = Math.round(order.getOrderTotalWithoutDiscount() * 100);
+    long amount = Math.round(order.getOrderTotalWithoutDiscount() * 100);
 
-        // 3) Stripe'da PaymentIntent oluştur
-        PaymentIntent intent = stripePaymentService.createPaymentIntent(amount, currency);
+    // --- burası değişti ---
+    PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
+        .setAmount(amount)
+        .setCurrency(currency)
+        .putMetadata("orderId", orderId.toString())
+        .build();
+    PaymentIntent intent = PaymentIntent.create(params);
+    // --- değişiklik bitti ---
 
-        // 4) DB'ye kaydet
-        Payment payment = new Payment();
-        payment.setOrder(order);
-        payment.setCustomer((Customer) order.getCustomer());
-        payment.setAmount(amount);
-        payment.setStripePaymentIntentId(intent.getId());
-        payment.setStatus(intent.getStatus());  // örn: "requires_payment_method"
-        payment.setPaymentDate(null);           // henüz tamamlanmadı
-        paymentRepository.save(payment);
+    Payment payment = new Payment();
+    payment.setOrder(order);
+    payment.setCustomer((Customer) order.getCustomer());
+    payment.setAmount(amount);
+    payment.setStripePaymentIntentId(intent.getId());
+    payment.setStatus(intent.getStatus());
+    payment.setPaymentDate(null);
+    paymentRepository.save(payment);
 
-        // 5) Frontend'e clientSecret döndür
-        return intent.getClientSecret();
+    return intent.getClientSecret();
     }
 
      /**
@@ -382,5 +387,20 @@ public class OrderService {
         order.setPaymentDate(LocalDateTime.now());
         orderRepository.save(order);
     }
+
+    public void cancelOrderByAdmin(Long orderId) {
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
+
+    if (order.getStatus() == OrderStatus.SHIPPED ||
+        order.getStatus() == OrderStatus.COMPLETED ||
+        order.getStatus() == OrderStatus.CANCELLED) {
+        throw new RuntimeException("Bu sipariş iptal edilemez.");
+    }
+
+    order.setStatus(OrderStatus.CANCELLED);
+    orderRepository.save(order);
+}
+
 
 }

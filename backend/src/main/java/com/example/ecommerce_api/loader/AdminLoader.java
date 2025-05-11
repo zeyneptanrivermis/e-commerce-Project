@@ -57,5 +57,4 @@ public class AdminLoader {
 
         System.out.println("✔ Admin kullanıcı başarıyla yüklendi: " + adminEmail);
     }
-}
-*/
+}*/

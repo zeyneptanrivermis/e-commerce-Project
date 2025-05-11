@@ -1,20 +1,96 @@
-<div class="shipment-page">
-  <h2>Shipment Status for Order #{{ orderId }}</h2>
+<div class="bg-[#FFF5FD] rounded-lg shadow-md p-8 relative">
+  <h2 class="text-2xl font-semibold text-[#005A8D] mb-6 tracking-wide">Shipment Status for Order #{{ orderId }}</h2>
 
-  <div class="progress-track">
-    <!-- Dolan çubuk -->
-    <div class="progress-bar" [style.width.%]="progressPercent"></div>
-    <!-- Kamyon ikonu, progressPercent'e göre sola kayıyor -->
-    <div class="truck" [style.left.%]="progressPercent">
-      🚚
+  <div class="relative overflow-hidden rounded-full bg-gray-200 h-6 mb-4">
+    <div class="progress-bar bg-[#FF96AD] h-full rounded-full" [style.width.%]="progressPercent"></div>
+    <div class="truck absolute top-1/2 left-6 -translate-y-1/2 text-xl text-[#022E57]"
+         [style.left.%]="progressPercent"
+         style="transition: left 0.5s ease-in-out;">
+      <span class="animate-wheel-spin inline-block">🚚</span>
+      <span class="exhaust-smoke absolute bottom-0 left-full -translate-x-1/2 opacity-0 transition-opacity duration-500 text-sm">💨</span>
     </div>
   </div>
 
-  <ul class="step-list">
+  <ul class="step-list flex justify-between text-sm text-gray-600">
     <li
       *ngFor="let step of steps; let i = index"
-      [class.active]="progressPercent >= i/(steps.length-1)*100">
+      [class.font-semibold]="progressPercent >= i/(steps.length-1)*100"
+      [class.text-[#005A8D]]="progressPercent >= i/(steps.length-1)*100"
+      class="relative">
       {{ step }}
+      <div *ngIf="i < steps.length - 1" class="absolute top-1/2 -translate-y-1/2 w-full h-0.5 bg-gray-300 left-1/2 -translate-x-1/2 z-[-1]"></div>
+      <div *ngIf="progressPercent >= i/(steps.length-1)*100" class="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#FF96AD] left-1/2 -translate-x-1/2"></div>
     </li>
   </ul>
 </div>
+
+<style>
+@keyframes wheel-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-wheel-spin {
+  animation: wheel-spin 0.2s linear infinite; /* Hızlı bir dönüş */
+}
+
+.exhaust-smoke {
+  font-size: 1.2em;
+}
+
+.show-smoke {
+  opacity: 1 !important;
+}
+</style>
+
+<script>
+// Örnek JavaScript kodu (Angular component içinde kullanılabilir)
+const truckElement = document.querySelector('.truck');
+const smokeElement = document.querySelector('.exhaust-smoke');
+let previousProgress = 0;
+let wheelSpinInterval;
+
+function startWheelSpin() {
+  const truckEmoji = truckElement.querySelector('.animate-wheel-spin');
+  if (truckEmoji && !wheelSpinInterval) {
+    wheelSpinInterval = setInterval(() => {
+      // Tekerlek dönüyor görseli (CSS animation ile)
+    }, 200); // Her 200ms'de bir kontrol et
+  }
+}
+
+function stopWheelSpin() {
+  clearInterval(wheelSpinInterval);
+  wheelSpinInterval = null;
+}
+
+function triggerExhaust() {
+  if (smokeElement) {
+    smokeElement.classList.add('show-smoke');
+    setTimeout(() => {
+      smokeElement.classList.remove('show-smoke');
+    }, 500); // Dumanın görünme süresi
+  }
+}
+
+function updateTruckPosition(currentProgress) {
+  truckElement.style.left = `${currentProgress}%`;
+  if (currentProgress > previousProgress) {
+    triggerExhaust();
+    startWheelSpin(); // İlerlerken tekerlekleri döndür
+    previousProgress = currentProgress;
+  } else if (currentProgress === previousProgress) {
+    startWheelSpin(); // Dururken de tekerlekler dönsün
+  } else {
+    stopWheelSpin(); // Geriye giderse tekerlekler dursun (isteğe bağlı)
+    previousProgress = currentProgress;
+  }
+}
+
+// progressPercent değerini dinleyip updateTruckPosition fonksiyonunu çağırabilirsiniz.
+// Örneğin:
+// this.progressPercent$.subscribe(progress => updateTruckPosition(progress));
+
+// Sayfa yüklendiğinde tekerlekleri başlat (isteğe bağlı)
+document.addEventListener('DOMContentLoaded', startWheelSpin);
+</script>

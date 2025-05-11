@@ -54,13 +54,13 @@ export class AdminApiService {
   }
 
   // --- Products ---
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.base}/products`);
-  }
+getAllProducts(): Observable<Product[]> {
+  return this.http.get<Product[]>(`${this.baseUrl}/admin/products`);
+}
 
-  cancelProduct(id: number): Observable<void> {
-    return this.http.put<void>(`${this.base}/products/${id}/cancel`, null);
-  }
+cancelProduct(productId: number): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/admin/products/${productId}`);
+}
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}/delete`);
@@ -74,4 +74,8 @@ export class AdminApiService {
   updateOrderStatus(orderId: number, status: string): Observable<Order> {
     return this.http.put<Order>(`${this.base}/orders/${orderId}/status?status=${status}`, {});
   }
+
+  cancelOrder(orderId: number): Observable<any> {
+  return this.http.put(`/api/admin/orders/${orderId}/cancel`, null);
+}
 }
