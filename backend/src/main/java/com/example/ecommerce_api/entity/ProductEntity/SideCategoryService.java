@@ -21,7 +21,18 @@ public class SideCategoryService {
         return SIDE_CATEGORIES.getOrDefault(category, List.of());
     }
 
-    public static boolean isValidSideCategory(Category category, String sideCategory) {
-        return getSideCategories(category).contains(sideCategory);
+    public static boolean isValidSideCategory(String inputCategory) {
+        String normalizedInput = normalize(inputCategory);
+
+        return SIDE_CATEGORIES.values().stream()
+            .flatMap(List::stream)
+            .map(SideCategoryService::normalize)
+            .anyMatch(sc -> sc.equalsIgnoreCase(normalizedInput));
     }
+    
+private static String normalize(String input) {
+    return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
+}
+
+
 }

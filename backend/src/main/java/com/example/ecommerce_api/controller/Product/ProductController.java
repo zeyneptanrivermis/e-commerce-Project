@@ -4,10 +4,11 @@ import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.ProductDTO.ReviewDTO;
 import com.example.ecommerce_api.dto.UserDTO.SellerDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.ProductEntity.SideCategoryService;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
-
+import com.example.ecommerce_api.entity.ProductEntity.Category;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -118,6 +119,31 @@ public class ProductController {
     public List<Product> getPopularProducts(@RequestParam(defaultValue = "10") int count) {
         return productService.getRandomProducts(count);
     }
-    
-    
+
+    @GetMapping("/filter")
+    public List<ProductDTO> getProductsByCategory(@RequestParam String category) {
+        List<Product> products;
+
+        String normalizedParam = normalize(category); // normalize yap
+
+        try {
+            // Ana kategori (enum) olarak kontrol et
+            Category enumCategory = Category.valueOf(normalizedParam);
+            products = productService.getProductsByCategory(enumCategory);
+        } catch (IllegalArgumentException e) {
+            // Değilse side category olarak ara
+            products = productService.getAllProducts().stream()
+                .filter(p -> p.getSideCategories() != null &&
+                            p.getSideCategories().stream()
+                                .map(this::normalize)
+                                .anyMatch(sc -> sc.equalsIgnoreCase(normalizedParam)))
+                .toList();
+        }
+
+        return products.stream().map(ProductDTO::new).toList();
+    }
+    // 🔧 Normalize metodu (boşlukları "_" yap, & → AND, büyük harfe çevir)
+    private String normalize(String input) {
+        return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
+    }
 }

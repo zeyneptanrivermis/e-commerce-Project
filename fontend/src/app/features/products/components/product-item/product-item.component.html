@@ -1,36 +1,51 @@
 <div class="product-item">
   <div class="product-header">
     <h3 class="product-title">
-      <a [routerLink]="['/products', product.id]" class="product-link">{{ product.name }}</a>
+      <a [routerLink]="['/products', product.id]" class="product-link">
+        {{ product.name }}
+      </a>
     </h3>
     <button class="wishlist-button" (click)="onToggleWishlist()">
       <span [class.filled]="isInWishlist">❤</span>
     </button>
   </div>
 
-  <p><strong>Price:</strong> {{ product.price | currency }}</p>
-  <p><strong>{{product.seller.name}}</strong></p>
+  <p><strong>Price:</strong> {{ product.price | currency:'TRY' }}</p>
+  <p><strong>Seller:</strong> {{ product.seller.name }}</p>
 
   <p *ngIf="product.mainCategory">
     <strong>Main Category:</strong>
     <a
+      *ngIf="getCategoryKey(product.mainCategory) as categoryKey"
       [routerLink]="['/products']"
-      [queryParams]="{ category: product.mainCategory }"
+      [queryParams]="{ category: categoryKey }"
       class="category-button"
     >
       {{ categoryLabel[product.mainCategory] }}
     </a>
   </p>
-  
-  <p>
-    <ng-container *ngIf="product.sideCategories && product.sideCategories.length > 0">
-      <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">
-        <a [routerLink]="['/products']" [queryParams]="{ category: sideCategory }" class="category-button">
-          {{ sideCategory }}
-        </a><span *ngIf="!last">, </span>
-      </ng-container>
+
+  <p *ngIf="product.sideCategories?.length">
+    <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">
+      <a
+        [routerLink]="['/products']"
+        [queryParams]="{ category: normalize(sideCategory) }"
+        class="category-button"
+      >
+        {{ sideCategory }}
+      </a><span *ngIf="!last">, </span>
     </ng-container>
   </p>
 
-  <button class="add-to-cart-btn" (click)="add.emit(product)">Add to Cart</button>
+  <!-- Miktar Kontrolü -->
+  <div class="quantity-control">
+    <button (click)="decrease()" [disabled]="quantity <= 1">–</button>
+    <span>{{ quantity }}</span>
+    <button (click)="increase()">+</button>
+  </div>
+
+  <!-- Sepete Ekle -->
+  <button class="add-to-cart-btn" (click)="onAdd()">
+    Add {{ quantity }} to Cart
+  </button>
 </div>

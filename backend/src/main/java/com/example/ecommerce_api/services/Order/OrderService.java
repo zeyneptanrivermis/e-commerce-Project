@@ -85,6 +85,7 @@ public class OrderService {
         this.mapper = mapper;
     }
 
+
     /**
      * Verilen orderId için Stripe PaymentIntent yaratır,
      * intent ID'yi ve clientSecret'i kaydeder, clientSecret'i döner.
@@ -132,6 +133,35 @@ public class OrderService {
 
         return orderRepository.save(incomingOrder); // cascade = ALL sayesinde OrderItem'lar da kaydedilir
     }
+
+public List<OrderDTO> getAllOrders() {
+    List<Order> orders = orderRepository.findAll();
+    
+    return orders.stream().map(order -> {
+        // Ödeme varsa al, yoksa null bırak
+        Payment payment = paymentRepository.findByOrder(order).orElse(null);
+
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+        dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+
+        if (payment != null) {
+            dto.setStatus(payment.getStatus());
+            dto.setPaymentDate(payment.getPaymentDate());
+        } else {
+            dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
+            dto.setPaymentDate(null);
+        }
+        List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                .map(OrderItemDTO::fromEntity)
+                .toList();
+
+        dto.setItemList(itemDtos);
+
+        return dto;
+    }).toList();
+}
 
     // Müşteri için yeni sipariş oluştur
     public Order createOrder(Long customerId) {
@@ -292,14 +322,54 @@ public class OrderService {
         .collect(Collectors.toList());
     }
 
-@Transactional
-public void markOrderAsPaid(Long orderId, PaymentCompleteRequest req) {
-  Order order = orderRepository.findById(orderId)
-      .orElseThrow(() -> new EntityNotFoundException("Order bulunamadı"));
-  order.setStatus(OrderStatus.COMPLETED);
-  order.setPaymentDate(LocalDateTime.now());
-  order.setPaymentIntentId(req.getPaymentIntentId());
-  order.setPaidAmount(req.getAmount());
-  orderRepository.save(order);
-}
+    @Transactional
+    public void markOrderAsPaid(Long orderId, PaymentCompleteRequest req) {
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow(() -> new EntityNotFoundException("Order bulunamadı"));
+    order.setStatus(OrderStatus.COMPLETED);
+    order.setPaymentDate(LocalDateTime.now());
+    order.setPaymentIntentId(req.getPaymentIntentId());
+    order.setPaidAmount(req.getAmount());
+    orderRepository.save(order);
+    }
+
+    public OrderDTO getOrderById(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+        Payment payment = paymentRepository.findByOrder(order)
+            .orElse(null);
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderId(order.getOrderId());
+        dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+        dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+        if (payment != null) {
+            dto.setStatus(payment.getStatus());
+            dto.setPaymentDate(payment.getPaymentDate());
+        } else {
+            dto.setStatus(order.getStatus() != null ? order.getStatus().name() : null);
+            dto.setPaymentDate(order.getPaymentDate() != null ? order.getPaymentDate().toLocalDate() : null);
+        }
+        if (order.getItemList() != null) {
+            List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                .map(OrderItemDTO::fromEntity)
+                .toList();
+            dto.setItemList(itemDtos);
+        }
+        return dto;
+    }
+
+    public OrderDTO updateOrderStatus(Long orderId, OrderDTO orderDTO) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+        if (orderDTO.getStatus() != null) {
+            try {
+                OrderStatus newStatus = OrderStatus.valueOf(orderDTO.getStatus());
+                order.setStatus(newStatus);
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Invalid order status: " + orderDTO.getStatus());
+            }
+        }
+        orderRepository.save(order);
+        return getOrderById(orderId);
+    }
 }

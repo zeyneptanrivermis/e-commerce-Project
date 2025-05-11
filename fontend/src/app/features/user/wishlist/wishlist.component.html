@@ -1,13 +1,32 @@
-  <div class="wishlist-container">
-    <h2>Wishlist</h2>
-  
-    <div *ngIf="wishlist.length === 0">
-      Your Wishlist is empty.
-      <button class="wishlist-button" (click)="redirect()">Explore Products</button>
-    </div>
-  
-    <div *ngFor="let product of wishlist" class="wishlist-item">
-      <p>{{ product.name }} - {{ product.price | currency:'TRY' }}</p>
-      <button (click)="removeFromWishlist(product.id)">Remove</button>
-    </div>
+<div class="wishlist-container">
+  <h2>Wishlist</h2>
+
+  <div *ngIf="wishlist.length === 0" class="empty-wishlist">
+    Your Wishlist is empty.
+    <button class="wishlist-button" (click)="redirect()">Explore Products</button>
   </div>
+
+  <div *ngFor="let product of wishlist" class="wishlist-item">
+    <!-- Ürün Bilgisi -->
+    <p>{{ product.name }} – {{ product.price | currency:'TRY' }}</p>
+
+    <!-- Miktar Kontrol (+ / –) -->
+    <div class="quantity-control">
+      <button (click)="decreaseQuantity(product)" [disabled]="quantities[product.id] <= 1">–</button>
+      <span>{{ quantities[product.id] }}</span>
+      <button (click)="increaseQuantity(product)">+</button>
+    </div>
+
+    <!-- Sepete Ekle -->
+    <button class="add-to-cart-button"
+            (click)="addToCart(product)">
+      Add to Cart
+    </button>
+
+    <!-- Wishlist’ten Kaldır -->
+    <button class="remove-button"
+            (click)="removeFromWishlist(product.id)">
+      Remove
+    </button>
+  </div>
+</div>

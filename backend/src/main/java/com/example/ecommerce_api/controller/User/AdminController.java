@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.controller.User;
 
+import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
@@ -9,6 +10,7 @@ import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.services.Product.ProductService;
 import com.example.ecommerce_api.services.User.AdminService;
 import com.example.ecommerce_api.services.User.CustomerService;
+import com.example.ecommerce_api.services.Order.OrderService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,21 +27,23 @@ public class AdminController {
     private final AdminService adminService;
     private final CustomerService customerService;
     private final ProductService productService;
+    private final OrderService orderService;
 
-    public AdminController(AdminService adminService, CustomerService customerService, ProductService productService) {
+    public AdminController(AdminService adminService,OrderService orderService, CustomerService customerService, ProductService productService) {
         this.adminService = adminService;
+        this.orderService = orderService;
         this.customerService = customerService;
         this.productService=productService;
     }
 
     // 🔐 Bu endpoint sadece ADMIN rolüne açık
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/all")
+    @GetMapping("/all-admins")
     public ResponseEntity<List<Admin>> getAllAdmins() {
         return ResponseEntity.ok(adminService.getAllAdmins());
     }
 
-    // --- STATISTICS endpoint’i ---
+    // --- STATISTICS endpoint'i ---
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/stats")
     public ResponseEntity<StatsDTO> getStats() {
@@ -48,16 +52,16 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-  @GetMapping("/customers")
-  public ResponseEntity<List<AdminUserDTO>> getAllCustomers() {
-    return ResponseEntity.ok(adminService.getAllCustomersDto());
-  }
+    @GetMapping("/customers")
+    public ResponseEntity<List<AdminUserDTO>> getAllCustomers() {
+        return ResponseEntity.ok(adminService.getAllCustomersDto());
+    }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @GetMapping("/sellers")
-  public ResponseEntity<List<AdminUserDTO>> getAllSellers() {
-    return ResponseEntity.ok(adminService.getAllSellersDto());
-  }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/sellers")
+    public ResponseEntity<List<AdminUserDTO>> getAllSellers() {
+        return ResponseEntity.ok(adminService.getAllSellersDto());
+    }
 
     // ────────────────────────────────────────────────
     //  1) Müşteriyi yasakla / yasaklamayı kaldır
@@ -108,5 +112,24 @@ public class AdminController {
         adminService.deleteProductPermanently(id); // ← doğru servis
         return ResponseEntity.ok(Map.of("message", "Deletion success!"));
     }
+
+    // ────────────────────────────────────────────────orders   
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        List<OrderDTO> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/{orderId}/status")
+    public ResponseEntity<OrderDTO> getOrderStatus(@PathVariable Long orderId) {
+        OrderDTO order = orderService.getOrderById(orderId);
+        return ResponseEntity.ok(order);
+    }
     
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
+        OrderDTO updatedOrder = orderService.updateOrderStatus(orderId, orderDTO);
+        return ResponseEntity.ok(updatedOrder);
+    }
 }

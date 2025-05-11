@@ -121,15 +121,15 @@ export class OrderComponent implements OnInit {
     };
 
     this.orderService.createOrder().subscribe({
-  next: order => {
-    const id = order.orderId!;
-    const amount = Math.round((this.totalWithoutDiscount + this.shippingFee) * 100);
-    this.router.navigate(['/order','payment'], {
-      queryParams: { orderId: id, amount }
-    });
-  },
+      next: order => {
+        const id = order.orderId!;
+        const amount = Math.round((this.totalWithoutDiscount + this.shippingFee) * 100);
+        this.router.navigate(['/order','payment'], {
+          queryParams: { orderId: id, amount }
+        });
+      },
       error: err => {
-        console.error('Sipariş oluşturulamadı', err);
+        console.error('Order couldnt be processed', err);
         alert('Sipariş oluşturma sırasında hata oluştu.');
       }
     });

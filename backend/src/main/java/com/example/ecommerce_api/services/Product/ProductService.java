@@ -3,7 +3,7 @@ package com.example.ecommerce_api.services.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.data.domain.PageRequest;
-
+import com.example.ecommerce_api.entity.ProductEntity.Category;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.entity.UserEntity.Seller;
@@ -117,6 +117,17 @@ public class ProductService {
 
         product.setSeller(seller);
         return productRepository.save(product);
+    }
+
+    public List<Product> getProductsByCategory(Category category) {
+        return productRepository.findByCategory(category);
+    }
+
+    public List<Product> getProductsByAnyCategory(String category) {
+        return productRepository.findByMainOrSideCategory(category);
+    }
+    private String normalize(String input) {
+        return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
     }
 
 }
