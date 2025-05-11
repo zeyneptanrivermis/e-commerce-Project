@@ -4,7 +4,7 @@ import com.example.ecommerce_api.entity.ProductEntity.Category;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
-import com.example.ecommerce_api.repository.UserRepository.SellerRepository;
+import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -69,5 +69,4 @@ public class ProductDataLoader implements CommandLineRunner {
         return categories[rand.nextInt(categories.length)];
     }
 }
-
 */

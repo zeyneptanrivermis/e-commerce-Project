@@ -1,4 +1,4 @@
-/* package com.example.ecommerce_api.loader;
+/*package com.example.ecommerce_api.loader;
 
 import com.example.ecommerce_api.entity.OrderEntity.*;
 import com.example.ecommerce_api.entity.ProductEntity.*;

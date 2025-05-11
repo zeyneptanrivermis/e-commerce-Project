@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AdminApiService } from '../service/admin-api.service';
 import { Product } from '../../models/product.model';
 
@@ -8,7 +8,7 @@ import { Product } from '../../models/product.model';
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   products: Product[] = [];
 
   constructor(private api: AdminApiService) {}
@@ -32,7 +32,7 @@ export class ProductsComponent {
       if (product) {
         product.cancelled = true;
       }
-    });  
+    });
   }
 
 }

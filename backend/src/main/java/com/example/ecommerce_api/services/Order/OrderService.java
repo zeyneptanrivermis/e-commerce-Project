@@ -372,4 +372,20 @@ public List<OrderDTO> getAllOrders() {
         orderRepository.save(order);
         return getOrderById(orderId);
     }
+
+    public void cancelOrderByAdmin(Long orderId) {
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
+
+    if (order.getStatus() == OrderStatus.SHIPPED ||
+        order.getStatus() == OrderStatus.COMPLETED ||
+        order.getStatus() == OrderStatus.CANCELLED) {
+        throw new RuntimeException("Bu sipariş iptal edilemez.");
+    }
+
+    order.setStatus(OrderStatus.CANCELLED);
+    orderRepository.save(order);
+}
+
+
 }

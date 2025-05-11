@@ -1,17 +1,79 @@
-<div class="stats-cards">
-  <div class="card">
-    <h2>Toplam Admin</h2>
-    <p>{{ stats?.userCount | number }}</p>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Özel animasyon stili */
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out forwards;
+    }
+
+    /* Genel arka plan rengi */
+    body {
+      background-color: #EEEEEE;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    /* Başlık */
+    h1 {
+      color: #508C9B;
+      font-size: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Hoş geldin metni */
+    p {
+      color: #201E43;
+      margin-bottom: 1.75rem;
+      font-size: 1.25rem;
+    }
+  </style>
+</head>
+<body class="dashboard-page">
+  <h1>Dashboard</h1>
+  <p>Hoş geldiniz, yönetici!</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in">
+      <div class="p-6">
+        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Toplam Admin</h2>
+        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.userCount | number }}</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.1s;">
+      <div class="p-6">
+        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Toplam Ürün</h2>
+        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.productCount | number }}</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.2s;">
+      <div class="p-6">
+        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Bekleyen Sipariş</h2>
+        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.pendingOrders | number }}</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Buraya class="card" eklendi -->
-  <div class="card">
-    <h2>Toplam Ürün</h2>
-    <p>{{ stats?.productCount | number }}</p>
-  </div>
-
-  <div class="card">
-    <h2>Bekleyen Sipariş</h2>
-    <p>{{ stats?.pendingOrders | number }}</p>
-  </div>
-</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const animatedElements = document.querySelectorAll('.animate-fade-in');
+      animatedElements.forEach((element, index) => {
+        element.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,9 +1,9 @@
-/* package com.example.ecommerce_api.loader;
+/*package com.example.ecommerce_api.loader;
 
 import com.example.ecommerce_api.entity.UserEntity.*;
-import com.example.ecommerce_api.repository.UserRepository.AddressRepository;
-import com.example.ecommerce_api.repository.UserRepository.RoleRepository;
-import com.example.ecommerce_api.repository.UserRepository.SellerRepository;
+import com.example.ecommerce_api.repository.UserRepositories.AddressRepository;
+import com.example.ecommerce_api.repository.UserRepositories.RoleRepository;
+import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,7 +51,9 @@ public class SellerDataLoader implements CommandLineRunner {
             seller.setRoles(Set.of(sellerRole));
 
             // Adres oluştur ve ilişkilendir
-            Address address = new Address(City.ISTANBUL, District.KADIKOY);
+            Address address = new Address();
+            address.setCity("İstanbul");
+            address.setDistrict("Kadıköy");
             address.setUser(seller); // Bu setter, seller.getAddressList() içine de ekliyor
             seller.setStockAddress(address);
 
@@ -62,4 +64,4 @@ public class SellerDataLoader implements CommandLineRunner {
         System.out.println("✅ 100 seller başarıyla eklendi.");
     }
 }
-    */
+*/

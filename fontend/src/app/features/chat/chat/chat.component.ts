@@ -12,6 +12,8 @@ export class ChatComponent {
   hover = false;
   chatOpen = false;
 
+  isTyping: boolean = false;
+
   chatForm: FormGroup;
 
   messages: { text: string; sender: 'user' | 'bot' }[] = [];
