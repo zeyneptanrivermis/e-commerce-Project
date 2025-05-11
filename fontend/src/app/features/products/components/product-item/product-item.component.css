@@ -1,11 +1,11 @@
 .product-item {
   width: calc(20% - 20px);
   min-width: 200px;
-  height: 340px;
+  height: 380px;         /* eskiden 340px idi, biraz daha uzun yaptık */
   padding: 16px;
   border: 1px solid #dfe6e9;
   border-radius: 12px;
-  background-color: #F3FDE8; /* açık yeşilimsi arka plan */
+  background-color: #F3FDE8;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
@@ -44,7 +44,7 @@
 }
 
 .wishlist-button .filled {
-  color: #FFBFBF; /* Kalp kırmızımsı pembe */
+  color: #FFBFBF;
 }
 
 .wishlist-button:hover {
@@ -63,7 +63,7 @@
   display: inline-block;
   padding: 6px 14px;
   margin-top: 12px;
-  background-color: #A8DF8E; /* yeşil ton */
+  background-color: #A8DF8E;
   color: white;
   border: none;
   border-radius: 6px;
@@ -78,10 +78,52 @@
   transform: scale(1.05);
 }
 
+/* Miktar Kontrolü */
+.quantity-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;               /* Kutular arası boşluk */
+}
+
+.quantity-control button,
+.quantity-control span {
+  width: 36px;            /* Kare boyutu */
+  height: 36px;
+  border: 1px solid #dfe6e9;
+  background-color: #fff;
+  border-radius: 8px;     /* Hafif yuvarlak köşeler */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-control button {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-control button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.quantity-control button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-control span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Sepete Ekle Butonu */
 .add-to-cart-btn {
-  background-color: #FFE5E5; /* Açık pembe */
-  color: #d63031;            /* Kırmızımsı yazı tonu */
-  border: 1px solid #FFBFBF; /* Pembe sınır */
+  background-color: #FFE5E5;
+  color: #d63031;
+  border: 1px solid #FFBFBF;
   padding: 10px 20px;
   font-weight: 600;
   border-radius: 8px;

@@ -1,9 +1,12 @@
+<<<<<<< HEAD
+=======
 
+>>>>>>> parent of 8a28f785 (filter products by category)
 <div class="product-list">
   <app-product-item
-  *ngFor="let product of filteredProducts; trackBy: trackById"
+    *ngFor="let product of filteredProducts; trackBy: trackById"
     [product]="product"
-    (add)="addToCart($event)">
+    (add)="onAddToCart($event)">
   </app-product-item>
 </div>
 
