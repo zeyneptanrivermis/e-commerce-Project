@@ -42,8 +42,8 @@ public class Order {
     @JoinColumn(name = "discount_id")
     private Discount discount;
 
-     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20, nullable = false)
     private OrderStatus status = OrderStatus.PENDING;  // default PENDING
 
     @ManyToOne

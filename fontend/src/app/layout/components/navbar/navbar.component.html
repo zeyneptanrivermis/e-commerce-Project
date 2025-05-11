@@ -18,23 +18,6 @@
 
 <!-- ALT NAVBAR: Kategoriler -->
 <div class="bottom-navbar">
-  <div class="category-menu">
-    <div class="menu-toggle" (click)="toggleMegaMenu()">
-      ☰ TÜM KATEGORİLER <span class="label">Yeni</span>
-    </div>
-    <div id="mega-menu" #megaMenu class="mega-menu">
-      <div class="left-pane" #leftPane>
-        <ul>
-          <li (mouseover)="showSubmenu('kadın')">Kadın</li>
-          <li (mouseover)="showSubmenu('erkek')">Erkek</li>
-          <li (mouseover)="showSubmenu('anne')">Anne & Çocuk</li>
-        </ul>
-      </div>
-      <div id="submenu" #submenu class="right-pane">
-        <!-- Alt kategori içeriği Angular ile değişecek -->
-      </div>
-    </div>
-  </div>
 
   <div class="quick-links">
     <a routerLink="/products">All Products <span class="label">New</span></a>
