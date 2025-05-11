@@ -11,6 +11,7 @@ import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];
+  selectedOrder: any = null;
   @ViewChild('pieChart', { static: true }) pieChartRef!: ElementRef<HTMLCanvasElement>;
 
   constructor(private api: AdminApiService) {}
@@ -29,9 +30,14 @@ export class OrdersComponent implements OnInit {
     });
   }
 
-  viewOrderDetails(order: Order) {
-    console.log('Viewing details for order:', order);
+  viewOrderDetails(order: any) {
+    this.selectedOrder = order;
   }
+
+  closeDetails() {
+    this.selectedOrder = null;
+  }
+
   changeStatus(order: Order, newStatus: string) {
     this.api.updateOrderStatus(order.orderId, newStatus).subscribe({
       next: (updatedOrder) => {

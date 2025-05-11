@@ -74,12 +74,12 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/confirm-payment")
-public ResponseEntity<Void> confirmPayment(
-    @PathVariable Long orderId,
-    @RequestBody PaymentCompleteRequest req) {
-  orderService.markOrderAsPaid(orderId, req);
-  return ResponseEntity.noContent().build();
-}
+    public ResponseEntity<Void> confirmPayment(
+        @PathVariable Long orderId,
+        @RequestBody PaymentCompleteRequest req) {
+    orderService.markOrderAsPaid(orderId, req);
+    return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/history")
     public ResponseEntity<List<OrderDTO>> getOrderHistory(Authentication auth) {
@@ -87,5 +87,7 @@ public ResponseEntity<Void> confirmPayment(
         List<OrderDTO> history = orderService.getOrderHistoryForUser(auth);
         return ResponseEntity.ok(history);
     }
+
+
 
 }

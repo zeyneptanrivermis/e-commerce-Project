@@ -1,15 +1,17 @@
 <div class="container mt-4">
+  <!-- Grafik ve Legend -->
   <div class="chart-container" style="display: flex; justify-content: center; margin-bottom: 2rem;">
     <canvas #pieChart width="180" height="180"></canvas>
     <div style="margin-left: 2rem; display: flex; flex-direction: column; justify-content: center;">
-      <div><span class="legend-color" style="background:#fbbf24"></span> Pending</div>
-      <div><span class="legend-color" style="background:#34d399"></span> Accepted</div>
-      <div><span class="legend-color" style="background:#f87171"></span> Cancelled</div>
+      <div><span class="inline-block w-4 h-4 rounded-full mr-2" style="background-color:#fbbf24"></span> Pending</div>
+      <div><span class="inline-block w-4 h-4 rounded-full mr-2" style="background-color:#34d399"></span> Accepted</div>
+      <div><span class="inline-block w-4 h-4 rounded-full mr-2" style="background-color:#f87171"></span> Cancelled</div>
     </div>
   </div>
 
   <h2>All Orders</h2>
-  
+
+  <!-- Tablo -->
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -24,21 +26,69 @@
       </thead>
       <tbody>
         <tr *ngFor="let order of orders">
-          <td>#{{order.orderId}}</td>
-          <td>{{order.customerName}}</td>
-          <td>${{order.totalWithDiscount | number:'1.2-2'}}</td>
+          <td>#{{ order.orderId }}</td>
+          <td>{{ order.customerName }}</td>
+          <td>${{ order.totalWithDiscount | number:'1.2-2' }}</td>
+
+          <!-- STATUS badge gösterimi -->
           <td>
-            <select [(ngModel)]="order.status" (change)="changeStatus(order, order.status)">
-              <option value="PENDING">PENDING</option>
-              <option value="COMPLETED">COMPLETED</option>
-              <option value="CANCELLED">CANCELLED</option>
-            </select>
+            <span [ngClass]="{
+              'badge bg-warning text-dark': order.status === 'PENDING',
+              'badge bg-success': order.status === 'COMPLETED',
+              'badge bg-danger': order.status === 'CANCELLED',
+              'badge bg-secondary': order.status === 'UNPAID'
+            }">
+              {{ order.status === 'UNPAID' ? 'Ödeme yapılmadı' : order.status }}
+            </span>
           </td>
-          <td>{{order.paymentDate | date:'medium'}}</td>
+
+          <!-- Payment Date -->
           <td>
-            <button class="btn btn-sm btn-primary me-2" (click)="viewOrderDetails(order)">
+            {{ order.paymentDate ? (order.paymentDate | date:'medium') : '—' }}
+          </td>
+
+          <!-- Actions (UNPAID ise buton gösterme) -->
+          <td>
+            <button *ngIf="order.status !== 'UNPAID'" class="btn btn-sm btn-primary me-2"
+              (click)="viewOrderDetails(order)">
               View Details
             </button>
+            <!-- Order Details Modal -->
+            <div *ngIf="selectedOrder" class="modal-backdrop">
+              <div class="modal-box" (click)="$event.stopPropagation()">
+                <!-- Close butonu sağ üstte -->
+                <button (click)="closeDetails()" class="modal-close">&times;</button>
+
+                <h3 class="modal-title">Order #{{ selectedOrder.orderId }}</h3>
+
+                <div class="modal-text"><strong>Total:</strong> ${{ selectedOrder.totalWithDiscount }}</div>
+                <div class="modal-text"><strong>Status:</strong>
+                  <span [ngClass]="{
+                    'text-yellow-600 font-semibold': selectedOrder.status === 'PENDING',
+                    'text-green-600 font-semibold': selectedOrder.status === 'COMPLETED' || selectedOrder.status === 'succeeded',
+                    'text-red-600 font-semibold': selectedOrder.status === 'CANCELLED',
+                    'text-gray-500 italic': selectedOrder.status === 'UNPAID' || selectedOrder.status === 'requires_payment_method'
+                  }">
+                    {{ selectedOrder.status === 'UNPAID' || selectedOrder.status === 'requires_payment_method' ? 'Ödeme yapılmadı' : selectedOrder.status }}
+                  </span>
+                </div>
+                <div class="modal-text"><strong>Payment Date:</strong>
+                  {{ selectedOrder.paymentDate ? (selectedOrder.paymentDate | date:'medium') : '—' }}
+                </div>
+
+                <div class="modal-subtitle">Items:</div>
+                <ul class="modal-list">
+                  <li *ngFor="let item of selectedOrder.itemList">
+                    {{ item.productName }} - {{ item.quantity }} × ${{ item.unitPrice }}
+                  </li>
+                </ul>
+
+                <div class="text-right">
+                  <button (click)="closeDetails()" class="modal-btn">Close</button>
+                </div>
+              </div>
+            </div>
+
           </td>
         </tr>
       </tbody>

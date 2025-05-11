@@ -11,7 +11,6 @@ import { ShipmentService } from '../../service/Shipment.service';
 export class ShipmentComponent implements OnInit {
 
   orderId!: number;
-  // Adım başlıkları
   steps = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
   currentStatus = 'PENDING';
   progressPercent = 0;

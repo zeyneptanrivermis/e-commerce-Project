@@ -7,7 +7,7 @@ import { OrderHistory } from '../../../models/OrderHistory.model';
   providedIn: 'root'
 })
 export class OrderHistoryService {
-  private baseUrl = '/api/orders';
+  private baseUrl = '/api/orders/user';
 
   constructor(private http: HttpClient) {}
 

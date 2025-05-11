@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Product } from "../../models/product.model";
-import { Order } from "../../models/order.model";
 import { environment } from "../../../environments/environment";
+import { Order } from "../../models/order.model";
+import { Product } from "../../models/product.model";
 
 export interface User {
   userId: number;
@@ -68,10 +68,10 @@ export class AdminApiService {
 
   // --- Orders ---
   getAllOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/orders/admin/all`);
+    return this.http.get<Order[]>(`${this.base}/orders`);
   }
 
   updateOrderStatus(orderId: number, status: string): Observable<Order> {
-    return this.http.put<Order>(`${this.baseUrl}/orders/admin/${orderId}/status?status=${status}`, {});
+    return this.http.put<Order>(`${this.base}/orders/${orderId}/status?status=${status}`, {});
   }
 }
