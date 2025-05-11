@@ -15,7 +15,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c JOIN FETCH c.wishlist WHERE c.id = :id")
     Optional<Customer> findByIdWithWishlist(@Param("id") Long id);
 
-
-
     Optional<Customer> findByEmail(String email);
 }

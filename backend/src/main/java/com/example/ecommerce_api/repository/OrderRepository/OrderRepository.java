@@ -31,5 +31,12 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     long countByStatus(OrderStatus  status);
 
     long countBySeller(Seller seller);
-    
+
+    List<Order> findByCustomerOrderByPaymentDateAsc(Customer customer);
+
+    boolean existsByCustomer_UserIdAndItemList_Product_ProductIdAndStatus(
+        Long customerId,
+        Long productId,
+        OrderStatus status
+    );    
 }

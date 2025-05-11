@@ -10,7 +10,7 @@ import { UserRoutingModule } from './user.routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressModule } from '../address/address.module';
 import { AddressComponent } from '../address/address-component/address.component';
-import { UserOrderlistComponent } from './user-orderlist/user-orderlist.component';
+import { OrderModule } from '../order/order.module';
 
 
 @NgModule({
@@ -19,7 +19,6 @@ import { UserOrderlistComponent } from './user-orderlist/user-orderlist.componen
     UserComponent,
     UserProfileComponent,
     AddressComponent,
-    UserOrderlistComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +27,7 @@ import { UserOrderlistComponent } from './user-orderlist/user-orderlist.componen
     UserRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    OrderModule
   ]
 })
 export class UserModule { }

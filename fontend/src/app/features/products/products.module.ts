@@ -7,18 +7,14 @@ import { ProductsComponent } from './pages/products/products.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RecommendationListComponent } from '../recommendations/components/recommendation-list/recommendation-list.component';
 import { RecommendationsModule } from '../recommendations/recommendations.module';
-
-
-
 
 @NgModule({
   declarations: [
     ProductsComponent,
     ProductListComponent,
     ProductItemComponent,
-    ProductDetailsComponent,
+    ProductDetailsComponent
   ],
   imports: [
     CommonModule,

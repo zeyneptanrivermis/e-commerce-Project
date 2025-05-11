@@ -1,33 +1,29 @@
 footer {
   width: 100%;
   background: #F3FDE8;
-  padding: 40px 20px;
+  padding: 50px 30px; /* Daha dengeli dikey boşluk */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  color: #333;
+  border-top-left-radius: 15px; /* Daha yumuşak köşeler */
+  border-top-right-radius: 15px; /* Daha yumuşak köşeler */
+  color: #555; /* Daha yumuşak metin rengi */
+  box-sizing: border-box; /* Kutuların padding'i hesaba katması için */
 }
 
 .footer-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Daha esnek sütunlar */
+  gap: 30px; /* Sütunlar arası boşluk */
   max-width: 1200px;
-  margin: 0 auto 30px;
-}
-
-.footer-column {
-  flex: 1 1 180px;
+  margin: 0 auto 40px; /* Alt boşluk arttırıldı */
 }
 
 .footer-column h4 {
-  font-size: 1rem;
-  margin-bottom: 15px;
+  font-size: 1.1rem; /* Biraz daha büyük başlık */
+  margin-bottom: 18px;
   color: #2e7d32;
   border-bottom: 2px solid #A8DF8E;
   display: inline-block;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
 }
 
 .footer-column ul {
@@ -37,13 +33,13 @@ footer {
 }
 
 .footer-column li {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .footer-column a {
   text-decoration: none;
-  color: #333;
-  font-size: 14px;
+  color: #555; /* Daha yumuşak bağlantı rengi */
+  font-size: 0.9rem; /* Biraz daha küçük bağlantı metni */
   transition: color 0.3s ease;
 }
 
@@ -54,44 +50,62 @@ footer {
 /* Sosyal Medya */
 .social-media {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .social-media h4 {
-  font-size: 1rem;
-  margin-bottom: 12px;
-  color: #BE5985; /* Başlık da pembeye çekildi */
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: #BE5985;
 }
 
-.social-media i {
-  font-size: 26px;
-  margin: 0 12px;
-  cursor: pointer;
-  color: #FFBFBF; /* ✔️ Açık pembe */
+.social-media a { /* Bağlantı etiketi kullanarak ikonları sarmalayalım */
+  display: inline-block;
+  margin: 0 15px;
+  color: #FFBFBF;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.social-media i:hover {
-  color: #BE5985; /* ✔️ Hover’da koyu pembe */
+.social-media a:hover {
+  color: #BE5985;
   transform: scale(1.2);
+}
+
+.social-media i {
+  font-size: 28px; /* Biraz daha büyük ikonlar */
 }
 
 /* Ödeme ikonları */
 .payment-section {
   text-align: center;
+  margin-bottom: 20px; /* Alt boşluk eklendi */
 }
 
 .payment-section h4 {
-  font-size: 1rem;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
   color: #2e7d32;
 }
 
 .payment-section img {
-  height: 36px;
-  margin: 5px 8px;
-  border-radius: 6px;
+  height: 40px; /* Biraz daha büyük ödeme ikonları */
+  margin: 5px 10px;
+  border-radius: 8px; /* Daha yuvarlak köşeler */
   background-color: #fff;
-  padding: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); /* Daha belirgin gölge */
+  vertical-align: middle; /* İkonların dikey ortalanması */
+}
+
+/* Alt Bilgi (Copyright vb.) */
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #ddd; /* Ayırıcı çizgi */
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.footer-bottom p {
+  margin: 0;
 }

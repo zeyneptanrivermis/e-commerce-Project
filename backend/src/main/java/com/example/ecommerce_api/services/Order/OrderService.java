@@ -2,10 +2,13 @@ package com.example.ecommerce_api.services.Order;
 
 import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.dto.OrderDTO.OrderItemDTO;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentCompleteRequest;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentDTO;
 import com.example.ecommerce_api.entity.CartEntity.Cart;
 import com.example.ecommerce_api.entity.CartEntity.CartItem;
 import com.example.ecommerce_api.entity.OrderEntity.Order;
 import com.example.ecommerce_api.entity.OrderEntity.OrderItem;
+import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
@@ -15,15 +18,21 @@ import com.example.ecommerce_api.repository.OrderRepository.OrderItemRepository;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
 import com.example.ecommerce_api.repository.OrderRepository.ShippingRepository;
+import com.example.ecommerce_api.repository.UserRepositories.CustomerRepository;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import org.springframework.security.core.Authentication;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +65,18 @@ public class OrderService {
     @Autowired
     private PaymentService stripePaymentService;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    private final ModelMapper mapper;
+
+        public OrderService(OrderRepository orderRepo,
+                        CustomerRepository customerRepo,
+                        ModelMapper mapper) {
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
+        this.mapper = mapper;
+    }
 
     /**
      * Verilen orderId için Stripe PaymentIntent yaratır,
@@ -224,4 +245,38 @@ public class OrderService {
         // itemList ve paymentInfo'yu da uygun şekilde ekle
         return dto;
     }
+
+    @Transactional
+    public List<OrderDTO> getOrderHistoryForUser(Authentication auth) {
+    Customer customer = customerRepository.findByEmail(auth.getName())
+        .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
+
+    List<Order> orders = orderRepository.findByCustomerOrderByPaymentDateAsc(customer);
+
+    return orders.stream()
+        .map(order -> {
+            OrderDTO dto = new OrderDTO();
+            dto.setOrderId(order.getOrderId());
+            if (order.getPaymentDate() != null) {
+                dto.setPaymentDate(order.getPaymentDate().toLocalDate());
+            }
+            dto.setStatus(order.getStatus().name());
+            dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+            dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+            // itemList, paymentInfo vs.
+            return dto;
+        })
+        .collect(Collectors.toList());
+    }
+
+@Transactional
+public void markOrderAsPaid(Long orderId, PaymentCompleteRequest req) {
+  Order order = orderRepository.findById(orderId)
+      .orElseThrow(() -> new EntityNotFoundException("Order bulunamadı"));
+  order.setStatus(OrderStatus.COMPLETED);
+  order.setPaymentDate(LocalDateTime.now());
+  order.setPaymentIntentId(req.getPaymentIntentId());
+  order.setPaidAmount(req.getAmount());
+  orderRepository.save(order);
+}
 }

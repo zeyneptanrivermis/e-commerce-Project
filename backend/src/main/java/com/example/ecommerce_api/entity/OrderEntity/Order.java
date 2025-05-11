@@ -1,5 +1,6 @@
 package com.example.ecommerce_api.entity.OrderEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import jakarta.persistence.Column;
 import com.example.ecommerce_api.entity.ProductEntity.Discount;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.Seller;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 // incele, gözden geçir
@@ -48,6 +50,17 @@ public class Order {
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
+    // — Yeni eklenecek alan —
+    @Column(name = "payment_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime paymentDate;
+
+    @Column(name = "payment_intent_id")
+    private String paymentIntentId;
+    
+    @Column(name = "paid_amount")
+    private Long paidAmount;
+
 
     public Long getOrderId() { return orderId; }
     public void setOrderId(Long orderId) { this.orderId = orderId; }
@@ -68,6 +81,25 @@ public class Order {
         this.status = status;
     }
 
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
+    }
+    public void setPaymentDate(LocalDateTime paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public Long getPaidAmount() {
+        return paidAmount;
+    }
+    public String getPaymentIntentId() {
+        return paymentIntentId;
+    }
+    public void setPaidAmount(Long paidAmount) {
+        this.paidAmount = paidAmount;
+    }
+    public void setPaymentIntentId(String paymentIntentId) {
+        this.paymentIntentId = paymentIntentId;
+    }
 
     @JsonProperty
     public double getOrderTotalWithoutDiscount() {

@@ -1,6 +1,5 @@
 package com.example.ecommerce_api.dto.ProductDTO;
 
-import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 
 public class ProductMapper {

@@ -64,29 +64,75 @@
         </div>
       </div>
 
-      <div class="review-section">
-        <div class="review-header">
-          <h2 class="review-title">Reviews</h2>
-          <button (click)="toggleReviews()" class="toggle-review-btn">
-            {{ showReviews ? 'Hide' : 'Show' }} Reviews
-          </button>
+<!-- review-section in product-details.component.html -->
+<div class="review-section">
+  <div class="review-header">
+    <h2 class="review-title">Reviews</h2>
+    <button (click)="toggleReviews()" class="toggle-review-btn">
+      {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
+    </button>
+  </div>
+
+  <div *ngIf="showReviews">
+    <!-- Add Review button or warning -->
+    <div class="add-review-header">
+      <ng-container *ngIf="canReview; else cannotReview">
+        <button (click)="showReviewForm = !showReviewForm" class="add-review-btn">
+          {{ showReviewForm ? 'Cancel' : 'Add Review' }}
+        </button>
+      </ng-container>
+      <ng-template #cannotReview>
+        <p class="warning">
+          You can only add a review after you’ve received the product.
+        </p>
+      </ng-template>
+    </div>
+
+    <!-- Review form -->
+    <div *ngIf="showReviewForm && canReview" class="review-form-container">
+      <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
+        <label>
+          Rating:
+          <select formControlName="rating">
+            <option value="" disabled>Select</option>
+            <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+          </select>
+        </label>
+        <div *ngIf="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched" class="error">
+          Please select a rating between 1 and 5.
         </div>
 
-        <div *ngIf="showReviews">
-          <div *ngIf="product.reviews && product.reviews.length > 0; else noReviews">
-            <div class="review-box" *ngFor="let review of product.reviews">
-              <p><strong>{{ review.customerName }}</strong></p>
-              <p>Puan: {{ review.rating }} / 5</p>
-              <p>{{ review.comment }}</p>
-              <p *ngIf="review.edited" class="edited-label">(Düzenlenmiş)</p>
-            </div>
-          </div>
-
-          <ng-template #noReviews>
-            <p class="no-reviews-message">There are no reviews yet.</p>
-          </ng-template>
+        <label>
+          Comment:
+          <textarea formControlName="comment" rows="3" placeholder="Write your review here..."></textarea>
+        </label>
+        <div *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched" class="error">
+          Comment must be between 1 and 1000 characters.
         </div>
+
+        <button type="submit" [disabled]="reviewForm.invalid" class="submit-review-btn">
+          Submit Review
+        </button>
+      </form>
+    </div>
+
+    <!-- Existing reviews list -->
+    <div *ngIf="product.reviews?.length; else noReviews" class="reviews-list">
+      <div class="review-box" *ngFor="let review of product.reviews">
+        <p>
+          <strong>{{ review.customerName }}</strong>
+          <span *ngIf="review.edited" class="edited-label">(Edited)</span>
+        </p>
+        <p>Rating: {{ review.rating }} / 5</p>
+        <p>{{ review.comment }}</p>
       </div>
+    </div>
+    <ng-template #noReviews>
+      <p class="no-reviews-message">There are no reviews yet.</p>
+    </ng-template>
+
+  </div>
+</div>
 
     </div>
   </main>
@@ -94,7 +140,7 @@
   <!-- Sağda kayan öneri sidebar’ı -->
   <aside class="sidebar-right">
     <section class="sidebar-section">
-      <h4>Benzer Ürünler</h4>
+      <h4>Similar Products</h4>
       <app-similar-products
         *ngIf="product?.id"
         [productId]="product.id">
@@ -102,7 +148,7 @@
     </section>
 
     <section class="sidebar-section">
-      <h4>Beğenebileceğin Ürünler</h4>
+      <h4>Products You May Like</h4>
       <app-recommendation-list
         *ngIf="currentUserId"
         [userId]="currentUserId">

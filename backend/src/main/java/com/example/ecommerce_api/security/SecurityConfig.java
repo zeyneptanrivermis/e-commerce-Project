@@ -34,26 +34,38 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .cors() // CORS yapılandırmasını etkinleştir
-                .and()
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                        "/api/auth/**", "/api/products/**","/api/seller/auth/register",
-                        "/register", "/login", "/favicon.ico", "/error","/api/seller/auth/login"
-                    ).permitAll()
-                    .anyRequest().authenticated()
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http
+            .cors() // CORS yapılandırmasını etkinleştir
+            .and()
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                // Genel erişime açık endpoint’ler
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/api/products/**",
+                    "/api/seller/auth/register",
+                    "/register",
+                    "/login",
+                    "/favicon.ico",
+                    "/error",
+                    "/api/seller/auth/login"
+                ).permitAll()
+                // Yorum endpoint’leri için yalnızca ROLE_USER
+                .requestMatchers("/api/reviews/**").hasRole("USER")
+                // Geri kalanları oturumlu herkese aç
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .exceptionHandling(ex -> ex
+                .authenticationEntryPoint((request, response, authException) ->
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Yetkisiz erişim")
                 )
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) ->
-                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Yetkisiz erişim")))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+            )
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+}
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

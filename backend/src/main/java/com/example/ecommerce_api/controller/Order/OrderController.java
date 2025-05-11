@@ -1,15 +1,16 @@
 package com.example.ecommerce_api.controller.Order;
 
 import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
-import com.example.ecommerce_api.entity.OrderEntity.Order;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentCompleteRequest;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
-import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
 import com.example.ecommerce_api.services.Order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
 
 import java.security.Principal;
 import java.util.List;
@@ -71,4 +72,20 @@ public class OrderController {
             .orElseThrow(() -> new RuntimeException("User not found"))
             .getUserId();
     }
+
+    @PostMapping("/{orderId}/confirm-payment")
+public ResponseEntity<Void> confirmPayment(
+    @PathVariable Long orderId,
+    @RequestBody PaymentCompleteRequest req) {
+  orderService.markOrderAsPaid(orderId, req);
+  return ResponseEntity.noContent().build();
+}
+
+    @GetMapping("/history")
+    public ResponseEntity<List<OrderDTO>> getOrderHistory(Authentication auth) {
+        // principal’dan customerId çıkaran yardımcı metodu kullanın
+        List<OrderDTO> history = orderService.getOrderHistoryForUser(auth);
+        return ResponseEntity.ok(history);
+    }
+
 }

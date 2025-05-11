@@ -1,1 +1,28 @@
-<p>order-history works!</p>
+<div *ngIf="isLoading" class="p-4">Loading…</div>
+
+<div *ngIf="!isLoading && orders.length">
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr>
+        <th class="p-2 border-b">Order ID</th>
+        <th class="p-2 border-b">Payment Date</th>
+        <th class="p-2 border-b">Total (₺)</th>
+        <th class="p-2 border-b">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of orders" class="hover:bg-gray-50">
+        <td class="p-2 border-b">
+          <a [routerLink]="['/user','shipment', o.orderId]" class="text-blue-600 hover:underline"> {{ o.orderId }}</a>
+        </td>
+        <td class="p-2 border-b">{{ o.paymentDate | date:'short' }}</td>
+        <td class="p-2 border-b">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
+        <td class="p-2 border-b">{{ o.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isLoading && !orders.length" class="p-4 text-center">
+  You have no past orders.
+</div>
