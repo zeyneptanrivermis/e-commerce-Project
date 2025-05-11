@@ -1,8 +1,6 @@
 package com.example.ecommerce_api.dto.OrderDTO;
 
 import java.time.LocalDate;
-import java.util.Set;
-
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 
 public class PaymentDTO {
@@ -80,6 +78,7 @@ public class PaymentDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+
 
     public static PaymentDTO fromEntity(Payment payment) {
         PaymentDTO dto = new PaymentDTO();

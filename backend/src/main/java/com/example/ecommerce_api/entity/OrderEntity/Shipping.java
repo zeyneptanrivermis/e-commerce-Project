@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 import com.example.ecommerce_api.entity.UserEntity.Address;

@@ -1,0 +1,20 @@
+<div class="shipment-page">
+  <h2>Shipment Status for Order #{{ orderId }}</h2>
+
+  <div class="progress-track">
+    <!-- Dolan çubuk -->
+    <div class="progress-bar" [style.width.%]="progressPercent"></div>
+    <!-- Kamyon ikonu, progressPercent'e göre sola kayıyor -->
+    <div class="truck" [style.left.%]="progressPercent">
+      🚚
+    </div>
+  </div>
+
+  <ul class="step-list">
+    <li
+      *ngFor="let step of steps; let i = index"
+      [class.active]="progressPercent >= i/(steps.length-1)*100">
+      {{ step }}
+    </li>
+  </ul>
+</div>

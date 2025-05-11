@@ -3,9 +3,6 @@ package com.example.ecommerce_api.dto.OrderDTO;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
-
-import com.example.ecommerce_api.entity.OrderEntity.OrderItem;
 
 public class OrderDTO {
     private Long orderId;

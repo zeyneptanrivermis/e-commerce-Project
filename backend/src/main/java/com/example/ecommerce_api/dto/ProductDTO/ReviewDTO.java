@@ -3,6 +3,7 @@ package com.example.ecommerce_api.dto.ProductDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
 
 public class ReviewDTO {
+    private Long reviewId;
     private int rating;
     private String comment;
     private boolean edited;

@@ -1,19 +1,20 @@
 package com.example.ecommerce_api.controller.Product;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
+import com.example.ecommerce_api.dto.ProductDTO.ReviewDTO;
+import com.example.ecommerce_api.dto.ProductDTO.ReviewRequestDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
+import com.example.ecommerce_api.security.CustomerDetails;
 import com.example.ecommerce_api.services.Product.ReviewService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -26,33 +27,61 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    // Tüm yorumları getir
     @GetMapping
-    public List<Review> getAllReviews() {
-        return reviewService.getAllReviews();
+    public ResponseEntity<List<ReviewDTO>> getAllReviews() {
+        List<Review> reviews = reviewService.getAllReviews();
+        List<ReviewDTO> dtos = reviews.stream()
+                                      .map(ReviewDTO::new)
+                                      .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
-    // ID ile bir yorumu getir
     @GetMapping("/{id}")
-    public Review getReviewById(@PathVariable Long id) {
-        return reviewService.getReviewById(id);
+    public ResponseEntity<ReviewDTO> getReviewById(@PathVariable Long id) {
+        Review review = reviewService.getReviewById(id);
+        return ResponseEntity.ok(new ReviewDTO(review));
     }
 
-    // Yeni yorum oluştur
+    @GetMapping("/can-review/{productId}")
+    public ResponseEntity<Boolean> canReview(
+            @PathVariable Long productId,
+            @AuthenticationPrincipal CustomerDetails userDetails
+    ) {
+        Long customerId = userDetails.getCustomer().getUserId();
+        boolean allowed = reviewService.canReview(customerId, productId);
+        return ResponseEntity.ok(allowed);
+    }
+
     @PostMapping
-    public Review createReview(@RequestBody Review review) {
-        return reviewService.createReview(review);
+    public ResponseEntity<ReviewDTO> createReview(
+            @RequestBody @Valid ReviewRequestDTO dto,
+            @AuthenticationPrincipal CustomerDetails userDetails
+    ) {
+        Long customerId = userDetails.getCustomer().getUserId();
+        // ↓ addReview → createReview olarak düzeltildi
+        Review created = reviewService.createReview(customerId, dto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(new ReviewDTO(created));
     }
 
-    // Yorumu güncelle
     @PutMapping("/{id}")
-    public Review updateReview(@PathVariable Long id, @RequestBody Review updatedReview) {
-        return reviewService.updateReview(id, updatedReview);
+    public ResponseEntity<ReviewDTO> updateReview(
+            @PathVariable Long id,
+            @RequestBody @Valid ReviewRequestDTO dto,
+            @AuthenticationPrincipal CustomerDetails userDetails
+    ) {
+        Long customerId = userDetails.getCustomer().getUserId();
+        Review updated = reviewService.updateReview(id, customerId, dto);
+        return ResponseEntity.ok(new ReviewDTO(updated));
     }
 
-    // Yorumu sil
     @DeleteMapping("/{id}")
-    public void deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
+    public ResponseEntity<Void> deleteReview(
+            @PathVariable Long id,
+            @AuthenticationPrincipal CustomerDetails userDetails
+    ) {
+        Long customerId = userDetails.getCustomer().getUserId();
+        reviewService.deleteReview(id, customerId);
+        return ResponseEntity.noContent().build();
     }
 }

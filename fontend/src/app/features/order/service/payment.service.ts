@@ -2,11 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from '../../../../environments/environment';
+import { PaymentCompleteRequest } from '../../../models/payment-complete-request.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
+
+  private baseUrl = '/api/orders';
 
   constructor(private http: HttpClient) {}
 
@@ -33,6 +36,10 @@ export class PaymentService {
       `${environment.apiUrl}/api/payments/complete/${orderId}`,
       { paymentIntentId }
     );
+  }
+
+    confirmPayment(orderId: number, req: PaymentCompleteRequest): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/${orderId}/confirm-payment`, req);
   }
 
 }
