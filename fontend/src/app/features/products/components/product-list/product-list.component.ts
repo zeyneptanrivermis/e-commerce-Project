@@ -28,11 +28,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     private productService: ProductService
   ) {}
 
-<<<<<<< HEAD
   ngOnInit(): void {
-=======
-  ngOnInit() {
->>>>>>> parent of 8a28f785 (filter products by category)
     const isPopularRoute = this.route.routeConfig?.path === 'popular';
 
     if (isPopularRoute) {
@@ -67,10 +63,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         }
       );
 
-<<<<<<< HEAD
-=======
-      // DOM’a bağlama işlemi eksikti
->>>>>>> parent of 8a28f785 (filter products by category)
       if (this.observerElement?.nativeElement) {
         this.observer.observe(this.observerElement.nativeElement);
       }
@@ -116,7 +108,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     });
   }
 
-<<<<<<< HEAD
   private loadPopularProducts(): void {
     this.loading = true;
     this.productService.getProducts(this.limit, this.skip).subscribe({
@@ -160,32 +151,11 @@ export class ProductListComponent implements OnInit, AfterViewInit {
         p =>
           p.mainCategory === matchedEnum ||
           p.sideCategories?.includes(category)
-=======
-  filterByCategory(category: string | 'All') {
-    if (category === 'All') {
-      this.filteredProducts = [...this.products];
-      return;
-    }
-  
-    this.filteredProducts = this.products.filter(product =>
-      product.mainCategory === category || product.sideCategories?.includes(category)
-    );
-  }
-  
-
-  applyFilter() {
-    const category = this.route.snapshot.queryParams['category'];
-    if (category && category !== 'All') {
-      const matchedEnum = Object.values(MainCategory).find(val => val === category);
-      this.filteredProducts = this.products.filter(product =>
-        product.mainCategory === matchedEnum || product.sideCategories?.includes(category)
->>>>>>> parent of 8a28f785 (filter products by category)
       );
     } else {
       this.filteredProducts = [...this.products];
     }
   }
-  
 
   getSelectedSideCategories(
     category: MainCategory,
@@ -199,7 +169,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
   onAddToCart(event: { product: Product; quantity: number }): void {
     const { product, quantity } = event;
     this.cartService.addToCart(product.id, quantity).subscribe({
-<<<<<<< HEAD
       next: () =>
         console.log(`🛒 ${product.name} sepete eklendi (x${quantity}).`),
       error: err =>
@@ -207,19 +176,6 @@ export class ProductListComponent implements OnInit, AfterViewInit {
     });
   }
 
-=======
-      next: () => {
-        console.log(`🛒 ${product.name} sepete eklendi.`);
-        // İstersen bir toast gösterimi veya animasyon tetikleyebilirsin
-      },
-      error: (err) => {
-        console.error('❌ Sepete eklenirken hata oluştu:', err);
-        // Eğer kullanıcı login değilse yönlendirme gibi şeyler burada yapılabilir
-      }
-    });
-  }
-  
->>>>>>> parent of 8a28f785 (filter products by category)
 }
 
 
