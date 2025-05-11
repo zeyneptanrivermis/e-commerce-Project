@@ -259,24 +259,30 @@ public class OrderService {
     }
 
     @Transactional
-    public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
-        Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new RuntimeException("Order bulunamadı"));
+public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow(() -> new RuntimeException("Order bulunamadı"));
 
-        Payment payment = paymentRepository.findByStripePaymentIntentId(req.getPaymentIntentId())
-            .orElseThrow(() -> new RuntimeException("Payment bulunamadı"));
+    Payment payment = paymentRepository.findByStripePaymentIntentId(req.getPaymentIntentId())
+        .orElseThrow(() -> new RuntimeException("Payment bulunamadı"));
 
-        payment.setStatus("succeeded");
-        payment.setPaymentDate(LocalDate.now());
-        payment.setStripeChargeId(req.getChargeId()); // FRONTEND'TEN GELEN CHARGE ID
-        paymentRepository.save(payment);
+    payment.setStatus("succeeded");
+    payment.setPaymentDate(LocalDate.now());
 
-        order.setStatus(OrderStatus.COMPLETED);
-        order.setPaymentDate(LocalDateTime.now());
-        order.setPaymentIntentId(req.getPaymentIntentId());
-        order.setPaidAmount(req.getAmount());
-        orderRepository.save(order);
+    // 🔥 Charge ID sadece webhook'tan gelecek, frontend'ten değil
+    if (req.getChargeId() != null) {
+        payment.setStripeChargeId(req.getChargeId());
     }
+
+    paymentRepository.save(payment);
+
+    order.setStatus(OrderStatus.COMPLETED);
+    order.setPaymentDate(LocalDateTime.now());
+    order.setPaymentIntentId(req.getPaymentIntentId());
+    order.setPaidAmount(req.getAmount()); // varsa
+    orderRepository.save(order);
+}
+
 
 
     public OrderDTO createOrderDTO(Long customerId) {
@@ -349,20 +355,14 @@ public class OrderService {
         }
         return dto;
     }
-
-    public OrderDTO updateOrderStatus(Long orderId, OrderDTO orderDTO) {
+    public void updateStatus(Long orderId, OrderStatus newStatus) {
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> new RuntimeException("Order not found"));
-        if (orderDTO.getStatus() != null) {
-            try {
-                OrderStatus newStatus = OrderStatus.valueOf(orderDTO.getStatus());
-                order.setStatus(newStatus);
-            } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Invalid order status: " + orderDTO.getStatus());
-            }
+
+        if (order.getStatus() != newStatus) {
+            order.setStatus(newStatus);
+            orderRepository.save(order);
         }
-        orderRepository.save(order);
-        return getOrderById(orderId);
     }
 
     public void refundOrder(Long orderId) {

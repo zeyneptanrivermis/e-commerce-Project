@@ -1,6 +1,7 @@
 package com.example.ecommerce_api.controller.Order;
 
 import com.example.ecommerce_api.services.Order.OrderService;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentCompleteRequest;
 import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/webhook/stripe")
 public class PaymentWebhookController {
@@ -37,9 +37,14 @@ public class PaymentWebhookController {
             case "payment_intent.succeeded": {
                 PaymentIntent intent = (PaymentIntent) event.getDataObjectDeserializer()
                         .getObject().orElseThrow();
+
                 Long orderId = Long.valueOf(intent.getMetadata().get("orderId"));
-                orderService.finalizePayment(orderId, intent.getId());
-                orderService.updateStatus(orderId, OrderStatus.ACCEPTED);
+                String chargeId = intent.getLatestCharge(); // ✅ CHARGE ID BURADA
+
+                PaymentCompleteRequest paymentRequest = new PaymentCompleteRequest(intent.getId());
+                paymentRequest.setChargeId(chargeId); // 🔥 BURAYA CHARGE ID’Yİ EKLİYORUZ
+
+                orderService.finalizePayment(orderId, paymentRequest); // ✅ Hepsi burada yapılacak
                 break;
             }
             case "payment_intent.payment_failed": {
@@ -50,7 +55,6 @@ public class PaymentWebhookController {
                 break;
             }
             default:
-                // ignore other events
                 break;
         }
 

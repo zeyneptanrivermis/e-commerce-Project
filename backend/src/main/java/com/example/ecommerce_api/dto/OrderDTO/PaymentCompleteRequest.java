@@ -6,6 +6,9 @@ public class PaymentCompleteRequest {
     private Long amount;
     private String chargeId; // ✅ yeni alan
 
+    public PaymentCompleteRequest(String id) {
+        //TODO Auto-generated constructor stub
+    }
     public String getPaymentIntentId() { return paymentIntentId; }
     public void setPaymentIntentId(String paymentIntentId) {
         this.paymentIntentId = paymentIntentId;

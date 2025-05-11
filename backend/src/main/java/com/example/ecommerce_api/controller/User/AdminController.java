@@ -4,6 +4,7 @@ import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
+import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
@@ -127,9 +128,15 @@ public class AdminController {
         return ResponseEntity.ok(order);
     }
     
-    @PutMapping("/{orderId}/status")
-    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
-        OrderDTO updatedOrder = orderService.updateOrderStatus(orderId, orderDTO);
-        return ResponseEntity.ok(updatedOrder);
+@PutMapping("/{orderId}/status")
+public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
+    try {
+        OrderStatus status = OrderStatus.valueOf(orderDTO.getStatus()); // string → enum
+        orderService.updateStatus(orderId, status);
+        return ResponseEntity.ok(Map.of("message", "update success!"));
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(null); // Geçersiz status string
     }
+}
+
 }
