@@ -8,6 +8,8 @@ import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.repository.ProductRepository.CategoryCountProjection;
+import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
 import com.example.ecommerce_api.services.User.AdminService;
 import com.example.ecommerce_api.services.User.CustomerService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -29,10 +32,12 @@ public class AdminController {
     private final CustomerService customerService;
     private final ProductService productService;
     private final OrderService orderService;
+    private final ProductRepository productRepository;
 
-    public AdminController(AdminService adminService,OrderService orderService, CustomerService customerService, ProductService productService) {
+    public AdminController(AdminService adminService, ProductRepository productRepository, OrderService orderService, CustomerService customerService, ProductService productService) {
         this.adminService = adminService;
         this.orderService = orderService;
+        this.productRepository = productRepository;
         this.customerService = customerService;
         this.productService=productService;
     }
@@ -128,15 +133,21 @@ public class AdminController {
         return ResponseEntity.ok(order);
     }
     
-@PutMapping("/{orderId}/status")
-public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
-    try {
-        OrderStatus status = OrderStatus.valueOf(orderDTO.getStatus()); // string → enum
-        orderService.updateStatus(orderId, status);
-        return ResponseEntity.ok(Map.of("message", "update success!"));
-    } catch (IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(null); // Geçersiz status string
+    @PutMapping("/{orderId}/status")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
+        try {
+            OrderStatus status = OrderStatus.valueOf(orderDTO.getStatus()); // string → enum
+            orderService.updateStatus(orderId, status);
+            return ResponseEntity.ok(Map.of("message", "update success!"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Geçersiz status string
+        }
     }
-}
+    @GetMapping("/category-count")
+    public Map<String, Long> getProductCountByCategory() {
+        return productRepository.countProductsGroupedByCategory()
+                .stream()
+                .collect(Collectors.toMap(CategoryCountProjection::getCategoryName, CategoryCountProjection::getCount));
+    }
 
 }

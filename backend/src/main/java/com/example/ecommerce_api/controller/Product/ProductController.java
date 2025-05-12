@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 //bitmedi
 @RestController
 @RequestMapping("/api/products")
@@ -147,4 +148,6 @@ public class ProductController {
     private String normalize(String input) {
         return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
     }
+
+
 }

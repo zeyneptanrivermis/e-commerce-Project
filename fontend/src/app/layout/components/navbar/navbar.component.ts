@@ -48,6 +48,10 @@ export class NavbarComponent {
   seeUserProfile(): void {
     this.authService.logout();
   }
+  normalizeCategory(name: string): string {
+  return name.toUpperCase().replace(/\s+/g, '_').replace(/&/g, 'AND');
+}
+
  
 }
 

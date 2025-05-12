@@ -76,6 +76,11 @@ cancelProduct(productId: number): Observable<any> {
   }
 
   cancelOrder(orderId: number): Observable<any> {
-  return this.http.put(`/api/admin/orders/${orderId}/cancel`, null);
-}
+    return this.http.put(`/api/admin/orders/${orderId}/cancel`, null);
+  }
+
+  getCategoryProductCounts(): Observable<{ [category: string]: number }> {
+    return this.http.get<{ [category: string]: number }>(`${this.base}/category-count`);
+  }
+
 }
