@@ -4,6 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { OrderHistory } from '../../../../models/OrderHistory.model';
 import { OrderHistoryService } from '../../service/order-history.service';
 import { RefundServiceService } from '../../service/RefundService.service';
+import { OrderService } from '../../service/order.service';
 
 @Component({
   selector: 'app-order-history',
@@ -19,7 +20,8 @@ export class OrderHistoryComponent implements OnInit {
 
   constructor(
     private historyService: OrderHistoryService,
-    private router: Router                                     // ← EKLE
+    private orderService: OrderService,
+    private refundService: RefundServiceService,
     private router: Router
   ) {}
 
@@ -46,29 +48,12 @@ export class OrderHistoryComponent implements OnInit {
 
   /** Siparişleri tazele (örn: iade sonrası) */
   fetchOrders(): void {
-    this.isLoading = true;
-    this.error = '';
-    this.orderService.getOrders().subscribe({
-      next: (data) => {
-        this.orders = data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Siparişler yüklenemedi:', err);
-        this.error = 'Siparişler yüklenemedi.';
-        this.isLoading = false;
-      }
-    });
+    this.loadOrders();
   }
 
   /** Siparişe tıklandığında kargo detayına yönlendir */
   goToShipment(orderId: number): void {
     this.router.navigate(['/shipment', orderId]);
-  }
-
-  /** Listeyi yenilemek istediğimizde de aynı metodu çağırıyoruz */
-  fetchOrders(): void {
-    this.loadOrders();
   }
 
   /** trackBy fonksiyonu performans için */
@@ -76,16 +61,11 @@ export class OrderHistoryComponent implements OnInit {
     return item.orderId;
   }
 
-  /** Siparişe tıklandığında kargo detayına yönlendir */
-  goToShipment(orderId: number): void {
-    this.router.navigate(['/shipment', orderId]);
-  }
-
   /** İade onayı al ve işlemi başlat */
   confirmRefund(orderId: number): void {
-  if (!confirm('Bu sipariş için iade talep edilsin mi?')) return;
-this.refundService.requestRefund(orderId).subscribe();
-}
+    if (!confirm('Bu sipariş için iade talep edilsin mi?')) return;
+    this.refundOrder(orderId);
+  }
 
   /** Backend'e iade talebi gönderir ve listeyi yeniler */
   private refundOrder(orderId: number): void {

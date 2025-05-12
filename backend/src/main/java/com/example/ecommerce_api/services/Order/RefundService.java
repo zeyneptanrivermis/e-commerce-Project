@@ -43,14 +43,15 @@ public class RefundService {
         // 2) Stripe refund parametrelerini ayarla
         Map<String, Object> params = new HashMap<>();
         String chargeId = payment.getStripeChargeId();
-        if (chargeId != null && !chargeId.isBlank()) {
+        String paymentIntentId = payment.getStripePaymentIntentId();
+
+        // Sadece doğru formatta olan ID'leri kullan
+        if (chargeId != null && !chargeId.isBlank() && chargeId.startsWith("ch_")) {
             params.put("charge", chargeId);
+        } else if (paymentIntentId != null && !paymentIntentId.isBlank() && paymentIntentId.startsWith("pi_")) {
+            params.put("payment_intent", paymentIntentId);
         } else {
-            String pi = payment.getStripePaymentIntentId();
-            if (pi == null || pi.isBlank()) {
-                throw new IllegalStateException("Stripe chargeId veya paymentIntentId bulunamadı.");
-            }
-            params.put("payment_intent", pi);
+            throw new IllegalStateException("Geçerli bir Stripe chargeId veya paymentIntentId bulunamadı.");
         }
 
         // 3) Tam iade için amount parametresi eklemiyoruz

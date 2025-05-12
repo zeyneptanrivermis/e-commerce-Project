@@ -13,6 +13,6 @@ export class RefundServiceService {
 
   /** Şimdi sadece orderId ile çağırılıyor */
   requestRefund(orderId: number): Observable<RefundResponse> {
-    return this.http.post<RefundResponse>(`${this.baseUrl}/${orderId}/refund`, {});
+    return this.http.post<RefundResponse>(`${this.baseUrl}/${orderId}/refund-request`, {});
   }
 }

@@ -25,14 +25,14 @@ public class RefundController {
         this.refundService = refundService;
     }
 
-    @PostMapping("/{orderId}/refund")
-    @PreAuthorize("@authService.canAccessOrder(principal, #orderId)")
-    public ResponseEntity<RefundResponse> refundOrder(
-            @PathVariable Long orderId,
-             @RequestBody(required = false) RefundRequest request
-    ) throws StripeException {
-        BigDecimal amount = (request != null) ? request.getAmount() : null;
-        RefundResponse response = refundService.createRefund(orderId);
-        return ResponseEntity.ok(response);
-    }
+    // @PostMapping("/{orderId}/refund")
+    // @PreAuthorize("@authService.canAccessOrder(principal, #orderId)")
+    // public ResponseEntity<RefundResponse> refundOrder(
+    //         @PathVariable Long orderId,
+    //          @RequestBody(required = false) RefundRequest request
+    // ) throws StripeException {
+    //     BigDecimal amount = (request != null) ? request.getAmount() : null;
+    //     RefundResponse response = refundService.createRefund(orderId);
+    //     return ResponseEntity.ok(response);
+    // }
 }

@@ -31,22 +31,12 @@ export class PaymentService {
   }
 
   // 2) Backend'e ödeme tamamlandı bildir
-<<<<<<< HEAD
-  completePayment(orderId: number, payload: PaymentCompleteRequest) {
+  completePayment(orderId: number, payload: { paymentIntentId: string, chargeId: string, amount: number }) {
     return this.http.post<void>(
       `${environment.apiUrl}/api/payments/complete/${orderId}`,
       payload
     );
   }
-=======
-completePayment(orderId: number, payload: { paymentIntentId: string, chargeId: string, amount: number }) {
-  return this.http.post<void>(
-    `${environment.apiUrl}/api/payments/complete/${orderId}`,
-    payload
-  );
-}
-
->>>>>>> defne-updates
 
   confirmPayment(orderId: number, req: PaymentCompleteRequest): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/${orderId}/confirm-payment`, req);

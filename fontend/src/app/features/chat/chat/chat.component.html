@@ -1,26 +1,25 @@
-<div class="chat-button" (click)="toggleChat()" (mouseenter)="hover = true" (mouseleave)="hover = false"
+<div class="chat-button fixed bottom-6 right-6 bg-[#001F54] text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl cursor-pointer shadow-lg transition-all duration-300 hover:bg-[#0A1128]"
+     (click)="toggleChat()"
+     (mouseenter)="hover = true"
+     (mouseleave)="hover = false"
      [ngClass]="{'hovered': hover}">
   💬
 </div>
 
-<!-- Sohbet ekranı (gizli/açık) -->
-<div class="chat-window" *ngIf="chatOpen">
-  <!-- Kapatma tuşu -->
-  <div class="chat-header">
-    <span>Trendyol Assistant</span>
-    <button class="close-btn" (click)="toggleChat()">✖</button>
+<div class="chat-window fixed bottom-20 right-6 bg-white rounded-md shadow-lg border border-[#1282A2] max-h-[400px] w-80 flex flex-col overflow-hidden" *ngIf="chatOpen">
+  <div class="chat-header bg-[#1282A2] text-white p-3 flex items-center justify-between">
+    <span class="font-semibold">GlamHub Assistant</span>
+    <button class="close-btn bg-transparent border-none text-white text-xl cursor-pointer focus:outline-none" (click)="toggleChat()">✖</button>
   </div>
 
-  <!-- Mesajlar -->
-  <div class="chat-messages">
+  <div class="chat-messages p-3 overflow-y-auto flex-grow space-y-2">
     <div *ngFor="let msg of messages">
-      <strong>{{ msg.sender }}:</strong> {{ msg.text }}
+      <strong class="font-semibold text-[#034078]">{{ msg.sender }}:</strong> <span class="text-[#0A1128]">{{ msg.text }}</span>
     </div>
   </div>
 
-  <!-- Form -->
-  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-form">
-    <input formControlName="message" placeholder="Type a message..." />
-    <button type="submit">Send</button>
+  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-form p-3 border-t border-gray-200 flex">
+    <input formControlName="message" placeholder="Type a message..." class="flex-grow rounded-md border-gray-300 shadow-sm focus:border-[#001F54] focus:ring-[#001F54] text-[#0A1128]"/>
+    <button type="submit" class="bg-[#001F54] text-white rounded-md px-4 py-2 font-semibold ml-2 focus:outline-none hover:bg-[#0A1128]" [disabled]="chatForm.invalid">Send</button>
   </form>
 </div>

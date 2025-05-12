@@ -3,7 +3,7 @@
 
   <div *ngIf="wishlist.length === 0" class="text-center py-6">
     <p class="text-gray-600 mb-4">Your Wishlist is empty.</p>
-    <button class="bg-[#005A8D] text-[#FFF5FD] py-3 px-6 rounded-md hover:bg-[#022E57] transition duration-200" (click)="redirect()">Explore Products</button>
+    <button class="bg-[#005A8D] text-[#FFF5FD] py-3 px-6 rounded-md hover:bg-[#022E57] transition duration-200 focus:outline-none">Explore Products</button>
   </div>
 
   <div *ngFor="let product of wishlist" class="wishlist-item bg-white rounded-lg shadow-sm p-6 mb-4 flex items-center justify-between">
@@ -18,7 +18,7 @@
                 class="px-3 py-2 text-gray-600 hover:bg-gray-100 focus:outline-none">+</button>
       </div>
 
-      <button class="add-to-cart-button bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium"
+      <button class="add-to-cart-button bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium focus:outline-none"
               (click)="addToCart(product)">
         Add to Cart
       </button>

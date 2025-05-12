@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, PLATFORM_ID, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainCategory, Product, SideCategories } from '../../../../models/product.model';
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-product-list',
@@ -13,7 +14,8 @@ import { ProductService } from '../../services/product.service';
 export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  observer!: IntersectionObserver;
+  observer?: IntersectionObserver;
+  isBrowser: boolean;
 
   limit = 10;
   skip = 0;
@@ -27,8 +29,11 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
     private cartService: CartService,
     public route: ActivatedRoute,
     private productService: ProductService,
-    private router: Router
-  ) {}
+    private router: Router,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -50,7 +55,7 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if ('IntersectionObserver' in window) {
+    if (this.isBrowser && 'IntersectionObserver' in window) {
       this.observer = new IntersectionObserver(entries => {
         const entry = entries[0];
         if (entry.isIntersecting && !this.loading && !this.allLoaded && !this.currentCategory) {
@@ -69,7 +74,9 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.observer?.disconnect();
+    if (this.isBrowser && this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   trackById(index: number, product: any): number {
@@ -90,11 +97,15 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
 
           if (data.length < this.limit) {
             this.allLoaded = true;
-            this.observer.disconnect();
+            if (this.isBrowser && this.observer) {
+              this.observer.disconnect();
+            }
           }
         } else {
           this.allLoaded = true;
-          this.observer.disconnect();
+          if (this.isBrowser && this.observer) {
+            this.observer.disconnect();
+          }
         }
         this.loading = false;
       },
@@ -102,7 +113,9 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
         console.error('🔴 Ürünler alınamadı:', err);
         this.loading = false;
         this.allLoaded = true;
-        this.observer.disconnect();
+        if (this.isBrowser && this.observer) {
+          this.observer.disconnect();
+        }
       }
     });
   }

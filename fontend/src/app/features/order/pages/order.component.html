@@ -1,85 +1,82 @@
-<div class="container mt-4">
-  <!-- ✅ Adres Alanı Kutusu -->
-  <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
-    <div class="address-box rounded p-4 mb-4">
+<div class="container mt-4 flex flex-col lg:flex-row gap-4">
+  <form [formGroup]="addressForm" (ngSubmit)="saveAddress()" class="w-full lg:w-2/3">
+    <div class="address-box bg-white rounded-lg p-6 mb-4 shadow-md">
 
-      <!-- Adres Seçimi -->
-      <div class="mb-3">
-        <label class="form-label fw-bold">Adres Seç:</label>
-        <select formControlName="selectedAddressId" class="form-control">
+      <div class="mb-4">
+        <label class="form-label block font-semibold text-gray-700 mb-2">Select Address:</label>
+        <select formControlName="selectedAddressId" class="form-control block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900">
           <option *ngFor="let address of addresses" [value]="address.addressId">
             {{ address.country }}, {{ address.city }}, {{ address.district }}, {{ address.addressDetail }}
           </option>
         </select>
       </div>
 
-      <!-- Adres Ekleme / Güncelleme Toggle -->
-      <button type="button" class="btn btn-outline-primary btn-sm mb-3" (click)="toggleAddressForm()">
-        {{ showAddressForm ? 'İptal Et' : '➕ Adres Ekle / Değiştir' }}
+      <button type="button" class="btn btn-outline-primary btn-sm mb-4" (click)="toggleAddressForm()">
+        {{ showAddressForm ? 'Cancel' : '➕ Add / Change Address' }}
       </button>
 
-      <!-- Adres Ekleme / Güncelleme Formu -->
-      <div *ngIf="showAddressForm">
-        <div class="form-group mb-2">
-          <label for="country">Country</label>
-          <input id="country" formControlName="country" type="text" class="form-control">
+      <div *ngIf="showAddressForm" class="space-y-4">
+        <div class="form-group">
+          <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+          <input id="country" formControlName="country" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900">
         </div>
 
-        <div class="form-group mb-2">
-          <label for="city">City</label>
-          <input id="city" formControlName="city" type="text" class="form-control">
+        <div class="form-group">
+          <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+          <input id="city" formControlName="city" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900">
         </div>
 
-        <div class="form-group mb-2">
-          <label for="district">District</label>
-          <input id="district" formControlName="district" type="text" class="form-control">
+        <div class="form-group">
+          <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+          <input id="district" formControlName="district" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900">
         </div>
 
-        <div class="form-group mb-3">
-          <label for="addressDetail">Address Detail</label>
-          <textarea id="addressDetail" formControlName="addressDetail" class="form-control"></textarea>
+        <div class="form-group">
+          <label for="addressDetail" class="block text-sm font-medium text-gray-700">Address Detail</label>
+          <textarea id="addressDetail" formControlName="addressDetail" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-success" [disabled]="addressForm.invalid">
+        <button type="submit" class="btn btn-success bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline" [disabled]="addressForm.invalid">
           {{ selectedAddressId ? 'Save Address' : 'Save Address' }}
         </button>
 
-        <button *ngIf="selectedAddressId" type="button" class="btn btn-secondary" (click)="resetForm()">
+        <button *ngIf="selectedAddressId" type="button" class="btn btn-secondary bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2" (click)="resetForm()">
           Cancel
         </button>
 
-        <p *ngIf="addressForm.invalid && addressForm.touched" class="text-danger mt-2">
+        <p *ngIf="addressForm.invalid && addressForm.touched" class="text-red-500 text-sm mt-2">
           Form is invalid. Please check all fields.
         </p>
       </div>
     </div>
   </form>
 
-  <!-- ✅ Sağ Panel: Sipariş Özeti -->
-  <div class="col-lg-4">
-    <div class="card p-4 shadow-sm">
-      <h4 class="mb-3">🛒 Sipariş Özeti</h4>
+  <div class="w-full lg:w-1/3">
+    <div class="card bg-white p-6 shadow-md rounded-lg">
+      <h4 class="mb-4 text-lg font-semibold text-gray-800">🛒 Order Summary</h4>
 
-      <ul class="list-group mb-3">
-        <li class="list-group-item d-flex justify-content-between" *ngFor="let item of cartItems">
-          {{ item.productName }} x{{ item.quantity }}
-          <span>{{ item.totalPrice | currency:'TRY' }}</span>
+      <ul class="list-group mb-4 space-y-2">
+        <li class="list-group-item flex justify-between items-center p-2 border-b border-gray-200" *ngFor="let item of cartItems">
+          <span class="text-gray-700">{{ item.productName }} x{{ item.quantity }}</span>
+          <span class="font-semibold text-gray-800">{{ item.totalPrice | currency:'TRY' }}</span>
         </li>
       </ul>
 
-      <div class="d-flex justify-content-between">
-        <span>Ürünler</span>
-        <strong>{{ totalWithoutDiscount | currency:'TRY' }}</strong>
+      <div class="flex justify-between text-gray-700 mb-2">
+        <span>Products</span>
+        <strong class="text-gray-800">{{ totalWithoutDiscount | currency:'TRY' }}</strong>
       </div>
-      <div class="d-flex justify-content-between">
-        <span>Kargo</span>
-        <strong>{{ shippingFee | currency:'TRY' }}</strong>
+      <div class="flex justify-between text-gray-700 mb-3">
+        <span>Shipping</span>
+        <strong class="text-gray-800">{{ shippingFee | currency:'TRY' }}</strong>
       </div>
-      <hr />
-      <div class="d-flex justify-content-between">
+      <hr class="border-gray-300 mb-3" />
+      <div class="flex justify-between text-gray-700 mb-3">
         <span>Total</span>
-        <strong>{{ (totalWithoutDiscount + shippingFee) | currency:'TRY' }}</strong>
+        <strong class="text-gray-800">{{ (totalWithoutDiscount + shippingFee) | currency:'TRY' }}</strong>
 
-        <button class="btn btn-primary w-100 mt-3" (click)="goToPayment()">💳 Ödeme Yap</button>    </div>
+        <button class="btn btn-primary bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded w-full mt-3 focus:outline-none focus:shadow-outline" (click)="goToPayment()">💳 Make Payment</button>
+      </div>
+    </div>
   </div>
 </div>

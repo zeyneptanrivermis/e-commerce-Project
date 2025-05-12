@@ -139,7 +139,6 @@ public class OrderService {
         List<Order> orders = orderRepository.findAll();
         
         return orders.stream().map(order -> {
-            // Ödeme varsa al, yoksa null bırak
             Payment payment = paymentRepository.findByOrder(order).orElse(null);
 
             OrderDTO dto = new OrderDTO();
@@ -147,11 +146,12 @@ public class OrderService {
             dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
             dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
 
+            // Siparişin kendi statüsünü kullan!
+            dto.setStatus(order.getStatus().name());
+
             if (payment != null) {
-                dto.setStatus(payment.getStatus());
                 dto.setPaymentDate(payment.getPaymentDate());
             } else {
-                dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
                 dto.setPaymentDate(null);
             }
             List<OrderItemDTO> itemDtos = order.getItemList().stream()
@@ -400,5 +400,17 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
     orderRepository.save(order);
 }
 
+    /**
+     * Kullanıcı iade talebi başlatır. Sadece statüsü COMPLETED veya SHIPPED ise izin ver.
+     */
+    public void requestRefund(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı: " + orderId));
+        if (order.getStatus() != OrderStatus.COMPLETED && order.getStatus() != OrderStatus.SHIPPED) {
+            throw new IllegalStateException("Sadece tamamlanmış veya kargolanmış siparişler için iade talebi oluşturulabilir.");
+        }
+        order.setStatus(OrderStatus.REFUND_REQUESTED);
+        orderRepository.save(order);
+    }
 
 }

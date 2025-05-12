@@ -85,22 +85,11 @@ public class OrderController {
 
     @GetMapping({ "/user/history", "/history" })
     public ResponseEntity<List<OrderDTO>> getOrderHistory(Authentication auth) {
-        // principal’dan customerId çıkaran yardımcı metodu kullanın
+        // principal'dan customerId çıkaran yardımcı metodu kullanın
         List<OrderDTO> history = orderService.getOrderHistoryForUser(auth);
         return ResponseEntity.ok(history);
     }
 
-    @PostMapping("/{orderId}/refund")
-    public ResponseEntity<?> refundOrder(@PathVariable Long orderId) {
-        try {
-            orderService.refundOrder(orderId);
-            return ResponseEntity.ok(Map.of("message", "İade işlemi başarıyla tamamlandı."));
-        } catch (IllegalArgumentException ex) {
-            return ResponseEntity.badRequest().body(Map.of("message", ex.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("message", "Bir hata oluştu: " + e.getMessage()));
-        }
-    }
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/orders/{id}/cancel")
     public ResponseEntity<String> cancelOrderByAdmin(@PathVariable Long id) {
@@ -113,5 +102,11 @@ public class OrderController {
     return ResponseEntity.ok(orderService.getAllOrders());
   }
 
+    // Kullanıcı iade talebi başlatır
+    @PostMapping("/{orderId}/refund-request")
+    public ResponseEntity<Void> requestRefund(@PathVariable Long orderId) {
+        orderService.requestRefund(orderId);
+        return ResponseEntity.ok().build();
+    }
 
 }

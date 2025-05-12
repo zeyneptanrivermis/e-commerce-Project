@@ -1,38 +1,40 @@
-<!-- ÜST NAVBAR -->
-<div class="w-full flex items-center justify-between px-10 py-4 bg-green-50 shadow">
-  <div class="flex items-center gap-6">
+<div class="w-full flex items-center justify-between px-6 sm:px-10 py-4 bg-[#FFF5FD] shadow-md">
+  <div class="flex items-center gap-4 sm:gap-6">
     <a routerLink="/">
-      <img src="assets/images/logo.png" alt="Logo" class="h-10">
+      <img src="assets/images/logo.png" alt="Logo" class="h-8 sm:h-10">
     </a>
     <input
       type="text"
-      placeholder="Aradığınız ürün, kategori veya marka yazınız"
-      class="hidden md:block px-4 py-2 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-pink-200 transition w-96"
+      placeholder="Search products, categories, or brands"
+      class="hidden md:block px-3 py-2 rounded-lg border border-[#FF96AD] focus:outline-none focus:ring-2 focus:ring-[#005A8D]/50 transition w-64 sm:w-96 text-sm text-[#022E57]"
     />
   </div>
 
-  <div class="flex items-center space-x-6 text-gray-600 text-sm font-medium">
-    <a href="/seller/register" class="hover:text-green-400">Be a seller</a>
-    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master" class="hover:text-green-400">About Us</a>
-    <a routerLink="/user/wishlist" class="hover:text-pink-400">❤️ Wishlist</a>
-    <a href="/shopping-cart" class="hover:text-pink-400">🛒 Cart</a>
-    <a *ngIf="!authService.isLoggedIn()" href="/login" class="hover:text-blue-500">Log in</a>
-    <a *ngIf="authService.isLoggedIn()" [routerLink]="['/user', 'user-profile']" class="hover:text-blue-500">Profile</a>
+  <div class="flex items-center space-x-4 sm:space-x-6 text-[#022E57] text-xs sm:text-sm font-medium">
+    <a href="/seller/register" class="hover:text-[#005A8D] transition-colors duration-200">Be a seller</a>
+    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master" class="hover:text-[#005A8D] transition-colors duration-200">About Us</a>
+    <a routerLink="/user/wishlist" class="hover:text-[#FF96AD] transition-colors duration-200">❤️ Wishlist</a>
+    <a href="/shopping-cart" class="hover:text-[#FF96AD] transition-colors duration-200">🛒 Cart</a>
+    <ng-container *ngIf="!authService.isLoggedIn()">
+      <a href="/login" class="hover:text-[#005A8D] transition-colors duration-200">Log in</a>
+    </ng-container>
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <a [routerLink]="['/user', 'user-profile']" class="hover:text-[#005A8D] transition-colors duration-200">Profile</a>
+    </ng-container>
   </div>
 </div>
 
-<!-- ALT NAVBAR -->
-<div class="w-full flex flex-wrap items-center px-10 py-3 border-y border-gray-200 bg-white">
-  <div class="flex flex-wrap gap-6 text-gray-700 text-sm font-medium">
-    <a routerLink="/products" class="hover:text-pink-400">All Products <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span></a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Clothing') }" class="hover:text-pink-400">Clothing</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Makeup') }" class="hover:text-pink-400">Makeup</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Home and Kitchen') }" class="hover:text-pink-400">Home & Kitchen</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Electronics') }" class="hover:text-pink-400">Electronics</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Pet Supplies') }" class="hover:text-pink-400">Pet Supplies</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Toys & Games') }" class="hover:text-pink-400">Toys & Games</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Sports & Outdoor') }" class="hover:text-pink-400">Sports & Outdoor</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Hobbies') }" class="hover:text-pink-400">Hobby Products</a>
-      Best Sellers <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span>
+<div class="w-full flex flex-wrap items-center px-6 sm:px-10 py-2 sm:py-3 border-b border-[#FF96AD]/50 bg-white">
+  <div class="flex flex-wrap gap-3 sm:gap-6 text-[#022E57] text-xs sm:text-sm font-medium">
+    <a routerLink="/products" class="hover:text-[#FF96AD] transition-colors duration-200">All Products <span class="ml-1 text-[0.7rem] bg-[#FF96AD]/50 text-white px-1.5 py-0.5 rounded-full align-baseline">New</span></a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Clothing') }" class="hover:text-[#FF96AD] transition-colors duration-200">Clothing</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Makeup') }" class="hover:text-[#FF96AD] transition-colors duration-200">Makeup</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Home and Kitchen') }" class="hover:text-[#FF96AD] transition-colors duration-200">Home & Kitchen</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Electronics') }" class="hover:text-[#FF96AD] transition-colors duration-200">Electronics</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Pet Supplies') }" class="hover:text-[#FF96AD] transition-colors duration-200">Pet Supplies</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Toys & Games') }" class="hover:text-[#FF96AD] transition-colors duration-200">Toys & Games</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Sports & Outdoor') }" class="hover:text-[#FF96AD] transition-colors duration-200">Sports & Outdoor</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Hobbies') }" class="hover:text-[#FF96AD] transition-colors duration-200">Hobby Products</a>
+    <span class="hover:text-[#FF96AD] transition-colors duration-200 cursor-pointer">Best Sellers <span class="ml-1 text-[0.7rem] bg-[#FF96AD]/50 text-white px-1.5 py-0.5 rounded-full align-baseline">New</span></span>
   </div>
 </div>
