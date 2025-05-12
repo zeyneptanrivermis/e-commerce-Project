@@ -15,7 +15,7 @@ export interface SellerDashboardDTO {
 })
 export class SellerService {
 
-  private apiUrl = 'http://localhost:8080/api/seller';
+  private apiUrl = 'http://localhost:8080/api/seller/auth';
 
   constructor(private http: HttpClient) {}
 

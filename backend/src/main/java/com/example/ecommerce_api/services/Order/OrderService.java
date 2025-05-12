@@ -389,18 +389,51 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
     }
 
     public void cancelOrderByAdmin(Long orderId) {
-    Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
 
-    if (order.getStatus() == OrderStatus.SHIPPED ||
-        order.getStatus() == OrderStatus.COMPLETED ||
-        order.getStatus() == OrderStatus.CANCELLED) {
-        throw new RuntimeException("Bu sipariş iptal edilemez.");
+        if (order.getStatus() == OrderStatus.SHIPPED ||
+            order.getStatus() == OrderStatus.COMPLETED ||
+            order.getStatus() == OrderStatus.CANCELLED) {
+            throw new RuntimeException("Bu sipariş iptal edilemez.");
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
     }
 
-    order.setStatus(OrderStatus.CANCELLED);
-    orderRepository.save(order);
-}
+    public List<OrderDTO> getOrdersBySellerId(Long sellerId) {
+        List<Order> orders = orderRepository.findOrdersBySellerId(sellerId);
 
+        return orders.stream()
+            .map(order -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setOrderId(order.getOrderId());
+                dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+                dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+                dto.setStatus(order.getStatus().name());
+
+                // Map itemList
+                List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .filter(item -> item.getProduct().getSeller().getUserId().equals(sellerId))
+                    .map(OrderItemDTO::fromEntity)
+                    .toList();
+                dto.setItemList(itemDtos);
+
+                // Map payment info if exists
+                Payment payment = paymentRepository.findByOrder(order).orElse(null);
+                if (payment != null) {
+                    dto.setPaymentInfo(PaymentDTO.fromEntity(payment));
+                    dto.setStatus(payment.getStatus());
+                    dto.setPaymentDate(payment.getPaymentDate());
+                } else {
+                    dto.setPaymentInfo(null);
+                    dto.setPaymentDate(null);
+                }
+
+                return dto;
+            })
+            .collect(Collectors.toList());
+    }
 
 }

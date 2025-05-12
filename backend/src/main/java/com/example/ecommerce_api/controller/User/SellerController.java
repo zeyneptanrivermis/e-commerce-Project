@@ -1,6 +1,8 @@
 package com.example.ecommerce_api.controller.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +80,22 @@ public class SellerController {
         Product product = ProductMapper.fromDto(dto);
         Product saved = productService.saveProductForSeller(product, email);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping("/dashboard")
+    public ResponseEntity<?> getSellerDashboard(Authentication auth) {
+        String email = auth.getName();
+
+        // Örnek metrikler - burada gerçek servislere bağlanarak veri getirin
+        long totalProducts = productService.getProductsBySellerEmail(email).size();
+        long totalOrders = 12;  // Örn: sipariş servisi ile satıcının sipariş sayısı
+        double totalSales = 2599.90;  // Örn: toplam satış tutarı
+
+        Map<String, Object> dashboardData = new HashMap<>();
+        dashboardData.put("totalProducts", totalProducts);
+        dashboardData.put("totalOrders", totalOrders);
+        dashboardData.put("totalSales", totalSales);
+
+        return ResponseEntity.ok(dashboardData);
     }
 }

@@ -1,8 +1,6 @@
-import { ProductService } from './../../../features/products/services/product.service';
 import { Component, OnInit } from '@angular/core';
 import { SellerProductService } from '../../services/seller-product.service';
-import { Product, Seller } from '../../../models/product.model';
-import { SellerAuthService } from '../../services/seller-auth.service';
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'app-seller-products',
@@ -12,14 +10,11 @@ import { SellerAuthService } from '../../services/seller-auth.service';
 })
 export class SellerProductsComponent implements OnInit {
   products: Product[] = [];
-  currentSeller: Seller | null = null;
   
-  constructor(private productService: SellerProductService,
-    private sellerAuthService: SellerAuthService,
-  ) {}
+  constructor(private productService: SellerProductService) {}
 
   ngOnInit(): void {
-    
+    this.loadSellerProducts();
   }
 
   onDelete(productId: number): void {
@@ -35,19 +30,15 @@ export class SellerProductsComponent implements OnInit {
       });
     }
   }
-loadSellerProducts(): void {
-    const sellerId = Number(localStorage.getItem('userId')); // veya token içinden al
-    if (!sellerId) {
-      console.error('Satıcı ID bulunamadı');
-      return;
-    }
 
-    this.productService.getSellerProducts(sellerId).subscribe({
+  loadSellerProducts(): void {
+    this.productService.getSellerProducts().subscribe({
       next: (data: Product[]) => {
         this.products = data;
       },
       error: (err) => {
         console.error('Ürünler yüklenemedi:', err);
+        alert('Ürünler yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
       }
     });
   }

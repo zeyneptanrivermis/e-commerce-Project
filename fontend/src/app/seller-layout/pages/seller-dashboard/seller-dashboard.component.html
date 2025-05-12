@@ -1,22 +1,41 @@
-<div class="min-h-screen bg-gray-100 flex">
-  <!-- Sidebar from component -->
-  <app-seller-menu></app-seller-menu>
+<div class="min-h-screen bg-[#F3E8F9] flex flex-col md:flex-row">
+  <!-- Sidebar -->
+  <app-seller-menu class="w-full md:w-60"></app-seller-menu>
 
   <!-- Main Content -->
-  <main class="flex-1 p-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-2">
-      👨‍💼 Seller Dashboard
+  <main class="flex-1 p-4 sm:p-6 md:p-10 bg-[#F3E8F9]">
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#1C1C3A] mb-6 flex items-center gap-2">
+      👨‍💼 <span>Seller Dashboard</span>
     </h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-      <div class="bg-gray-100 rounded-lg shadow p-6 text-center">
-        <h2 class="text-4xl font-bold text-blue-500">{{ totalProducts }}</h2>
-        <p class="mt-2 text-gray-700 font-medium">Total Products</p>
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white rounded-2xl shadow-md p-6 border border-[#DDC4E8] flex flex-col items-center">
+        <span class="text-4xl mb-2 text-[#5B2A86]">📦</span>
+        <div class="text-3xl font-bold text-[#1C1C3A]">{{ totalProducts }}</div>
+        <div class="text-[#4A3F68] mt-1">Total Products</div>
       </div>
-      <div class="bg-gray-100 rounded-lg shadow p-6 text-center">
-        <h2 class="text-4xl font-bold text-blue-500">{{ totalOrders }}</h2>
-        <p class="mt-2 text-gray-700 font-medium">Total Orders</p>
+      <div class="bg-white rounded-2xl shadow-md p-6 border border-[#DDC4E8] flex flex-col items-center">
+        <span class="text-4xl mb-2 text-[#5B2A86]">🛒</span>
+        <div class="text-3xl font-bold text-[#1C1C3A]">{{ totalOrders }}</div>
+        <div class="text-[#4A3F68] mt-1">Total Orders</div>
       </div>
     </div>
+
+    <!-- Top Selling Products Table -->
+    <section class="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-[#DDC4E8] mb-8">
+      <h2 class="text-lg sm:text-xl font-semibold text-[#1C1C3A] mb-4">Top Selling Products</h2>
+      <div class="overflow-x-auto rounded-lg border border-[#E5D5F3]">
+        <table class="min-w-full text-xs sm:text-sm text-left">
+          <thead class="bg-[#F9F0FF] text-[#4A3F68]">
+            <tr>
+              <th class="py-3 px-4 font-semibold">Product</th>
+              <th class="py-3 px-4 font-semibold">Sales</th>
+              <th class="py-3 px-4 font-semibold">Revenue</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </section>
   </main>
 </div>

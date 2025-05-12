@@ -1,1 +1,33 @@
-  <app-seller-menu></app-seller-menu>
+<div class="min-h-screen bg-[#F3E8F9] flex flex-col md:flex-row">
+  <!-- Sidebar -->
+  <app-seller-menu class="w-full md:w-60"></app-seller-menu>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-4 sm:p-6 md:p-10 bg-[#F3E8F9]">
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#1E1B4B] mb-6 flex items-center gap-2">
+      🧾 <span>Incoming Orders</span>
+    </h1>
+
+    <div *ngFor="let order of orders" class="bg-[#F9EAFD] border border-[#D1B4D9] rounded-2xl p-6 mb-6 shadow-sm">
+      <h3 class="text-xl font-semibold text-[#1E1B4B] mb-4">
+        📦 Order #{{ order.orderId }}
+      </h3>
+
+      <ul class="space-y-2 mb-4">
+        <li *ngFor="let item of order.itemList"
+            class="flex justify-between items-center bg-white rounded-lg px-4 py-2 border border-[#E2D5EC] shadow-sm">
+          <span class="text-[#3B2D63] font-medium">{{ item.product.name }}</span>
+          <span class="text-[#9B1B74] text-sm">x{{ item.quantity }}</span>
+          <span class="text-[#1E1B4B] font-semibold">{{ item.price | currency:'TRY' }}</span>
+        </li>
+      </ul>
+
+      <div class="text-sm text-[#3B2D63]">
+        <p class="mb-1">Status: <span class="font-semibold">{{ order.status }}</span></p>
+        <p>Total: <span class="text-[#C026D3] font-bold">{{ order.orderTotalWithDiscount | currency:'TRY' }}</span></p>
+      </div>
+
+      <div class="border-t border-[#E0CFEF] mt-4 pt-2"></div>
+    </div>
+  </main>
+</div>
