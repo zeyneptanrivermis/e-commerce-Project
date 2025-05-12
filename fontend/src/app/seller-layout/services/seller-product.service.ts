@@ -8,22 +8,28 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SellerProductService {
-  private apiUrl = 'http://localhost:8080/api/products/seller';
+  private apiUrl = 'http://localhost:8080/api/seller/auth';
 
   constructor(private http: HttpClient) {}
 
-  getSellerProducts(sellerId: number): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/${sellerId}`);
-  }
-  addProduct(product: Product, sellerId: number): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}/${sellerId}`, product);
-  }
-
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+  getSellerProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/products`, {
       headers: this.getHeaders()
     });
   }
+
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.apiUrl}/products`, product, {
+      headers: this.getHeaders()
+    });
+  }
+
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/products/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
   getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
@@ -31,5 +37,4 @@ export class SellerProductService {
       'Content-Type': 'application/json'
     });
   }
-
 }

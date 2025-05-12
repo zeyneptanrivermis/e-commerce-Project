@@ -3,6 +3,7 @@ package com.example.ecommerce_api.services.Order;
 import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.dto.OrderDTO.OrderItemDTO;
 import com.example.ecommerce_api.dto.OrderDTO.PaymentCompleteRequest;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentDTO;
 import com.example.ecommerce_api.entity.CartEntity.Cart;
 import com.example.ecommerce_api.entity.CartEntity.CartItem;
 import com.example.ecommerce_api.entity.OrderEntity.Order;
@@ -10,6 +11,7 @@ import com.example.ecommerce_api.entity.OrderEntity.OrderItem;
 import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.OrderEntity.Shipping;
+import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.repository.CartRepository.CartItemRepository;
 import com.example.ecommerce_api.repository.CartRepository.CartRepository;
@@ -139,6 +141,7 @@ public class OrderService {
         List<Order> orders = orderRepository.findAll();
         
         return orders.stream().map(order -> {
+            // Ödeme varsa al, yoksa null bırak
             Payment payment = paymentRepository.findByOrder(order).orElse(null);
 
             OrderDTO dto = new OrderDTO();
@@ -146,12 +149,11 @@ public class OrderService {
             dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
             dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
 
-            // Siparişin kendi statüsünü kullan!
-            dto.setStatus(order.getStatus().name());
-
             if (payment != null) {
+                dto.setStatus(payment.getStatus());
                 dto.setPaymentDate(payment.getPaymentDate());
             } else {
+                dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
                 dto.setPaymentDate(null);
             }
             List<OrderItemDTO> itemDtos = order.getItemList().stream()
@@ -387,30 +389,51 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
     }
 
     public void cancelOrderByAdmin(Long orderId) {
-    Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Sipariş bulunamadı."));
 
-    if (order.getStatus() == OrderStatus.SHIPPED ||
-        order.getStatus() == OrderStatus.COMPLETED ||
-        order.getStatus() == OrderStatus.CANCELLED) {
-        throw new RuntimeException("Bu sipariş iptal edilemez.");
+        if (order.getStatus() == OrderStatus.SHIPPED ||
+            order.getStatus() == OrderStatus.COMPLETED ||
+            order.getStatus() == OrderStatus.CANCELLED) {
+            throw new RuntimeException("Bu sipariş iptal edilemez.");
+        }
+
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
     }
 
-    order.setStatus(OrderStatus.CANCELLED);
-    orderRepository.save(order);
-}
+    public List<OrderDTO> getOrdersBySellerId(Long sellerId) {
+        List<Order> orders = orderRepository.findOrdersBySellerId(sellerId);
 
-    /**
-     * Kullanıcı iade talebi başlatır. Sadece statüsü COMPLETED veya SHIPPED ise izin ver.
-     */
-    public void requestRefund(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı: " + orderId));
-        if (order.getStatus() != OrderStatus.COMPLETED && order.getStatus() != OrderStatus.SHIPPED) {
-            throw new IllegalStateException("Sadece tamamlanmış veya kargolanmış siparişler için iade talebi oluşturulabilir.");
-        }
-        order.setStatus(OrderStatus.REFUND_REQUESTED);
-        orderRepository.save(order);
+        return orders.stream()
+            .map(order -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setOrderId(order.getOrderId());
+                dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+                dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+                dto.setStatus(order.getStatus().name());
+
+                // Map itemList
+                List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .filter(item -> item.getProduct().getSeller().getUserId().equals(sellerId))
+                    .map(OrderItemDTO::fromEntity)
+                    .toList();
+                dto.setItemList(itemDtos);
+
+                // Map payment info if exists
+                Payment payment = paymentRepository.findByOrder(order).orElse(null);
+                if (payment != null) {
+                    dto.setPaymentInfo(PaymentDTO.fromEntity(payment));
+                    dto.setStatus(payment.getStatus());
+                    dto.setPaymentDate(payment.getPaymentDate());
+                } else {
+                    dto.setPaymentInfo(null);
+                    dto.setPaymentDate(null);
+                }
+
+                return dto;
+            })
+            .collect(Collectors.toList());
     }
 
 }

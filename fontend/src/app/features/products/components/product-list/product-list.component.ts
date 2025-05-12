@@ -4,6 +4,7 @@ import { MainCategory, Product, SideCategories } from '../../../../models/produc
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
 import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-product-list',
@@ -30,10 +31,8 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private productService: ProductService,
     private router: Router,
-    @Inject(PLATFORM_ID) platformId: Object
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId);
-  }
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -54,24 +53,25 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    if (this.isBrowser && 'IntersectionObserver' in window) {
-      this.observer = new IntersectionObserver(entries => {
-        const entry = entries[0];
-        if (entry.isIntersecting && !this.loading && !this.allLoaded && !this.currentCategory) {
-          this.loadProducts();
-        }
-      }, {
-        root: null,
-        rootMargin: '0px 0px 200px 0px',
-        threshold: 0
-      });
-
-      if (this.observerElement?.nativeElement) {
-        this.observer.observe(this.observerElement.nativeElement);
+ngAfterViewInit(): void {
+  if (isPlatformBrowser(this.platformId) && 'IntersectionObserver' in window) {
+    this.observer = new IntersectionObserver(entries => {
+      const entry = entries[0];
+      if (entry.isIntersecting && !this.loading && !this.allLoaded && !this.currentCategory) {
+        this.loadProducts();
       }
+    }, {
+      root: null,
+      rootMargin: '0px 0px 200px 0px',
+      threshold: 0
+    });
+
+    if (this.observerElement?.nativeElement) {
+      this.observer.observe(this.observerElement.nativeElement);
     }
   }
+}
+
 
   ngOnDestroy(): void {
     if (this.isBrowser && this.observer) {
