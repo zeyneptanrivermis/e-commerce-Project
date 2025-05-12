@@ -14,6 +14,7 @@ import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import jakarta.transaction.Transactional;
 
+import com.example.ecommerce_api.repository.ProductRepository.CategoryCountProjection;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 
@@ -151,5 +152,9 @@ public class AdminService {
         p.getReviews().clear();
     
         productRepository.delete(p);
+    }
+
+    public List<CategoryCountProjection> getProductCountByCategory() {
+        return productRepository.countProductsGroupedByCategory();
     }
 }

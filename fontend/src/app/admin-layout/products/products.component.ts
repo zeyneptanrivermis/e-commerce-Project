@@ -27,12 +27,18 @@ export class ProductsComponent implements OnInit {
   }
 
   cancelProduct(id: number) {
-    this.api.cancelProduct(id).subscribe(() => {
-      const product = this.products.find(p => p.id === id);
-      if (product) {
-        product.cancelled = true;
+    const product = this.products.find(p => p.id === id);
+    if (product) {
+      if (product.cancelled) {
+        this.api.uncancelProduct(id).subscribe(() => {
+          product.cancelled = false;
+        });
+      } else {
+        this.api.cancelProduct(id).subscribe(() => {
+          product.cancelled = true;
+        });
       }
-    });
+    }
   }
 
 }

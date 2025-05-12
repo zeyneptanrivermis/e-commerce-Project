@@ -11,6 +11,7 @@ import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -97,13 +98,28 @@ public class ProductService {
         return all.stream().limit(count).collect(Collectors.toList());
     }
 
+    @Transactional
     public void cancelProduct(Long id) {
         Product product = productRepository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
         product.setCancelled(true);
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+        if (!savedProduct.isCancelled()) {
+            throw new RuntimeException("Failed to save cancelled state for product: " + id);
+        }
     }
-    
+
+    @Transactional
+    public void uncancelProduct(Long id) {
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
+        product.setCancelled(false);
+        Product savedProduct = productRepository.save(product);
+        if (savedProduct.isCancelled()) {
+            throw new RuntimeException("Failed to save uncancelled state for product: " + id);
+        }
+    }
+
     public List<Product> getProductsBySellerEmail(String email) {
         Seller seller = sellerRepository.findByEmail(email)
             .orElseThrow(() -> new UsernameNotFoundException("Satıcı bulunamadı"));

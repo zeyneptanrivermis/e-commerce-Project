@@ -2,6 +2,7 @@ package com.example.ecommerce_api.controller.User;
 
 import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
 import com.example.ecommerce_api.dto.OrderDTO.RefundResponse;
+import com.example.ecommerce_api.dto.ProductDTO.CategoryProductCountDTO;
 import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
@@ -11,6 +12,7 @@ import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
+import com.example.ecommerce_api.repository.ProductRepository.CategoryCountProjection;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
 import com.example.ecommerce_api.services.User.AdminRefundService;
@@ -119,6 +121,12 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/products/{id}/uncancel")
+    public ResponseEntity<Void> uncancelProduct(@PathVariable Long id) {
+        productService.uncancelProduct(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.ok(adminService.getAllProductDTOs());
@@ -173,5 +181,10 @@ public class AdminController {
     public ResponseEntity<Void> declineRefund(@PathVariable Long orderId) {
         refundService.declineRefund(orderId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/category-count")
+    public  ResponseEntity<List<CategoryCountProjection>> getCategoryCounts() {
+        return ResponseEntity.ok(adminService.getProductCountByCategory());
     }
 }

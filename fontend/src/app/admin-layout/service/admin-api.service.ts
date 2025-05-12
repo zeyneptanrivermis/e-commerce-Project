@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 import { Order } from "../../models/order.model";
 import { Product } from "../../models/product.model";
+import { CategoryCountProjection } from "./CategoryCountProjection";
 
 export interface User {
   userId: number;
@@ -62,6 +63,10 @@ export class AdminApiService {
     return this.http.put(`${this.baseUrl}/admin/products/${productId}/cancel`, null);
   }
 
+  uncancelProduct(productId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/admin/products/${productId}/uncancel`, null);
+  }
+
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}/delete`);
   }
@@ -79,8 +84,7 @@ export class AdminApiService {
     return this.http.put(`/api/admin/orders/${orderId}/cancel`, null);
   }
 
-  getCategoryProductCounts(): Observable<{ [category: string]: number }> {
-    return this.http.get<{ [category: string]: number }>(`${this.base}/category-count`);
+  getCategoryProductCounts(): Observable<CategoryCountProjection[]> {
+    return this.http.get<CategoryCountProjection[]>(`${this.base}/category-count`);
   }
-
 }

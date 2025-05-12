@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Map;
 
+import com.example.ecommerce_api.dto.ProductDTO.CategoryProductCountDTO;
 import com.example.ecommerce_api.entity.ProductEntity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,8 +44,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategory(Category category);
 
-    @Query("SELECT p.category AS categoryName, COUNT(p) AS count FROM Product p GROUP BY p.category")
-    List<CategoryCountProjection> countProductsGroupedByCategory();
+@Query("SELECT p.category AS categoryName, COUNT(p) AS count FROM Product p GROUP BY p.category")
+List<CategoryCountProjection> countProductsGroupedByCategory();
+
 
 }
 

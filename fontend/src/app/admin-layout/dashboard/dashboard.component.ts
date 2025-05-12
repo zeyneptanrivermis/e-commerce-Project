@@ -13,6 +13,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import { CategoryCountProjection } from '../service/CategoryCountProjection';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
@@ -50,34 +51,52 @@ export class DashboardComponent implements OnInit {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    this.adminApiService.getCategoryProductCounts().subscribe(data => {
-      const labels = Object.keys(data);
-      const values = Object.values(data);
+    
+    this.adminApiService.getCategoryProductCounts().subscribe((responseArray: CategoryCountProjection[]) => {
+  const data: { [category: string]: number } = {};
+  for (const item of responseArray) {
+    data[item.categoryName] = item.count;
+  }
 
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Product Count',
-            data: values,
-            backgroundColor: '#E195AB'
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Number of Products'
-              }
-            }
+  const labels = Object.keys(data);
+  const values = Object.values(data);
+
+  console.log('✅ Chart labels:', labels);
+  console.log('✅ Chart values:', values);
+
+  const canvas = this.categoryChartRef?.nativeElement;
+  const ctx = canvas?.getContext('2d');
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Product Count',
+        data: values,
+        backgroundColor: '#E195AB'
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Products'
           }
-        }});
-    });
-  }, 0);}
+        }
+      }
+    }
+  });
+});
+
+  }, 0);
+
+
+}
 }

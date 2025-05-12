@@ -198,10 +198,11 @@ public class Product {
         }
     }
 
-    public Boolean getCancelled() {
+    public boolean isCancelled() {
         return cancelled;
     }
-    public void setCancelled(Boolean cancelled) {
+
+    public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
 }
