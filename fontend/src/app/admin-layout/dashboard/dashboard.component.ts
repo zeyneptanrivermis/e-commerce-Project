@@ -3,7 +3,19 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../features/auth/services/auth.service';
 import { AdminStatsService, Stats } from '../service/admin-stats.service';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import {
+  Chart,
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+Chart.register(BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,

@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.startCarousel();
-    this.productService.getProducts(20, 0).subscribe({
+    this.productService.getProducts(28, 0).subscribe({
       next: (res) => {
         this.products = this.shuffleArray(res);
       },
