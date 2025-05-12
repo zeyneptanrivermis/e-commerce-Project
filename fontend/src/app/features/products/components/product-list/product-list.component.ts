@@ -4,7 +4,6 @@ import { MainCategory, Product, SideCategories } from '../../../../models/produc
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-product-list',
@@ -32,7 +31,9 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
     private productService: ProductService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

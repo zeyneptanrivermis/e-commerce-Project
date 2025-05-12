@@ -33,20 +33,25 @@ export class ProductItemComponent {
     private router: Router
   ) {}
 
-  /** “–” butonu */
+  /** "–" butonu */
   decrease(): void {
     if (this.quantity > 1) {
       this.quantity--;
     }
   }
 
-  /** “+” butonu */
+  /** "+" butonu */
   increase(): void {
     this.quantity++;
   }
 
   /** Sepete ekle */
   onAdd(): void {
+    const user = this.authService.getCurrentUser();
+    if (!user?.userId) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.add.emit({ product: this.product, quantity: this.quantity });
     this.popularity.increment(this.product.id);
   }

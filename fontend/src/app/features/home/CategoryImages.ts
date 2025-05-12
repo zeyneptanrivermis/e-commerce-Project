@@ -1,5 +1,5 @@
 export const CATEGORY_IMAGES: { [key: string]: string } = {
-  CLOTHING: 'assets/images/sortolon.jpg',
+  CLOTHING: 'assets/images/kiyafet.jpg',
   ELECTRONICS: 'assets/images/telefon.png',
   MAKEUP: 'assets/images/goz.jpg',
   HOME_AND_KITCHEN: 'assets/images/ev.jpg',

@@ -20,7 +20,7 @@ import { TokenService }  from './core/services/token.service';
 export class AppComponent implements OnInit {
   title = 'e-commerceWebsite';
   userRoles: string[] = [];
-  dataLoaded = false;
+  dataLoaded = true;
   isAdmin = false;
   showLayout = true;
   isSeller = false;
@@ -39,6 +39,14 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+    // Set dataLoaded to true immediately if token is already present
+    if (this.tokenService.getToken()) {
+      this.userRoles = this.authService.getUserRoles();
+      this.isAdmin   = this.userRoles.includes('ROLE_ADMIN');
+      this.isSeller  = this.userRoles.includes('ROLE_SELLER');
+      this.dataLoaded = true;
+    }
+
     this.tokenService.token$.subscribe(token => {
       if (token) {
         this.userRoles = this.authService.getUserRoles();

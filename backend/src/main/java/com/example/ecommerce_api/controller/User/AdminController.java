@@ -161,17 +161,17 @@ public class AdminController {
     // ────────────────────────────────────────────────
     //  Refund Management
     // ────────────────────────────────────────────────
- /** Admin onaylı iade */
-@PostMapping("/orders/{orderId}/refund-approve")
-public ResponseEntity<RefundResponse> approveRefund(@PathVariable Long orderId) throws StripeException {
-    RefundResponse resp = refundService.createRefund(orderId);
-    return ResponseEntity.ok(resp);
-}
+    /** Admin onaylı iade */
+    @PostMapping("/orders/{orderId}/refund-approve")
+    public ResponseEntity<RefundResponse> approveRefund(@PathVariable Long orderId) throws StripeException {
+        RefundResponse resp = refundService.createRefund(orderId);
+        return ResponseEntity.ok(resp);
+    }
 
-/** Admin reddi */
-@PostMapping("/orders/{orderId}/refund-decline")
-public ResponseEntity<Void> declineRefund(@PathVariable Long orderId) {
-    refundService.declineRefund(orderId);
-    return ResponseEntity.noContent().build();
-}
+    /** Admin reddi */
+    @PostMapping("/orders/{orderId}/refund-decline")
+    public ResponseEntity<Void> declineRefund(@PathVariable Long orderId) {
+        refundService.declineRefund(orderId);
+        return ResponseEntity.noContent().build();
+    }
 }

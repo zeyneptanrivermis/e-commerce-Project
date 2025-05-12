@@ -1,61 +1,70 @@
-<div class="login-wrapper flex flex-col md:flex-row bg-white rounded-lg shadow-xl overflow-hidden max-w-2xl w-full">
-  <div class="why-customer-section bg-[#FFF5FD] text-center p-8 md:w-1/2 flex flex-col justify-center items-center">
-    <h2 class="text-2xl font-semibold text-[#022E57] mb-6">Why Shop With Us?</h2>
-    <div class="customer-features space-y-6">
-      <div class="customer-feature">
-        <span class="customer-icon text-3xl text-[#FF96AD]">🌱</span>
-        <h3 class="text-lg font-medium text-[#0A1128] mt-2 mb-1">Fresh Deals, Every Day</h3>
-        <p class="text-sm text-gray-600">Discover new discounts and exclusive offers on your favorite products daily.</p>
-      </div>
-      <div class="customer-feature">
-        <span class="customer-icon text-3xl text-[#8FBC8F]">💚</span>
-        <h3 class="text-lg font-medium text-[#0A1128] mt-2 mb-1">Trusted Quality</h3>
-        <p class="text-sm text-gray-600">We carefully select our products and sellers to ensure you always get the best.</p>
-      </div>
-      <div class="customer-feature">
-        <span class="customer-icon text-3xl text-[#00BFFF]">🚚</span>
-        <h3 class="text-lg font-medium text-[#0A1128] mt-2 mb-1">Fast & Safe Delivery</h3>
-        <p class="text-sm text-gray-600">Your orders are delivered quickly and securely, right to your door.</p>
+<div class="min-h-screen w-full bg-gradient-to-br from-[#4F8FC0] via-[#A1C4FD] to-[#E0C3FC] flex items-center justify-center">
+  <div class="flex flex-col md:flex-row w-full max-w-5xl mx-auto rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-r from-[#F0F4FF]/90 via-[#A1C4FD]/90 to-[#E0C3FC]/90">
+    <!-- Left - Benefits Section -->
+    <div class="p-12 md:w-1/2 flex flex-col justify-center items-center bg-gradient-to-b from-[#F0F4FF]/90 to-[#A1C4FD]/70 rounded-3xl md:rounded-r-none">
+      <h2 class="text-3xl font-semibold text-[#2B3A67] mb-8">Why Shop With Us?</h2>
+      <div class="space-y-8">
+        <div class="text-center">
+          <span class="text-4xl">🌱</span>
+          <h3 class="text-lg font-semibold text-[#4F8FC0] mt-2">Fresh Deals, Every Day</h3>
+          <p class="text-sm text-[#2B3A67]">Discover new discounts and exclusive offers on your favorite products daily.</p>
+        </div>
+        <div class="text-center">
+          <span class="text-4xl">💙</span>
+          <h3 class="text-lg font-semibold text-[#4F8FC0] mt-2">Trusted Quality</h3>
+          <p class="text-sm text-[#2B3A67]">We carefully select our products and sellers to ensure you always get the best.</p>
+        </div>
+        <div class="text-center">
+          <span class="text-4xl">🚚</span>
+          <h3 class="text-lg font-semibold text-[#4F8FC0] mt-2">Fast & Safe Delivery</h3>
+          <p class="text-sm text-[#2B3A67]">Your orders are delivered quickly and securely, right to your door.</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="login-right p-8 md:w-1/2 flex flex-col justify-center">
-    <div class="form-box">
-      <div class="form-header mb-6">
-        <h2 class="text-2xl font-semibold text-[#022E57]">Log in</h2>
-        <p class="text-sm text-gray-600">Log in to use more features</p>
-      </div>
-
-      <form [formGroup]="loginForm" (ngSubmit)="doLogin()" class="space-y-4">
-        <div class="input-group">
-          <label for="email" class="block text-sm font-medium text-[#034078]">E-Mail</label>
-          <input type="email" id="email" formControlName="email" placeholder="Enter your email address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+    <!-- Right - Login Form -->
+    <div class="p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-b from-[#A1C4FD]/90 to-[#F0F4FF]/70 rounded-3xl md:rounded-l-none">
+      <div class="max-w-md w-full mx-auto">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-[#2B3A67]">Log in</h2>
+          <p class="text-sm text-[#4F8FC0] mt-1">Access your account to enjoy full features</p>
         </div>
 
-        <div class="input-group">
-          <label for="password" class="block text-sm font-medium text-[#034078]">Password</label>
-          <input type="password" id="password" formControlName="password" placeholder="Enter your password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+        <form [formGroup]="loginForm" (ngSubmit)="doLogin()" class="space-y-5">
+          <div>
+            <label for="email" class="block text-sm font-medium text-[#2B3A67]">E-Mail</label>
+            <input type="email" id="email" formControlName="email" placeholder="Enter your email"
+              class="mt-1 block w-full rounded-xl border border-[#4F8FC0] shadow-sm focus:border-[#2B3A67] focus:ring-[#2B3A67] bg-white/80"/>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-[#2B3A67]">Password</label>
+            <input type="password" id="password" formControlName="password" placeholder="Enter your password"
+              class="mt-1 block w-full rounded-xl border border-[#4F8FC0] shadow-sm focus:border-[#2B3A67] focus:ring-[#2B3A67] bg-white/80"/>
+          </div>
+
+          <div class="text-right">
+            <a routerLink="/forgot-password" class="text-sm text-[#4F8FC0] hover:underline">I forgot my password</a>
+          </div>
+
+          <button type="submit" [disabled]="loginForm.invalid"
+            class="bg-gradient-to-r from-[#4F8FC0] to-[#2B3A67] text-white w-full py-3 rounded-xl font-semibold hover:from-[#2B3A67] hover:to-[#A1C4FD] transition">
+            Log in
+          </button>
+
+          <div *ngIf="errorMessage" class="text-red-500 text-sm">{{ errorMessage }}</div>
+        </form>
+
+        <div class="flex items-center my-8">
+          <div class="flex-grow h-px bg-[#4F8FC0]"></div>
+          <span class="mx-3 text-[#2B3A67] text-sm">or</span>
+          <div class="flex-grow h-px bg-[#4F8FC0]"></div>
         </div>
 
-        <div class="form-actions text-right mb-4">
-          <a routerLink="/forgot-password" class="text-sm text-[#005A8D] hover:underline">I forgot my password</a>
+        <div class="text-center text-sm text-[#2B3A67] space-y-2">
+          <p>Don't have an account? <a href="/register" class="text-[#4F8FC0] hover:underline">Sign up</a></p>
+          <p>Do you have a shop? <a href="/seller-login" class="text-[#2B3A67] hover:underline">Register as a seller</a></p>
         </div>
-
-        <button type="submit" [disabled]="loginForm.invalid" class="bg-[#005A8D] text-white rounded-md py-3 font-semibold w-full hover:bg-[#022E57] focus:outline-none">Log in</button>
-
-        <div *ngIf="errorMessage" class="error-message text-red-500 text-sm mt-2">{{ errorMessage }}</div>
-      </form>
-
-      <div class="separator flex items-center my-6">
-        <div class="border-t border-gray-300 flex-grow"></div>
-        <span class="mx-4 text-gray-500 text-sm">or</span>
-        <div class="border-t border-gray-300 flex-grow"></div>
-      </div>
-
-      <div class="extra-actions text-center text-sm text-gray-600 space-y-2">
-        <p>Don't have an account? <a href="/register" class="text-[#005A8D] hover:underline">Sign up</a></p>
-        <p>Do you have a shop? <a href="/seller-login" class="text-[#005A8D] hover:underline">Register as a seller</a></p>
       </div>
     </div>
   </div>

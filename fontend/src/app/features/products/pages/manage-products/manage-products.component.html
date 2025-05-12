@@ -39,7 +39,7 @@
         </option>
 </select>
 
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <!-- Removed duplicate form tag -->
 
       <div>
         <label class="block text-sm font-medium text-[#034078]">Product Name</label>
@@ -89,6 +89,6 @@
           <button type="submit" [disabled]="productForm.invalid">{{ isEditMode ? 'Update' : 'Add' }}</button>
         </div>
 
-      </form>
+      <!-- Removed redundant closing form tag -->
     </div>
 
