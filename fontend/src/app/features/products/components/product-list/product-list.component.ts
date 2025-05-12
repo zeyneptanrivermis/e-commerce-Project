@@ -31,7 +31,9 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
     private productService: ProductService,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

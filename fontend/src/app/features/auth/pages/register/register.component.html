@@ -1,102 +1,95 @@
-<div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
-  <h2 class="text-2xl font-semibold text-[#022E57] mb-4">Hello,</h2>
-  <p class="text-sm text-gray-600 mb-6">Log in to Trendyol or create an account to not miss out on discounts!</p>
-
-  <div class="login-box">
-    <div class="tabs flex rounded-md shadow-sm mb-4">
-      <button (click)="goToLogin()" class="flex-1 bg-white text-[#005A8D] py-2 px-4 font-semibold rounded-l-md focus:outline-none hover:bg-gray-100">Log In</button>
-      <button class="flex-1 bg-[#005A8D] text-white py-2 px-4 font-semibold rounded-r-md focus:outline-none">Sign Up</button>
+<div class="min-h-screen w-full bg-gradient-to-br from-[#4F8FC0] via-[#A1C4FD] to-[#E0C3FC] flex items-center justify-center">
+  <div class="flex flex-col md:flex-row w-full max-w-5xl mx-auto rounded-3xl shadow-2xl overflow-hidden bg-gradient-to-r from-[#F0F4FF]/90 via-[#A1C4FD]/90 to-[#E0C3FC]/90">
+    
+    <!-- Left Info Panel (Opsiyonel) -->
+    <div class="p-12 md:w-1/2 flex flex-col justify-center items-center bg-gradient-to-b from-[#F0F4FF]/90 to-[#A1C4FD]/70 rounded-3xl md:rounded-r-none">
+      <h2 class="text-3xl font-semibold text-[#2B3A67] mb-6">Join Our Family</h2>
+      <p class="text-sm text-[#2B3A67] text-center max-w-sm">
+        Become a member today and enjoy exclusive deals, faster checkout, and personalized experiences!
+      </p>
     </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="doRegister()" class="space-y-4">
-      <div class="name-surname-group flex gap-4">
-        <div class="input-half flex-1">
-          <label for="name" class="block text-sm font-medium text-[#034078]">Name</label>
-          <input type="text" id="name" formControlName="name" maxlength="30" placeholder="Your name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-          <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="error text-red-500 text-xs mt-1">
-            Name is required (max 30 characters).
+    <!-- Right - Signup Form -->
+    <div class="p-12 md:w-1/2 flex flex-col justify-center bg-gradient-to-b from-[#A1C4FD]/90 to-[#F0F4FF]/70 rounded-3xl md:rounded-l-none">
+      <div class="max-w-md w-full mx-auto">
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold text-[#2B3A67]">Sign Up</h2>
+          <p class="text-sm text-[#4F8FC0] mt-1">Create your account to get started</p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="doRegister()" class="space-y-5">
+
+          <div class="flex gap-4">
+            <div class="flex-1">
+              <label for="name" class="block text-sm font-medium text-[#2B3A67]">Name</label>
+              <input id="name" type="text" formControlName="name" placeholder="Your name" class="input-field"/>
+            </div>
+            <div class="flex-1">
+              <label for="surname" class="block text-sm font-medium text-[#2B3A67]">Surname</label>
+              <input id="surname" type="text" formControlName="surname" placeholder="Your surname" class="input-field"/>
+            </div>
           </div>
-        </div>
 
-        <div class="input-half flex-1">
-          <label for="surname" class="block text-sm font-medium text-[#034078]">Surname</label>
-          <input type="text" id="surname" formControlName="surname" maxlength="30" placeholder="Your surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-          <div *ngIf="registerForm.get('surname')?.touched && registerForm.get('surname')?.invalid" class="error text-red-500 text-xs mt-1">
-            Surname is required (max 30 characters).
+          <div>
+            <label for="email" class="block text-sm font-medium text-[#2B3A67]">E-Mail</label>
+            <input type="email" id="email" formControlName="email" placeholder="Enter your email" class="input-field"/>
           </div>
-        </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-[#2B3A67]">Password</label>
+            <input type="password" id="password" formControlName="password" placeholder="Enter your password" class="input-field"/>
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-[#2B3A67]">Confirm Password</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Re-enter your password" class="input-field"/>
+          </div>
+
+          <div>
+            <label for="birthday" class="block text-sm font-medium text-[#2B3A67]">Date of Birth</label>
+            <input type="date" id="birthday" formControlName="birthday" class="input-field"/>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-[#2B3A67] mb-1">Gender (Optional)</label>
+            <div class="flex gap-3">
+              <button type="button" (click)="selectGender('Kadın')" 
+                [ngClass]="{'bg-[#FF96AD] text-white': registerForm.value.gender === 'Kadın', 'bg-white text-[#2B3A67]': registerForm.value.gender !== 'Kadın'}"
+                class="px-4 py-2 rounded-xl border border-[#4F8FC0] text-sm">Female</button>
+              <button type="button" (click)="selectGender('Erkek')" 
+                [ngClass]="{'bg-[#4F8FC0] text-white': registerForm.value.gender === 'Erkek', 'bg-white text-[#2B3A67]': registerForm.value.gender !== 'Erkek'}"
+                class="px-4 py-2 rounded-xl border border-[#4F8FC0] text-sm">Male</button>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-[#2B3A67]">
+            <label class="flex items-start gap-2">
+              <input type="checkbox" formControlName="acceptOffers" class="mt-1"/>
+              I consent to processing of personal data.
+            </label>
+            <label class="flex items-start gap-2">
+              <input type="checkbox" formControlName="acceptEmails" class="mt-1"/>
+              I agree to receive electronic communications.
+            </label>
+            <label class="flex items-start gap-2">
+              <input type="checkbox" formControlName="acceptTerms" class="mt-1"/>
+              I accept the <a href="#" class="text-[#4F8FC0] hover:underline">membership terms</a>.
+            </label>
+          </div>
+
+          <button type="submit"
+            class="bg-gradient-to-r from-[#4F8FC0] to-[#2B3A67] text-white w-full py-3 rounded-xl font-semibold hover:from-[#2B3A67] hover:to-[#A1C4FD] transition">
+            Sign Up
+          </button>
+
+          <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2">{{ errorMessage }}</div>
+        </form>
+
+        <p class="text-xs text-[#2B3A67] mt-4 text-center">
+          Already have an account? 
+          <a routerLink="/login" class="text-[#4F8FC0] hover:underline">Log in</a>
+        </p>
       </div>
-
-      <div class="form-group">
-        <label for="email" class="block text-sm font-medium text-[#034078]">E-Mail</label>
-        <input type="email" id="email" formControlName="email" placeholder="Enter your email address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error text-red-500 text-xs mt-1">
-          Enter a valid email.
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="password" class="block text-sm font-medium text-[#034078]">Password</label>
-        <input type="password" id="password" formControlName="password" placeholder="Enter your password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error text-red-500 text-xs mt-1">
-          Password must be at least 10 characters.
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="confirmPassword" class="block text-sm font-medium text-[#034078]">Confirm Password</label>
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Enter your password again" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-        <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="error text-red-500 text-xs mt-1">
-          Confirm password cannot be empty.
-        </div>
-        <p class="password-info text-xs text-gray-500 mt-1">Your password must be at least 10 characters and include 1 uppercase letter, 1 lowercase letter, and a number.</p>
-      </div>
-
-      <div class="form-group">
-        <label for="birthday" class="block text-sm font-medium text-[#034078]">Date of Birth</label>
-        <input type="date" id="birthday" formControlName="birthday" placeholder="DD/MM/YYYY" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
-        <div *ngIf="registerForm.get('birthday')?.touched && registerForm.get('birthday')?.invalid" class="error text-red-500 text-xs mt-1">
-          Date of birth is required.
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="gender" class="block text-sm font-medium text-[#034078]">Gender (Optional)</label>
-        <div class="gender-options flex gap-2 mt-1">
-          <button type="button" (click)="selectGender('Kadın')" [ngClass]="{'bg-[#FF96AD] text-white': registerForm.value.gender === 'Kadın', 'bg-gray-200 text-[#0A1128]': registerForm.value.gender !== 'Kadın'}" class="rounded-md px-3 py-2 text-sm focus:outline-none">Female</button>
-          <button type="button" (click)="selectGender('Erkek')" [ngClass]="{'bg-[#005A8D] text-white': registerForm.value.gender === 'Erkek', 'bg-gray-200 text-[#0A1128]': registerForm.value.gender !== 'Erkek'}" class="rounded-md px-3 py-2 text-sm focus:outline-none">Male</button>
-        </div>
-      </div>
-
-      <div class="checkbox-group space-y-2">
-        <label class="inline-flex items-center text-sm text-gray-600">
-          <input type="checkbox" formControlName="acceptOffers" class="form-checkbox h-4 w-4 text-[#FF96AD] focus:ring-[#FF96AD] rounded border-gray-300"/>
-          <span class="ml-2">I give my <a href="#" class="text-[#005A8D] hover:underline">explicit consent</a> for the processing and sharing of my personal data.</span>
-        </label>
-
-        <label class="inline-flex items-center text-sm text-gray-600">
-          <input type="checkbox" formControlName="acceptEmails" class="form-checkbox h-4 w-4 text-[#005A8D] focus:ring-[#005A8D] rounded border-gray-300"/>
-          <span class="ml-2">I agree to receive electronic messages.</span>
-        </label>
-
-        <label class="inline-flex items-center text-sm text-gray-600">
-          <input type="checkbox" formControlName="acceptTerms" class="form-checkbox h-4 w-4 text-[#1282A2] focus:ring-[#1282A2] rounded border-gray-300"/>
-          <span class="ml-2">I have read and understood the <a href="#" class="text-[#005A8D] hover:underline">information text</a>.</span>
-        </label>
-        <div *ngIf="registerForm.get('acceptTerms')?.touched && registerForm.get('acceptTerms')?.invalid" class="error text-red-500 text-xs mt-1">
-          You must accept the membership terms.
-        </div>
-      </div>
-
-      <button type="submit" class="register-button bg-[#005A8D] text-white rounded-md py-3 font-semibold w-full hover:bg-[#022E57] focus:outline-none">
-        SIGN UP
-      </button>
-
-      <p class="terms-info text-xs text-gray-500 mt-2">By clicking Sign Up, I accept the <a href="#" class="text-[#005A8D] hover:underline">Membership Terms</a>.</p>
-
-      <div *ngIf="errorMessage" class="error text-red-500 text-sm mt-2">
-        {{ errorMessage }}
-      </div>
-    </form>
+    </div>
   </div>
 </div>

@@ -9,9 +9,9 @@
         <!-- Product Name -->
         <div>
           <label class="block text-sm font-medium text-[#034078]">Product Name</label>
-          <input type="text" formControlName="name" placeholder="Enter product name" 
+          <input type="text" formControlName="name" placeholder="Enter product name"
                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" 
+          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
                class="text-red-500 text-sm">
             Product name is required.
           </div>
@@ -20,9 +20,9 @@
         <!-- Price -->
         <div>
           <label class="block text-sm font-medium text-[#034078]">Price (₺)</label>
-          <input type="number" formControlName="price" placeholder="Enter price" 
+          <input type="number" formControlName="price" placeholder="Enter price"
                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" 
+          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
                class="text-red-500 text-sm">
             Please enter a valid price.
           </div>
@@ -31,19 +31,26 @@
         <!-- Description -->
         <div>
           <label class="block text-sm font-medium text-[#034078]">Description</label>
-          <textarea formControlName="description" placeholder="Product description" 
+          <textarea formControlName="description" placeholder="Product description"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]"></textarea>
         </div>
 
-        <!-- Main Category -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Main Category</label>
-          <select formControlName="mainCategory" (change)="onMainCategoryChange($event)"
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-            <option *ngFor="let cat of mainCategories" [value]="cat">
-              {{ formatCategory(cat) }}
-            </option>
-          </select>
+    <!-- Main Category -->
+    <div>
+        <label>Main Category</label>
+      <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
+        <option *ngFor="let cat of mainCategories" [value]="cat">
+          {{ formatCategory(cat) }}
+        </option>
+</select>
+
+    <!-- Removed duplicate form tag -->
+
+      <div>
+        <label class="block text-sm font-medium text-[#034078]">Product Name</label>
+        <input type="text" formControlName="name" placeholder="Enter product name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="text-red-500 text-sm">
+          Product name is required.
         </div>
 
         <!-- Side Categories -->
@@ -86,6 +93,6 @@
           </button>
         </div>
 
-      </form>
+      <!-- Removed redundant closing form tag -->
     </div>
 
