@@ -1,17 +1,11 @@
 package com.example.ecommerce_api.services.User;
 
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.ecommerce_api.entity.UserEntity.Customer;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.UserRepository;
-import com.example.ecommerce_api.security.CustomerDetails;
 import com.example.ecommerce_api.security.UserDetailsImpl;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 
 @Service

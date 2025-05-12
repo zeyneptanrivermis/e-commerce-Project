@@ -11,9 +11,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let o of orders" class="hover:bg-gray-50">
-        <td class="p-2 border-b">
-          <a [routerLink]="['/user','shipment', o.orderId]" class="text-blue-600 hover:underline"> {{ o.orderId }}</a>
+      <tr *ngFor="let o of orders; trackBy: trackByOrderId">
+        <td>
+          <a [routerLink]="['/user','shipment', o.orderId]" class="order-link">
+            {{ o.orderId }}
+          </a>
+        </td>
+        <td>{{ o.paymentDate | date:'short' }}</td>
+        <td>{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
+        <td>{{ o.status }}</td>
+        <td>
+          <!-- Artık tüm durumlarda buton görünecek -->
+          <button
+            class="refund-button"
+            [disabled]="isLoading"
+            (click)="confirmRefund(o.orderId)">
+            İade Talep Et
+          </button>
         </td>
         <td class="p-2 border-b">{{ o.paymentDate | date:'short' }}</td>
         <td class="p-2 border-b">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>

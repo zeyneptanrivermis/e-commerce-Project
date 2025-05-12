@@ -1,0 +1,36 @@
+<!-- src/app/admin/refund-list/refund-list.component.html -->
+<div *ngIf="isLoading" class="loading">Loading…</div>
+
+<div *ngIf="!isLoading && pending.length">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th><th>Müşteri</th><th>Tutar (₺)</th><th>Ödeme Tarihi</th><th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of pending">
+        <td>{{ o.orderId }}</td>
+        <td>{{ o.customerName }}</td>
+        <td>{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
+        <td>{{ o.paymentDate | date:'short' }}</td>
+        <td>
+          <button class="btn btn-success btn-sm" (click)="approve(o.orderId)">
+            Onayla
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="decline(o.orderId)">
+            Reddet
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isLoading && !pending.length" class="no-data">
+  Bekleyen iade talebi yok.
+</div>
+
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>

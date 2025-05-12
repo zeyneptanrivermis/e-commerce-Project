@@ -39,4 +39,5 @@ public class AuthService {
         // Eğer authenticate başarılıysa JWT token üretiyoruz
         return jwtUtil.generateToken(user);
     }
+
 }

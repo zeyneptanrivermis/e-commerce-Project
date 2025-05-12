@@ -1,72 +1,96 @@
 package com.example.ecommerce_api.controller.User;
 
 import com.example.ecommerce_api.dto.OrderDTO.OrderDTO;
+import com.example.ecommerce_api.dto.OrderDTO.RefundResponse;
 import com.example.ecommerce_api.dto.ProductDTO.ProductDTO;
 import com.example.ecommerce_api.dto.UserDTO.AdminUserDTO;
 import com.example.ecommerce_api.dto.UserDTO.StatsDTO;
-import com.example.ecommerce_api.entity.ProductEntity.Product;
+import com.example.ecommerce_api.entity.OrderEntity.Order;
+import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
+import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
-import com.example.ecommerce_api.entity.UserEntity.Customer;
+import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
+import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
+import com.example.ecommerce_api.services.User.AdminRefundService;
 import com.example.ecommerce_api.services.User.AdminService;
 import com.example.ecommerce_api.services.User.CustomerService;
-import com.example.ecommerce_api.services.Order.OrderService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Refund;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
+import com.example.ecommerce_api.services.Order.OrderService;
+import com.example.ecommerce_api.services.Order.RefundService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:4200") // Angular erişimi için
+@CrossOrigin(origins = "http://localhost:4200")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     private final AdminService adminService;
     private final CustomerService customerService;
     private final ProductService productService;
     private final OrderService orderService;
+    private final AdminRefundService adminRefundService;
+    private final RefundService refundService;
 
-    public AdminController(AdminService adminService,OrderService orderService, CustomerService customerService, ProductService productService) {
+    @Autowired
+    private PaymentRepository paymentRepo;
+    @Autowired
+    private OrderRepository orderRepo;
+
+
+    public AdminController(AdminService adminService,
+                           OrderService orderService,
+                           CustomerService customerService,
+                           ProductService productService,
+                           AdminRefundService adminRefundService,
+                           RefundService refundService) {
         this.adminService = adminService;
         this.orderService = orderService;
         this.customerService = customerService;
-        this.productService=productService;
+        this.productService = productService;
+        this.adminRefundService = adminRefundService;
+        this.refundService = refundService;
     }
 
-    // 🔐 Bu endpoint sadece ADMIN rolüne açık
-    @PreAuthorize("hasRole('ADMIN')")
+    // --- Admin Users ---
     @GetMapping("/all-admins")
     public ResponseEntity<List<Admin>> getAllAdmins() {
         return ResponseEntity.ok(adminService.getAllAdmins());
     }
 
-    // --- STATISTICS endpoint'i ---
-    @PreAuthorize("hasRole('ADMIN')")
+    // --- Statistics ---
     @GetMapping("/stats")
     public ResponseEntity<StatsDTO> getStats() {
-        StatsDTO stats = adminService.getStats();
-        return ResponseEntity.ok(stats);
+        return ResponseEntity.ok(adminService.getStats());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/customers")
     public ResponseEntity<List<AdminUserDTO>> getAllCustomers() {
         return ResponseEntity.ok(adminService.getAllCustomersDto());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/sellers")
     public ResponseEntity<List<AdminUserDTO>> getAllSellers() {
         return ResponseEntity.ok(adminService.getAllSellersDto());
     }
 
     // ────────────────────────────────────────────────
-    //  1) Müşteriyi yasakla / yasaklamayı kaldır
+    //  Customer Ban/Unban
     // ────────────────────────────────────────────────
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/customers/{id}/ban")
     public ResponseEntity<Void> toggleCustomerBan(@PathVariable Long id) {
         adminService.toggleCustomerBan(id);
@@ -74,9 +98,8 @@ public class AdminController {
     }
 
     // ────────────────────────────────────────────────
-    //  2) Satıcıyı yasakla / yasaklamayı kaldır
+    //  Seller Ban/Unban
     // ────────────────────────────────────────────────
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/sellers/{id}/ban")
     public ResponseEntity<Void> toggleSellerBan(@PathVariable Long id) {
         adminService.toggleSellerBan(id);
@@ -84,52 +107,67 @@ public class AdminController {
     }
 
     // ────────────────────────────────────────────────
-    //  3) Ürünü iptal et (soft-delete veya durum güncelle)
+    //  Product Management
     // ────────────────────────────────────────────────
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/products/{id}/cancel")
     public ResponseEntity<Void> cancelProduct(@PathVariable Long id) {
         productService.cancelProduct(id);
         return ResponseEntity.ok().build();
     }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/customers/{id}")
-    public ResponseEntity<Void> updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
-        customerService.updateCustomer(id, updatedCustomer);
-        return ResponseEntity.noContent().build();
-    }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/products")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         return ResponseEntity.ok(adminService.getAllProductDTOs());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/products/{id}/delete")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        adminService.deleteProductPermanently(id); // ← doğru servis
+    public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) {
+        adminService.deleteProductPermanently(id);
         return ResponseEntity.ok(Map.of("message", "Deletion success!"));
     }
 
-    // ────────────────────────────────────────────────orders   
-
+    // ────────────────────────────────────────────────
+    //  Orders
+    // ────────────────────────────────────────────────
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/{orderId}/status")
+    @GetMapping("/orders/{orderId}/status")
     public ResponseEntity<OrderDTO> getOrderStatus(@PathVariable Long orderId) {
         OrderDTO order = orderService.getOrderById(orderId);
         return ResponseEntity.ok(order);
     }
-    
-    @PutMapping("/{orderId}/status")
-    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderDTO orderDTO) {
-        OrderDTO updatedOrder = orderService.updateOrderStatus(orderId, orderDTO);
-        return ResponseEntity.ok(updatedOrder);
+
+    @PutMapping("/orders/{orderId}/status")
+    public ResponseEntity<Map<String, String>> updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestBody OrderDTO orderDTO) {
+        try {
+            OrderStatus status = OrderStatus.valueOf(orderDTO.getStatus());
+            orderService.updateStatus(orderId, status);
+            return ResponseEntity.ok(Map.of("message", "Update success!"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid status value."));
+        }
     }
+
+    // ────────────────────────────────────────────────
+    //  Refund Management
+    // ────────────────────────────────────────────────
+ /** Admin onaylı iade */
+@PostMapping("/orders/{orderId}/refund-approve")
+public ResponseEntity<RefundResponse> approveRefund(@PathVariable Long orderId) throws StripeException {
+    RefundResponse resp = refundService.createRefund(orderId);
+    return ResponseEntity.ok(resp);
+}
+
+/** Admin reddi */
+@PostMapping("/orders/{orderId}/refund-decline")
+public ResponseEntity<Void> declineRefund(@PathVariable Long orderId) {
+    refundService.declineRefund(orderId);
+    return ResponseEntity.noContent().build();
+}
 }

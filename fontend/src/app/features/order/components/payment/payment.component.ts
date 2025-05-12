@@ -75,16 +75,40 @@ export class PaymentComponent implements OnInit {
   }
 
   async submitPayment(): Promise<void> {
-    if (this.paymentForm.invalid) {
-      this.paymentForm.markAllAsTouched();
-      return;
-    }
+  if (this.paymentForm.invalid) {
+    this.paymentForm.markAllAsTouched();
+    return;
+  }
 
-    this.isLoading = true;
-    try {
-      // 1) clientSecret al
-      const { clientSecret } = await lastValueFrom(
-        this.paymentService.createPaymentIntent(this.orderId, this.currency)
+  this.isLoading = true;
+  try {
+    // 1) clientSecret al
+    const { clientSecret } = await lastValueFrom(
+      this.paymentService.createPaymentIntent(this.orderId, this.currency)
+    );
+
+    // 2) Kart onayı
+    const stripe = await this.stripePromise;
+    if (!stripe) throw new Error('Stripe yüklenemedi');
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: this.card,
+        billing_details: { name: this.paymentForm.value.cardholder }
+      }
+    });
+
+    if (result.error) throw result.error;
+
+    // 3) Ödeme başarılıysa backend'e sadece intentId ve amount gönder
+    if (result.paymentIntent?.status === 'succeeded') {
+      const payload = {
+        paymentIntentId: result.paymentIntent.id,
+        amount: this.amount
+      };
+
+      await lastValueFrom(
+        this.paymentService.completePayment(this.orderId, payload)
       );
 
       // 2) Kart onayı

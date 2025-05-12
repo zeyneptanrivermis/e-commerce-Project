@@ -1,6 +1,7 @@
 package com.example.ecommerce_api.controller.Order;
 
 import com.example.ecommerce_api.services.Order.OrderService;
+import com.example.ecommerce_api.dto.OrderDTO.PaymentCompleteRequest;
 import com.example.ecommerce_api.entity.OrderEntity.OrderStatus;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
@@ -38,8 +39,16 @@ public class PaymentWebhookController {
                 PaymentIntent intent = (PaymentIntent) event.getDataObjectDeserializer()
                         .getObject().orElseThrow();
                 Long orderId = Long.valueOf(intent.getMetadata().get("orderId"));
-                orderService.finalizePayment(orderId, intent.getId());
-                orderService.updateStatus(orderId, OrderStatus.ACCEPTED);
+                String chargeId = intent.getLatestCharge();
+                Long amount = intent.getAmount();
+
+                PaymentCompleteRequest paymentRequest = new PaymentCompleteRequest(
+                    intent.getId(),  // paymentIntentId
+                    amount,          // amount
+                    chargeId         // chargeId
+                );
+
+                orderService.finalizePayment(orderId, paymentRequest);
                 break;
             }
             case "payment_intent.payment_failed": {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.ecommerce_api.dto.OrderDTO.RefundResponse;
 import com.example.ecommerce_api.entity.UserEntity.Address;
 import com.example.ecommerce_api.entity.UserEntity.User;
 import com.example.ecommerce_api.repository.UserRepositories.AddressRepository;
@@ -37,6 +38,11 @@ public class AddressService {
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new EntityNotFoundException("Address not found: " + addressId));
         addressRepository.delete(address);
+    }
+
+    public RefundResponse approveRefund(Long orderId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'approveRefund'");
     }
     
 

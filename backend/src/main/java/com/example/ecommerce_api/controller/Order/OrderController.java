@@ -96,5 +96,10 @@ public class OrderController {
     return ResponseEntity.ok("Sipariş iptal edildi.");
     }
 
+      @GetMapping
+  public ResponseEntity<List<OrderDTO>> getAllOrders() {
+    return ResponseEntity.ok(orderService.getAllOrders());
+  }
+
 
 }
