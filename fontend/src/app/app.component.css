@@ -47,8 +47,9 @@ ul li a {
 }
 
 .main-content {
-  padding: 2rem 3rem; /* Üst-alt ve sağ-sol boşluk */
+  padding: 0px; /* Üst-alt ve sağ-sol boşluk */
   flex-grow: 1;
   width: 100%;
   box-sizing: border-box;
+
 }

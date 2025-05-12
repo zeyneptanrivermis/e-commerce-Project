@@ -1,4 +1,4 @@
-<div class="w-full flex items-center justify-between px-6 sm:px-10 py-4 bg-[#FFF5FD] shadow-md">
+<div class="w-full flex items-center justify-between px-6 sm:px-10 py-4 bg-beyaz shadow-md">
   <div class="flex items-center gap-4 sm:gap-6">
     <a routerLink="/">
       <img src="assets/images/logo.png" alt="Logo" class="h-8 sm:h-10">
@@ -6,35 +6,35 @@
     <input
       type="text"
       placeholder="Search products, categories, or brands"
-      class="hidden md:block px-3 py-2 rounded-lg border border-[#FF96AD] focus:outline-none focus:ring-2 focus:ring-[#005A8D]/50 transition w-64 sm:w-96 text-sm text-[#022E57]"
+      class="hidden md:block px-3 py-2 rounded-lg border border-lavanta-grisi focus:outline-none focus:ring-2 focus:ring-acik-pembe/50 transition w-64 sm:w-96 text-sm text-lacivert-derin"
     />
   </div>
 
-  <div class="flex items-center space-x-4 sm:space-x-6 text-[#022E57] text-xs sm:text-sm font-medium">
-    <a href="/seller/register" class="hover:text-[#005A8D] transition-colors duration-200">Be a seller</a>
-    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master" class="hover:text-[#005A8D] transition-colors duration-200">About Us</a>
-    <a routerLink="/user/wishlist" class="hover:text-[#FF96AD] transition-colors duration-200">❤️ Wishlist</a>
-    <a href="/shopping-cart" class="hover:text-[#FF96AD] transition-colors duration-200">🛒 Cart</a>
+  <div class="flex items-center space-x-4 sm:space-x-6 text-lacivert-derin text-xs sm:text-sm font-medium">
+    <a href="/seller/register" class="hover:text-lavanta-grisi transition-colors duration-200">Be a seller</a>
+    <a href="https://github.com/zeyneptanrivermis/e-commerce-Project/tree/master" class="hover:text-lavanta-grisi transition-colors duration-200">About Us</a>
+    <a routerLink="/user/wishlist" class="hover:text-acik-pembe transition-colors duration-200">❤️ Wishlist</a>
+    <a href="/shopping-cart" class="hover:text-acik-pembe transition-colors duration-200">🛒 Cart</a>
     <ng-container *ngIf="!authService.isLoggedIn()">
-      <a href="/login" class="hover:text-[#005A8D] transition-colors duration-200">Log in</a>
+      <a href="/login" class="hover:text-lavanta-grisi transition-colors duration-200">Log in</a>
     </ng-container>
     <ng-container *ngIf="authService.isLoggedIn()">
-      <a [routerLink]="['/user', 'user-profile']" class="hover:text-[#005A8D] transition-colors duration-200">Profile</a>
+      <a [routerLink]="['/user', 'user-profile']" class="hover:text-lavanta-grisi transition-colors duration-200">Profile</a>
     </ng-container>
   </div>
 </div>
 
-<div class="w-full flex flex-wrap items-center px-6 sm:px-10 py-2 sm:py-3 border-b border-[#FF96AD]/50 bg-white">
-  <div class="flex flex-wrap gap-3 sm:gap-6 text-[#022E57] text-xs sm:text-sm font-medium">
-    <a routerLink="/products" class="hover:text-[#FF96AD] transition-colors duration-200">All Products <span class="ml-1 text-[0.7rem] bg-[#FF96AD]/50 text-white px-1.5 py-0.5 rounded-full align-baseline">New</span></a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Clothing') }" class="hover:text-[#FF96AD] transition-colors duration-200">Clothing</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Makeup') }" class="hover:text-[#FF96AD] transition-colors duration-200">Makeup</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Home and Kitchen') }" class="hover:text-[#FF96AD] transition-colors duration-200">Home & Kitchen</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Electronics') }" class="hover:text-[#FF96AD] transition-colors duration-200">Electronics</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Pet Supplies') }" class="hover:text-[#FF96AD] transition-colors duration-200">Pet Supplies</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Toys & Games') }" class="hover:text-[#FF96AD] transition-colors duration-200">Toys & Games</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Sports & Outdoor') }" class="hover:text-[#FF96AD] transition-colors duration-200">Sports & Outdoor</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Hobbies') }" class="hover:text-[#FF96AD] transition-colors duration-200">Hobby Products</a>
-    <span class="hover:text-[#FF96AD] transition-colors duration-200 cursor-pointer">Best Sellers <span class="ml-1 text-[0.7rem] bg-[#FF96AD]/50 text-white px-1.5 py-0.5 rounded-full align-baseline">New</span></span>
+<div class="w-full flex flex-wrap items-center px-6 sm:px-10 py-2 sm:py-3 border-b border-lavanta-grisi/50 bg-beyaz">
+  <div class="flex flex-wrap gap-3 sm:gap-6 text-lacivert-derin text-xs sm:text-sm font-medium">
+    <a routerLink="/products" class="hover:text-acik-pembe transition-colors duration-200">All Products <span class="ml-1 text-[0.7rem] bg-acik-pembe/50 text-beyaz px-1.5 py-0.5 rounded-full align-baseline">New</span></a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Clothing') }" class="hover:text-acik-pembe transition-colors duration-200">Clothing</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Makeup') }" class="hover:text-acik-pembe transition-colors duration-200">Makeup</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Home and Kitchen') }" class="hover:text-acik-pembe transition-colors duration-200">Home & Kitchen</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Electronics') }" class="hover:text-acik-pembe transition-colors duration-200">Electronics</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Pet Supplies') }" class="hover:text-acik-pembe transition-colors duration-200">Pet Supplies</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Toys & Games') }" class="hover:text-acik-pembe transition-colors duration-200">Toys & Games</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Sports & Outdoor') }" class="hover:text-acik-pembe transition-colors duration-200">Sports & Outdoor</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Hobbies') }" class="hover:text-acik-pembe transition-colors duration-200">Hobby Products</a>
+    <span class="hover:text-acik-pembe transition-colors duration-200 cursor-pointer">Best Sellers <span class="ml-1 text-[0.7rem] bg-acik-pembe/50 text-beyaz px-1.5 py-0.5 rounded-full align-baseline">New</span></span>
   </div>
 </div>

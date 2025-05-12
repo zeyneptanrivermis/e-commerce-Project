@@ -1,4 +1,4 @@
-<div class="chat-button fixed bottom-6 right-6 bg-[#001F54] text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl cursor-pointer shadow-lg transition-all duration-300 hover:bg-[#0A1128]"
+<div class="chat-button fixed bottom-6 right-6 bg-acik-pembe text-lacivert-derin rounded-full w-12 h-12 flex items-center justify-center text-2xl cursor-pointer shadow-lg transition-all duration-300 hover:bg-lavanta-grisi"
      (click)="toggleChat()"
      (mouseenter)="hover = true"
      (mouseleave)="hover = false"
@@ -6,20 +6,20 @@
   💬
 </div>
 
-<div class="chat-window fixed bottom-20 right-6 bg-white rounded-md shadow-lg border border-[#1282A2] max-h-[400px] w-80 flex flex-col overflow-hidden" *ngIf="chatOpen">
-  <div class="chat-header bg-[#1282A2] text-white p-3 flex items-center justify-between">
+<div class="chat-window fixed bottom-20 right-6 bg-white rounded-md shadow-lg border border-acik-pembe max-h-[400px] w-80 flex flex-col overflow-hidden" *ngIf="chatOpen">
+  <div class="chat-header bg-acik-pembe text-lacivert-derin p-3 flex items-center justify-between">
     <span class="font-semibold">GlamHub Assistant</span>
-    <button class="close-btn bg-transparent border-none text-white text-xl cursor-pointer focus:outline-none" (click)="toggleChat()">✖</button>
+    <button class="close-btn bg-transparent border-none text-lacivert-derin text-xl cursor-pointer focus:outline-none" (click)="toggleChat()">✖</button>
   </div>
 
   <div class="chat-messages p-3 overflow-y-auto flex-grow space-y-2">
     <div *ngFor="let msg of messages">
-      <strong class="font-semibold text-[#034078]">{{ msg.sender }}:</strong> <span class="text-[#0A1128]">{{ msg.text }}</span>
+      <strong class="font-semibold text-lavanta-grisi">{{ msg.sender }}:</strong> <span class="text-gece-yarisi">{{ msg.text }}</span>
     </div>
   </div>
 
-  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-form p-3 border-t border-gray-200 flex">
-    <input formControlName="message" placeholder="Type a message..." class="flex-grow rounded-md border-gray-300 shadow-sm focus:border-[#001F54] focus:ring-[#001F54] text-[#0A1128]"/>
-    <button type="submit" class="bg-[#001F54] text-white rounded-md px-4 py-2 font-semibold ml-2 focus:outline-none hover:bg-[#0A1128]" [disabled]="chatForm.invalid">Send</button>
+  <form [formGroup]="chatForm" (ngSubmit)="sendMessage()" class="chat-form p-3 border-t border-lavanta-grisi flex">
+    <input formControlName="message" placeholder="Type a message..." class="flex-grow rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-gece-yarisi"/>
+    <button type="submit" class="bg-acik-pembe text-lacivert-derin rounded-md px-4 py-2 font-semibold ml-2 focus:outline-none hover:bg-lavanta-grisi" [disabled]="chatForm.invalid">Send</button>
   </form>
 </div>
