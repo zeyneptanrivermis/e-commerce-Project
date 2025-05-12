@@ -1,60 +1,60 @@
-<div class="address-container bg-white rounded-md shadow-lg p-6">
+<div class="address-container bg-beyaz rounded-md shadow-lg p-6">
   <div class="header flex items-center justify-between mb-4">
-    <h3 class="text-xl font-semibold text-[#0A1128]">My Addresses</h3>
-    <button (click)="toggleEditMode()" class="edit-toggle-btn bg-[#1282A2] text-white rounded-md px-3 py-2 text-sm font-semibold hover:bg-[#001F54] focus:outline-none">
+    <h3 class="text-xl font-semibold text-lacivert-derin">My Addresses</h3>
+    <button (click)="toggleEditMode()" class="edit-toggle-btn bg-acik-pembe text-lacivert-derin rounded-md px-3 py-2 text-sm font-semibold hover:bg-lavanta-grisi hover:text-beyaz focus:outline-none transition-colors duration-200">
       {{ editMode ? 'Done' : 'Edit' }}
     </button>
   </div>
 
   <div *ngIf="addresses.length > 0; else noAddress" class="mb-6">
     <ul class="list-disc pl-5 space-y-2">
-      <li *ngFor="let address of addresses" class="text-[#0A1128]">
+      <li *ngFor="let address of addresses" class="text-lacivert-derin">
         📍 {{ address.country }}, {{ address.city }}, {{ address.district }}, {{ address.addressDetail }}
 
         <ng-container *ngIf="editMode" class="inline-flex space-x-2 ml-4">
-          <button (click)="editAddress(address)" class="bg-[#001F54] text-white rounded-md px-3 py-1 text-sm font-semibold hover:bg-[#0A1128] focus:outline-none">Update</button>
-          <button (click)="deleteAddress(address.addressId!)" class="bg-[#ffafcc] text-[#0A1128] rounded-md px-3 py-1 text-sm font-semibold hover:bg-[#FEFCFB] hover:text-[#ffafcc] focus:outline-none">Delete</button>
+          <button (click)="editAddress(address)" class="bg-lavanta-grisi text-beyaz rounded-md px-3 py-1 text-sm font-semibold hover:bg-gece-yarisi focus:outline-none transition-colors duration-200">Update</button>
+          <button (click)="deleteAddress(address.addressId!)" class="bg-acik-pembe text-lacivert-derin rounded-md px-3 py-1 text-sm font-semibold hover:bg-beyaz hover:text-acik-pembe focus:outline-none transition-colors duration-200">Delete</button>
         </ng-container>
       </li>
     </ul>
   </div>
 
   <ng-template #noAddress>
-    <p class="text-gray-600">No saved addresses.</p>
+    <p class="text-lavanta-grisi">No saved addresses.</p>
   </ng-template>
 
-  <h4 class="text-lg font-semibold text-[#034078] mt-6 mb-4">{{ selectedAddressId ? 'Edit Address' : 'Add New Address' }}</h4>
+  <h4 class="text-lg font-semibold text-gece-yarisi mt-6 mb-4">{{ selectedAddressId ? 'Edit Address' : 'Add New Address' }}</h4>
 
   <form [formGroup]="addressForm" (ngSubmit)="saveAddress()" class="space-y-4">
     <div class="form-group">
-      <label for="country" class="block text-sm font-medium text-[#034078]">Country</label>
-      <input id="country" formControlName="country" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
+      <label for="country" class="block text-sm font-medium text-gece-yarisi">Country</label>
+      <input id="country" formControlName="country" type="text" class="form-control mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
     </div>
 
     <div class="form-group">
-      <label for="city" class="block text-sm font-medium text-[#034078]">City</label>
-      <input id="city" formControlName="city" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
+      <label for="city" class="block text-sm font-medium text-gece-yarisi">City</label>
+      <input id="city" formControlName="city" type="text" class="form-control mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
     </div>
 
     <div class="form-group">
-      <label for="district" class="block text-sm font-medium text-[#034078]">District</label>
-      <input id="district" formControlName="district" type="text" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
+      <label for="district" class="block text-sm font-medium text-gece-yarisi">District</label>
+      <input id="district" formControlName="district" type="text" class="form-control mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
     </div>
 
     <div class="form-group">
-      <label for="addressDetail" class="block text-sm font-medium text-[#034078]">Address Detail</label>
-      <textarea id="addressDetail" formControlName="addressDetail" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]"></textarea>
+      <label for="addressDetail" class="block text-sm font-medium text-gece-yarisi">Address Detail</label>
+      <textarea id="addressDetail" formControlName="addressDetail" class="form-control mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin"></textarea>
     </div>
 
     <div class="flex space-x-2">
-      <button type="submit" [disabled]="addressForm.invalid" class="bg-[#001F54] text-white rounded-md px-4 py-2 font-semibold hover:bg-[#0A1128] focus:outline-none">
+      <button type="submit" [disabled]="addressForm.invalid" class="bg-lavanta-grisi text-beyaz rounded-md px-4 py-2 font-semibold hover:bg-gece-yarisi focus:outline-none transition-colors duration-200">
         {{ selectedAddressId ? 'Update Address' : 'Save Address' }}
       </button>
 
-      <button *ngIf="selectedAddressId" type="button" (click)="resetForm()" class="bg-gray-300 text-[#0A1128] rounded-md px-4 py-2 font-semibold hover:bg-gray-400 focus:outline-none">Cancel</button>
+      <button *ngIf="selectedAddressId" type="button" (click)="resetForm()" class="bg-gece-yarisi text-beyaz rounded-md px-4 py-2 font-semibold hover:bg-lacivert-derin focus:outline-none transition-colors duration-200">Cancel</button>
     </div>
 
-    <p *ngIf="addressForm.invalid && addressForm.touched" class="text-red-500 text-sm mt-2">
+    <p *ngIf="addressForm.invalid && addressForm.touched" class="text-acik-pembe text-sm mt-2">
       Form is invalid. Please check all fields.
     </p>
   </form>

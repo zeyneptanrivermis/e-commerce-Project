@@ -1,29 +1,29 @@
-<div *ngIf="isLoading" class="loading text-center py-8">Loading…</div>
+<div *ngIf="isLoading" class="loading text-center py-8 text-lavanta-grisi">Loading…</div>
 
-<div *ngIf="!isLoading && orders.length" class="overflow-x-auto rounded-lg shadow-md">
-  <table class="order-table min-w-full divide-y divide-gray-200">
-    <thead class="bg-gray-50">
+<div *ngIf="!isLoading && orders.length" class="overflow-x-auto rounded-lg shadow-md bg-beyaz">
+  <table class="order-table min-w-full divide-y divide-lavanta-grisi/20">
+    <thead class="bg-gece-yarisi text-beyaz">
       <tr>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Date</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total (₺)</th>
-        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Order ID</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Payment Date</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Total (₺)</th>
+        <th scope="col" class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
+        <th scope="col" class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">Action</th>
       </tr>
     </thead>
-    <tbody class="bg-white divide-y divide-gray-200">
+    <tbody class="bg-beyaz divide-y divide-lavanta-grisi/20 text-lacivert-derin">
       <tr *ngFor="let o of orders; trackBy: trackByOrderId">
         <td class="px-6 py-4 whitespace-nowrap">
-          <a [routerLink]="['/user','shipment', o.orderId]" class="order-link text-indigo-600 hover:text-indigo-900">
+          <a [routerLink]="['/user','shipment', o.orderId]" class="order-link text-acik-pembe hover:text-lavanta-grisi transition-colors duration-200">
             {{ o.orderId }}
           </a>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ o.paymentDate | date:'short' }}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ o.status }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm">{{ o.paymentDate | date:'short' }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm">{{ o.status }}</td>
         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
           <button
-            class="refund-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="refund-button bg-acik-pembe hover:bg-lavanta-grisi text-lacivert-derin font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-200"
             [disabled]="isLoading"
             (click)="confirmRefund(o.orderId)">
             Request Refund
@@ -34,6 +34,6 @@
   </table>
 </div>
 
-<div *ngIf="!isLoading && !orders.length" class="no-orders text-center py-8 text-gray-600">
+<div *ngIf="!isLoading && !orders.length" class="no-orders text-center py-8 text-lavanta-grisi">
   You have no past orders.
 </div>

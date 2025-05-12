@@ -41,6 +41,10 @@ export class PaymentComponent implements OnInit {
   amount!: number;
   currency = 'try';
   isLoading = false;
+  loadingMessage = '';
+
+  // Minimum loading time in milliseconds
+  private readonly MIN_LOADING_TIME = 2000;
 
   constructor(
     private fb: FormBuilder,
@@ -74,35 +78,81 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  // Helper method to handle loading state with minimum duration
+  private async withLoadingState<T>(operation: () => Promise<T>, message: string): Promise<T> {
+    const startTime = Date.now();
+    this.isLoading = true;
+    this.loadingMessage = message;
+
+    try {
+      const result = await operation();
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, this.MIN_LOADING_TIME - elapsedTime);
+      
+      if (remainingTime > 0) {
+        await new Promise(resolve => setTimeout(resolve, remainingTime));
+      }
+      
+      return result;
+    } finally {
+      this.isLoading = false;
+      this.loadingMessage = '';
+    }
+  }
+
   async submitPayment(): Promise<void> {
     if (this.paymentForm.invalid) {
       this.paymentForm.markAllAsTouched();
       return;
     }
 
-    this.isLoading = true;
     try {
       // 1) clientSecret al
-      const { clientSecret } = await lastValueFrom(
-        this.paymentService.createPaymentIntent(this.orderId, this.currency)
+      const { clientSecret } = await this.withLoadingState(
+        async () => {
+          const result = await lastValueFrom(
+            this.paymentService.createPaymentIntent(this.orderId, this.currency)
+          ).catch(error => {
+            if (error.status === 400) {
+              if (error.error?.error?.includes('zaten tamamlanmış')) {
+                throw new Error('Bu sipariş için ödeme zaten tamamlanmış. Sipariş geçmişinizi kontrol edebilirsiniz.');
+              }
+              if (error.error?.error?.includes('Minimum ödeme tutarı')) {
+                throw new Error('Sepet tutarınız çok düşük. Lütfen sepetinize daha fazla ürün ekleyin veya farklı ürünler seçin.');
+              }
+            }
+            throw new Error('Ödeme başlatılırken bir hata oluştu: ' + (error.error?.error || error.message));
+          });
+          return result;
+        },
+        'Ödeme işlemi başlatılıyor...'
       );
 
       // 2) Kart onayı
       const stripe = await this.stripePromise;
       if (!stripe) throw new Error('Stripe yüklenemedi');
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: this.card,
-          billing_details: { name: this.paymentForm.value.cardholder }
-        }
-      });
+      const result = await this.withLoadingState(
+        async () => {
+          return await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+              card: this.card,
+              billing_details: { name: this.paymentForm.value.cardholder }
+            }
+          });
+        },
+        'Kart bilgileri doğrulanıyor...'
+      );
 
-      if (result.error) throw result.error;
+      if (result.error) {
+        if (result.error.type === 'card_error' || result.error.type === 'validation_error') {
+          throw new Error(result.error.message);
+        }
+        throw new Error('Ödeme işlemi sırasında bir hata oluştu: ' + result.error.message);
+      }
 
       // 3) Ödeme başarılıysa backend'e intentId, chargeId ve amount gönder
       if (result.paymentIntent?.status === 'succeeded') {
-        // Get the charge ID from the payment intent
         const paymentIntent = result.paymentIntent as any;
         const chargeId = paymentIntent.latest_charge || paymentIntent.id;
         
@@ -112,23 +162,44 @@ export class PaymentComponent implements OnInit {
           amount: this.amount
         };
 
-        await lastValueFrom(
-          this.paymentService.completePayment(this.orderId, payload)
+        await this.withLoadingState(
+          async () => {
+            await lastValueFrom(
+              this.paymentService.completePayment(this.orderId, payload)
+            ).catch(error => {
+              throw new Error('Ödeme tamamlanırken bir hata oluştu: ' + (error.error?.error || error.message));
+            });
+          },
+          'Ödeme tamamlanıyor...'
         );
 
         // 4) Sepeti temizle ve yönlendir
-        this.cartService.clearCart().subscribe(() => {
-          alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}`);
-          this.router.navigate(['/order/history']);
-        });
+        await this.withLoadingState(
+          async () => {
+            return new Promise<void>((resolve, reject) => {
+              this.cartService.clearCart().subscribe({
+                next: () => {
+                  alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}`);
+                  this.router.navigate(['/order/history']);
+                  resolve();
+                },
+                error: (error) => {
+                  console.error('Sepet temizlenirken hata:', error);
+                  alert(`🎉 Ödeme başarıyla tamamlandı! Sipariş #${this.orderId}\nNot: Sepet temizlenirken bir hata oluştu.`);
+                  this.router.navigate(['/order/history']);
+                  resolve(); // Still resolve since payment was successful
+                }
+              });
+            });
+          },
+          'Sipariş tamamlanıyor...'
+        );
       } else {
-        throw new Error('Ödeme onaylanmadı.');
+        throw new Error('Ödeme onaylanmadı. Lütfen tekrar deneyin.');
       }
     } catch (err: any) {
       console.error('Ödeme hatası', err);
-      alert(err.message || 'Ödeme sırasında bir hata oluştu.');
-    } finally {
-      this.isLoading = false;
+      alert(err.message || 'Ödeme sırasında bir hata oluştu. Lütfen tekrar deneyin.');
     }
   }
 }

@@ -1,27 +1,27 @@
-<div class="bg-[#FFF5FD] rounded-lg shadow-md overflow-hidden flex">
-  <nav class="user-menu bg-white border-r border-gray-200 p-6 w-64 flex-shrink-0">
-    <h2 class="panel-title text-xl font-semibold text-[#005A8D] mb-4 tracking-wide">My Account</h2>
+<div class="bg-beyaz rounded-lg shadow-md overflow-hidden flex">
+  <nav class="user-menu bg-gece-yarisi border-r border-lavanta-grisi/20 p-6 w-64 flex-shrink-0">
+    <h2 class="panel-title text-xl font-semibold text-acik-pembe mb-4 tracking-wide">My Account</h2>
     <div class="space-y-2">
       <a routerLink="/user/user-profile" routerLinkActive="active-link"
-         class="block py-2 px-4 rounded-md text-[#005A8D] hover:bg-[#FF96AD] hover:text-[#FFF5FD] transition duration-200 ease-in-out">
+         class="block py-2 px-4 rounded-md text-beyaz hover:bg-acik-pembe hover:text-lacivert-derin transition duration-200 ease-in-out">
         Profile
       </a>
       <a routerLink="/user/wishlist" routerLinkActive="active-link"
-         class="block py-2 px-4 rounded-md text-[#005A8D] hover:bg-[#FF96AD] hover:text-[#FFF5FD] transition duration-200 ease-in-out">
+         class="block py-2 px-4 rounded-md text-beyaz hover:bg-acik-pembe hover:text-lacivert-derin transition duration-200 ease-in-out">
         Wishlist
       </a>
       <a routerLink="/user/order-history" routerLinkActive="active-link"
-         class="block py-2 px-4 rounded-md text-[#005A8D] hover:bg-[#FF96AD] hover:text-[#FFF5FD] transition duration-200 ease-in-out">
+         class="block py-2 px-4 rounded-md text-beyaz hover:bg-acik-pembe hover:text-lacivert-derin transition duration-200 ease-in-out">
         Orders
       </a>
       <a routerLink="/home" routerLinkActive="active-link" (click)="logout()"
-         class="block py-2 px-4 rounded-md text-[#005A8D] hover:bg-[#022E57] hover:text-[#FFF5FD] transition duration-200 ease-in-out">
+         class="block py-2 px-4 rounded-md text-beyaz hover:bg-lavanta-grisi hover:text-beyaz transition duration-200 ease-in-out">
         Log out
       </a>
     </div>
   </nav>
 
-  <div class="user-content p-6 flex-1">
+  <div class="user-content p-6 flex-1 bg-lacivert-derin text-beyaz">
     <router-outlet></router-outlet>
   </div>
 </div>

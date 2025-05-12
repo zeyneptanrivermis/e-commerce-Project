@@ -1,50 +1,168 @@
-<form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="payment-form bg-white rounded-lg shadow-md p-6 space-y-4">
-  <div class="form-group">
-    <label for="amount" class="block text-sm font-medium text-gray-700">Tutar (kuruş)</label>
-    <input
-      id="amount"
-      type="number"
-      formControlName="amount"
-      [disabled]="true"
-      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
-    />
-  </div>
-
-  <div class="form-group">
-    <label for="cardholder" class="block text-sm font-medium text-gray-700">Kart Üzerindeki İsim</label>
-    <input
-      id="cardholder"
-      type="text"
-      formControlName="cardholder"
-      class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
-      [class.is-invalid]="
-        paymentForm.get('cardholder')!.invalid &&
-        (paymentForm.get('cardholder')!.touched ||
-         paymentForm.get('cardholder')!.dirty)
-      "
-    />
-    <div
-      *ngIf="
-        paymentForm.get('cardholder')!.invalid &&
-        paymentForm.get('cardholder')!.touched
-      "
-      class="invalid-feedback text-red-500 text-sm mt-1"
-    >
-      Lütfen kart üzerindeki ismi yazın.
+<div class="payment-container">
+  <form [formGroup]="paymentForm" (ngSubmit)="submitPayment()" class="payment-form bg-white rounded-lg shadow-md p-6 space-y-4">
+    <div class="form-group">
+      <label for="amount" class="block text-sm font-medium text-gray-700">Toplam Tutar</label>
+      <input
+        id="amount"
+        type="number"
+        formControlName="amount"
+        [disabled]="true"
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+      />
     </div>
-  </div>
 
-  <div class="form-group">
-    <label class="block text-sm font-medium text-gray-700">Kart Bilgileri</label>
-    <div #cardInfo class="card-element border rounded-md p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
-    <div id="card-errors" role="alert" class="text-red-500 mt-2 text-sm"></div>
-  </div>
+    <div class="form-group">
+      <label for="cardholder" class="block text-sm font-medium text-gray-700">Kart Üzerindeki İsim</label>
+      <input
+        id="cardholder"
+        type="text"
+        formControlName="cardholder"
+        class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        [class.is-invalid]="
+          paymentForm.get('cardholder')!.invalid &&
+          (paymentForm.get('cardholder')!.touched ||
+           paymentForm.get('cardholder')!.dirty)
+        "
+      />
+      <div
+        *ngIf="
+          paymentForm.get('cardholder')!.invalid &&
+          paymentForm.get('cardholder')!.touched
+        "
+        class="invalid-feedback text-red-500 text-sm mt-1"
+      >
+        Lütfen kart üzerindeki ismi yazın.
+      </div>
+    </div>
 
-  <button
-    type="submit"
-    class="btn btn-primary bg-indigo-600 text-white rounded-md py-3 px-6 font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-gray-400"
-    [disabled]="paymentForm.invalid"
-  >
-    Ödeme Yap
-  </button>
-</form>
+    <div class="form-group">
+      <label class="block text-sm font-medium text-gray-700">Kart Bilgileri</label>
+      <div #cardInfo class="card-element border rounded-md p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></div>
+      <div id="card-errors" role="alert" class="text-red-500 mt-2 text-sm"></div>
+    </div>
+
+    <div class="payment-actions">
+      <button type="submit" [disabled]="paymentForm.invalid || isLoading" class="submit-button">
+        <span *ngIf="!isLoading">Ödemeyi Tamamla</span>
+        <div *ngIf="isLoading" class="loading-container">
+          <div class="loading-animation">
+            <div class="spinner"></div>
+            <div class="progress-bar-container">
+              <div class="progress-bar"></div>
+            </div>
+          </div>
+          <span class="loading-message">{{ loadingMessage }}</span>
+        </div>
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+.payment-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.payment-form {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.payment-actions {
+  margin-top: 20px;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: relative;
+  min-height: 44px;
+}
+
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.loading-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-bar-container {
+  width: 100px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  animation: progress 2s linear infinite;
+  transform-origin: left;
+}
+
+@keyframes progress {
+  0% {
+    transform: scaleX(0);
+  }
+  50% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+.loading-message {
+  font-size: 14px;
+  color: white;
+  white-space: nowrap;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Remove the duplicate spinner animation */
+/* .spinner {
+  animation: spin 2s linear infinite;
+} */
+</style>

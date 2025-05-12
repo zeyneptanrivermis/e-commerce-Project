@@ -42,6 +42,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,30 +95,49 @@ public class OrderService {
      * intent ID'yi ve clientSecret'i kaydeder, clientSecret'i döner.
      */
     public String createStripePayment(Long orderId, String currency) throws StripeException {
-    Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new RuntimeException("Order not found"));
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
 
-    long amount = Math.round(order.getOrderTotalWithoutDiscount() * 100);
+        // Check if there's an existing payment for this order
+        Optional<Payment> existingPayment = paymentRepository.findByOrder_OrderId(orderId);
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            // If payment is already succeeded, throw an error
+            if ("succeeded".equals(payment.getStatus())) {
+                throw new RuntimeException("Bu sipariş için ödeme zaten tamamlanmış.");
+            }
+            // If payment exists but not succeeded, return the existing client secret
+            if (payment.getStripePaymentIntentId() != null) {
+                PaymentIntent intent = PaymentIntent.retrieve(payment.getStripePaymentIntentId());
+                return intent.getClientSecret();
+            }
+        }
 
-    // --- burası değişti ---
-    PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
-        .setAmount(amount)
-        .setCurrency(currency)
-        .putMetadata("orderId", orderId.toString())
-        .build();
-    PaymentIntent intent = PaymentIntent.create(params);
-    // --- değişiklik bitti ---
+        double orderTotal = order.getOrderTotalWithoutDiscount();
+        // Stripe minimum amount check (50 kuruş = 0.50 TL)
+        if (orderTotal < 0.50) {
+            throw new RuntimeException("Minimum ödeme tutarı 0.50 TL'dir. Lütfen sepetinize daha fazla ürün ekleyin.");
+        }
 
-    Payment payment = new Payment();
-    payment.setOrder(order);
-    payment.setCustomer((Customer) order.getCustomer());
-    payment.setAmount(amount);
-    payment.setStripePaymentIntentId(intent.getId());
-    payment.setStatus(intent.getStatus());
-    payment.setPaymentDate(null);
-    paymentRepository.save(payment);
+        long amount = Math.round(orderTotal * 100);
 
-    return intent.getClientSecret();
+        PaymentIntentCreateParams params = PaymentIntentCreateParams.builder()
+            .setAmount(amount)
+            .setCurrency(currency)
+            .putMetadata("orderId", orderId.toString())
+            .build();
+        PaymentIntent intent = PaymentIntent.create(params);
+
+        Payment payment = new Payment();
+        payment.setOrder(order);
+        payment.setCustomer((Customer) order.getCustomer());
+        payment.setAmount(amount);
+        payment.setStripePaymentIntentId(intent.getId());
+        payment.setStatus(intent.getStatus());
+        payment.setPaymentDate(null);
+        paymentRepository.save(payment);
+
+        return intent.getClientSecret();
     }
 
      /**
@@ -401,15 +421,6 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
     }
-    public void requestRefund(Long orderId) {
-            Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı: " + orderId));
-            if (order.getStatus() != OrderStatus.COMPLETED && order.getStatus() != OrderStatus.SHIPPED) {
-                throw new IllegalStateException("Sadece tamamlanmış veya kargolanmış siparişler için iade talebi oluşturulabilir.");
-            }
-            order.setStatus(OrderStatus.REFUND_REQUESTED);
-            orderRepository.save(order);
-        }
 
     public List<OrderDTO> getOrdersBySellerId(Long sellerId) {
         List<Order> orders = orderRepository.findOrdersBySellerId(sellerId);

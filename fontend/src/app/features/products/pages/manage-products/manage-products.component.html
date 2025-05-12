@@ -1,98 +1,89 @@
-<div class="container mx-auto p-6 bg-[#FEFCFB] rounded-md shadow-md">
+<div class="container mx-auto p-6 bg-beyaz rounded-md shadow-md">
 
-    <!-- Add / Update Product Form -->
-    <div class="form-section">
-      <h2 class="text-2xl font-semibold text-[#034078] mb-6">{{ isEditMode ? 'Update Product' : 'Add New Product' }}</h2>
+  <div class="form-section">
+    <h2 class="text-2xl font-semibold text-lacivert-derin mb-6 tracking-wide">{{ isEditMode ? 'Update Product' : 'Add New Product' }}</h2>
 
-      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-4">
-
-        <!-- Product Name -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Product Name</label>
-          <input type="text" formControlName="name" placeholder="Enter product name"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
-               class="text-red-500 text-sm">
-            Product name is required.
-          </div>
-        </div>
-
-        <!-- Price -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Price (₺)</label>
-          <input type="number" formControlName="price" placeholder="Enter price"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-          <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
-               class="text-red-500 text-sm">
-            Please enter a valid price.
-          </div>
-        </div>
-
-        <!-- Description -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Description</label>
-          <textarea formControlName="description" placeholder="Product description"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]"></textarea>
-        </div>
-
-    <!-- Main Category -->
-    <div>
-        <label>Main Category</label>
-      <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
-        <option *ngFor="let cat of mainCategories" [value]="cat">
-          {{ formatCategory(cat) }}
-        </option>
-</select>
-
-    <!-- Removed duplicate form tag -->
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="space-y-4">
 
       <div>
-        <label class="block text-sm font-medium text-[#034078]">Product Name</label>
-        <input type="text" formControlName="name" placeholder="Enter product name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="text-red-500 text-sm">
+        <label class="block text-sm font-medium text-gece-yarisi">Product Name</label>
+        <input type="text" formControlName="name" placeholder="Enter product name"
+               class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+             class="text-acik-pembe text-sm">
           Product name is required.
         </div>
+      </div>
 
-        <!-- Side Categories -->
-        <div *ngIf="availableSideCategories.length > 0">
-          <label class="block text-sm font-medium text-[#034078] mb-2">Subcategories</label>
-          <div class="space-y-2">
-            <div *ngFor="let sideCat of availableSideCategories" class="flex items-center">
-              <input type="checkbox" [id]="'sideCat-' + sideCat"
-                     [checked]="productForm.value.sideCategories?.includes(sideCat) || false"
-                     (change)="toggleSideCategory(sideCat, $event)"
-                     class="rounded border-gray-300 text-[#1282A2] focus:ring-[#1282A2]">
-              <label [for]="'sideCat-' + sideCat" class="ml-2 text-sm text-gray-700">{{ sideCat }}</label>
-            </div>
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Price (₺)</label>
+        <input type="number" formControlName="price" placeholder="Enter price"
+               class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
+        <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
+             class="text-acik-pembe text-sm">
+          Please enter a valid price.
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Description</label>
+        <textarea formControlName="description" placeholder="Product description"
+                  class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Main Category</label>
+        <select formControlName="mainCategory" (change)="onMainCategoryChange($event)"
+                class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin bg-beyaz">
+          <option *ngFor="let cat of mainCategories" [value]="cat">
+            {{ formatCategory(cat) }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Product Name</label>
+        <input type="text" formControlName="name" placeholder="Enter product name" class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="text-acik-pembe text-sm">
+          Product name is required.
+        </div>
+      </div>
+
+      <div *ngIf="availableSideCategories.length > 0">
+        <label class="block text-sm font-medium text-gece-yarisi mb-2">Subcategories</label>
+        <div class="space-y-2">
+          <div *ngFor="let sideCat of availableSideCategories" class="flex items-center">
+            <input type="checkbox" [id]="'sideCat-' + sideCat"
+                   [checked]="productForm.value.sideCategories?.includes(sideCat) || false"
+                   (change)="toggleSideCategory(sideCat, $event)"
+                   class="rounded border-lavanta-grisi text-acik-pembe focus:ring-acik-pembe">
+            <label [for]="'sideCat-' + sideCat" class="ml-2 text-sm text-lacivert-derin">{{ sideCat }}</label>
           </div>
         </div>
+      </div>
 
-        <!-- Shipping Cost -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Shipping Cost (₺)</label>
-          <input type="number" formControlName="shippingCost" placeholder="Enter shipping cost"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Shipping Cost (₺)</label>
+        <input type="number" formControlName="shippingCost" placeholder="Enter shipping cost"
+               class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gece-yarisi">Stock Quantity</label>
+        <input type="number" formControlName="stockCount" placeholder="Stock quantity"
+               class="mt-1 block w-full rounded-md border-lavanta-grisi shadow-sm focus:border-acik-pembe focus:ring-acik-pembe text-lacivert-derin">
+        <div *ngIf="productForm.get('stockCount')?.invalid && productForm.get('stockCount')?.touched"
+             class="text-acik-pembe text-sm">
+          Stock must be between 1 and 500.
         </div>
+      </div>
 
-        <!-- Stock -->
-        <div>
-          <label class="block text-sm font-medium text-[#034078]">Stock Quantity</label>
-          <input type="number" formControlName="stockCount" placeholder="Stock quantity"
-                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2]">
-          <div *ngIf="productForm.get('stockCount')?.invalid && productForm.get('stockCount')?.touched"
-               class="text-red-500 text-sm">
-            Stock must be between 1 and 500.
-          </div>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="mt-6">
-          <button type="submit" [disabled]="productForm.invalid"
-                  class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1282A2] hover:bg-[#034078] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1282A2] disabled:opacity-50">
-            {{ isEditMode ? 'Update Product' : 'Add Product' }}
-          </button>
-        </div>
-
-      <!-- Removed redundant closing form tag -->
-    </div>
-
+      <div class="mt-6">
+        <button type="submit" [disabled]="productForm.invalid"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-acik-pembe hover:bg-lavanta-grisi focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-acik-pembe disabled:opacity-50 transition-colors duration-200">
+          {{ isEditMode ? 'Update Product' : 'Add Product' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

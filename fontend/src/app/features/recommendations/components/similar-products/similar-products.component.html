@@ -1,19 +1,19 @@
-<div class="recommendation-box similar-box bg-white rounded-md shadow-sm p-4 mb-4 border border-[#1282A2]">
-  <h5 class="sidebar-title text-lg font-semibold text-[#034078] mb-3">Similar Products</h5>
+<div class="recommendation-box similar-box bg-beyaz rounded-md shadow-sm p-4 mb-4 border border-acik-pembe/20">
+  <h5 class="sidebar-title text-lg font-semibold text-lacivert-derin mb-3">Similar Products</h5>
   <div class="recommendation-cards space-y-2">
     <div
-      class="rec-card flex items-center p-2 rounded-md hover:bg-gray-100 cursor-pointer"
+      class="rec-card flex items-center p-2 rounded-md hover:bg-lavanta-grisi/10 cursor-pointer transition-colors duration-200"
       *ngFor="let item of similarList"
       (click)="goToProduct(item.product.id)"
     >
       <div class="rec-info flex-grow">
         <a
-          class="rec-name block font-medium text-[#0A1128] hover:text-[#001F54]"
+          class="rec-name block font-medium text-gece-yarisi hover:text-acik-pembe transition-colors duration-200"
           [routerLink]="['/products', item.product.id]"
         >
           {{ item.product.name }}
         </a>
-        <p class="rec-price text-sm text-gray-600">{{ item.product.price | currency }}</p>
+        <p class="rec-price text-sm text-lavanta-grisi">{{ item.product.price | currency }}</p>
       </div>
     </div>
   </div>

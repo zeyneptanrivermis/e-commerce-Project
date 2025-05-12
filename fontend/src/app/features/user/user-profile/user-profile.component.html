@@ -1,19 +1,19 @@
-<div class="bg-[#FFF5FD] min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-  <form [formGroup]="profileForm" class="bg-white rounded-lg shadow-md p-8 w-full max-w-md mb-8" *ngIf="currentUser">
-    <h2 class="text-2xl font-semibold text-[#005A8D] mb-6 tracking-wide">Welcome, {{ currentUser.name }} {{ currentUser.surname }}!</h2>
+<div class="bg-lacivert-derin min-h-screen py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+  <form [formGroup]="profileForm" class="bg-beyaz rounded-lg shadow-md p-8 w-full max-w-md mb-8" *ngIf="currentUser">
+    <h2 class="text-2xl font-semibold text-acik-pembe mb-6 tracking-wide">Welcome, {{ currentUser.name }} {{ currentUser.surname }}!</h2>
 
     <div class="mb-4">
       <div class="flex justify-between items-center">
-        <strong class="text-gray-700">Email:</strong>
-        <span *ngIf="!editEmail" class="text-gray-600">{{ currentUser.email }}</span>
+        <strong class="text-gece-yarisi">Email:</strong>
+        <span *ngIf="!editEmail" class="text-lavanta-grisi">{{ currentUser.email }}</span>
         <div *ngIf="editEmail" class="flex-1 ml-2">
-          <input formControlName="email" type="email" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-[#FF96AD] focus:border-[#FF96AD]" />
-          <div *ngIf="profileForm.get('email')?.errors?.['email']" class="text-red-500 text-sm mt-1">
+          <input formControlName="email" type="email" class="w-full border border-lavanta-grisi rounded-md py-2 px-3 focus:ring-acik-pembe focus:border-acik-pembe text-lacivert-derin" />
+          <div *ngIf="profileForm.get('email')?.errors?.['email']" class="text-acik-pembe text-sm mt-1">
             Enter a valid e-mail.
           </div>
         </div>
         <button (click)="toggleEdit('email')" [disabled]="editEmail && profileForm.get('email')?.invalid"
-                class="bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium focus:outline-none ml-2">
+                class="bg-acik-pembe text-lacivert-derin py-2 px-4 rounded-md hover:bg-lavanta-grisi transition duration-200 text-sm font-medium focus:outline-none ml-2">
           {{ editEmail ? 'Save' : 'Edit' }}
         </button>
       </div>
@@ -21,16 +21,16 @@
 
     <div class="mb-4">
       <div class="flex justify-between items-center">
-        <strong class="text-gray-700">Birthday:</strong>
-        <span *ngIf="!editBirthday" class="text-gray-600">{{ currentUser.birthday || 'Not set' }}</span>
+        <strong class="text-gece-yarisi">Birthday:</strong>
+        <span *ngIf="!editBirthday" class="text-lavanta-grisi">{{ currentUser.birthday || 'Not set' }}</span>
         <div *ngIf="editBirthday" class="flex-1 ml-2">
-          <input formControlName="birthday" type="date" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-[#FF96AD] focus:border-[#FF96AD]" />
-          <div *ngIf="profileForm.get('birthday')?.errors?.['futureDate']" class="text-red-500 text-sm mt-1">
+          <input formControlName="birthday" type="date" class="w-full border border-lavanta-grisi rounded-md py-2 px-3 focus:ring-acik-pembe focus:border-acik-pembe text-lacivert-derin" />
+          <div *ngIf="profileForm.get('birthday')?.errors?.['futureDate']" class="text-acik-pembe text-sm mt-1">
             Enter a valid date.
           </div>
         </div>
         <button (click)="toggleEdit('birthday')" [disabled]="editBirthday && profileForm.get('birthday')?.invalid"
-                class="bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium focus:outline-none ml-2">
+                class="bg-acik-pembe text-lacivert-derin py-2 px-4 rounded-md hover:bg-lavanta-grisi transition duration-200 text-sm font-medium focus:outline-none ml-2">
           {{ editBirthday ? 'Save' : 'Edit' }}
         </button>
       </div>
@@ -38,16 +38,16 @@
 
     <div class="mb-4">
       <div class="flex justify-between items-center">
-        <strong class="text-gray-700">Name:</strong>
-        <span *ngIf="!editName" class="text-gray-600">{{ currentUser.name }}</span>
+        <strong class="text-gece-yarisi">Name:</strong>
+        <span *ngIf="!editName" class="text-lavanta-grisi">{{ currentUser.name }}</span>
         <div *ngIf="editName" class="flex-1 ml-2">
-          <input formControlName="name" type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-[#FF96AD] focus:border-[#FF96AD]" />
-          <div *ngIf="profileForm.get('name')?.errors?.['maxlength']" class="text-red-500 text-sm mt-1">
+          <input formControlName="name" type="text" class="w-full border border-lavanta-grisi rounded-md py-2 px-3 focus:ring-acik-pembe focus:border-acik-pembe text-lacivert-derin" />
+          <div *ngIf="profileForm.get('name')?.errors?.['maxlength']" class="text-acik-pembe text-sm mt-1">
             Max 50 characters.
           </div>
         </div>
         <button (click)="toggleEdit('name')" [disabled]="editName && profileForm.get('name')?.invalid"
-                class="bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium focus:outline-none ml-2">
+                class="bg-acik-pembe text-lacivert-derin py-2 px-4 rounded-md hover:bg-lavanta-grisi transition duration-200 text-sm font-medium focus:outline-none ml-2">
           {{ editName ? 'Save' : 'Edit' }}
         </button>
       </div>
@@ -55,21 +55,21 @@
 
     <div class="mb-4">
       <div class="flex justify-between items-center">
-        <strong class="text-gray-700">Surname:</strong>
-        <span *ngIf="!editSurname" class="text-gray-600">{{ currentUser.surname }}</span>
+        <strong class="text-gece-yarisi">Surname:</strong>
+        <span *ngIf="!editSurname" class="text-lavanta-grisi">{{ currentUser.surname }}</span>
         <div *ngIf="editSurname" class="flex-1 ml-2">
-          <input formControlName="surname" type="text" class="w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-[#FF96AD] focus:border-[#FF96AD]" />
-          <div *ngIf="profileForm.get('surname')?.errors?.['maxlength']" class="text-red-500 text-sm mt-1">
+          <input formControlName="surname" type="text" class="w-full border border-lavanta-grisi rounded-md py-2 px-3 focus:ring-acik-pembe focus:border-acik-pembe text-lacivert-derin" />
+          <div *ngIf="profileForm.get('surname')?.errors?.['maxlength']" class="text-acik-pembe text-sm mt-1">
             Max 50 characters.
           </div>
         </div>
         <button (click)="toggleEdit('surname')" [disabled]="editSurname && profileForm.get('surname')?.invalid"
-                class="bg-[#FF96AD] text-[#FFF5FD] py-2 px-4 rounded-md hover:bg-[#022E57] transition duration-200 text-sm font-medium focus:outline-none ml-2">
+                class="bg-acik-pembe text-lacivert-derin py-2 px-4 rounded-md hover:bg-lavanta-grisi transition duration-200 text-sm font-medium focus:outline-none ml-2">
           {{ editSurname ? 'Save' : 'Edit' }}
         </button>
       </div>
     </div>
   </form>
 
-  <app-address class="bg-white rounded-lg shadow-md p-8 w-full max-w-md" *ngIf="currentUser" [userId]="currentUser.userId"></app-address>
+  <app-address class="bg-beyaz rounded-lg shadow-md p-8 w-full max-w-md" *ngIf="currentUser" [userId]="currentUser.userId"></app-address>
 </div>
