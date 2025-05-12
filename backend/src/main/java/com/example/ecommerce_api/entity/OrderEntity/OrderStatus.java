@@ -5,5 +5,11 @@ public enum OrderStatus {
     ACCEPTED,
     COMPLETED,
     CANCELLED, 
-    SHIPPED
+    SHIPPED,
+
+    // —— İADE SÜRECİ —— 
+    REFUND_REQUESTED,     // Müşteri iade talebi açtı
+    REFUND_APPROVED,      // Admin iadesini onayladı
+    REFUND_DECLINED,      // Admin iadesini reddetti
+    REFUNDED              // Stripe üzerinden iade gerçekleşti
 }

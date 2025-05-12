@@ -39,12 +39,16 @@ public class PaymentWebhookController {
                         .getObject().orElseThrow();
 
                 Long orderId = Long.valueOf(intent.getMetadata().get("orderId"));
-                String chargeId = intent.getLatestCharge(); // ✅ CHARGE ID BURADA
+                String chargeId = intent.getLatestCharge();
+                Long amount = intent.getAmount();
 
-                PaymentCompleteRequest paymentRequest = new PaymentCompleteRequest(intent.getId());
-                paymentRequest.setChargeId(chargeId); // 🔥 BURAYA CHARGE ID’Yİ EKLİYORUZ
+                PaymentCompleteRequest paymentRequest = new PaymentCompleteRequest(
+                    intent.getId(),  // paymentIntentId
+                    amount,          // amount
+                    chargeId         // chargeId
+                );
 
-                orderService.finalizePayment(orderId, paymentRequest); // ✅ Hepsi burada yapılacak
+                orderService.finalizePayment(orderId, paymentRequest);
                 break;
             }
             case "payment_intent.payment_failed": {

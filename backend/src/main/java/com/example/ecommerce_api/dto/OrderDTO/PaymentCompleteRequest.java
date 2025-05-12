@@ -1,13 +1,18 @@
 package com.example.ecommerce_api.dto.OrderDTO;
 
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentCompleteRequest {
     private String paymentIntentId;
     private Long amount;
-    private String chargeId; // ✅ yeni alan
+    private String chargeId; // Optional field
 
     public PaymentCompleteRequest(String id) {
-        //TODO Auto-generated constructor stub
     }
     public String getPaymentIntentId() { return paymentIntentId; }
     public void setPaymentIntentId(String paymentIntentId) {

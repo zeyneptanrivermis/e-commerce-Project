@@ -31,7 +31,7 @@
 }
 
 .animate-wheel-spin {
-  animation: wheel-spin 0.2s linear infinite; /* Hızlı bir dönüş */
+  animation: wheel-spin 0.2s linear infinite; /* A fast spin */
 }
 
 .exhaust-smoke {
@@ -44,7 +44,7 @@
 </style>
 
 <script>
-// Örnek JavaScript kodu (Angular component içinde kullanılabilir)
+// Example JavaScript code (can be used within an Angular component)
 const truckElement = document.querySelector('.truck');
 const smokeElement = document.querySelector('.exhaust-smoke');
 let previousProgress = 0;
@@ -54,8 +54,8 @@ function startWheelSpin() {
   const truckEmoji = truckElement.querySelector('.animate-wheel-spin');
   if (truckEmoji && !wheelSpinInterval) {
     wheelSpinInterval = setInterval(() => {
-      // Tekerlek dönüyor görseli (CSS animation ile)
-    }, 200); // Her 200ms'de bir kontrol et
+      // Wheel spinning visual (using CSS animation)
+    }, 200); // Check every 200ms
   }
 }
 
@@ -69,7 +69,7 @@ function triggerExhaust() {
     smokeElement.classList.add('show-smoke');
     setTimeout(() => {
       smokeElement.classList.remove('show-smoke');
-    }, 500); // Dumanın görünme süresi
+    }, 500); // Duration the smoke is visible
   }
 }
 
@@ -77,20 +77,20 @@ function updateTruckPosition(currentProgress) {
   truckElement.style.left = `${currentProgress}%`;
   if (currentProgress > previousProgress) {
     triggerExhaust();
-    startWheelSpin(); // İlerlerken tekerlekleri döndür
+    startWheelSpin(); // Spin wheels while moving forward
     previousProgress = currentProgress;
   } else if (currentProgress === previousProgress) {
-    startWheelSpin(); // Dururken de tekerlekler dönsün
+    startWheelSpin(); // Keep wheels spinning when stopped
   } else {
-    stopWheelSpin(); // Geriye giderse tekerlekler dursun (isteğe bağlı)
+    stopWheelSpin(); // Stop wheels if moving backward (optional)
     previousProgress = currentProgress;
   }
 }
 
-// progressPercent değerini dinleyip updateTruckPosition fonksiyonunu çağırabilirsiniz.
-// Örneğin:
+// You can listen to the progressPercent value and call updateTruckPosition.
+// For example:
 // this.progressPercent$.subscribe(progress => updateTruckPosition(progress));
 
-// Sayfa yüklendiğinde tekerlekleri başlat (isteğe bağlı)
+// Start the wheels spinning on page load (optional)
 document.addEventListener('DOMContentLoaded', startWheelSpin);
 </script>

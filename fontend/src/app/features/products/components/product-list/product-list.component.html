@@ -1,13 +1,13 @@
-<div class="categories">
+<div class="categories flex items-center gap-2 mb-4">
   <ng-container *ngIf="route.snapshot.queryParams['category'] as currentCategory">
-    <span class="category-tag main-category">
+    <span class="category-tag main-category bg-[#001F54] text-[#FEFCFB] rounded-full px-3 py-1 text-sm font-semibold">
       Filtering by: {{ currentCategory }}
     </span>
-    <button class="category-tag side-category" (click)="clearCategory()">Cancel Category</button>
+    <button class="category-tag side-category bg-[#ffafcc] text-[#0A1128] rounded-full px-3 py-1 text-sm font-semibold hover:bg-[#FEFCFB] hover:text-[#ffafcc] focus:outline-none" (click)="clearCategory()">Cancel Category</button>
   </ng-container>
 </div>
 
-<div class="product-list">
+<div class="product-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
   <app-product-item
     *ngFor="let product of filteredProducts; trackBy: trackById"
     [product]="product"
@@ -17,6 +17,6 @@
 
 <div #observer class="observer-trigger" style="height: 1px;"></div>
 
-<p *ngIf="allLoaded" class="end-message">
+<p *ngIf="allLoaded" class="end-message text-gray-600 mt-4">
   You have seen all of our products.
 </p>

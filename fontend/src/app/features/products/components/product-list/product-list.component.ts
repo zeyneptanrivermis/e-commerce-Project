@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, PLATFORM_ID, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MainCategory, Product, SideCategories } from '../../../../models/product.model';
 import { CartService } from '../../../cart/services/cart.service';
@@ -15,7 +15,8 @@ import { PLATFORM_ID, Inject } from '@angular/core';
 export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  observer!: IntersectionObserver;
+  observer?: IntersectionObserver;
+  isBrowser: boolean;
 
   limit = 10;
   skip = 0;
@@ -73,7 +74,9 @@ ngAfterViewInit(): void {
 
 
   ngOnDestroy(): void {
-    this.observer?.disconnect();
+    if (this.isBrowser && this.observer) {
+      this.observer.disconnect();
+    }
   }
 
   trackById(index: number, product: any): number {
@@ -94,11 +97,15 @@ ngAfterViewInit(): void {
 
           if (data.length < this.limit) {
             this.allLoaded = true;
-            this.observer.disconnect();
+            if (this.isBrowser && this.observer) {
+              this.observer.disconnect();
+            }
           }
         } else {
           this.allLoaded = true;
-          this.observer.disconnect();
+          if (this.isBrowser && this.observer) {
+            this.observer.disconnect();
+          }
         }
         this.loading = false;
       },
@@ -106,7 +113,9 @@ ngAfterViewInit(): void {
         console.error('🔴 Ürünler alınamadı:', err);
         this.loading = false;
         this.allLoaded = true;
-        this.observer.disconnect();
+        if (this.isBrowser && this.observer) {
+          this.observer.disconnect();
+        }
       }
     });
   }

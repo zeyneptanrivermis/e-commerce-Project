@@ -1,146 +1,137 @@
-<!-- src/app/features/products/components/product-details/product-details.component.html -->
-<div class="page-wrapper">
+<div class="page-wrapper flex">
 
-  <!-- Ana içerik kolonu -->
-  <main class="content">
+  <main class="content w-full md:w-2/3 lg:w-3/4 p-6">
     <div *ngIf="product">
-      <div *ngIf="product" class="product-details-page">
-        <h2 class="product-title">{{ product.name }}</h2>
+      <div *ngIf="product" class="product-details-page bg-[#FEFCFB] rounded-md shadow-md p-6">
+        <h2 class="product-title text-2xl font-semibold text-[#0A1128] mb-4">{{ product.name }}</h2>
 
-        <div class="product-info-row">
-          <div class="product-box">
-            <h4>Description</h4>
-            <p>{{ product.description }}</p>
+        <div class="product-info-row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Description</h4>
+            <p class="text-[#0A1128]">{{ product.description }}</p>
           </div>
 
-          <div class="product-box">
-            <h4>Price</h4>
-            <p>{{ product.price | currency }}</p>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Price</h4>
+            <p class="text-[#0A1128]">{{ product.price | currency }}</p>
           </div>
 
-          <div class="product-box">
-            <h4>Shipping</h4>
-            <p>{{ product.shippingCost | currency }}</p>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Shipping</h4>
+            <p class="text-[#0A1128]">{{ product.shippingCost | currency }}</p>
           </div>
 
-          <div class="product-box">
-            <h4>Stock</h4>
-            <p>{{ product.stockCount }}</p>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Stock</h4>
+            <p class="text-[#0A1128]">{{ product.stockCount }}</p>
           </div>
 
-          <div class="product-box">
-            <h4>Rating</h4>
-            <p>{{ product.avgRating }} / 5</p>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Rating</h4>
+            <p class="text-[#0A1128]">{{ product.avgRating }} / 5</p>
           </div>
 
-          <div class="product-box">
-            <h4>Seller</h4>
-            <p>{{ product.seller.name }} ({{ product.seller.email }})</p>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Seller</h4>
+            <p class="text-[#0A1128]">{{ product.seller.name }} ({{ product.seller.email }})</p>
           </div>
 
-          <div class="product-box">
-            <h4>Main Category</h4>
+          <div class="product-box bg-white rounded-md shadow-sm p-4">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Main Category</h4>
             <a
               [routerLink]="['/products']"
               [queryParams]="{ category: product.mainCategory }"
-              class="category-badge clickable"
+              class="category-badge inline-block bg-[#ffafcc] text-[#0A1128] rounded-full px-3 py-1 text-sm font-semibold hover:bg-[#FEFCFB] hover:text-[#ffafcc] clickable"
             >
               {{ product.mainCategory }}
             </a>
           </div>
 
-          <div class="product-box" *ngIf="product.sideCategories?.length">
-            <h4>Sub Categories</h4>
-            <div class="subcategory-badges">
-              <ng-container *ngFor="let sub of product.sideCategories">
-                <span class="subcategory-badge">{{ sub }}</span>
-              </ng-container>
+          <div class="product-box bg-white rounded-md shadow-sm p-4" *ngIf="product.sideCategories?.length">
+            <h4 class="text-lg font-semibold text-[#034078] mb-2">Sub Categories</h4>
+            <div class="subcategory-badges flex flex-wrap gap-2">
+              <span *ngFor="let sub of product.sideCategories" class="subcategory-badge inline-block bg-[#1282A2] text-[#FEFCFB] rounded-full px-3 py-1 text-sm font-semibold">{{ sub }}</span>
             </div>
           </div>
         </div>
 
-        <div class="product-actions">
-          <button (click)="addToCart(product.id)">Add to Cart</button>
+        <div class="product-actions mt-4">
+          <button (click)="addToCart(product.id)" class="bg-[#001F54] text-[#FEFCFB] rounded-md px-4 py-2 font-semibold hover:bg-[#0A1128] focus:outline-none">Add to Cart</button>
         </div>
       </div>
 
-<!-- review-section in product-details.component.html -->
-<div class="review-section">
-  <div class="review-header">
-    <h2 class="review-title">Reviews</h2>
-    <button (click)="toggleReviews()" class="toggle-review-btn">
-      {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
-    </button>
-  </div>
-
-  <div *ngIf="showReviews">
-    <!-- Add Review button or warning -->
-    <div class="add-review-header">
-      <ng-container *ngIf="canReview; else cannotReview">
-        <button (click)="showReviewForm = !showReviewForm" class="add-review-btn">
-          {{ showReviewForm ? 'Cancel' : 'Add Review' }}
-        </button>
-      </ng-container>
-      <ng-template #cannotReview>
-        <p class="warning">
-          You can only add a review after you’ve received the product.
-        </p>
-      </ng-template>
-    </div>
-
-    <!-- Review form -->
-    <div *ngIf="showReviewForm && canReview" class="review-form-container">
-      <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
-        <label>
-          Rating:
-          <select formControlName="rating">
-            <option value="" disabled>Select</option>
-            <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
-          </select>
-        </label>
-        <div *ngIf="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched" class="error">
-          Please select a rating between 1 and 5.
+      <div class="review-section mt-8 bg-[#FEFCFB] rounded-md shadow-md p-6">
+        <div class="review-header flex items-center justify-between mb-4">
+          <h2 class="review-title text-xl font-semibold text-[#0A1128]">Reviews</h2>
+          <button (click)="toggleReviews()" class="toggle-review-btn bg-[#1282A2] text-[#FEFCFB] rounded-md px-3 py-1 text-sm font-semibold hover:bg-[#001F54] focus:outline-none">
+            {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
+          </button>
         </div>
 
-        <label>
-          Comment:
-          <textarea formControlName="comment" rows="3" placeholder="Write your review here..."></textarea>
-        </label>
-        <div *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched" class="error">
-          Comment must be between 1 and 1000 characters.
+        <div *ngIf="showReviews">
+          <div class="add-review-header mb-4">
+            <ng-container *ngIf="canReview; else cannotReview">
+              <button (click)="showReviewForm = !showReviewForm" class="add-review-btn bg-[#ffafcc] text-[#0A1128] rounded-md px-3 py-1 text-sm font-semibold hover:bg-[#FEFCFB] hover:text-[#ffafcc] focus:outline-none">
+                {{ showReviewForm ? 'Cancel' : 'Add Review' }}
+              </button>
+            </ng-container>
+            <ng-template #cannotReview>
+              <p class="warning text-yellow-500">
+                You can only add a review after you’ve received the product.
+              </p>
+            </ng-template>
+          </div>
+
+          <div *ngIf="showReviewForm && canReview" class="review-form-container bg-white rounded-md shadow-sm p-4 mb-4">
+            <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form flex flex-col gap-2">
+              <label class="text-[#034078] font-semibold">
+                Rating:
+                <select formControlName="rating" class="block w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-[#1282A2] focus:ring-[#1282A2]">
+                  <option value="" disabled>Select</option>
+                  <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+                </select>
+              </label>
+              <div *ngIf="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched" class="error text-red-500 text-sm">
+                Please select a rating between 1 and 5.
+              </div>
+
+              <label class="text-[#034078] font-semibold">
+                Comment:
+                <textarea formControlName="comment" rows="3" placeholder="Write your review here..." class="block w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-[#1282A2] focus:ring-[#1282A2]"></textarea>
+              </label>
+              <div *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched" class="error text-red-500 text-sm">
+                Comment must be between 1 and 1000 characters.
+              </div>
+
+              <button type="submit" [disabled]="reviewForm.invalid" class="submit-review-btn bg-[#001F54] text-[#FEFCFB] rounded-md px-4 py-2 font-semibold hover:bg-[#0A1128] focus:outline-none">
+                Submit Review
+              </button>
+            </form>
+          </div>
+
+          <div *ngIf="product.reviews?.length; else noReviews" class="reviews-list mt-4">
+            <div class="review-box bg-white rounded-md shadow-sm p-4 mb-2" *ngFor="let review of product.reviews">
+              <p class="text-[#034078] font-semibold">
+                <strong>{{ review.customerName }}</strong>
+                <span *ngIf="review.edited" class="edited-label text-gray-500 text-sm">(Edited)</span>
+              </p>
+              <p class="text-[#0A1128] text-sm">Rating: {{ review.rating }} / 5</p>
+              <p class="text-[#0A1128]">{{ review.comment }}</p>
+            </div>
+          </div>
+          <ng-template #noReviews>
+            <p class="no-reviews-message text-gray-600">There are no reviews yet.</p>
+          </ng-template>
+
         </div>
-
-        <button type="submit" [disabled]="reviewForm.invalid" class="submit-review-btn">
-          Submit Review
-        </button>
-      </form>
-    </div>
-
-    <!-- Existing reviews list -->
-    <div *ngIf="product.reviews?.length; else noReviews" class="reviews-list">
-      <div class="review-box" *ngFor="let review of product.reviews">
-        <p>
-          <strong>{{ review.customerName }}</strong>
-          <span *ngIf="review.edited" class="edited-label">(Edited)</span>
-        </p>
-        <p>Rating: {{ review.rating }} / 5</p>
-        <p>{{ review.comment }}</p>
       </div>
-    </div>
-    <ng-template #noReviews>
-      <p class="no-reviews-message">There are no reviews yet.</p>
-    </ng-template>
-
-  </div>
-</div>
 
     </div>
   </main>
 
-  <!-- Sağda kayan öneri sidebar’ı -->
-  <aside class="sidebar-right">
-    <section class="sidebar-section">
-      <h4>Similar Products</h4>
+  <aside class="sidebar-right w-1/3 lg:w-1/4 p-6 bg-[#f7f7f7] border-l border-gray-200">
+    <section class="sidebar-section mb-6">
+      <h4 class="text-lg font-semibold text-[#034078] mb-2">Similar Products</h4>
       <app-similar-products
         *ngIf="product?.id"
         [productId]="product.id">
@@ -148,7 +139,7 @@
     </section>
 
     <section class="sidebar-section">
-      <h4>Products You May Like</h4>
+      <h4 class="text-lg font-semibold text-[#034078] mb-2">Products You May Like</h4>
       <app-recommendation-list
         *ngIf="currentUserId"
         [userId]="currentUserId">

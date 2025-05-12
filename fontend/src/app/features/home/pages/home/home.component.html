@@ -1,12 +1,11 @@
-<div class="bg-[#F2F9FF] py-8 px-4 sm:px-6 lg:px-8">
+<div class="bg-lacivert-derin py-8 px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto text-center">
-    <h2 class="text-3xl font-extrabold text-[#E195AB] sm:text-4xl">Welcome to Shopping</h2>
-    <a href="/products" class="mt-4 inline-block bg-[#FFCCE1] border border-transparent rounded-md py-3 px-8 font-medium text-[#E195AB] hover:bg-[#E195AB] hover:text-[#FFCCE1]">Start Shopping</a>
+    <h2 class="text-3xl font-extrabold text-acik-pembe sm:text-4xl">Welcome to Shopping</h2>
+    <a href="/products" class="mt-4 inline-block bg-lavanta-grisi border border-transparent rounded-md py-3 px-8 font-medium text-beyaz hover:bg-gece-yarisi hover:text-beyaz">Start Shopping</a>
   </div>
 
-  <!-- Hero Section with Carousel -->
-  <div class="relative">
-    <div class="carousel-container relative h-[500px] overflow-hidden">
+  <div class="relative mt-8">
+    <div class="carousel-container relative h-[500px] overflow-hidden rounded-lg shadow-xl">
       <div class="carousel-wrapper flex transition-transform duration-500 ease-in-out" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
         <div class="carousel-slide min-w-full h-[500px] relative" *ngFor="let slide of slides">
           <img [src]="slide.image" [alt]="slide.title" class="w-full h-full object-cover" loading="lazy">
@@ -14,7 +13,7 @@
             <div class="text-center text-white">
               <h2 class="text-4xl font-bold mb-4">{{slide.title}}</h2>
               <p class="text-xl mb-6">{{slide.description}}</p>
-              <a [routerLink]="slide.link" class="bg-[#E195AB] text-white px-8 py-3 rounded-full hover:bg-[#FFCCE1] hover:text-[#E195AB] transition-colors duration-300">
+              <a [routerLink]="slide.link" class="bg-acik-pembe text-beyaz px-8 py-3 rounded-full hover:bg-lavanta-grisi hover:text-beyaz transition-colors duration-300">
                 {{slide.buttonText}}
               </a>
             </div>
@@ -22,65 +21,61 @@
         </div>
       </div>
 
-      <!-- Carousel Navigation -->
-      <button (click)="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button (click)="prevSlide()" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-acik-pembe" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <button (click)="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button (click)="nextSlide()" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-acik-pembe" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
-      <!-- Carousel Indicators -->
       <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        <div *ngFor="let slide of slides; let i = index" class="w-3 h-3 rounded-full bg-white opacity-50 cursor-pointer" 
-             [ngClass]="{'bg-opacity-100': currentSlide === i}" (click)="goToSlide(i)"></div>
+        <div *ngFor="let slide of slides; let i = index" class="w-3 h-3 rounded-full bg-white opacity-50 cursor-pointer transition-opacity duration-300"
+             [ngClass]="{'opacity-100': currentSlide === i}" (click)="goToSlide(i)"></div>
       </div>
     </div>
-  </div>  
+  </div>
 
-  <!-- Features Section -->
-  <div class="bg-white py-16">
+  <div class="bg-gece-yarisi py-16 mt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center">
-          <div class="bg-[#FFF5D7] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#E195AB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="bg-lavanta-grisi rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-acik-pembe" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Secure Shopping</h3>
-          <p class="text-gray-600">100% safe payment system</p>
+          <h3 class="text-xl font-semibold text-beyaz mb-2">Secure Shopping</h3>
+          <p class="text-lavanta-grisi">100% safe payment system</p>
         </div>
         <div class="text-center">
-          <div class="bg-[#FFF5D7] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#E195AB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="bg-lavanta-grisi rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-acik-pembe" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Fast Delivery</h3>
-          <p class="text-gray-600">Same-day shipping available</p>
+          <h3 class="text-xl font-semibold text-beyaz mb-2">Fast Delivery</h3>
+          <p class="text-lavanta-grisi">Same-day shipping available</p>
         </div>
         <div class="text-center">
-          <div class="bg-[#FFF5D7] rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#E195AB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="bg-lavanta-grisi rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-acik-pembe" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Easy Returns</h3>
-          <p class="text-gray-600">Free return within 14 days</p>
+          <h3 class="text-xl font-semibold text-beyaz mb-2">Easy Returns</h3>
+          <p class="text-lavanta-grisi">Free return within 14 days</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Categories Section -->
-  <div class="bg-[#F2F9FF] py-16">
+  <div class="bg-gece-yarisi py-16 mt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-[#E195AB] mb-8 text-center">Popular Categories</h2>
+      <h2 class="text-3xl font-bold text-acik-pembe mb-8 text-center">Popular Categories</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div class="category-card group relative overflow-hidden rounded-lg shadow-lg" *ngFor="let category of categories">
           <img [src]="category.image" [alt]="category.name" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110">
@@ -88,7 +83,7 @@
             <div class="p-6 w-full">
               <h3 class="text-xl font-semibold text-white mb-2">{{category.name}}</h3>
               <a [routerLink]="['/products']" [queryParams]="{ category: normalize(category.name) }"
-                 class="inline-block bg-white text-[#E195AB] py-2 px-4 rounded-full text-sm hover:bg-[#E195AB] hover:text-white transition-colors duration-300">
+                 class="inline-block bg-white text-lacivert-derin py-2 px-4 rounded-full text-sm hover:bg-acik-pembe hover:text-white transition-colors duration-300">
                 See products
               </a>
             </div>
@@ -98,23 +93,22 @@
     </div>
   </div>
 
-  <!-- Featured Products Section -->
-  <div class="bg-white py-16">
+  <div class="bg-gece-yarisi py-16 mt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-[#E195AB] mb-8 text-center">Featured Products</h2>
+      <h2 class="text-3xl font-bold text-acik-pembe mb-8 text-center">Featured Products</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div class="product-card group" *ngFor="let product of products">
-          <div class="relative overflow-hidden rounded-lg shadow-md">
-          <img [src]="getCategoryImage(product.mainCategory || '')"
-            [alt]="product.mainCategory"
-            class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110">
+        <div class="product-card group relative rounded-lg shadow-md overflow-hidden" *ngFor="let product of products">
+          <div class="relative overflow-hidden">
+            <img [src]="getCategoryImage(product.mainCategory || '')"
+                 [alt]="product.mainCategory"
+                 class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110">
             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity duration-300"></div>
           </div>
           <div class="p-4">
-            <h4 class="text-lg font-semibold text-gray-900 mb-2">{{product.name}}</h4>
-            <p class="text-[#E195AB] font-bold">{{product.price | currency}}</p>
+            <h4 class="text-lg font-semibold text-beyaz mb-2">{{product.name}}</h4>
+            <p class="text-acik-pembe font-bold">{{product.price | currency}}</p>
             <a [routerLink]="['/products', product.id]"
-               class="mt-4 inline-block w-full text-center bg-[#FFCCE1] text-[#E195AB] py-2 px-4 rounded-full hover:bg-[#E195AB] hover:text-white transition-colors duration-300">
+               class="mt-4 inline-block w-full text-center bg-lavanta-grisi text-beyaz py-2 px-4 rounded-full hover:bg-gece-yarisi hover:text-beyaz transition-colors duration-300">
               See more
             </a>
           </div>
@@ -123,16 +117,15 @@
     </div>
   </div>
 
-  <!-- Newsletter Section -->
-  <div class="bg-[#FFF5D7] py-16">
+  <div class="bg-gece-yarisi py-16 mt-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-[#E195AB] mb-4">Subscribe for Updates</h2>
-      <p class="text-gray-600 mb-8">Get discounts and the latest features!</p>
+      <h2 class="text-3xl font-bold text-acik-pembe mb-4">Subscribe for Updates</h2>
+      <p class="text-lavanta-grisi mb-8">Get discounts and the latest features!</p>
       <div class="max-w-md mx-auto">
         <div class="flex gap-4">
-          <input type="email" placeholder="Your email address" 
-                 class="flex-1 px-4 py-3 rounded-full border-2 border-[#E195AB] focus:outline-none focus:border-[#FFCCE1]">
-          <button class="bg-[#E195AB] text-white px-8 py-3 rounded-full hover:bg-[#FFCCE1] hover:text-[#E195AB] transition-colors duration-300">
+          <input type="email" placeholder="Your email address"
+                 class="flex-1 px-4 py-3 rounded-full border-2 border-acik-pembe focus:outline-none focus:border-lavanta-grisi text-lacivert-derin">
+          <button class="bg-acik-pembe text-white px-8 py-3 rounded-full hover:bg-lavanta-grisi hover:text-white transition-colors duration-300 focus:outline-none">
             Subscribe
           </button>
         </div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth-guard.service';    // Giriş yapmış mı kontrol
 import { AdminComponent } from './admin.component';
+import { RefundListComponent } from './RefundList/RefundList.component';
 
 const routes: Routes = [
   {
@@ -50,7 +51,8 @@ const routes: Routes = [
         loadChildren: () =>
           import('./support/support.module')
             .then(m => m.SupportModule)
-      }
+      },
+      { path: 'refunds', component: RefundListComponent }
     ]
   }
 ];

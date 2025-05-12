@@ -1,124 +1,102 @@
-
-  <h2>Merhaba,</h2>
-  <p>Trendyol’a giriş yap veya hesap oluştur, indirimleri kaçırma!</p>
+<div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+  <h2 class="text-2xl font-semibold text-[#022E57] mb-4">Hello,</h2>
+  <p class="text-sm text-gray-600 mb-6">Log in to Trendyol or create an account to not miss out on discounts!</p>
 
   <div class="login-box">
-    <div class="tabs">
-      <button (click)="goToLogin()">Giriş Yap</button>
-      <button class="active" (click)="goToRegister()">Üye Ol</button>
+    <div class="tabs flex rounded-md shadow-sm mb-4">
+      <button (click)="goToLogin()" class="flex-1 bg-white text-[#005A8D] py-2 px-4 font-semibold rounded-l-md focus:outline-none hover:bg-gray-100">Log In</button>
+      <button class="flex-1 bg-[#005A8D] text-white py-2 px-4 font-semibold rounded-r-md focus:outline-none">Sign Up</button>
     </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="doRegister()">
-      <!--isim soy isim -->
-      <div class="name-surname-group">
-        <div class="input-half">
-          <label for="name">Ad</label>
-          <input
-            type="text"
-            id="name"
-            formControlName="name"
-            maxlength="30"
-            placeholder="Adınız" />
-          <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="error">
-            Ad zorunludur (max 30 karakter).
+    <form [formGroup]="registerForm" (ngSubmit)="doRegister()" class="space-y-4">
+      <div class="name-surname-group flex gap-4">
+        <div class="input-half flex-1">
+          <label for="name" class="block text-sm font-medium text-[#034078]">Name</label>
+          <input type="text" id="name" formControlName="name" maxlength="30" placeholder="Your name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+          <div *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid" class="error text-red-500 text-xs mt-1">
+            Name is required (max 30 characters).
           </div>
         </div>
 
-        <div class="input-half">
-          <label for="surname">Soyad</label>
-          <input
-            type="text"
-            id="surname"
-            formControlName="surname"
-            maxlength="30"
-            placeholder="Soyadınız" />
-          <div *ngIf="registerForm.get('surname')?.touched && registerForm.get('surname')?.invalid" class="error">
-            Soyad zorunludur (max 30 karakter).
+        <div class="input-half flex-1">
+          <label for="surname" class="block text-sm font-medium text-[#034078]">Surname</label>
+          <input type="text" id="surname" formControlName="surname" maxlength="30" placeholder="Your surname" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+          <div *ngIf="registerForm.get('surname')?.touched && registerForm.get('surname')?.invalid" class="error text-red-500 text-xs mt-1">
+            Surname is required (max 30 characters).
           </div>
         </div>
       </div>
-      <!-- E-Posta -->
-      <label for="email">E-Posta</label>
-      <input
-        type="email"
-        id="email"
-        formControlName="email"
-        placeholder="E-posta adresinizi girin" />
-      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error">
-        Geçerli bir e-posta girin.
-      </div>
 
-      <!-- Şifre -->
-      <label for="password">Şifre</label>
-      <input
-        type="password"
-        id="password"
-        formControlName="password"
-        placeholder="Şifrenizi girin" />
-      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error">
-        Şifre en az 10 karakter olmalı.
-      </div>
-
-      <!-- Şifre Tekrar -->
-      <label for="confirmPassword">Şifre Tekrar</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        formControlName="confirmPassword"
-        placeholder="Şifrenizi tekrar girin" />
-      <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="error">
-        Şifre tekrar alanı boş olamaz.
-      </div>
-      <p class="password-info">Şifreniz en az 10 karakter olmalı. 1 büyük harf, 1 küçük harf ve rakam içermelidir.</p>
-
-      <!-- Doğum Tarihi -->
-      <label for="birthday">Doğum Tarihi</label>
-      <input
-        type="date"
-        id="birthday"
-        formControlName="birthday"
-        placeholder="GG/AA/YYYY" />
-      <div *ngIf="registerForm.get('birthday')?.touched && registerForm.get('birthday')?.invalid" class="error">
-        Doğum tarihi zorunludur.
-      </div>
-
-      <!-- Cinsiyet -->
-      <label for="gender">Cinsiyet (Opsiyonel)</label>
-      <div class="gender-options">
-        <button type="button" (click)="selectGender('Kadın')" [class.selected]="registerForm.value.gender === 'Kadın'">Kadın</button>
-        <button type="button" (click)="selectGender('Erkek')" [class.selected]="registerForm.value.gender === 'Erkek'">Erkek</button>
-      </div>
-
-      <!-- Onay Kutuları -->
-      <div class="checkbox-group">
-        <label>
-          <input type="checkbox" formControlName="acceptOffers" />
-          ...kişisel verilerimin işlenmesine ve paylaşılmasına <a href="#">açık rıza</a> veriyorum.
-        </label>
-
-        <label>
-          <input type="checkbox" formControlName="acceptEmails" />
-          ...elektronik ileti gönderilmesini kabul ediyorum.
-        </label>
-
-        <label>
-          <input type="checkbox" formControlName="acceptTerms" />
-          ...aydınlatma metnini okudum ve anladım.
-        </label>
-        <div *ngIf="registerForm.get('acceptTerms')?.touched && registerForm.get('acceptTerms')?.invalid" class="error">
-          Üyelik koşullarını kabul etmelisiniz.
+      <div class="form-group">
+        <label for="email" class="block text-sm font-medium text-[#034078]">E-Mail</label>
+        <input type="email" id="email" formControlName="email" placeholder="Enter your email address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+        <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error text-red-500 text-xs mt-1">
+          Enter a valid email.
         </div>
       </div>
 
-      <button type="submit" class="register-button">
-        ÜYE OL
+      <div class="form-group">
+        <label for="password" class="block text-sm font-medium text-[#034078]">Password</label>
+        <input type="password" id="password" formControlName="password" placeholder="Enter your password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+        <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error text-red-500 text-xs mt-1">
+          Password must be at least 10 characters.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword" class="block text-sm font-medium text-[#034078]">Confirm Password</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Enter your password again" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+        <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.invalid" class="error text-red-500 text-xs mt-1">
+          Confirm password cannot be empty.
+        </div>
+        <p class="password-info text-xs text-gray-500 mt-1">Your password must be at least 10 characters and include 1 uppercase letter, 1 lowercase letter, and a number.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="birthday" class="block text-sm font-medium text-[#034078]">Date of Birth</label>
+        <input type="date" id="birthday" formControlName="birthday" placeholder="DD/MM/YYYY" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1282A2] focus:ring-[#1282A2] text-[#0A1128]"/>
+        <div *ngIf="registerForm.get('birthday')?.touched && registerForm.get('birthday')?.invalid" class="error text-red-500 text-xs mt-1">
+          Date of birth is required.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="gender" class="block text-sm font-medium text-[#034078]">Gender (Optional)</label>
+        <div class="gender-options flex gap-2 mt-1">
+          <button type="button" (click)="selectGender('Kadın')" [ngClass]="{'bg-[#FF96AD] text-white': registerForm.value.gender === 'Kadın', 'bg-gray-200 text-[#0A1128]': registerForm.value.gender !== 'Kadın'}" class="rounded-md px-3 py-2 text-sm focus:outline-none">Female</button>
+          <button type="button" (click)="selectGender('Erkek')" [ngClass]="{'bg-[#005A8D] text-white': registerForm.value.gender === 'Erkek', 'bg-gray-200 text-[#0A1128]': registerForm.value.gender !== 'Erkek'}" class="rounded-md px-3 py-2 text-sm focus:outline-none">Male</button>
+        </div>
+      </div>
+
+      <div class="checkbox-group space-y-2">
+        <label class="inline-flex items-center text-sm text-gray-600">
+          <input type="checkbox" formControlName="acceptOffers" class="form-checkbox h-4 w-4 text-[#FF96AD] focus:ring-[#FF96AD] rounded border-gray-300"/>
+          <span class="ml-2">I give my <a href="#" class="text-[#005A8D] hover:underline">explicit consent</a> for the processing and sharing of my personal data.</span>
+        </label>
+
+        <label class="inline-flex items-center text-sm text-gray-600">
+          <input type="checkbox" formControlName="acceptEmails" class="form-checkbox h-4 w-4 text-[#005A8D] focus:ring-[#005A8D] rounded border-gray-300"/>
+          <span class="ml-2">I agree to receive electronic messages.</span>
+        </label>
+
+        <label class="inline-flex items-center text-sm text-gray-600">
+          <input type="checkbox" formControlName="acceptTerms" class="form-checkbox h-4 w-4 text-[#1282A2] focus:ring-[#1282A2] rounded border-gray-300"/>
+          <span class="ml-2">I have read and understood the <a href="#" class="text-[#005A8D] hover:underline">information text</a>.</span>
+        </label>
+        <div *ngIf="registerForm.get('acceptTerms')?.touched && registerForm.get('acceptTerms')?.invalid" class="error text-red-500 text-xs mt-1">
+          You must accept the membership terms.
+        </div>
+      </div>
+
+      <button type="submit" class="register-button bg-[#005A8D] text-white rounded-md py-3 font-semibold w-full hover:bg-[#022E57] focus:outline-none">
+        SIGN UP
       </button>
 
-      <p class="terms-info">Üye Ol’a basarak <a href="#">Üyelik Koşulları</a>'nı kabul ediyorum.</p>
+      <p class="terms-info text-xs text-gray-500 mt-2">By clicking Sign Up, I accept the <a href="#" class="text-[#005A8D] hover:underline">Membership Terms</a>.</p>
 
-      <div *ngIf="errorMessage" class="error">
+      <div *ngIf="errorMessage" class="error text-red-500 text-sm mt-2">
         {{ errorMessage }}
       </div>
     </form>
   </div>
-
+</div>

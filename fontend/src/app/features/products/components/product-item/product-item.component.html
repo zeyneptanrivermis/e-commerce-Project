@@ -1,51 +1,50 @@
-<div class="product-item">
-  <div class="product-header">
-    <h3 class="product-title">
-      <a [routerLink]="['/products', product.id]" class="product-link">
+<div class="product-item bg-lavanta-grisi rounded-md shadow-md p-4 text-beyaz">
+  <div class="product-header flex items-center justify-between mb-2">
+    <h3 class="product-title text-lg font-semibold">
+      <a [routerLink]="['/products', product.id]" class="product-link hover:text-acik-pembe transition-colors duration-200">
         {{ product.name }}
       </a>
     </h3>
-    <button class="wishlist-button" (click)="onToggleWishlist()">
-      <span [class.filled]="isInWishlist">❤</span>
+    <button class="wishlist-button focus:outline-none text-acik-pembe hover:text-beyaz transition-colors duration-200" (click)="onToggleWishlist()">
+      <span [class.filled]="isInWishlist">❤️</span>
     </button>
   </div>
 
-  <p><strong>Price:</strong> {{ product.price | currency:'TRY' }}</p>
-  <p><strong>Seller:</strong> {{ product.seller.name }}</p>
+  <p class="text-sm mb-1"><strong class="font-semibold text-acik-pembe">Price:</strong> {{ product.price | currency:'TRY' }}</p>
+  <p class="text-sm mb-1"><strong class="font-semibold text-acik-pembe">Seller:</strong> {{ product.seller.name }}</p>
 
-  <p *ngIf="product.mainCategory">
-    <strong>Main Category:</strong>
+  <p *ngIf="product.mainCategory" class="text-sm mb-1">
+    <strong class="font-semibold text-acik-pembe">Main Category:</strong>
     <a
       *ngIf="getCategoryKey(product.mainCategory) as categoryKey"
       [routerLink]="['/products']"
       [queryParams]="{ category: categoryKey }"
-      class="category-button"
+      class="category-button inline-block bg-acik-pembe/20 text-acik-pembe text-xs rounded-full px-2 py-0.5 hover:bg-acik-pembe/40 transition-colors duration-200"
     >
       {{ categoryLabel[product.mainCategory] }}
     </a>
   </p>
 
-  <p *ngIf="product.sideCategories?.length">
+  <p *ngIf="product.sideCategories?.length" class="text-sm mb-1">
+    <strong class="font-semibold text-acik-pembe">Categories:</strong>
     <ng-container *ngFor="let sideCategory of product.sideCategories; let last = last">
       <a
         [routerLink]="['/products']"
         [queryParams]="{ category: normalize(sideCategory) }"
-        class="category-button"
+        class="category-button inline-block bg-acik-pembe/20 text-acik-pembe text-xs rounded-full px-2 py-0.5 hover:bg-acik-pembe/40 transition-colors duration-200"
       >
         {{ sideCategory }}
-      </a><span *ngIf="!last">, </span>
+      </a><span *ngIf="!last" class="text-acik-pembe">, </span>
     </ng-container>
   </p>
 
-  <!-- Miktar Kontrolü -->
-  <div class="quantity-control">
-    <button (click)="decrease()" [disabled]="quantity <= 1">–</button>
-    <span>{{ quantity }}</span>
-    <button (click)="increase()">+</button>
+  <div class="quantity-control flex items-center space-x-2 mt-2">
+    <button class="bg-acik-pembe text-lavanta-grisi rounded-md px-2 py-1 focus:outline-none hover:bg-acik-pembe/80 transition-colors duration-200" (click)="decrease()" [disabled]="quantity <= 1">–</button>
+    <span class="text-acik-pembe">{{ quantity }}</span>
+    <button class="bg-acik-pembe text-lavanta-grisi rounded-md px-2 py-1 focus:outline-none hover:bg-acik-pembe/80 transition-colors duration-200" (click)="increase()">+</button>
   </div>
 
-  <!-- Sepete Ekle -->
-  <button class="add-to-cart-btn" (click)="onAdd()">
+  <button class="add-to-cart-btn bg-acik-pembe text-lavanta-grisi font-semibold rounded-md py-2 px-4 mt-3 hover:bg-acik-pembe/80 focus:outline-none transition-colors duration-200">
     Add {{ quantity }} to Cart
   </button>
 </div>

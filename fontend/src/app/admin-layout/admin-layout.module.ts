@@ -10,10 +10,12 @@ import { ProductsModule } from './products/products.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { RouterModule } from '@angular/router';
 import { UsersModule } from './users/users.module';
+import { RefundListComponent } from './RefundList/RefundList.component';
 
 @NgModule({
   declarations: [
-    AdminComponent
+    AdminComponent,
+    RefundListComponent
   ],
   imports: [
     CommonModule,
