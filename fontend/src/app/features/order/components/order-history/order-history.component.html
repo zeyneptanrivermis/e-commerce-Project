@@ -1,13 +1,14 @@
-<div *ngIf="isLoading" class="p-4">Loading…</div>
+<div *ngIf="isLoading" class="loading">Loading…</div>
 
 <div *ngIf="!isLoading && orders.length">
-  <table class="w-full text-left border-collapse">
+  <table class="order-table">
     <thead>
       <tr>
-        <th class="p-2 border-b">Order ID</th>
-        <th class="p-2 border-b">Payment Date</th>
-        <th class="p-2 border-b">Total (₺)</th>
-        <th class="p-2 border-b">Status</th>
+        <th>Order ID</th>
+        <th>Payment Date</th>
+        <th>Total (₺)</th>
+        <th>Status</th>
+        <th>İşlem</th>
       </tr>
     </thead>
     <tbody>
@@ -29,14 +30,11 @@
             İade Talep Et
           </button>
         </td>
-        <td class="p-2 border-b">{{ o.paymentDate | date:'short' }}</td>
-        <td class="p-2 border-b">{{ o.totalWithDiscount | currency:'TRY':'symbol' }}</td>
-        <td class="p-2 border-b">{{ o.status }}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<div *ngIf="!isLoading && !orders.length" class="p-4 text-center">
+<div *ngIf="!isLoading && !orders.length" class="no-orders">
   You have no past orders.
 </div>

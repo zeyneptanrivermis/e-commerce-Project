@@ -12,6 +12,8 @@ public class PaymentCompleteRequest {
     private Long amount;
     private String chargeId; // Optional field
 
+    public PaymentCompleteRequest(String id) {
+    }
     public String getPaymentIntentId() { return paymentIntentId; }
     public void setPaymentIntentId(String paymentIntentId) {
         this.paymentIntentId = paymentIntentId;
@@ -19,4 +21,11 @@ public class PaymentCompleteRequest {
 
     public Long getAmount() { return amount; }
     public void setAmount(Long amount) { this.amount = amount; }
+
+    public String getChargeId() {
+        return chargeId;
+    }
+    public void setChargeId(String chargeId) {
+        this.chargeId = chargeId;
+    }
 }

@@ -1,6 +1,53 @@
-<div class="seller-layout">
+<div class="min-h-screen bg-gray-100 flex">
+  <!-- Sidebar -->
   <app-seller-menu></app-seller-menu>
-  <div class="product-add">
-    <app-manage-products></app-manage-products>
-  </div>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 md:p-10 bg-[#f9f9f9]">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 flex items-center gap-2">
+      📦 <span>Manage Your Products</span>
+    </h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8">
+      <!-- Product Add Section -->
+      <section class="bg-white p-6 rounded-xl shadow-md">
+        <h2 class="text-xl font-semibold text-[#201E43] mb-4">Yeni Ürün Ekle</h2>
+        <app-manage-products></app-manage-products>
+      </section>
+
+      <!-- Product Table Section -->
+      <section class="bg-white p-6 rounded-xl shadow-md">
+        <h2 class="text-xl font-semibold text-[#201E43] mb-4">Ürünlerim</h2>
+        <div class="overflow-x-auto rounded-lg border border-gray-200">
+          <table class="min-w-full text-sm text-left">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr>
+                <th class="py-3 px-4 font-semibold">Ürün ID</th>
+                <th class="py-3 px-4 font-semibold">Fiyat</th>
+                <th class="py-3 px-4 font-semibold">Kategori</th>
+                <th class="py-3 px-4 font-semibold">Stok</th>
+                <th class="py-3 px-4 font-semibold text-center">İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of products" class="border-t hover:bg-gray-50">
+                <td class="py-2 px-4">{{ p.id }}</td>
+                <td class="py-2 px-4">{{ p.price | currency:'TRY' }}</td>
+                <td class="py-2 px-4">{{ p.mainCategory }}</td>
+                <td class="py-2 px-4">{{ p.stockCount }}</td>
+                <td class="py-2 px-4 flex justify-center gap-2">
+                  <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs">Düzenle</button>
+                  <button
+                    (click)="onDelete(p.id)"
+                    class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-xs">
+                    Sil
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
 </div>

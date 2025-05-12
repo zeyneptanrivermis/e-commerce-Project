@@ -63,4 +63,12 @@ public class PaymentService {
         // 5) Front-end’e clientSecret dön
         return new PaymentIntentDto(intent.getClientSecret());
     }
+
+    public void refundCharge(String chargeId) throws StripeException {
+        RefundCreateParams params = RefundCreateParams.builder()
+            .setCharge(chargeId)
+            .build();
+        Refund.create(params);
+    }
+
 }

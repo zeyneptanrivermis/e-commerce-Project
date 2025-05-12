@@ -9,8 +9,8 @@
         <!-- Ürün Adı -->
         <div>
           <label>Ürün Adı</label>
-          <input type="text" formControlName="productName" placeholder="Ürün adını girin">
-          <div *ngIf="productForm.get('productName')?.invalid && productForm.get('productName')?.touched">
+          <input type="text" formControlName="name" placeholder="Ürün adını girin">
+          <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
             Ürün adı zorunludur.
           </div>
         </div>
@@ -33,17 +33,21 @@
     <!-- Ana Kategori -->
     <div>
         <label>Ana Kategori</label>
-        <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
-          <option *ngFor="let cat of mainCategories" [value]="cat">{{ cat }}</option>
-        </select>
+      <select formControlName="mainCategory" (change)="onMainCategoryChange($event)">
+        <option *ngFor="let cat of mainCategories" [value]="cat">
+          {{ formatCategory(cat) }}
+        </option>
+</select>
+
       </div>
       
     <div *ngIf="availableSideCategories.length > 0">
       <label>Alt Kategoriler:</label>
       <div *ngFor="let sideCat of availableSideCategories">
         <input type="checkbox"
-              [checked]="productForm.value.sideCategories.includes(sideCat)"
-              (change)="toggleSideCategory(sideCat, $event)">
+          [checked]="productForm.value.sideCategories?.includes(sideCat) || false"
+          (change)="toggleSideCategory(sideCat, $event)">
+
         {{ sideCat }}
       </div>
     </div>

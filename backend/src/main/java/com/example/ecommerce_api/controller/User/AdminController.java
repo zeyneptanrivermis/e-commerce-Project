@@ -11,6 +11,7 @@ import com.example.ecommerce_api.entity.OrderEntity.Payment;
 import com.example.ecommerce_api.entity.UserEntity.Admin;
 import com.example.ecommerce_api.repository.OrderRepository.OrderRepository;
 import com.example.ecommerce_api.repository.OrderRepository.PaymentRepository;
+import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
 import com.example.ecommerce_api.services.Product.ProductService;
 import com.example.ecommerce_api.services.User.AdminRefundService;
 import com.example.ecommerce_api.services.User.AdminService;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -45,6 +47,7 @@ public class AdminController {
     private final OrderService orderService;
     private final AdminRefundService adminRefundService;
     private final RefundService refundService;
+    private ProductRepository productRepository;
 
     @Autowired
     private PaymentRepository paymentRepo;
@@ -60,6 +63,7 @@ public class AdminController {
                            RefundService refundService) {
         this.adminService = adminService;
         this.orderService = orderService;
+        this.productRepository = productRepository;
         this.customerService = customerService;
         this.productService = productService;
         this.adminRefundService = adminRefundService;

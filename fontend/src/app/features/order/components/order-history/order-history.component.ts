@@ -7,13 +7,15 @@ import { RefundServiceService } from '../../service/RefundService.service';
 
 @Component({
   selector: 'app-order-history',
-  standalone: false,
   templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.css']
+  styleUrls: ['./order-history.component.css'],
+  standalone: false
 })
 export class OrderHistoryComponent implements OnInit {
+
   orders: OrderHistory[] = [];
-  isLoading = true;
+  isLoading: boolean = true;
+  error: string = '';
 
   constructor(
     private historyService: OrderHistoryService,
@@ -42,7 +44,24 @@ export class OrderHistoryComponent implements OnInit {
     });
   }
 
-  /** ID tıklanınca yönlendir */
+  /** Siparişleri tazele (örn: iade sonrası) */
+  fetchOrders(): void {
+    this.isLoading = true;
+    this.error = '';
+    this.orderService.getOrders().subscribe({
+      next: (data) => {
+        this.orders = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Siparişler yüklenemedi:', err);
+        this.error = 'Siparişler yüklenemedi.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  /** Siparişe tıklandığında kargo detayına yönlendir */
   goToShipment(orderId: number): void {
     this.router.navigate(['/shipment', orderId]);
   }

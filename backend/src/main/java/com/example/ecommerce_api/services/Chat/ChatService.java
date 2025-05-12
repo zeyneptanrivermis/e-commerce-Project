@@ -29,7 +29,7 @@ public class ChatService {
                 Long orderId = latestOrder.get().getOrderId();
                 return "Your latest order (Order ID: #" + orderId + ") is currently being prepared for shipment.";
             } else {
-                return "You don’t have any orders yet.";
+                return "You don't have any orders yet.";
             }
         }
 
@@ -45,7 +45,23 @@ public class ChatService {
             return "If your order has not shipped yet, you can cancel it from the 'My Orders' page.";
         }
 
-        return "Sorry, I didn’t understand that. Could you please rephrase your question?";
+        if (message.contains("arrive") || message.contains("delivery time") || message.contains("how long does shipping take")) {
+            return "Your order is usually delivered within 2-5 business days. You can track your shipment in the 'My Orders' section.";
+        }
+
+        if (message.contains("shipping fee") || message.contains("shipping cost") || message.contains("how much is shipping")) {
+            return "Shipping fees may vary depending on your cart total and delivery address. You can see the shipping cost in your cart before checkout.";
+        }
+
+        if (message.contains("in stock") || message.contains("stock status") || message.contains("is the product available")) {
+            return "The stock status of products is shown on the product detail page. Out-of-stock items cannot be added to the cart.";
+        }
+
+        if (message.contains("is it safe") || message.contains("credit card security")) {
+            return "All payments on our site are protected with 256-bit SSL encryption. Your credit card information is never stored.";
+        }
+
+        return "Sorry, I didn't understand that. Could you please rephrase your question?";
     }
     
 }

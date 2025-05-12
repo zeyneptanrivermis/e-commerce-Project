@@ -25,7 +25,6 @@ import { ShipmentComponent } from './components/Shipment/Shipment.component';
     HttpClientModule
   ],
   exports: [
-   OrderHistoryComponent,
    ShipmentComponent
   ]
 })

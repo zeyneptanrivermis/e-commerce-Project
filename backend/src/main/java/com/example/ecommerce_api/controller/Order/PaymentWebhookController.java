@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/webhook/stripe")
 public class PaymentWebhookController {
@@ -38,6 +37,7 @@ public class PaymentWebhookController {
             case "payment_intent.succeeded": {
                 PaymentIntent intent = (PaymentIntent) event.getDataObjectDeserializer()
                         .getObject().orElseThrow();
+
                 Long orderId = Long.valueOf(intent.getMetadata().get("orderId"));
                 String chargeId = intent.getLatestCharge();
                 Long amount = intent.getAmount();
@@ -59,7 +59,6 @@ public class PaymentWebhookController {
                 break;
             }
             default:
-                // ignore other events
                 break;
         }
 

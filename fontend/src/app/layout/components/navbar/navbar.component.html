@@ -25,16 +25,14 @@
 <div class="w-full flex flex-wrap items-center px-10 py-3 border-y border-gray-200 bg-white">
   <div class="flex flex-wrap gap-6 text-gray-700 text-sm font-medium">
     <a routerLink="/products" class="hover:text-pink-400">All Products <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span></a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Clothing' }" class="hover:text-pink-400">Clothing</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Makeup' }" class="hover:text-pink-400">Makeup</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Electronics' }" class="hover:text-pink-400">Electronics</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Pet Supplies' }" class="hover:text-pink-400">Pet Supplies</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Home and Kitchen' }" class="hover:text-pink-400">Home & Kitchen</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Toys & Games' }" class="hover:text-pink-400">Toys & Games</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Sports & Outdoor' }" class="hover:text-pink-400">Sports & Outdoor</a>
-    <a [routerLink]="['/products']" [queryParams]="{ category: 'Hobby Products' }" class="hover:text-pink-400">Hobby Products</a>
-    <a [routerLink]="['/products']" [queryParams]="{ bestsellers: true }" class="hover:text-pink-400">
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Clothing') }" class="hover:text-pink-400">Clothing</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Makeup') }" class="hover:text-pink-400">Makeup</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Home and Kitchen') }" class="hover:text-pink-400">Home & Kitchen</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Electronics') }" class="hover:text-pink-400">Electronics</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Pet Supplies') }" class="hover:text-pink-400">Pet Supplies</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Toys & Games') }" class="hover:text-pink-400">Toys & Games</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Sports & Outdoor') }" class="hover:text-pink-400">Sports & Outdoor</a>
+    <a [routerLink]="['/products']" [queryParams]="{ category: normalizeCategory('Hobbies') }" class="hover:text-pink-400">Hobby Products</a>
       Best Sellers <span class="ml-1 text-xs bg-pink-300 text-white px-2 py-0.5 rounded-full">New</span>
-    </a>
   </div>
 </div>

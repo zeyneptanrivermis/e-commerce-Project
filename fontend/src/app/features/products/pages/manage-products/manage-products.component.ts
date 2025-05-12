@@ -14,9 +14,10 @@ export class ManageProductsComponent implements OnInit {
   public productForm!: FormGroup;
   products: Product[] = [];
   availableSideCategories: string[] = [];
-  mainCategories = Object.values(MainCategory);
+  mainCategories = Object.keys(MainCategory);
   isEditMode = false;
   selectedProductId: number | null = null;
+  MainCategory = MainCategory;
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +31,7 @@ export class ManageProductsComponent implements OnInit {
 
   initForm() {
     this.productForm = this.fb.group({
-      productName: ['', Validators.required],
+      name: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       description: ['', [Validators.maxLength(500)]],
       mainCategory: ['', Validators.required],
@@ -45,20 +46,38 @@ export class ManageProductsComponent implements OnInit {
   onSubmit() {
     if (this.productForm.invalid) return;
 
-    const productData = this.productForm.value;
+    const formValue = this.productForm.value;
+
+    const normalizedProduct = {
+      ...formValue,
+      mainCategory: this.formatCategory(formValue.mainCategory), // ✅ normalize here
+    };
 
     if (this.isEditMode && this.selectedProductId) {
-      this.manageProductService.updateProduct(this.selectedProductId, productData).subscribe(() => {
-        this.loadSellerProducts();
-        this.resetForm();
+      this.manageProductService.updateProduct(this.selectedProductId, normalizedProduct).subscribe({
+        next: () => {
+          this.loadSellerProducts();
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('Error updating product:', error);
+          alert('Error updating product: ' + (error.error?.message || error.message || 'Unknown error'));
+        }
       });
     } else {
-      this.manageProductService.addProduct(productData).subscribe(() => {
-        this.loadSellerProducts();
-        this.resetForm();
+      this.manageProductService.addProduct(normalizedProduct).subscribe({
+        next: () => {
+          this.loadSellerProducts();
+          this.resetForm();
+        },
+        error: (error) => {
+          console.error('Error adding product:', error);
+          alert('Error adding product: ' + (error.error?.message || error.message || 'Unknown error'));
+        }
       });
     }
   }
+
   
   resetForm() {
     this.productForm.reset();
@@ -67,7 +86,7 @@ export class ManageProductsComponent implements OnInit {
   }
 
   onMainCategoryChange(event: any) {
-    const selected: MainCategory = event.target.value;
+    const selected: MainCategory = event.target.value as MainCategory;
     this.availableSideCategories = SideCategories[selected] || [];
     this.productForm.patchValue({ sideCategories: [] });
   }
@@ -98,4 +117,9 @@ export class ManageProductsComponent implements OnInit {
       this.products = data;
     });
   }
+
+  formatCategory(category: string): string {
+    return category?.toUpperCase().replace(/\s+/g, '_').replace(/&/g, 'AND');
+  }
+
 }

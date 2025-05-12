@@ -35,9 +35,10 @@ public class PaymentController {
             @PathVariable Long orderId,
             @RequestBody PaymentCompleteRequest req
     ) {
-        orderService.finalizePayment(orderId, req.getPaymentIntentId());
+        orderService.finalizePayment(orderId, req); // 🔄 DTO tüm verileri taşıyor
         return ResponseEntity.ok().build();
     }
+
 
         @PostMapping("/create-intent/{orderId}")
     public ResponseEntity<Map<String, String>> createPaymentIntent(

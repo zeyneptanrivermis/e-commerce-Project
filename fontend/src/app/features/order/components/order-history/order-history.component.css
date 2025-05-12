@@ -1,124 +1,49 @@
-/* Yükleniyor mesajı için stil */
-.loading-message {
-    padding: 1.5rem;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #555; /* Daha yumuşak bir gri */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
 }
 
-/* Sipariş tablosu için genel stil */
-.orders-table-container {
-    overflow-x: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08); /* Daha hafif gölge */
-    border: 1px solid #eee; /* Hafif kenarlık */
+.order-table th, .order-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
 }
 
-.orders-table {
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;
-    background-color: white; /* Tablo arka planı beyaz */
+.order-table tr:hover {
+  background-color: #f9f9f9;
 }
 
-.orders-table thead {
-    background-color: #F3FDE8; /* Açık yeşil - Üst Navbar rengi */
-    border-bottom: 2px solid #A8DF8E; /* Orta yeşil - Vurgu rengi */
+.order-link {
+  color: #0066cc;
+  text-decoration: none;
 }
 
-.orders-table th {
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem; /* Biraz daha büyük font */
-    font-weight: 600;
-    color: #333;
-    text-transform: none; /* Büyük harfe dönüştürme kaldırıldı */
-    letter-spacing: 0.01em;
+.order-link:hover {
+  text-decoration: underline;
 }
 
-.orders-table tbody tr {
-    transition: background-color 0.2s ease-in-out;
+.refund-button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-.orders-table tr:hover {
-    background-color: #f9f9f9; /* Daha açık gri hover */
+.refund-button:hover {
+  background-color: #c9302c;
 }
 
-.orders-table td {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-    color: #555; /* Daha yumuşak gri */
-    white-space: nowrap;
-    border-bottom: 1px solid #eee;
+.loading {
+  padding: 16px;
+  font-weight: bold;
 }
 
-.orders-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-/* Durum etiketleri için dinamik stiller */
-.status-tamamlandi {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 1.5rem; /* Daha yuvarlak */
-    padding: 0.3rem 0.75rem; /* Biraz daha az dikey padding */
-    font-size: 0.8rem; /* Biraz daha büyük font */
-    font-weight: 500;
-    background-color: #e6ffe9; /* Daha açık yeşil */
-    color: #38a169; /* Daha canlı yeşil */
-    border: 1px solid #b2f5c7; /* Açık yeşil kenarlık */
-}
-
-.status-bekliyor {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 1.5rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: #fff8e1; /* Daha açık sarı */
-    color: #c68a00; /* Daha canlı sarı */
-    border: 1px solid #ffe8a2; /* Açık sarı kenarlık */
-}
-
-.status-iptal-edildi {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 1.5rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: #ffebee; /* Daha açık kırmızı */
-    color: #e53e3e; /* Daha canlı kırmızı */
-    border: 1px solid #fbcfe8; /* Açık kırmızı kenarlık */
-}
-
-.status-kargoda {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 1.5rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: #e3f2fd; /* Daha açık mavi */
-    color: #4299e1; /* Daha canlı mavi */
-    border: 1px solid #c6e2ff; /* Açık mavi kenarlık */
-}
-
-.status-hazirlaniyor {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 1.5rem;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background-color: #f7f7f7; /* Açık gri */
-    color: #718096; /* Orta gri */
-    border: 1px solid #e0e0e0; /* Açık gri kenarlık */
-}
-
-/* Boş sipariş mesajı için stil */
-.no-orders-message {
-    padding: 1.5rem;
-    text-align: center;
-    color: #777; /* Biraz daha koyu gri */
+.no-orders {
+  padding: 16px;
+  text-align: center;
+  font-style: italic;
 }
