@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     @keyframes fade-in {
@@ -17,58 +16,41 @@
     }
 
     body {
-      background-color: #EEEEEE;
       font-family: 'Segoe UI', sans-serif;
-      padding: 2rem;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
-
-    h1 {
-      color: #508C9B;
-      font-size: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
-
-    p {
-      color: #201E43;
-      margin-bottom: 1.75rem;
-      font-size: 1.25rem;
     }
   </style>
 </head>
-<body class="dashboard-page">
-  <h1>Dashboard</h1>
-  <p>Hoş geldiniz, yönetici!</p>
+<body class="bg-gray-100 p-8 min-h-screen box-border">
+  <h1 class="text-3xl font-bold text-lacivert-derin mb-2">Dashboard</h1>
+  <p class="text-xl text-gece-yarisi mb-8">Welcome, Admin!</p>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-acik-pembe transition-transform hover:scale-105 hover:shadow-lg animate-fade-in">
       <div class="p-6">
-        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Toplam Admin</h2>
-        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.userCount | number }}</p>
+        <h2 class="text-lg font-semibold text-lacivert-derin mb-2">Total Admins</h2>
+        <p class="text-2xl font-bold text-acik-pembe">{{ stats?.userCount | number }}</p>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.1s;">
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-acik-pembe transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.1s;">
       <div class="p-6">
-        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Toplam Ürün</h2>
-        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.productCount | number }}</p>
+        <h2 class="text-lg font-semibold text-lacivert-derin mb-2">Total Products</h2>
+        <p class="text-2xl font-bold text-acik-pembe">{{ stats?.productCount | number }}</p>
       </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md border-l-4 border-[#508C9B] transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.2s;">
+    <div class="bg-white rounded-lg shadow-md border-l-4 border-acik-pembe transition-transform hover:scale-105 hover:shadow-lg animate-fade-in" style="animation-delay: 0.2s;">
       <div class="p-6">
-        <h2 class="text-lg font-semibold text-[#201E43] mb-2">Bekleyen Sipariş</h2>
-        <p class="text-2xl font-bold text-[#134B70]">{{ stats?.pendingOrders | number }}</p>
+        <h2 class="text-lg font-semibold text-lacivert-derin mb-2">Pending Orders</h2>
+        <p class="text-2xl font-bold text-acik-pembe">{{ stats?.pendingOrders | number }}</p>
       </div>
     </div>
   </div>
 
-
-<h2 class="text-xl font-semibold text-[#201E43] mb-4 mt-10">Kategoriye Göre Ürün Sayısı</h2>
-<div class="bg-white p-6 rounded-lg shadow-md">
-  <canvas #categoryChart class="w-full h-[400px]"></canvas>
-</div>
+  <h2 class="text-xl font-semibold text-lacivert-derin mb-4 mt-10">Number of Products by Category</h2>
+  <div class="bg-white p-6 rounded-lg shadow-md">
+    <canvas #categoryChart class="w-full h-[400px]"></canvas>
+  </div>
 
 
 </body>

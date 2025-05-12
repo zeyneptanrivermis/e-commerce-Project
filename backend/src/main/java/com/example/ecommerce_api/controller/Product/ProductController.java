@@ -33,25 +33,7 @@ public class ProductController {
     @GetMapping
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts().stream()
-            .map(product -> new ProductDTO(
-                product.getProductId(),
-                product.getProductName(),
-                product.getPrice(),
-                new SellerDTO( // ← doğru şekilde dönüştürüyoruz
-                    product.getSeller().getUserId(),
-                    product.getSeller().getName(),
-                    product.getSeller().getEmail()
-                ),
-                product.getDescription(),
-                product.getAvgRating(),
-                product.getShippingCost(),
-                product.getCategory(),
-                product.getStockCount(),
-                product.getReviews()
-                .stream()
-                .map(ReviewDTO::new) 
-                .toList()
-            ))
+            .map(ProductDTO::new)
             .toList();
     }
 
@@ -95,25 +77,7 @@ public class ProductController {
         @RequestParam(defaultValue = "0") int skip) {
         
         return productService.getProductsPaged(limit, skip).stream()
-            .map(product -> new ProductDTO(
-                product.getProductId(),
-                product.getProductName(),
-                product.getPrice(),
-                new SellerDTO( // ← doğru şekilde dönüştürüyoruz
-                    product.getSeller().getUserId(),
-                    product.getSeller().getName(),
-                    product.getSeller().getEmail()
-                ),
-                product.getDescription(),
-                product.getAvgRating(),
-                product.getShippingCost(),
-                product.getCategory(),
-                product.getStockCount(),
-                product.getReviews()
-                .stream()
-                .map(ReviewDTO::new)  // 💥 asıl düzeltme burada
-                .toList()
-            ))
+            .map(ProductDTO::new)
             .toList();
     }
 
@@ -126,14 +90,12 @@ public class ProductController {
     public List<ProductDTO> filterProductsByCategory(@RequestParam String category) {
         List<Product> products;
 
-        String normalizedParam = normalize(category); // normalize yap
+        String normalizedParam = normalize(category);
 
         try {
-            // Ana kategori (enum) olarak kontrol et
             Category enumCategory = Category.valueOf(normalizedParam);
             products = productService.getProductsByCategory(enumCategory);
         } catch (IllegalArgumentException e) {
-            // Değilse side category olarak ara
             products = productService.getAllProducts().stream()
                 .filter(p -> p.getSideCategories() != null &&
                             p.getSideCategories().stream()
@@ -142,7 +104,9 @@ public class ProductController {
                 .toList();
         }
 
-            return products.stream().map(ProductDTO::new).toList();
+        return products.stream()
+            .map(ProductDTO::new)
+            .toList();
     }
     // 🔧 Normalize metodu (boşlukları "_" yap, & → AND, büyük harfe çevir)
     private String normalize(String input) {

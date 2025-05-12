@@ -169,13 +169,14 @@ public class OrderService {
             dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
             dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
 
+            // Use order status instead of payment status
+            dto.setStatus(order.getStatus().name());
             if (payment != null) {
-                dto.setStatus(payment.getStatus());
                 dto.setPaymentDate(payment.getPaymentDate());
             } else {
-                dto.setStatus("UNPAID");  // ← Frontend bu değeri yakalayıp DENIED gibi gösterebilir
                 dto.setPaymentDate(null);
             }
+
             List<OrderItemDTO> itemDtos = order.getItemList().stream()
                     .map(OrderItemDTO::fromEntity)
                     .toList();

@@ -1,5 +1,4 @@
 <div class="container mt-4">
-  <!-- Pie Chart + Legend -->
   <div class="flex justify-center mb-8">
     <canvas #pieChart width="180" height="180"></canvas>
     <div class="ml-8 flex flex-col justify-center">
@@ -9,12 +8,11 @@
     </div>
   </div>
 
-  <h2 class="text-xl font-semibold text-[#201E43] mb-4">All Orders</h2>
+  <h2 class="text-xl font-semibold text-lacivert-derin mb-4">All Orders</h2>
 
-  <!-- Scrollable Table Container -->
-  <div class="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg shadow-md animate-fade-in border border-gray-200">
-    <table class="min-w-full bg-white">
-      <thead class="sticky top-0 z-10 bg-[#508C9B] text-white">
+  <div class="overflow-x-auto max-h-[600px] overflow-y-auto rounded-lg shadow-md animate-fade-in border border-lavanta-grisi/20">
+    <table class="min-w-full bg-beyaz">
+      <thead class="sticky top-0 z-10 bg-gece-yarisi text-white">
         <tr>
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Order ID</th>
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Customer</th>
@@ -24,7 +22,7 @@
           <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody class="bg-beyaz divide-y divide-lavanta-grisi/20 text-lacivert-derin">
         <tr *ngFor="let order of orders; let i = index" class="animate-fade-in" [style.animationDelay]="i * 0.05 + 's'">
           <td class="px-4 py-3 whitespace-nowrap">#{{ order.orderId }}</td>
           <td class="px-4 py-3 whitespace-nowrap">{{ order.customerName }}</td>
@@ -33,10 +31,10 @@
           <td class="px-4 py-3 whitespace-nowrap">
             <span [ngClass]="{
               'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold': true,
-              'bg-yellow-100 text-yellow-800': order.status === 'PENDING',
-              'bg-green-100 text-green-800': order.status === 'COMPLETED',
-              'bg-red-100 text-red-800': order.status === 'CANCELLED',
-              'bg-gray-100 text-gray-800': order.status === 'UNPAID'
+              'bg-krem text-acik-pembe': order.status === 'PENDING',
+              'bg-yesil-acik text-yesil-koyu': order.status === 'COMPLETED',
+              'bg-kirmizi-acik text-kirmizi-koyu': order.status === 'CANCELLED',
+              'bg-gri-acik text-gri-koyu italic': order.status === 'UNPAID'
             }">
               {{ order.status === 'UNPAID' ? 'Payment Missing' : order.status }}
             </span>
@@ -47,7 +45,7 @@
           </td>
 
           <td class="px-4 py-3 whitespace-nowrap">
-            <button *ngIf="order.status !== 'UNPAID'" class="bg-[#134B70] hover:bg-[#201E43] text-[#EEEEEE] font-bold py-2 px-4 rounded-md text-sm mr-2 transition duration-300"
+            <button *ngIf="order.status !== 'UNPAID'" class="bg-acik-pembe hover:bg-lavanta-grisi text-white font-bold py-2 px-4 rounded-md text-sm mr-2 transition duration-300"
               (click)="viewOrderDetails(order)">
               View Details
             </button>
@@ -57,36 +55,35 @@
     </table>
   </div>
 
-  <!-- Order Detail Modal -->
-  <div *ngIf="selectedOrder" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center animate-fade-in z-50">
-    <div class="bg-white rounded-lg p-8 shadow-lg relative w-full max-w-xl mx-auto" (click)="$event.stopPropagation()">
+  <div *ngIf="selectedOrder" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center animate-fade-in z-50" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="bg-beyaz rounded-lg p-8 shadow-lg relative w-full max-w-xl mx-auto" (click)="$event.stopPropagation()">
       <button (click)="closeDetails()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none">
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      <h3 class="text-xl font-semibold text-[#201E43] mb-4">Order #{{ selectedOrder.orderId }}</h3>
+      <h3 class="text-xl font-semibold text-acik-pembe mb-4">Order #{{ selectedOrder.orderId }}</h3>
 
-      <div class="mb-2"><strong>Total:</strong> ${{ selectedOrder.totalWithDiscount }}</div>
-      <div class="mb-2"><strong>Status:</strong>
+      <div class="mb-2 text-gece-yarisi"><strong>Total:</strong> ${{ selectedOrder.totalWithDiscount }}</div>
+      <div class="mb-2 text-gece-yarisi"><strong>Status:</strong>
         <span [ngClass]="{
           'font-semibold': true,
-          'text-yellow-600': selectedOrder.status === 'PENDING',
-          'text-green-600': selectedOrder.status === 'COMPLETED' || selectedOrder.status === 'succeeded',
-          'text-red-600': selectedOrder.status === 'CANCELLED',
-          'text-gray-500 italic': selectedOrder.status === 'UNPAID' || selectedOrder.status === 'requires_payment_method'
+          'text-acik-pembe': selectedOrder.status === 'PENDING',
+          'text-yesil-koyu': selectedOrder.status === 'COMPLETED' || selectedOrder.status === 'succeeded',
+          'text-kirmizi-koyu': selectedOrder.status === 'CANCELLED',
+          'text-lavanta-grisi italic': selectedOrder.status === 'UNPAID' || selectedOrder.status === 'requires_payment_method'
         }">
           {{ selectedOrder.status === 'UNPAID' || selectedOrder.status === 'requires_payment_method' ? 'Payment Missing' : selectedOrder.status }}
         </span>
       </div>
 
-      <div class="mb-4"><strong>Payment Date:</strong>
+      <div class="mb-4 text-gece-yarisi"><strong>Payment Date:</strong>
         {{ selectedOrder.paymentDate ? (selectedOrder.paymentDate | date:'medium') : '—' }}
       </div>
 
-      <div class="mb-2 font-semibold">Items:</div>
-      <ul class="list-disc pl-5 mb-4">
+      <div class="mb-2 font-semibold text-gece-yarisi">Items:</div>
+      <ul class="list-disc pl-5 mb-4 text-lacivert-derin">
         <li *ngFor="let item of selectedOrder.itemList">
           {{ item.productName }} - {{ item.quantity }} × ${{ item.unitPrice }}
         </li>
@@ -107,5 +104,29 @@
 
   .animate-fade-in {
     animation: fade-in 0.2s ease-out forwards;
+  }
+  .bg-krem {
+    background-color: #fef0f0; /* Açık pembe */
+  }
+  .text-acik-pembe{
+    color:#e63946;
+  }
+  .bg-yesil-acik {
+    background-color: #d4edda;
+  }
+  .text-yesil-koyu {
+    color: #155724;
+  }
+  .bg-kirmizi-acik {
+    background-color: #f8d7da;
+  }
+  .text-kirmizi-koyu {
+    color: #721c24;
+  }
+  .bg-gri-acik{
+    background-color: #e2e3e4;
+  }
+  .text-gri-koyu {
+    color: #383d41;
   }
 </style>

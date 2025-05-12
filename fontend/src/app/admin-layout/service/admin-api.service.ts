@@ -54,13 +54,13 @@ export class AdminApiService {
   }
 
   // --- Products ---
-getAllProducts(): Observable<Product[]> {
-  return this.http.get<Product[]>(`${this.baseUrl}/admin/products`);
-}
+  getAllProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/admin/products`);
+  }
 
-cancelProduct(productId: number): Observable<any> {
-  return this.http.delete(`${this.baseUrl}/admin/products/${productId}`);
-}
+  cancelProduct(productId: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/admin/products/${productId}/cancel`, null);
+  }
 
   deleteProduct(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/products/${id}/delete`);

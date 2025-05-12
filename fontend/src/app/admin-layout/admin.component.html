@@ -1,44 +1,44 @@
-<div class="min-h-screen bg-[#EEEEEE] flex">
-  <aside class="bg-[#201E43] text-[#EEEEEE] w-64 flex flex-col py-6 px-4">
-    <div class="text-xl font-semibold mb-8 px-2">ADMIN PANEL</div>
+<div class="min-h-screen flex bg-gray-100">
+  <aside class="w-64 flex flex-col py-6 px-4 bg-lacivert-derin text-white">
+    <div class="text-xl font-semibold mb-8 px-2 text-white">ADMIN PANEL</div>
 
     <nav class="flex-grow">
       <ul>
-        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
-          <a routerLink="dashboard" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+        <li routerLinkActive="bg-acik-pembe/20 rounded-md mb-2">
+          <a routerLink="dashboard" class="flex items-center py-2 px-4 hover:bg-acik-pembe/20 rounded-md transition duration-300">
             <span class="mr-2">🏠</span>
             <span class="label">Dashboard</span>
           </a>
         </li>
-        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
-          <a routerLink="users" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+        <li routerLinkActive="bg-acik-pembe/20 rounded-md mb-2">
+          <a routerLink="users" class="flex items-center py-2 px-4 hover:bg-acik-pembe/20 rounded-md transition duration-300">
             <span class="mr-2">👥</span>
             <span class="label">Users</span>
           </a>
         </li>
-        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
-          <a routerLink="products" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+        <li routerLinkActive="bg-acik-pembe/20 rounded-md mb-2">
+          <a routerLink="products" class="flex items-center py-2 px-4 hover:bg-acik-pembe/20 rounded-md transition duration-300">
             <span class="mr-2">📦</span>
             <span class="label">Products</span>
           </a>
         </li>
-        <li routerLinkActive="bg-[#134B70] rounded" class="mb-2">
-          <a routerLink="orders" class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
+        <li routerLinkActive="bg-acik-pembe/20 rounded-md mb-2">
+          <a routerLink="orders" class="flex items-center py-2 px-4 hover:bg-acik-pembe/20 rounded-md transition duration-300">
             <span class="mr-2">🛒</span>
             <span class="label">Orders</span>
           </a>
         </li>
-        <li routerLinkActive="bg-[#134B70] rounded">
-  <a routerLink="refunds"
-     class="flex items-center py-2 px-4 hover:bg-[#134B70] rounded transition duration-300">
-    <span class="mr-2">🔄</span>
-    <span class="label">İade Talepleri</span>
-  </a>
-</li>
+        <li routerLinkActive="bg-acik-pembe/20 rounded-md">
+          <a routerLink="refunds"
+             class="flex items-center py-2 px-4 hover:bg-acik-pembe/20 rounded-md transition duration-300">
+            <span class="mr-2">🔄</span>
+            <span class="label">Refund Requests</span>
+          </a>
+        </li>
       </ul>
     </nav>
 
-    <button class="bg-[#508C9B] text-[#EEEEEE] py-2 px-4 rounded-md mt-8 hover:bg-[#134B70] transition duration-300 focus:outline-none" (click)="logout()">
+    <button class="py-2 px-4 rounded-md mt-8 hover:bg-acik-pembe/20 transition duration-300 focus:outline-none text-white bg-acik-pembe" (click)="logout()">
       <span class="mr-2">🚪</span>
       <span class="label">Log Out</span>
     </button>

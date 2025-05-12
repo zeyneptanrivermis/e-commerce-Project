@@ -1,35 +1,44 @@
-<div class="cart-container">
-  <h2>MY CART</h2>
+<div class="cart-container bg-white rounded-md shadow-lg p-6">
+  <h2 class="text-2xl font-semibold text-lacivert-derin mb-4">MY CART</h2>
 
-  <div *ngIf="cartItems && cartItems.length === 0" class="empty-cart">
-    <p>Your Cart is Empty</p>
-    <button (click)="goToProducts()">🛒 Start Shopping</button>
+  <div *ngIf="cartItems && cartItems.length === 0" class="empty-cart text-center">
+    <p class="text-gray-600 mb-4">Your Cart is Empty</p>
+    <button (click)="goToProducts()" class="bg-acik-pembe text-white rounded-md px-4 py-2 font-semibold hover:bg-lavanta-grisi focus:outline-none transition-colors duration-200">
+      🛒 Start Shopping
+    </button>
   </div>
 
-  <div *ngIf="cartItems && cartItems.length > 0" class="cart-flex-container">
+  <div *ngIf="cartItems && cartItems.length > 0" class="cart-flex-container flex flex-col lg:flex-row gap-6">
 
-    <!-- Toplam Tutar (Sol Taraf) -->
-    <div class="cart-summary">
-      <h3>Toplam Tutar</h3>
-      <p>{{ totalPrice | currency:'TRY' }}</p>
-      <button class="checkout-btn" (click)="goToOrderPage()">Siparişi Tamamla</button>
+    <div class="cart-summary bg-gece-yarisi rounded-md p-4 text-white">
+      <h3 class="text-xl font-semibold mb-2 text-acik-pembe">Total Amount</h3>
+      <p class="text-lg">{{ totalPrice | currency:'TRY' }}</p>
+      <button class="checkout-btn bg-lavanta-grisi text-white rounded-md py-2 px-4 font-semibold hover:bg-acik-pembe focus:outline-none transition-colors duration-200 mt-4" (click)="goToOrderPage()">
+        Complete Order
+      </button>
     </div>
 
-    <!-- Ürün Listesi (Sağ Taraf - Kaydırmalı) -->
-    <div class="cart-items">
-      <div class="cart-item" *ngFor="let item of cartItems">
+    <div class="cart-items space-y-4 overflow-y-auto max-h-[500px]">
+      <div class="cart-item flex justify-between items-center border-b border-gray-200 pb-4" *ngFor="let item of cartItems">
         <div class="item-details">
-          <p><strong>{{ item.product.name }}</strong></p>
-          <div class="quantity-controls">
-            <button (click)="decreaseQuantity(item)">−</button>
-            <span>{{ item.quantity }}</span>
-            <button (click)="increaseQuantity(item)">+</button>
+          <p class="text-lacivert-derin font-medium">{{ item.product.name }}</p>
+          <div class="quantity-controls flex items-center space-x-2 mt-2">
+            <button (click)="decreaseQuantity(item)" class="bg-lavanta-grisi text-white rounded-md px-2 py-1 focus:outline-none hover:bg-lavanta-grisi/80 transition-colors duration-200">
+              −
+            </button>
+            <span class="text-gray-700">{{ item.quantity }}</span>
+            <button (click)="increaseQuantity(item)" class="bg-lavanta-grisi text-white rounded-md px-2 py-1 focus:outline-none hover:bg-lavanta-grisi/80 transition-colors duration-200">
+              +
+            </button>
           </div>
-          <p>Ürün Toplam: {{ item.totalPrice | currency:'TRY' }}</p>
+          <p class="text-gece-yarisi mt-2">
+            Item Total: <span class="text-acik-pembe">{{ item.totalPrice | currency:'TRY' }}</span>
+          </p>
         </div>
-        <button class="delete-btn" (click)="removeItem(item)">Remove from Cart</button>
+        <button class="delete-btn bg-acik-pembe text-white rounded-md px-3 py-1 text-sm font-semibold hover:bg-beyaz hover:text-acik-pembe focus:outline-none transition-colors duration-200" (click)="removeItem(item)">
+          Remove from Cart
+        </button>
       </div>
     </div>
-
   </div>
 </div>
