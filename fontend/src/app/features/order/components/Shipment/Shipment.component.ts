@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ShipmentService } from '../../service/Shipment.service';
+import { interval, Subscription } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-Shipment',
@@ -8,26 +9,85 @@ import { ShipmentService } from '../../service/Shipment.service';
   templateUrl: './Shipment.component.html',
   styleUrls: ['./Shipment.component.css']
 })
-export class ShipmentComponent implements OnInit {
-
+export class ShipmentComponent implements OnInit, OnDestroy {
   orderId!: number;
   steps = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
   currentStatus = 'PENDING';
   progressPercent = 0;
+  private timerSubscription?: Subscription;
+  private readonly STEP_DURATION = 10000; // 10 seconds in milliseconds
+  private readonly STORAGE_KEY = 'shipment_timer_state_';
 
-  constructor(
-    private route: ActivatedRoute,
-    private shipmentService: ShipmentService
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.orderId = Number(this.route.snapshot.paramMap.get('orderId'));
-    this.shipmentService.getStatus(this.orderId).subscribe(status => {
-      this.currentStatus = status;
-      const idx = this.steps.indexOf(status);
-      this.progressPercent = idx >= 0
-        ? idx / (this.steps.length - 1) * 100
-        : 0;
-    });
+    this.initializeTimer();
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+  }
+
+  private initializeTimer(): void {
+    const storageKey = this.STORAGE_KEY + this.orderId;
+    const savedState = localStorage.getItem(storageKey);
+    
+    if (savedState) {
+      const state = JSON.parse(savedState);
+      this.currentStatus = state.currentStatus;
+      this.progressPercent = state.progressPercent;
+      
+      // If not completed, continue the timer
+      if (this.currentStatus !== this.steps[this.steps.length - 1]) {
+        this.startTimerFromCurrentState();
+      }
+    } else {
+      // Start new timer
+      this.startNewTimer();
+    }
+  }
+
+  private startNewTimer(): void {
+    this.currentStatus = this.steps[0];
+    this.progressPercent = 0;
+    this.saveState();
+    this.startTimer();
+  }
+
+  private startTimerFromCurrentState(): void {
+    const currentIndex = this.steps.indexOf(this.currentStatus);
+    if (currentIndex < this.steps.length - 1) {
+      this.startTimer(currentIndex);
+    }
+  }
+
+  private startTimer(startIndex: number = 0): void {
+    this.timerSubscription = interval(this.STEP_DURATION)
+      .pipe(
+        takeWhile(() => {
+          const currentIndex = this.steps.indexOf(this.currentStatus);
+          return currentIndex < this.steps.length - 1;
+        })
+      )
+      .subscribe(() => {
+        const currentIndex = this.steps.indexOf(this.currentStatus);
+        if (currentIndex < this.steps.length - 1) {
+          this.currentStatus = this.steps[currentIndex + 1];
+          this.progressPercent = ((currentIndex + 1) / (this.steps.length - 1)) * 100;
+          this.saveState();
+        }
+      });
+  }
+
+  private saveState(): void {
+    const storageKey = this.STORAGE_KEY + this.orderId;
+    const state = {
+      currentStatus: this.currentStatus,
+      progressPercent: this.progressPercent
+    };
+    localStorage.setItem(storageKey, JSON.stringify(state));
   }
 }

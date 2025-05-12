@@ -436,4 +436,14 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
             .collect(Collectors.toList());
     }
 
+    public void requestRefund(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new EntityNotFoundException("Sipariş bulunamadı: " + orderId));
+        if (order.getStatus() != OrderStatus.COMPLETED && order.getStatus() != OrderStatus.SHIPPED) {
+            throw new IllegalStateException("Sadece tamamlanmış veya kargolanmış siparişler için iade talebi oluşturulabilir.");
+        }
+        order.setStatus(OrderStatus.REFUND_REQUESTED);
+        orderRepository.save(order);
+    }
+
 }

@@ -74,9 +74,14 @@
       <div class="flex justify-between text-lacivert-derin mb-3">
         <span>Total</span>
         <strong class="text-gece-yarisi">{{ (totalWithoutDiscount + shippingFee) | currency:'TRY' }}</strong>
-
-        <button class="btn btn-primary bg-acik-pembe hover:bg-lavanta-grisi text-beyaz font-semibold py-3 rounded w-full mt-3 focus:outline-none focus:shadow-outline">💳 Make Payment</button>
       </div>
+
+      <button 
+        (click)="goToPayment()"
+        [disabled]="!selectedAddressId || cartItems.length === 0"
+        class="btn btn-primary bg-acik-pembe hover:bg-lavanta-grisi text-beyaz font-semibold py-3 rounded w-full mt-3 focus:outline-none focus:shadow-outline disabled:opacity-50 disabled:cursor-not-allowed">
+        💳 Make Payment
+      </button>
     </div>
   </div>
 </div>

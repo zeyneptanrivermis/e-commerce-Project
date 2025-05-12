@@ -4,7 +4,6 @@ import { MainCategory, Product, SideCategories } from '../../../../models/produc
 import { CartService } from '../../../cart/services/cart.service';
 import { ProductService } from '../../services/product.service';
 import { isPlatformBrowser } from '@angular/common';
-import { PLATFORM_ID, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-product-list',
@@ -16,7 +15,7 @@ export class ProductListComponent implements OnInit, AfterViewInit, OnDestroy {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   observer?: IntersectionObserver;
-  isBrowser: boolean;
+  isBrowser: boolean = false;
 
   limit = 10;
   skip = 0;

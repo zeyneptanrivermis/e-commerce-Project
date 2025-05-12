@@ -1,13 +1,15 @@
 <div class="bg-[#FFF5FD] rounded-lg shadow-md p-8 relative">
   <h2 class="text-2xl font-semibold text-[#005A8D] mb-6 tracking-wide">Shipment Status for Order #{{ orderId }}</h2>
 
-  <div class="relative overflow-hidden rounded-full bg-gray-200 h-6 mb-4">
-    <div class="progress-bar bg-[#FF96AD] h-full rounded-full" [style.width.%]="progressPercent"></div>
-    <div class="truck absolute top-1/2 left-6 -translate-y-1/2 text-xl text-[#022E57]"
-         [style.left.%]="progressPercent"
-         style="transition: left 0.5s ease-in-out;">
-      <span class="animate-wheel-spin inline-block">🚚</span>
-      <span class="exhaust-smoke absolute bottom-0 left-full -translate-x-1/2 opacity-0 transition-opacity duration-500 text-sm">💨</span>
+  <div class="shipment-container">
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progressPercent"></div>
+        <div class="wheel-container" [style.left.%]="progressPercent">
+          <span class="wheel">🛞</span>
+        </div>
+      </div>
+      <div class="status-text">{{ currentStatus }}</div>
     </div>
   </div>
 
