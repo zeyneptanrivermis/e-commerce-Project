@@ -51,14 +51,13 @@ public class ReviewService {
     }
 
     /** Belirli bir müşteri, belirli ürünü teslim aldıysa true döner */
-    public boolean canReview(Long customerId, Long productId) {
-        return orderRepository
-            .existsByCustomer_UserIdAndItemList_Product_ProductIdAndStatus(
-                customerId,
-                productId,
-                OrderStatus.COMPLETED   // veya sizin enum’daki “teslim edildi” değeri
-            );
-    }
+public boolean canReview(Long customerId, Long productId) {
+    boolean exists = orderRepository
+        .existsByCustomer_UserIdAndItemList_Product_ProductIdAndStatus(
+            customerId, productId, OrderStatus.COMPLETED);
+    System.out.println("canReview? user=" + customerId + " product=" + productId + " => " + exists);
+    return exists;
+}
 
     /** Yeni yorum ekler (sadece COMPLETED siparişler için izin verilir) */
     public Review createReview(Long customerId, ReviewRequestDTO dto) {
