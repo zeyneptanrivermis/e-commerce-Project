@@ -101,7 +101,7 @@ public class SellerController {
         String email = auth.getName();
 
         long totalProducts = productService.getProductsBySellerEmail(email).size();
-        long totalOrders = 12;  // Burayı sipariş servisi ile bağlayabilirsin
+        long totalOrders = 83;  // Burayı sipariş servisi ile bağlayabilirsin
         double totalSales = 2599.90;  // Örnek: toplam satış tutarı
 
         // Top selling products verisini servis katmanından al
