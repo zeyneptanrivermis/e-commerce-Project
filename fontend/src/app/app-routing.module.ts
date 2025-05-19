@@ -1,11 +1,11 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent }        from './features/auth/pages/login/login.component';
-import { RegisterComponent }     from './features/auth/pages/register/register.component';
-import { HomeComponent }         from './features/home/pages/home/home.component';
-import { AuthLayoutComponent }   from './features/auth/auth-layout/auth-layout.component';
-import { AuthGuard }             from './core/guards/auth-guard.service';
+import { AuthGuard } from './core/guards/auth-guard.service';
+import { AuthLayoutComponent } from './features/auth/auth-layout/auth-layout.component';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { RegisterComponent } from './features/auth/pages/register/register.component';
+import { HomeComponent } from './features/home/pages/home/home.component';
 import { SellerRegisterComponent } from './seller-layout/pages/seller-register/seller-register.component';
 
 const routes: Routes = [

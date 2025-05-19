@@ -22,7 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p")
     List<Product> getAllProductsRaw();
 
-    // İstediğin ürünü satıcıya göre getirmek istersen
     List<Product> findBySellerUserId(Long sellerId);
 
     // İstersen stock kontrolü yapabilirsin
@@ -36,16 +35,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllBySeller(Seller seller);
 
-    // ProductRepository.java
-    // Removed duplicate method definition to resolve the error
-
     @Query("SELECT p FROM Product p WHERE p.category = :category OR :category IN elements(p.sideCategories)")
     List<Product> findByMainOrSideCategory(@Param("category") String category);
 
     List<Product> findByCategory(Category category);
 
-@Query("SELECT p.category AS categoryName, COUNT(p) AS count FROM Product p GROUP BY p.category")
-List<CategoryCountProjection> countProductsGroupedByCategory();
+    @Query("SELECT p.category AS categoryName, COUNT(p) AS count FROM Product p GROUP BY p.category")
+    List<CategoryCountProjection> countProductsGroupedByCategory();
 
 
 }

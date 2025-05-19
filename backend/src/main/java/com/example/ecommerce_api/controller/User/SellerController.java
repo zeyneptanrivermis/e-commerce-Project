@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.example.ecommerce_api.dto.ProductDTO.ProductMapper;
 import com.example.ecommerce_api.dto.ProductDTO.ProductRequestDto;
@@ -68,10 +70,22 @@ public class SellerController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getSellerProducts(Authentication authentication) {
-        String sellerEmail = authentication.getName();
-        List<Product> products = productService.getProductsBySellerEmail(sellerEmail);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<?> getSellerProducts(Authentication authentication) {
+        try {
+            if (authentication == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Kullanıcı doğrulanamadı (auth null)");
+            }
+
+            System.out.println(">>> AUTH TYPE: " + authentication.getPrincipal().getClass());
+            System.out.println(">>> AUTH NAME: " + authentication.getName());
+
+            String sellerEmail = authentication.getName();
+            List<Product> products = productService.getProductsBySellerEmail(sellerEmail);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            e.printStackTrace(); // Konsolda gerçek hata burada görünür
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Sunucu hatası: " + e.getMessage());
+        }
     }
 
     @PostMapping("/products")
@@ -98,4 +112,11 @@ public class SellerController {
 
         return ResponseEntity.ok(dashboardData);
     }
+
+    
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFound(UsernameNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Satıcı bulunamadı: " + ex.getMessage());
+    }
+
 }

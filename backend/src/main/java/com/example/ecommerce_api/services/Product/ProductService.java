@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -120,11 +122,13 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public List<Product> getProductsBySellerEmail(String email) {
-        Seller seller = sellerRepository.findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException("Satıcı bulunamadı"));
-        return productRepository.findAllBySeller(seller);
+        return sellerRepository.findByEmail(email)
+            .map(seller -> productRepository.findBySellerUserId(seller.getUserId()))
+            .orElse(List.of()); // 👈 Seller bulunamazsa boş liste dön
     }
+
 
     public Product saveProductForSeller(Product product, String sellerEmail) {
         Seller seller = sellerRepository.findByEmail(sellerEmail)
@@ -144,6 +148,8 @@ public class ProductService {
     private String normalize(String input) {
         return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
     }
+
+
 
 }
 
