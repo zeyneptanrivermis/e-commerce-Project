@@ -22,20 +22,28 @@
       </div>
     </div>
 
-    <!-- Top Selling Products Table -->
-    <section class="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-[#DDC4E8] mb-8">
-      <h2 class="text-lg sm:text-xl font-semibold text-[#1C1C3A] mb-4">Top Selling Products</h2>
-      <div class="overflow-x-auto rounded-lg border border-[#E5D5F3]">
-        <table class="min-w-full text-xs sm:text-sm text-left">
-          <thead class="bg-[#F9F0FF] text-[#4A3F68]">
-            <tr>
-              <th class="py-3 px-4 font-semibold">Product</th>
-              <th class="py-3 px-4 font-semibold">Sales</th>
-              <th class="py-3 px-4 font-semibold">Revenue</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </section>
+<!-- Top Selling Products Table -->
+<section class="bg-white p-4 sm:p-6 rounded-2xl shadow-md border border-[#DDC4E8] mb-8">
+  <h2 class="text-lg sm:text-xl font-semibold text-[#1C1C3A] mb-4">Top Selling Products</h2>
+  <div class="overflow-x-auto rounded-lg border border-[#E5D5F3]">
+    <table class="min-w-full text-xs sm:text-sm text-left">
+      <thead class="bg-[#F9F0FF] text-[#4A3F68]">
+        <tr>
+          <th class="py-3 px-4 font-semibold">Product</th>
+          <th class="py-3 px-4 font-semibold">Sales</th>
+          <th class="py-3 px-4 font-semibold">Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of topSellingProducts" class="border-b border-[#EEE5FB] hover:bg-[#F7F3FD]">
+          <td class="py-3 px-4">{{ product.productName }}</td>
+          <td class="py-3 px-4">{{ product.sales }}</td>
+          <td class="py-3 px-4">{{ product.revenue | currency: 'TRY':'symbol' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
   </main>
 </div>

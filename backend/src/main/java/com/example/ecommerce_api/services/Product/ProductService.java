@@ -8,6 +8,7 @@ import com.example.ecommerce_api.entity.ProductEntity.Product;
 import com.example.ecommerce_api.entity.ProductEntity.Review;
 import com.example.ecommerce_api.entity.UserEntity.Seller;
 import com.example.ecommerce_api.repository.ProductRepository.ProductRepository;
+import com.example.ecommerce_api.repository.ProductRepository.TopSellingProductProjection;
 import com.example.ecommerce_api.repository.UserRepositories.SellerRepository;
 
 import org.springframework.stereotype.Service;
@@ -147,6 +148,18 @@ public class ProductService {
     }
     private String normalize(String input) {
         return input.trim().toUpperCase().replaceAll("\\s+", "_").replace("&", "AND");
+    }
+    
+    public List<Map<String, Object>> getTopSellingProductsForSeller(String email) {
+        List<TopSellingProductProjection> results = productRepository.findTopSellingProductsBySellerEmail(email);
+
+        return results.stream().map(p -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("productName", p.getProductName());
+            map.put("sales", p.getSales());
+            map.put("revenue", p.getRevenue());
+            return map;
+        }).collect(Collectors.toList());
     }
 
 

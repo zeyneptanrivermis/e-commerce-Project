@@ -100,15 +100,18 @@ public class SellerController {
     public ResponseEntity<?> getSellerDashboard(Authentication auth) {
         String email = auth.getName();
 
-        // Örnek metrikler - burada gerçek servislere bağlanarak veri getirin
         long totalProducts = productService.getProductsBySellerEmail(email).size();
-        long totalOrders = 12;  // Örn: sipariş servisi ile satıcının sipariş sayısı
-        double totalSales = 2599.90;  // Örn: toplam satış tutarı
+        long totalOrders = 12;  // Burayı sipariş servisi ile bağlayabilirsin
+        double totalSales = 2599.90;  // Örnek: toplam satış tutarı
+
+        // Top selling products verisini servis katmanından al
+        List<Map<String, Object>> topSelling = productService.getTopSellingProductsForSeller(email);
 
         Map<String, Object> dashboardData = new HashMap<>();
         dashboardData.put("totalProducts", totalProducts);
         dashboardData.put("totalOrders", totalOrders);
         dashboardData.put("totalSales", totalSales);
+        dashboardData.put("topSellingProducts", topSelling); // <-- düzeltildi
 
         return ResponseEntity.ok(dashboardData);
     }

@@ -23,3 +23,18 @@ export class SellerService {
     return this.http.get<SellerDashboardDTO>(`${this.apiUrl}/dashboard`);
   }
 }
+
+export interface TopSellingProduct {
+  productName: string;
+  sales: number;
+  revenue: number;
+}
+
+export interface SellerDashboardDTO {
+  name: string;
+  email: string;
+  totalProducts: number;
+  totalOrders: number;
+  totalSales: number;
+  topSellingProducts: TopSellingProduct[];
+}

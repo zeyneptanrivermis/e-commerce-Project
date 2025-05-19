@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SellerService } from '../../service/seller.service';
+import { SellerService, SellerDashboardDTO, TopSellingProduct } from '../../service/seller.service';
 import { TokenService } from '../../../core/services/token.service';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   selector: 'app-seller-dashboard',
   templateUrl: './seller-dashboard.component.html',
   styleUrls: ['./seller-dashboard.component.css'],
-  standalone:false
+  standalone: false
 })
 export class SellerDashboardComponent implements OnInit {
 
@@ -15,10 +15,14 @@ export class SellerDashboardComponent implements OnInit {
   email: string = '';
   totalProducts: number = 0;
   totalOrders: number = 0;
+  totalSales: number = 0;
+  topSellingProducts: TopSellingProduct[] = [];
 
-  constructor(private sellerService: SellerService,
-              private tokenService: TokenService,
-            private router: Router) {}
+  constructor(
+    private sellerService: SellerService,
+    private tokenService: TokenService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadDashboard();
@@ -31,6 +35,8 @@ export class SellerDashboardComponent implements OnInit {
         this.email = data.email;
         this.totalProducts = data.totalProducts;
         this.totalOrders = data.totalOrders;
+        this.totalSales = data.totalSales;
+        this.topSellingProducts = data.topSellingProducts || [];
       },
       error: (err) => {
         console.error('Dashboard loading error:', err);
@@ -39,7 +45,7 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    this.tokenService.removeToken(); // Token'ı sil
-    this.router.navigate(['/login']); // Giriş sayfasına yönlendir
+    this.tokenService.removeToken();
+    this.router.navigate(['/login']);
   }
 }

@@ -44,5 +44,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<CategoryCountProjection> countProductsGroupedByCategory();
 
 
+@Query(value = """
+    SELECT
+        p.product_name AS productName,
+        SUM(oi.quantity) AS sales,
+        SUM(oi.quantity * oi.price) AS revenue
+    FROM order_item oi
+    JOIN product p ON oi.product_id = p.product_id
+    JOIN seller s ON p.user_id = s.user_id
+    JOIN user u ON s.user_id = u.user_id
+    WHERE u.email = :email
+    GROUP BY p.product_name
+    ORDER BY sales DESC
+    LIMIT 5
+""", nativeQuery = true)
+List<TopSellingProductProjection> findTopSellingProductsBySellerEmail(@Param("email") String email);
+
 }
+
 
