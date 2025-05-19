@@ -43,14 +43,18 @@ public class ReviewController {
     }
 
     @GetMapping("/can-review/{productId}")
-    public ResponseEntity<Boolean> canReview(
-            @PathVariable Long productId,
-            @AuthenticationPrincipal CustomerDetails userDetails
-    ) {
-        Long customerId = userDetails.getCustomer().getUserId();
-        boolean allowed = reviewService.canReview(customerId, productId);
-        return ResponseEntity.ok(allowed);
+public ResponseEntity<Boolean> canReview(
+        @PathVariable Long productId,
+        @AuthenticationPrincipal CustomerDetails userDetails
+) {
+    // NULL KONTROLÜ EKLE!
+    if (userDetails == null) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(false);
     }
+    Long customerId = userDetails.getCustomer().getUserId();
+    boolean allowed = reviewService.canReview(customerId, productId);
+    return ResponseEntity.ok(allowed);
+}
 
     @PostMapping
     public ResponseEntity<ReviewDTO> createReview(

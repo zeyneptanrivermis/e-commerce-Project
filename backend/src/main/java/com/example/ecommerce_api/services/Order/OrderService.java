@@ -320,25 +320,31 @@ public void finalizePayment(Long orderId, PaymentCompleteRequest req) {
 
     @Transactional
     public List<OrderDTO> getOrderHistoryForUser(Authentication auth) {
-    Customer customer = customerRepository.findByEmail(auth.getName())
-        .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
+        Customer customer = customerRepository.findByEmail(auth.getName())
+            .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı"));
 
-    List<Order> orders = orderRepository.findByCustomerOrderByPaymentDateAsc(customer);
+        List<Order> orders = orderRepository.findByCustomerOrderByPaymentDateAsc(customer);
 
-    return orders.stream()
-        .map(order -> {
-            OrderDTO dto = new OrderDTO();
-            dto.setOrderId(order.getOrderId());
-            if (order.getPaymentDate() != null) {
-                dto.setPaymentDate(order.getPaymentDate().toLocalDate());
-            }
-            dto.setStatus(order.getStatus().name());
-            dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
-            dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
-            // itemList, paymentInfo vs.
-            return dto;
-        })
-        .collect(Collectors.toList());
+        return orders.stream()
+            .map(order -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setOrderId(order.getOrderId());
+                if (order.getPaymentDate() != null) {
+                    dto.setPaymentDate(order.getPaymentDate().toLocalDate());
+                }
+                dto.setStatus(order.getStatus().name());
+                dto.setTotalWithoutDiscount(order.getOrderTotalWithoutDiscount());
+                dto.setTotalWithDiscount(order.getOrderTotalWithDiscount());
+                
+                // Add itemList to the response
+                List<OrderItemDTO> itemDtos = order.getItemList().stream()
+                    .map(OrderItemDTO::fromEntity)
+                    .toList();
+                dto.setItemList(itemDtos);
+                
+                return dto;
+            })
+            .collect(Collectors.toList());
     }
 
     @Transactional
