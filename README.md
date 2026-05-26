@@ -184,6 +184,6 @@ Initial test data is available in the `InitialTestData` folder.
 
 ---
 
-## 📄 License
+## License
 
 This project was developed for **educational and practice purposes**.
